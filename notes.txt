@@ -5,15 +5,19 @@
 
 ===== Of note
 
-Possible easy setup [https://github.com/tiangolo/full-stack-fastapi-template]
+
+Useful example code [https://github.com/tiangolo/full-stack-fastapi-template]
+
 
 ===== Web server
+
 
 Install Apache (extract to c:\Apache24)
 
 Microsoft Visual C++ 14.0 or greater is required. Get it with "Microsoft C++ Build Tools": https://visualstudio.microsoft.com/visual-cpp-build-tools/
 
 ..?
+
 
 ===== Web framework
 
@@ -23,6 +27,9 @@ pip install uvicorn (the server)
 pip install python-multipart (for files)
 pip install sqlmodel (installs sqlalchem and pydantic - db support) [https://sqlmodel.tiangolo.com]
 pip install mysqlclient==1.4.6 (so the above works with mysql - version required for some 32/64 bit incompatibilities)
+
+
+=== Front end UI
 
 
 https://semantic-ui.com/ for front end ..?
@@ -41,7 +48,7 @@ start/restart service from services.msc
 ===== Github
 
 
-
+Added to https://github.com/omubtcezq/C6Redux
 
 
 ===== When testing
