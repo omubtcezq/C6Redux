@@ -1,0 +1,260 @@
+<crystaltrak datatype="screen" version="2.3.43">
+	<chemicals>
+		<chemical name="benzyldodecyldimethylammonium bromide" units="w/v" formula="C21H38BrN" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="10" def_stock_units="v/v" max_stock_conc="" mw="384.44" ions="" CAS="7281-04-1" CMC="" SMILES="">
+			<class>Detergent-Ionic</class>
+			<class>Detergent</class>
+			<alias>BAM</alias>
+			<alias>Benzododecinium bromide</alias>
+			<alias>Lauralkonium bromide</alias>
+			<alias>Sterinol</alias>
+		</chemical>
+		<chemical name="CYMAL-1" units="w/v" formula="C19H34O11" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="10" def_stock_units="w/v" max_stock_conc="" mw="438.47" ions="" CAS="260804-64-6" CMC="" SMILES="">
+			<class>Detergent-Non Ionic</class>
+			<class>Detergent</class>
+			<alias>CYMAL 1</alias>
+			<alias>Cyclohexyl-methyl-b-D-maltoside</alias>
+			<alias>Cyclohexyl-methyl-beta-D-maltoside</alias>
+		</chemical>
+		<chemical name="CYMAL-2" units="M" formula="C20H36O11" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="1.2" def_stock_units="mM" max_stock_conc="" mw="452.5" ions="" CAS="260804-65-7" CMC="" SMILES="">
+			<class>Detergent-Non Ionic</class>
+			<class>Detergent</class>
+			<alias>2-Cyclohexyl-1-ethyl-b-D-maltoside</alias>
+			<alias>2-Cyclohexyl-1-ethyl-beta-D-maltoside</alias>
+			<alias>Cyclohexyl-ethyl-b-D-maltoside</alias>
+			<alias>Cyclohexyl-ethyl-beta-D-maltoside</alias>
+			<alias>cymal 2</alias>
+		</chemical>
+		<chemical name="CYMAL-4" units="M" formula="C22H40O11" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="76" def_stock_units="mM" max_stock_conc="" mw="480.55" ions="" CAS="181135-57-9" CMC="" SMILES="">
+			<class>Detergent-Non Ionic</class>
+			<class>Detergent</class>
+			<alias>4-Cyclohexyl-1-butyl-b-D-maltoside</alias>
+			<alias>4-Cyclohexyl-1-butyl-beta-D-maltoside</alias>
+			<alias>CYMAL 4</alias>
+		</chemical>
+		<chemical name="DDMAB" units="M" formula="C18H37NO2" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="43" def_stock_units="mM" max_stock_conc="" mw="299.5" ions="" CAS="" CMC="" SMILES="">
+			<class>Ligand</class>
+			<class>Detergent-Zwitterionic</class>
+			<class>Detergent</class>
+			<alias>N-Dodecyl-N,N-(dimethylammonio)butyrate</alias>
+		</chemical>
+		<chemical name="decanoylsucrose" units="M" formula="C22H40O12" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="25" def_stock_units="mM" max_stock_conc="" mw="496.55" ions="" CAS="31835-06-0" CMC="" SMILES="">
+			<class>Detergent-Non Ionic</class>
+			<class>Detergent</class>
+			<alias>Capric acid sucrose ester</alias>
+			<alias>Sucrose Monocaprate</alias>
+			<alias>Sucrose monodecanoate</alias>
+			<alias>a-D-Glucopyranoside</alias>
+			<alias>alpha-D-Glucopyranoside</alias>
+			<alias>b-D-Fructofuranosyl Monodecanoate</alias>
+			<alias>beta-D-Fructofuranosyl Monodecanoate</alias>
+			<alias>n-decanoylsucrose</alias>
+		</chemical>
+		<chemical name="FOS-Choline-10" units="M" formula="C15H34NO4P" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="110" def_stock_units="mM" max_stock_conc="" mw="323.41" ions="" CAS="70504-28-8" CMC="" SMILES="">
+			<class>Detergent-Zwitterionic</class>
+			<class>Detergent</class>
+			<alias>MAPCHO-10</alias>
+			<alias>n-Decylphosphocholine</alias>
+		</chemical>
+		<chemical name="FOS-Choline-12" units="M" formula="C17H38O4NP" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="15" def_stock_units="mM" max_stock_conc="" mw="351.47" ions="" CAS="29557-51-5" CMC="" SMILES="">
+			<class>Ligand</class>
+			<class>Detergent-Zwitterionic</class>
+			<class>Detergent</class>
+			<alias>2-(Trimethylammonio)ethyl dodecyl phosphate</alias>
+			<alias>MAPCHO-12</alias>
+			<alias>dodecyl 2-trimethylazaniumylethyl phosphate</alias>
+			<alias>dodecylphosphocholine</alias>
+			<alias>n-Dodecylphosphocholine</alias>
+		</chemical>
+		<chemical name="FOS-Choline-8" units="M" formula="C13H30NO4P" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="1.14" def_stock_units="M" max_stock_conc="" mw="295.36" ions="" CAS="53255-89-3" CMC="" SMILES="">
+			<class>Detergent-Zwitterionic</class>
+			<class>Detergent</class>
+			<alias>n-Octylphosphocholine</alias>
+		</chemical>
+		<chemical name="FOS-Choline-9" units="M" formula="C14H32NO4P" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="395" def_stock_units="mM" max_stock_conc="" mw="309.39" ions="" CAS="253678-64-7" CMC="" SMILES="">
+			<class>Detergent-Zwitterionic</class>
+			<class>Detergent</class>
+			<alias>n-Nonylphosphocholine</alias>
+		</chemical>
+		<chemical name="MEGA 9" units="M" formula="C16H33NO6" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="250" def_stock_units="mM" max_stock_conc="" mw="335.44" ions="" CAS="85261-19-4" CMC="" SMILES="">
+			<class>Detergent-Non Ionic</class>
+			<class>Detergent</class>
+			<alias>MEGA-9</alias>
+			<alias>N-Nonanoyl-N-methylglucamine</alias>
+			<alias>Nonanoyl-N-methylglucamide</alias>
+		</chemical>
+		<chemical name="n-decyl-b-D-thiomaltoside" units="M" formula="C22H42O10S" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="9" def_stock_units="mM" max_stock_conc="" mw="498.64" ions="" CAS="148565-56-4" CMC="" SMILES="">
+			<class>Detergent-Non Ionic</class>
+			<class>Detergent</class>
+			<alias>1-s-Decyl-b-D-thiomaltoside</alias>
+			<alias>1-s-Decyl-beta-D-thiomaltoside</alias>
+			<alias>n-Decyl-b-D-thiomaltopyranoside</alias>
+			<alias>n-Decyl-beta-D-thiomaltopyranoside</alias>
+			<alias>n-Decyl-beta-D-thiomaltoside</alias>
+		</chemical>
+		<chemical name="n-heptyl-b-D-thioglucopyranoside" units="M" formula="C13H26O5S" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="300" def_stock_units="mM" max_stock_conc="" mw="294.41" ions="" CAS="85618-20-8" CMC="" SMILES="">
+			<class>Detergent-Non Ionic</class>
+			<class>Detergent</class>
+			<alias>1-s-Heptyl-b-D-thioglucoside</alias>
+			<alias>1-s-Heptyl-beta-D-thioglucoside</alias>
+			<alias>Heptyl-b-D-thioglucoside</alias>
+			<alias>Heptyl-beta-D-thioglucoside</alias>
+			<alias>n-Heptyl-beta-D-thioglucopyranoside</alias>
+		</chemical>
+		<chemical name="n-hexadecyl-b-D-maltoside" units="M" formula="C28H54O11" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="0.006" def_stock_units="mM" max_stock_conc="" mw="566" ions="" CAS="98064-96-1" CMC="" SMILES="">
+			<class>Detergent-Non Ionic</class>
+			<class>Detergent</class>
+			<alias>n-Hexadecyl-b-D-maltopyranoside</alias>
+			<alias>n-Hexadecyl-beta-D-maltopyranoside</alias>
+		</chemical>
+		<chemical name="n-nonyl-b-D-maltoside" units="M" formula="C21H40O11" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="60" def_stock_units="mM" max_stock_conc="" mw="468.54" ions="" CAS="106402-05-5" CMC="" SMILES="">
+			<class>Detergent-Non Ionic</class>
+			<class>Detergent</class>
+			<alias>n-Nonyl-b-D-maltopyranoside</alias>
+			<alias>n-Nonyl-beta-D-maltopyranoside</alias>
+			<alias>n-Nonyl-beta-D-maltoside</alias>
+		</chemical>
+		<chemical name="n-nonyl-b-D-thioglucoside" units="M" formula="C15H30O5S" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="15" def_stock_units="mM" max_stock_conc="" mw="322.47" ions="" CAS="98854-15-0" CMC="" SMILES="">
+			<class>Detergent-Non Ionic</class>
+			<class>Detergent</class>
+			<alias>1-s-Nonyl-b-D-thioglucopyranoside</alias>
+			<alias>1-s-Nonyl-b-D-thioglucoside</alias>
+			<alias>1-s-Nonyl-beta-D-thioglucopyranoside</alias>
+			<alias>n-Nonyl-b-D-thioglucopyranoside</alias>
+			<alias>n-Nonyl-beta-D-thioglucopyranoside</alias>
+			<alias>n-Nonyl-beta-D-thioglucoside</alias>
+		</chemical>
+		<chemical name="n-octyl-b-D-thiomaltoside" units="M" formula="C20H38O10S" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="85" def_stock_units="mM" max_stock_conc="" mw="470.58" ions="" CAS="148616-91-5" CMC="" SMILES="">
+			<class>Detergent-Non Ionic</class>
+			<class>Detergent</class>
+			<alias>n-Octyl-b-D-thiomaltopyranoside</alias>
+			<alias>n-Octyl-b-D-thiomaltoside</alias>
+			<alias>n-Octyl-beta-D-thiomaltopyranoside</alias>
+			<alias>n-Octyl-beta-D-thiomaltoside</alias>
+		</chemical>
+		<chemical name="n-tetradecyl-b-D-maltoside" units="M" formula="C26H50O11" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="mM" max_stock_conc="" mw="538.6" ions="" CAS="18449-82-6" CMC="" SMILES="">
+			<class>Detergent-Non Ionic</class>
+			<class>Detergent</class>
+			<alias>Tetradecyl 4-O-b-D-glucopyranosyl-D-glucopyranoside</alias>
+			<alias>Tetradecyl 4-O-beta-D-glucopyranosyl-D-glucopyranoside</alias>
+			<alias>n-Tetradecyl-b-D-maltopyranoside</alias>
+			<alias>n-Tetradecyl-beta-D-maltopyranoside</alias>
+			<alias>n-Tetradecyl-beta-D-maltoside</alias>
+		</chemical>
+		<chemical name="n-tridecyl-b-D-maltoside" units="M" formula="C25H48O11" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="0.33" def_stock_units="mM" max_stock_conc="" mw="524.6" ions="" CAS="93911-12-7" CMC="" SMILES="">
+			<class>Detergent-Non Ionic</class>
+			<class>Detergent</class>
+			<alias>Tridecyl-b-D-maltoside</alias>
+			<alias>Tridecyl-beta-D-maltoside</alias>
+			<alias>n-Tridecyl-b-D-maltopyranoside</alias>
+			<alias>n-Tridecyl-beta-D-maltopyranoside</alias>
+			<alias>n-Tridecyl-beta-D-maltoside</alias>
+		</chemical>
+		<chemical name="n-undecyl-b-D-maltoside" units="M" formula="C23H44O11" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="5.9" def_stock_units="mM" max_stock_conc="" mw="496.6" ions="" CAS="253678-67-0" CMC="" SMILES="">
+			<class>Detergent-Non Ionic</class>
+			<class>Detergent</class>
+			<alias>Undecyl-b-D-maltoside</alias>
+			<alias>n-Undecyl-b-D-maltopyranoside</alias>
+			<alias>n-Undecyl-beta-D-maltopyranoside</alias>
+			<alias>n-Undecyl-beta-D-maltoside</alias>
+		</chemical>
+		<chemical name="thesit" units="M" formula="HO(CH2CH2O)n(CH2)11CH3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="0.9" def_stock_units="mM" max_stock_conc="" mw="582.9" ions="" CAS="9002-92-0" CMC="" SMILES="">
+			<class>Detergent-Non Ionic</class>
+			<class>Detergent</class>
+			<alias>Polyethylene glycol 400 dodecyl ether</alias>
+			<alias>Polyethylene glycol dodecyl ether</alias>
+		</chemical>
+		<chemical name="ZWITTERGENT 3-08" units="w/v" formula="C13H29NSO3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="10" def_stock_units="w/v" max_stock_conc="" mw="279.44" ions="" CAS="15178-76-4" CMC="" SMILES="">
+			<class>Detergent-Zwitterionic</class>
+			<class>Detergent</class>
+			<class>Additive</class>
+			<alias>3-(N,N-Dimethyloctylammonio)propane-sulfonate</alias>
+			<alias>Sulfobetaine 8</alias>
+			<alias>n-Octyl-N,N-dimethyl-3-ammonio-1-propanesulfonate</alias>
+		</chemical>
+		<chemical name="ZWITTERGENT 3-14" units="M" formula="C19H41NO3S" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="4" def_stock_units="mM" max_stock_conc="" mw="363.61" ions="" CAS="14933-09-6" CMC="" SMILES="">
+			<class>Detergent-Zwitterionic</class>
+			<class>Detergent</class>
+			<alias>3-(N,N-Dimethylmyristylammonio)propane-sulfonate</alias>
+			<alias>Dimethyl(3-sulphonatopropyl)tetradecylammonium</alias>
+			<alias>N-Tetradecyl-N,N-dimethyl-3-ammonio-1-propanesulfonate</alias>
+			<alias>Sulfobetaine 14</alias>
+			<alias>n-Tetradecyl-N,N-dimethyl-3-ammonio-1-propanesulfonate</alias>
+		</chemical>
+	</chemicals>
+	<screen name="Detergent Screen 3" username="Hampton Research" design_date="2008-04-18 14:21:09" res_vol="0">
+		<format name="Generic 24 Well" rows="4" cols="6" subs="1" max_res_vol="1" def_res_vol="1" max_drop_vol="1" def_drop_vol="1"/>
+		<comments>"This is product HR2-412"</comments>
+		<well number="1" label="A1">
+			<item name="benzyldodecyldimethylammonium bromide" class="Detergent" conc="10" units="w/v" ph=""/>
+		</well>
+		<well number="2" label="A2">
+			<item name="n-hexadecyl-b-D-maltoside" class="Detergent" conc="0.006" units="mM" ph=""/>
+		</well>
+		<well number="3" label="A3">
+			<item name="n-tetradecyl-b-D-maltoside" class="Detergent" conc="0.1" units="mM" ph=""/>
+		</well>
+		<well number="4" label="A4">
+			<item name="n-tridecyl-b-D-maltoside" class="Detergent" conc="0.33" units="mM" ph=""/>
+		</well>
+		<well number="5" label="A5">
+			<item name="thesit" class="Detergent" conc="0.9" units="mM" ph=""/>
+		</well>
+		<well number="6" label="A6">
+			<item name="ZWITTERGENT 3-14" class="Detergent" conc="4" units="mM" ph=""/>
+		</well>
+		<well number="7" label="B1">
+			<item name="n-undecyl-b-D-maltoside" class="Detergent" conc="5.9" units="mM" ph=""/>
+		</well>
+		<well number="8" label="B2">
+			<item name="n-decyl-b-D-thiomaltoside" class="Detergent" conc="9" units="mM" ph=""/>
+		</well>
+		<well number="9" label="B3">
+			<item name="FOS-Choline-12" class="Detergent" conc="15" units="mM" ph=""/>
+		</well>
+		<well number="10" label="B4">
+			<item name="decanoylsucrose" class="Detergent" conc="25" units="mM" ph=""/>
+		</well>
+		<well number="11" label="B5">
+			<item name="n-nonyl-b-D-thioglucoside" class="Detergent" conc="29" units="mM" ph=""/>
+		</well>
+		<well number="12" label="B6">
+			<item name="n-nonyl-b-D-maltoside" class="Detergent" conc="32" units="mM" ph=""/>
+		</well>
+		<well number="13" label="C1">
+			<item name="DDMAB" class="Detergent" conc="43" units="mM" ph=""/>
+		</well>
+		<well number="14" label="C2">
+			<item name="n-nonyl-b-D-maltoside" class="Detergent" conc="60" units="mM" ph=""/>
+		</well>
+		<well number="15" label="C3">
+			<item name="CYMAL-4" class="Detergent" conc="76" units="mM" ph=""/>
+		</well>
+		<well number="16" label="C4">
+			<item name="n-octyl-b-D-thiomaltoside" class="Detergent" conc="85" units="mM" ph=""/>
+		</well>
+		<well number="17" label="C5">
+			<item name="FOS-Choline-10" class="Detergent" conc="110" units="mM" ph=""/>
+		</well>
+		<well number="18" label="C6">
+			<item name="FOS-Choline-9" class="Detergent" conc="395" units="mM" ph=""/>
+		</well>
+		<well number="19" label="D1">
+			<item name="MEGA 9" class="Detergent" conc="250" units="mM" ph=""/>
+		</well>
+		<well number="20" label="D2">
+			<item name="n-heptyl-b-D-thioglucopyranoside" class="Detergent" conc="290" units="mM" ph=""/>
+		</well>
+		<well number="21" label="D3">
+			<item name="FOS-Choline-8" class="Detergent" conc="1.14" units="M" ph=""/>
+		</well>
+		<well number="22" label="D4">
+			<item name="CYMAL-2" class="Detergent-Non Ionic" conc="1.2" units="M" ph=""/>
+		</well>
+		<well number="23" label="D5">
+			<item name="ZWITTERGENT 3-08" class="Detergent" conc="3.3" units="M" ph=""/>
+		</well>
+		<well number="24" label="D6">
+			<item name="CYMAL-1" class="Detergent" conc="3.4" units="M" ph=""/>
+		</well>
+	</screen>
+</crystaltrak>

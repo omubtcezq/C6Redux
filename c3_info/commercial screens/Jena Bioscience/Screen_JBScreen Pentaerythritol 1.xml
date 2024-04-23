@@ -1,0 +1,190 @@
+<crystaltrak datatype="screen" version="2.3.43">
+	<chemicals>
+		<chemical name="ammonium sulfate" units="M" formula="(NH4)2SO4" density="" solubility="55.5" pka1="" pka2="" pka3="" def_stock_conc="4" def_stock_units="M" max_stock_conc="57" mw="132.14" ions="2NH4;SO4" CAS="7783-20-2" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>(NH4)2 sulfate</alias>
+			<alias>A.S.</alias>
+			<alias>AS</alias>
+			<alias>AmS</alias>
+			<alias>AmSO4</alias>
+			<alias>AmmSulph</alias>
+			<alias>Ammoniumsulfate</alias>
+			<alias>NH4-sulfate</alias>
+			<alias>am-sulfate</alias>
+			<alias>ammoniium sulphate</alias>
+			<alias>ammonium sulphate</alias>
+			<alias>ammso4</alias>
+			<alias>di-Ammonium sulfate</alias>
+			<alias>spirit of hartshorn vitriolate</alias>
+		</chemical>
+		<chemical name="HEPES" units="M" formula="C8H18N2O4S" density="" solubility="40" pka1="7.5" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="40" mw="238.31" ions="" CAS="7365-45-9" CMC="" SMILES="">
+			<class>Buffer</class>
+			<class>Ambiguous</class>
+			<alias>4-(2-Hydroxyethyl)piperazine-1-ethanesulfonic acid</alias>
+			<alias>4-(2-hydroxyethyl)-1-piperazineethanesulfonic acid</alias>
+		</chemical>
+		<chemical name="magnesium chloride" units="M" formula="MgCl2" density="" solubility="54.3" pka1="" pka2="" pka3="" def_stock_conc="5" def_stock_units="M" max_stock_conc="54.3" mw="95.22" ions="Mg;2Cl" CAS="7786-30-3" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Magnesium  Chloride</alias>
+			<alias>Magnesium Chloride</alias>
+			<alias>Magnesium chloride hexahydrate</alias>
+			<alias>Mg Chloride</alias>
+			<alias>MgCl2</alias>
+			<alias>mg-chloride</alias>
+		</chemical>
+		<chemical name="MES" units="M" formula="C6H13NO4S" density="" solubility="20" pka1="6.15" pka2="" pka3="" def_stock_conc="0.5" def_stock_units="M" max_stock_conc="20" mw="195.23" ions="" CAS="4432-31-9" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Buffer</class>
+			<class>Ambiguous</class>
+			<class>Additive</class>
+			<alias>2-Morpholinoethanesulfonic acid</alias>
+			<alias>MES monohydrate</alias>
+		</chemical>
+		<chemical name="pentaerythritol propoxylate (5/4 PO/OH)" units="w/v" formula="C(CH2(OCH2CH(CH3))nOH)4" density="1.05" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="50" mw="426" ions="" CAS="9051-49-4" CMC="" SMILES="">
+			<class>Polymer</class>
+			<alias>PEP  426</alias>
+			<alias>PEP (5/4 PO/OH)</alias>
+			<alias>PEP 426</alias>
+			<alias>Pentaerythritol propoxylate 426</alias>
+			<alias>Pentaerythritol propoxylate 5/4 EO/OH</alias>
+		</chemical>
+		<chemical name="potassium chloride" units="M" formula="KCl" density="" solubility="34.7" pka1="" pka2="" pka3="" def_stock_conc="4" def_stock_units="M" max_stock_conc="34.7" mw="74.56" ions="K;Cl" CAS="7447-40-7" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>k chloride</alias>
+			<alias>k-chloride</alias>
+			<alias>kcl</alias>
+		</chemical>
+		<chemical name="sodium acetate" units="M" formula="NaC2H3O2" density="" solubility="46.5" pka1="4.76" pka2="" pka3="" def_stock_conc="3.5" def_stock_units="M" max_stock_conc="37" mw="82.03" ions="Na;CH3CO2" CAS="127-09-3" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Ambiguous</class>
+			<alias>NaAc/acetic acid</alias>
+			<alias>Sodium  Acetate</alias>
+			<alias>acetate</alias>
+			<alias>na acetate</alias>
+			<alias>na-acetate</alias>
+			<alias>naac</alias>
+			<alias>naoac</alias>
+		</chemical>
+		<chemical name="tris" units="M" formula="C4H11NO3" density="" solubility="55" pka1="8.1" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="55" mw="121.14" ions="" CAS="77-86-1" CMC="" SMILES="">
+			<class>Buffer</class>
+			<class>Ambiguous</class>
+			<alias>Trizma</alias>
+		</chemical>
+	</chemicals>
+	<screen name="JBScreen Pentaerythritol 1" username="Jena Bioscience" design_date="2009-04-23 09:09:35" res_vol="0">
+		<format name="Generic 24 Well" rows="4" cols="6" subs="1" max_res_vol="1" def_res_vol="1" max_drop_vol="1" def_drop_vol="1"/>
+		<comments>JBScreen Pentaerythritol 1
+(PEP 426 based)
+24 tubes: CS-191</comments>
+		<well number="1" label="A1">
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+			<item name="pentaerythritol propoxylate (5/4 PO/OH)" class="Polymer" conc="25" units="w/v" ph=""/>
+		</well>
+		<well number="2" label="A2">
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+			<item name="pentaerythritol propoxylate (5/4 PO/OH)" class="Polymer" conc="35" units="w/v" ph=""/>
+		</well>
+		<well number="3" label="A3">
+			<item name="pentaerythritol propoxylate (5/4 PO/OH)" class="Polymer" conc="45" units="w/v" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+		</well>
+		<well number="4" label="A4">
+			<item name="pentaerythritol propoxylate (5/4 PO/OH)" class="Polymer" conc="25" units="w/v" ph=""/>
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+		</well>
+		<well number="5" label="A5">
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+			<item name="pentaerythritol propoxylate (5/4 PO/OH)" class="Polymer" conc="35" units="w/v" ph=""/>
+		</well>
+		<well number="6" label="A6">
+			<item name="pentaerythritol propoxylate (5/4 PO/OH)" class="Polymer" conc="45" units="w/v" ph=""/>
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+		</well>
+		<well number="7" label="B1">
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+			<item name="pentaerythritol propoxylate (5/4 PO/OH)" class="Polymer" conc="25" units="w/v" ph=""/>
+		</well>
+		<well number="8" label="B2">
+			<item name="pentaerythritol propoxylate (5/4 PO/OH)" class="Polymer" conc="35" units="w/v" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+		</well>
+		<well number="9" label="B3">
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+			<item name="pentaerythritol propoxylate (5/4 PO/OH)" class="Polymer" conc="45" units="w/v" ph=""/>
+		</well>
+		<well number="10" label="B4">
+			<item name="pentaerythritol propoxylate (5/4 PO/OH)" class="Polymer" conc="25" units="w/v" ph=""/>
+			<item name="tris" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+		</well>
+		<well number="11" label="B5">
+			<item name="pentaerythritol propoxylate (5/4 PO/OH)" class="Polymer" conc="35" units="w/v" ph=""/>
+			<item name="tris" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+		</well>
+		<well number="12" label="B6">
+			<item name="pentaerythritol propoxylate (5/4 PO/OH)" class="Polymer" conc="45" units="w/v" ph=""/>
+			<item name="tris" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+		</well>
+		<well number="13" label="C1">
+			<item name="magnesium chloride" class="Salt" conc="0.05" units="M" ph=""/>
+			<item name="pentaerythritol propoxylate (5/4 PO/OH)" class="Polymer" conc="25" units="w/v" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+		</well>
+		<well number="14" label="C2">
+			<item name="pentaerythritol propoxylate (5/4 PO/OH)" class="Polymer" conc="35" units="w/v" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+			<item name="ammonium sulfate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="15" label="C3">
+			<item name="potassium chloride" class="Salt" conc="0.4" units="M" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+			<item name="pentaerythritol propoxylate (5/4 PO/OH)" class="Polymer" conc="45" units="w/v" ph=""/>
+		</well>
+		<well number="16" label="C4">
+			<item name="pentaerythritol propoxylate (5/4 PO/OH)" class="Polymer" conc="25" units="w/v" ph=""/>
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+			<item name="magnesium chloride" class="Salt" conc="0.05" units="M" ph=""/>
+		</well>
+		<well number="17" label="C5">
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+			<item name="ammonium sulfate" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="pentaerythritol propoxylate (5/4 PO/OH)" class="Polymer" conc="35" units="w/v" ph=""/>
+		</well>
+		<well number="18" label="C6">
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+			<item name="pentaerythritol propoxylate (5/4 PO/OH)" class="Polymer" conc="45" units="w/v" ph=""/>
+			<item name="potassium chloride" class="Salt" conc="0.4" units="M" ph=""/>
+		</well>
+		<well number="19" label="D1">
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+			<item name="pentaerythritol propoxylate (5/4 PO/OH)" class="Polymer" conc="25" units="w/v" ph=""/>
+			<item name="magnesium chloride" class="Salt" conc="0.05" units="M" ph=""/>
+		</well>
+		<well number="20" label="D2">
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+			<item name="pentaerythritol propoxylate (5/4 PO/OH)" class="Polymer" conc="35" units="w/v" ph=""/>
+			<item name="ammonium sulfate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="21" label="D3">
+			<item name="potassium chloride" class="Salt" conc="0.4" units="M" ph=""/>
+			<item name="pentaerythritol propoxylate (5/4 PO/OH)" class="Polymer" conc="45" units="w/v" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+		</well>
+		<well number="22" label="D4">
+			<item name="tris" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="pentaerythritol propoxylate (5/4 PO/OH)" class="Polymer" conc="25" units="w/v" ph=""/>
+			<item name="magnesium chloride" class="Salt" conc="0.05" units="M" ph=""/>
+		</well>
+		<well number="23" label="D5">
+			<item name="ammonium sulfate" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="tris" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="pentaerythritol propoxylate (5/4 PO/OH)" class="Polymer" conc="35" units="w/v" ph=""/>
+		</well>
+		<well number="24" label="D6">
+			<item name="tris" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="potassium chloride" class="Salt" conc="0.4" units="M" ph=""/>
+			<item name="pentaerythritol propoxylate (5/4 PO/OH)" class="Polymer" conc="45" units="w/v" ph=""/>
+		</well>
+	</screen>
+</crystaltrak>

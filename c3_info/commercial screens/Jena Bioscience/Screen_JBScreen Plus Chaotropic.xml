@@ -1,0 +1,220 @@
+<crystaltrak datatype="screen" version="2.3.43">
+	<chemicals>
+		<chemical name="caprolactam" units="M" formula="C6H11NO" density="" solubility="456" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="113.16" ions="" CAS="105-60-2" CMC="" SMILES="">
+			<class>Additive</class>
+			<alias>1-Aza-2-cycloheptanone</alias>
+			<alias>2-Azacycloheptanone</alias>
+			<alias>Azepan-2-one</alias>
+			<alias>Hexahydro-2-azepinone</alias>
+			<alias>Hexahydro-2H-azepin-2-one</alias>
+			<alias>Hexanolactame</alias>
+			<alias>e-Caprolactam</alias>
+		</chemical>
+		<chemical name="cesium chloride" units="M" formula="CsCl" density="" solubility="162.2" pka1="" pka2="" pka3="" def_stock_conc="5" def_stock_units="M" max_stock_conc="162.2" mw="168.36" ions="Cs;Cl" CAS="7647-17-8" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Caesium chloride</alias>
+			<alias>Cs-chloride</alias>
+			<alias>cscl</alias>
+		</chemical>
+		<chemical name="dimethyl sulfoxide" units="v/v" formula="C2H6OS" density="1.1" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="110" mw="78.13" ions="" CAS="67-68-5" CMC="" SMILES="">
+			<class>Organic</class>
+			<class>Additive</class>
+			<alias>DMSO</alias>
+			<alias>Dimethyl sulfoxide</alias>
+			<alias>Dimethylsulfoxide</alias>
+		</chemical>
+		<chemical name="guanidine hydrochloride" units="M" formula="CH5N3  HCl" density="" solubility="215" pka1="" pka2="" pka3="" def_stock_conc="6" def_stock_units="M" max_stock_conc="215" mw="95.53" ions="" CAS="50-01-1" CMC="" SMILES="">
+			<class>Organic</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Aminoformamidine hydrochloride</alias>
+			<alias>GdnHCl</alias>
+			<alias>Guanidinium Chloride</alias>
+			<alias>Guanidium chloride</alias>
+			<alias>guanidine HCl</alias>
+		</chemical>
+		<chemical name="N,N-dimethylformamide" units="v/v" formula="HCON(CH3)2" density="0.944" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="94.4" mw="73.09" ions="" CAS="68-12-2" CMC="" SMILES="">
+			<class>Organic</class>
+			<alias>DMF</alias>
+			<alias>DMFA</alias>
+			<alias>N,N dimethylformamide</alias>
+			<alias>N,N-dimethylformide</alias>
+			<alias>dimethylformamide</alias>
+		</chemical>
+		<chemical name="phenol" units="M" formula="C6H5OH" density="1.07" solubility="8" pka1="10" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="8" mw="94.11" ions="" CAS="108-95-2" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Benzenol</alias>
+			<alias>Hydroxybenzene</alias>
+			<alias>Oxybenzene</alias>
+			<alias>Phenic acid</alias>
+			<alias>Phenylic acid</alias>
+			<alias>carbolic acid</alias>
+		</chemical>
+		<chemical name="potassium acetate" units="M" formula="KC2H3O2" density="" solubility="253" pka1="4.76" pka2="" pka3="" def_stock_conc="5" def_stock_units="M" max_stock_conc="253" mw="98.15" ions="K;CH3CO2" CAS="127-08-2" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>K acetate</alias>
+			<alias>KOAc</alias>
+			<alias>Kac</alias>
+		</chemical>
+		<chemical name="potassium bromide" units="M" formula="KBr" density="" solubility="53.5" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="119" ions="K;Br" CAS="7758-02-3" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>kbr</alias>
+		</chemical>
+		<chemical name="potassium chloride" units="M" formula="KCl" density="" solubility="34.7" pka1="" pka2="" pka3="" def_stock_conc="4" def_stock_units="M" max_stock_conc="34.7" mw="74.56" ions="K;Cl" CAS="7447-40-7" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>k chloride</alias>
+			<alias>k-chloride</alias>
+			<alias>kcl</alias>
+		</chemical>
+		<chemical name="potassium cyanate" units="M" formula="KOCN" density="" solubility="75" pka1="" pka2="" pka3="" def_stock_conc="2" def_stock_units="M" max_stock_conc="" mw="81.12" ions="K;OCN" CAS="590-28-3" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Additive</class>
+			<alias>potassium isocyanate</alias>
+		</chemical>
+		<chemical name="potassium iodide" units="M" formula="KI" density="" solubility="127.5" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="127.5" mw="166.01" ions="K;I" CAS="7681-11-0" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>KI</alias>
+		</chemical>
+		<chemical name="potassium nitrate" units="M" formula="KNO3" density="" solubility="38.8" pka1="" pka2="" pka3="" def_stock_conc="3" def_stock_units="M" max_stock_conc="38.8" mw="101.11" ions="K;NO3" CAS="7757-79-1" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>KNO3</alias>
+			<alias>saltpeter</alias>
+		</chemical>
+		<chemical name="potassium thiocyanate" units="M" formula="KSCN" density="" solubility="177.2" pka1="" pka2="" pka3="" def_stock_conc="8" def_stock_units="M" max_stock_conc="177.2" mw="97.18" ions="K;SCN" CAS="333-20-0" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>KSCN</alias>
+			<alias>Potassium rhodanide</alias>
+		</chemical>
+		<chemical name="pyridine" units="v/v" formula="C5H5N" density="0.9819" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="" mw="79.1" ions="" CAS="110-86-1" CMC="" SMILES="">
+			<class>Additive</class>
+			<alias>Azabenzene</alias>
+			<alias>azine</alias>
+		</chemical>
+		<chemical name="rubidium chloride" units="M" formula="RbCl" density="" solubility="91" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="120.92" ions="Rb;Cl" CAS="7791-11-9" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Additive</class>
+			<alias>rubidium(I) chloride</alias>
+		</chemical>
+		<chemical name="sodium bromide" units="M" formula="NaBr" density="" solubility="73.3" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="116" mw="102.89" ions="Na;Br" CAS="7647-15-6" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>nabr</alias>
+		</chemical>
+		<chemical name="sodium iodide" units="M" formula="NaI" density="" solubility="184" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="184" mw="149.89" ions="Na;I" CAS="7681-82-5" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>nai</alias>
+		</chemical>
+		<chemical name="sodium nitrate" units="M" formula="NaNO3" density="" solubility="92.1" pka1="" pka2="" pka3="" def_stock_conc="7" def_stock_units="M" max_stock_conc="92.1" mw="84.99" ions="Na;NO3" CAS="7631-99-4" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Chile salpeter</alias>
+			<alias>nano3</alias>
+		</chemical>
+		<chemical name="sodium perchlorate" units="M" formula="NaClO4" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="122.44" ions="Na;ClO4" CAS="7601-89-0" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="sodium thiocyanate" units="M" formula="NaSCN" density="" solubility="139.3" pka1="" pka2="" pka3="" def_stock_conc="8" def_stock_units="M" max_stock_conc="139.3" mw="81.07" ions="Na;SCN" CAS="540-72-7" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>nascn</alias>
+			<alias>sodium isothiocyanate</alias>
+		</chemical>
+		<chemical name="sodium trichloroacetate" units="M" formula="CCl3CO2Na" density="" solubility="120" pka1="" pka2="" pka3="" def_stock_conc="2" def_stock_units="M" max_stock_conc="" mw="185.37" ions="" CAS="650-51-1" CMC="" SMILES="">
+			<class>Additive</class>
+			<alias>STCA</alias>
+			<alias>TCA sodium salt</alias>
+			<alias>Trichloroacetic acid sodium salt</alias>
+		</chemical>
+		<chemical name="tetramethylammonium chloride" units="M" formula="C4H12ClN" density="" solubility="60" pka1="" pka2="" pka3="" def_stock_conc="2" def_stock_units="M" max_stock_conc="" mw="109.6" ions="" CAS="75-57-0" CMC="" SMILES="">
+			<class>Additive</class>
+			<alias>N,N,N-trimethylmethanaminium</alias>
+			<alias>TMAC</alias>
+			<alias>tetramethylazanium chloride</alias>
+			<alias>tetramine chloride</alias>
+		</chemical>
+		<chemical name="trimethylamine hydrochloride" units="M" formula="C3H9NHCl" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="" mw="95.57" ions="" CAS="593-81-7" CMC="" SMILES="">
+			<class>Additive</class>
+			<alias>Trimethylammonium chloride</alias>
+			<alias>trimethylamine hcl</alias>
+		</chemical>
+		<chemical name="urea" units="M" formula="CH4N2O" density="" solubility="30" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="30" mw="60.06" ions="" CAS="57-13-6" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>carbamide</alias>
+		</chemical>
+	</chemicals>
+	<screen name="JBScreen Plus Chaotropic" username="Jena Bioscience" design_date="2008-05-27 09:19:23" res_vol="0">
+		<format name="Screen24Well" rows="4" cols="6" subs="0" max_res_vol="" def_res_vol="" max_drop_vol="" def_drop_vol=""/>
+		<comments>Product code CS-502</comments>
+		<well number="1" label="A1">
+			<item name="urea" class="Additive" conc="1" units="M" ph=""/>
+		</well>
+		<well number="2" label="A2">
+			<item name="dimethyl sulfoxide" class="Organic" conc="4" units="M" ph=""/>
+		</well>
+		<well number="3" label="A3">
+			<item name="N,N-dimethylformamide" class="Organic" conc="4" units="M" ph=""/>
+		</well>
+		<well number="4" label="A4">
+			<item name="pyridine" class="Additive" conc="1" units="M" ph=""/>
+		</well>
+		<well number="5" label="A5">
+			<item name="caprolactam" class="Additive" conc="0.5" units="M" ph=""/>
+		</well>
+		<well number="6" label="A6">
+			<item name="phenol" class="Additive" conc="0.1" units="M" ph=""/>
+		</well>
+		<well number="7" label="B1">
+			<item name="trimethylamine hydrochloride" class="Additive" conc="2" units="M" ph=""/>
+		</well>
+		<well number="8" label="B2">
+			<item name="guanidine hydrochloride" class="Organic" conc="2" units="M" ph=""/>
+		</well>
+		<well number="9" label="B3">
+			<item name="tetramethylammonium chloride" class="Additive" conc="2" units="M" ph=""/>
+		</well>
+		<well number="10" label="B4">
+			<item name="cesium chloride" class="Salt" conc="1" units="M" ph=""/>
+		</well>
+		<well number="11" label="B5">
+			<item name="rubidium chloride" class="Additive" conc="1" units="M" ph=""/>
+		</well>
+		<well number="12" label="B6">
+			<item name="potassium chloride" class="Salt" conc="1" units="M" ph=""/>
+		</well>
+		<well number="13" label="C1">
+			<item name="potassium thiocyanate" class="Salt" conc="2" units="M" ph=""/>
+		</well>
+		<well number="14" label="C2">
+			<item name="potassium cyanate" class="Additive" conc="2" units="M" ph=""/>
+		</well>
+		<well number="15" label="C3">
+			<item name="potassium nitrate" class="Salt" conc="1" units="M" ph=""/>
+		</well>
+		<well number="16" label="C4">
+			<item name="potassium acetate" class="Salt" conc="1" units="M" ph=""/>
+		</well>
+		<well number="17" label="C5">
+			<item name="potassium iodide" class="Salt" conc="1" units="M" ph=""/>
+		</well>
+		<well number="18" label="C6">
+			<item name="potassium bromide" class="Salt" conc="1" units="M" ph=""/>
+		</well>
+		<well number="19" label="D1">
+			<item name="sodium trichloroacetate" class="Additive" conc="2" units="M" ph=""/>
+		</well>
+		<well number="20" label="D2">
+			<item name="sodium thiocyanate" class="Salt" conc="2" units="M" ph=""/>
+		</well>
+		<well number="21" label="D3">
+			<item name="sodium perchlorate" class="Salt" conc="2" units="M" ph=""/>
+		</well>
+		<well number="22" label="D4">
+			<item name="sodium nitrate" class="Salt" conc="2" units="M" ph=""/>
+		</well>
+		<well number="23" label="D5">
+			<item name="sodium iodide" class="Salt" conc="1" units="M" ph=""/>
+		</well>
+		<well number="24" label="D6">
+			<item name="sodium bromide" class="Salt" conc="2" units="M" ph=""/>
+		</well>
+	</screen>
+</crystaltrak>

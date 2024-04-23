@@ -1,0 +1,689 @@
+<crystaltrak datatype="screen" version="2.3.43">
+	<chemicals>
+		<chemical name="ammonium chloride" units="M" formula="NH4Cl" density="" solubility="29.7" pka1="" pka2="" pka3="" def_stock_conc="5" def_stock_units="M" max_stock_conc="23.8" mw="53.49" ions="NH4;Cl" CAS="12125-02-9" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>AmCl</alias>
+			<alias>Ammoniumchlorid</alias>
+			<alias>Salmiac</alias>
+			<alias>sal ammoniac</alias>
+			<alias>smelling salts</alias>
+		</chemical>
+		<chemical name="bis-tris propane" units="M" formula="C11H26N2O6" density="" solubility="45" pka1="6.8" pka2="9" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="36" mw="282.33" ions="" CAS="64431-96-5" CMC="" SMILES="">
+			<class>Buffer</class>
+			<class>Ambiguous</class>
+			<alias>BTP</alias>
+			<alias>bis tris propane</alias>
+			<alias>bis-tris-propane</alias>
+			<alias>bistripro</alias>
+			<alias>bistris propane</alias>
+		</chemical>
+		<chemical name="calcium chloride" units="M" formula="CaCl2" density="" solubility="74.5" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="75.5" mw="110.98" ions="Ca;2Cl" CAS="10043-52-4" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Calcium  Chloride</alias>
+			<alias>Calcium chloride dihydrate</alias>
+			<alias>ca chloride</alias>
+			<alias>ca-chloride</alias>
+			<alias>cacl2</alias>
+		</chemical>
+		<chemical name="DL-malate-MES-tris" units="v/v" formula="" density="1" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="" mw="" ions="" CAS="" CMC="" SMILES="">
+			<class>Fundamental Mixtures</class>
+			<class>Buffer</class>
+			<alias>MMT</alias>
+			<alias>MMT Buffer</alias>
+			<alias>MMT buffer/naoh</alias>
+			<alias>malic acid, MES, Tris</alias>
+		</chemical>
+		<chemical name="lithium chloride" units="M" formula="LiCl" density="" solubility="63.7" pka1="" pka2="" pka3="" def_stock_conc="10" def_stock_units="M" max_stock_conc="63.7" mw="42.39" ions="Li;Cl" CAS="7447-41-8" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Li Chloride</alias>
+			<alias>licl</alias>
+		</chemical>
+		<chemical name="magnesium chloride" units="M" formula="MgCl2" density="" solubility="54.3" pka1="" pka2="" pka3="" def_stock_conc="5" def_stock_units="M" max_stock_conc="54.3" mw="95.22" ions="Mg;2Cl" CAS="7786-30-3" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Magnesium  Chloride</alias>
+			<alias>Magnesium Chloride</alias>
+			<alias>Magnesium chloride hexahydrate</alias>
+			<alias>Mg Chloride</alias>
+			<alias>MgCl2</alias>
+			<alias>mg-chloride</alias>
+		</chemical>
+		<chemical name="malonate-imidazole-borate" units="v/v" formula="" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="" mw="" ions="" CAS="" CMC="" SMILES="">
+			<class>Fundamental Mixtures</class>
+			<class>Buffer</class>
+			<alias>MIB</alias>
+			<alias>MIB Buffer</alias>
+			<alias>MIB buffer/hcl</alias>
+			<alias>malonic acid, imidazole, boric acid</alias>
+		</chemical>
+		<chemical name="MES" units="M" formula="C6H13NO4S" density="" solubility="20" pka1="6.15" pka2="" pka3="" def_stock_conc="0.5" def_stock_units="M" max_stock_conc="20" mw="195.23" ions="" CAS="4432-31-9" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Buffer</class>
+			<class>Ambiguous</class>
+			<class>Additive</class>
+			<alias>2-Morpholinoethanesulfonic acid</alias>
+			<alias>MES monohydrate</alias>
+		</chemical>
+		<chemical name="polyethylene glycol 1500" units="w/v" formula="HO-(CH2-CH2-O)n-H" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="50" mw="1500" ions="" CAS="25322-68-3" CMC="" SMILES="">
+			<class>Polymer</class>
+			<alias>PEG 1.5K</alias>
+			<alias>PEG 1500</alias>
+			<alias>PEG-1500</alias>
+		</chemical>
+		<chemical name="polyethylene glycol 3350" units="w/v" formula="HO-(CH2-CH2-O)n-H" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="50" mw="3350" ions="" CAS="25322-68-3" CMC="" SMILES="">
+			<class>Polymer</class>
+			<alias>PEG 3350</alias>
+			<alias>PEG 3350K</alias>
+			<alias>PEG-3350</alias>
+			<alias>PEG3350</alias>
+			<alias>polyethylene glycol 3,350</alias>
+		</chemical>
+		<chemical name="polyethylene glycol 6000" units="w/v" formula="HO-(CH2-CH2-O)n-H" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="50" mw="6000" ions="" CAS="25322-68-3" CMC="" SMILES="">
+			<class>Polymer</class>
+			<alias>PEG 6,000</alias>
+			<alias>PEG 6000</alias>
+			<alias>PEG 6K</alias>
+			<alias>PEG-6000</alias>
+			<alias>PEG6K</alias>
+			<alias>polyethylene glycol 6,000</alias>
+			<alias>polyethylene glycol 6K</alias>
+		</chemical>
+		<chemical name="potassium sodium phosphate" units="M" formula="KH2PO4/Na2HPO4/K2HP04/NaH2PO4" density="" solubility="" pka1="2.1" pka2="7.2" pka3="12.3" def_stock_conc="2" def_stock_units="M" max_stock_conc="" mw="" ions="1.5Na,1.5K;PO4" CAS="" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Buffer</class>
+			<alias>Na/K PO4</alias>
+			<alias>Na/K phosphate</alias>
+			<alias>Sodium/Potassium Phosphate</alias>
+		</chemical>
+		<chemical name="potassium sodium tartrate" units="M" formula="C4H4KNaO6" density="" solubility="47.4" pka1="3.02" pka2="4.54" pka3="" def_stock_conc="2" def_stock_units="M" max_stock_conc="47.4" mw="210.16" ions="K,Na;C4H4O6" CAS="304-59-6" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>K,Na-tartrate</alias>
+			<alias>K,na tartrate</alias>
+			<alias>K- na tartrate</alias>
+			<alias>K-,Na-tartrate</alias>
+			<alias>K-Na-tartrate</alias>
+			<alias>K/na tartrate</alias>
+			<alias>NaK-Tartrate</alias>
+			<alias>Potassium / Sodium Tartrate</alias>
+			<alias>Potassium sodium tartrate</alias>
+			<alias>Rochelle Salt</alias>
+			<alias>Seignette salt</alias>
+			<alias>Sodium-Potassium Tartrate</alias>
+			<alias>Sodium/Potassium tartrate</alias>
+			<alias>na-K-tartrate</alias>
+			<alias>na/K tartrate</alias>
+			<alias>nak tartrate</alias>
+			<alias>potassium/sodium tartrate</alias>
+			<alias>sodium / potassium tartrate</alias>
+			<alias>sodium potassium tartrate</alias>
+		</chemical>
+		<chemical name="potassium thiocyanate" units="M" formula="KSCN" density="" solubility="177.2" pka1="" pka2="" pka3="" def_stock_conc="8" def_stock_units="M" max_stock_conc="177.2" mw="97.18" ions="K;SCN" CAS="333-20-0" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>KSCN</alias>
+			<alias>Potassium rhodanide</alias>
+		</chemical>
+		<chemical name="sodium acetate" units="M" formula="NaC2H3O2" density="" solubility="46.5" pka1="4.76" pka2="" pka3="" def_stock_conc="3.5" def_stock_units="M" max_stock_conc="37" mw="82.03" ions="Na;CH3CO2" CAS="127-09-3" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Ambiguous</class>
+			<alias>NaAc/acetic acid</alias>
+			<alias>Sodium  Acetate</alias>
+			<alias>acetate</alias>
+			<alias>na acetate</alias>
+			<alias>na-acetate</alias>
+			<alias>naac</alias>
+			<alias>naoac</alias>
+		</chemical>
+		<chemical name="sodium bromide" units="M" formula="NaBr" density="" solubility="73.3" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="116" mw="102.89" ions="Na;Br" CAS="7647-15-6" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>nabr</alias>
+		</chemical>
+		<chemical name="sodium chloride" units="M" formula="NaCl" density="" solubility="35.7" pka1="" pka2="" pka3="" def_stock_conc="5" def_stock_units="M" max_stock_conc="35.7" mw="58.44" ions="Na;Cl" CAS="7647-14-5" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Na chloride</alias>
+			<alias>Sodium  Chloride</alias>
+			<alias>Sodium Chloride</alias>
+			<alias>na-chloride</alias>
+			<alias>nacl</alias>
+			<alias>salt</alias>
+		</chemical>
+		<chemical name="sodium citrate" units="M" formula="Na3C6H5O7" density="" solubility="63" pka1="3.13" pka2="4.74" pka3="6.4" def_stock_conc="2" def_stock_units="M" max_stock_conc="63" mw="258.06" ions="3Na;C6H5O7" CAS="" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Ambiguous</class>
+			<alias>Citric Acid-Sodium Hydroxide</alias>
+			<alias>citrate</alias>
+			<alias>na-citrate</alias>
+		</chemical>
+		<chemical name="sodium fluoride" units="M" formula="NaF" density="" solubility="4.22" pka1="" pka2="" pka3="" def_stock_conc="0.8" def_stock_units="M" max_stock_conc="4.2" mw="41.99" ions="Na;F" CAS="7681-49-4" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>na fluoride</alias>
+			<alias>naf</alias>
+		</chemical>
+		<chemical name="sodium formate" units="M" formula="NaCHO2" density="" solubility="97.02" pka1="3.75" pka2="" pka3="" def_stock_conc="7" def_stock_units="M" max_stock_conc="97.02" mw="68.01" ions="Na;CHO2" CAS="141-53-7" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Na-formiate</alias>
+			<alias>NaFo</alias>
+			<alias>na formate</alias>
+			<alias>na-formate</alias>
+		</chemical>
+		<chemical name="sodium HEPES" units="M" formula="C8H17N2NaO4S" density="" solubility="26.1" pka1="7.55" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="26.1" mw="260.3" ions="" CAS="75277-39-3" CMC="" SMILES="">
+			<class>Buffer</class>
+			<alias>HEPES - Na</alias>
+			<alias>HEPES - Sodium</alias>
+			<alias>HEPES sodium</alias>
+			<alias>HEPES sodium salt</alias>
+			<alias>HEPES-NaOH</alias>
+			<alias>HEPES-na</alias>
+			<alias>HEPES/NaOH</alias>
+			<alias>Na HEPES</alias>
+			<alias>na-HEPES</alias>
+		</chemical>
+		<chemical name="sodium iodide" units="M" formula="NaI" density="" solubility="184" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="184" mw="149.89" ions="Na;I" CAS="7681-82-5" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>nai</alias>
+		</chemical>
+		<chemical name="sodium malonate" units="M" formula="C3H2Na2O4" density="" solubility="51" pka1="2.83" pka2="5.69" pka3="" def_stock_conc="3.4" def_stock_units="M" max_stock_conc="" mw="148.03" ions="2Na;C3H2O4" CAS="141-95-7" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Buffer</class>
+			<alias>di-sodium malonate</alias>
+			<alias>malonate</alias>
+			<alias>na malonate</alias>
+			<alias>na-malonate</alias>
+			<alias>sodium malonate dibasic</alias>
+		</chemical>
+		<chemical name="sodium nitrate" units="M" formula="NaNO3" density="" solubility="92.1" pka1="" pka2="" pka3="" def_stock_conc="7" def_stock_units="M" max_stock_conc="92.1" mw="84.99" ions="Na;NO3" CAS="7631-99-4" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Chile salpeter</alias>
+			<alias>nano3</alias>
+		</chemical>
+		<chemical name="sodium sulfate" units="M" formula="Na2SO4" density="" solubility="21" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="21" mw="142.04" ions="2Na;SO4" CAS="7757-82-6" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>na sulfate</alias>
+			<alias>na2so4</alias>
+			<alias>sodium sulphate</alias>
+		</chemical>
+		<chemical name="succinate-phosphate-glycine" units="v/v" formula="" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="" mw="" ions="" CAS="" CMC="" SMILES="">
+			<class>Fundamental Mixtures</class>
+			<class>Buffer</class>
+			<alias>SPG</alias>
+			<alias>SPG Buffer</alias>
+			<alias>SPG buffer/naoh</alias>
+			<alias>succinic acid, sodium dihydrogen phosphate, glycine</alias>
+		</chemical>
+		<chemical name="tartrate-bis tris-glygly" units="v/v" formula="" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="" mw="" ions="" CAS="" CMC="" SMILES="">
+			<class>Fundamental Mixtures</class>
+			<class>Buffer</class>
+			<alias>TBG</alias>
+			<alias>TBG Buffer</alias>
+			<alias>sodium tartrate, bis-tris, glycylglycine</alias>
+		</chemical>
+		<chemical name="tris chloride" units="M" formula="C4H11NO3   HCl" density="" solubility="67" pka1="8.1" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="67" mw="157.6" ions=";Cl" CAS="1185-53-1" CMC="" SMILES="">
+			<class>Buffer</class>
+			<alias>Tris -HCl</alias>
+			<alias>Tris HCl</alias>
+			<alias>Tris base/HCl</alias>
+			<alias>Tris- HCl</alias>
+			<alias>tris</alias>
+			<alias>tris hydrochloride</alias>
+			<alias>tris-hcl</alias>
+			<alias>tris-hydrochloride</alias>
+			<alias>tris.hcl</alias>
+			<alias>trishcl</alias>
+		</chemical>
+		<chemical name="zinc chloride" units="M" formula="ZnCl2" density="" solubility="432" pka1="" pka2="" pka3="" def_stock_conc="2" def_stock_units="M" max_stock_conc="432" mw="136.28" ions="Zn;2Cl" CAS="7646-85-7" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>zn chloride</alias>
+		</chemical>
+	</chemicals>
+	<screen name="JBScreen PACT++ HTS" username="Jena Bioscience" design_date="2007-11-26 18:57:21" res_vol="0">
+		<format name="Generic 96 Well" rows="8" cols="12" subs="1" max_res_vol="1" def_res_vol="1" max_drop_vol="1" def_drop_vol="1"/>
+		<comments>Catalogue number CS-207S (1.0ml in block)
+Catalogue number CS-207L (1.7ml in block)</comments>
+		<well number="1" label="A1">
+			<item name="polyethylene glycol 1500" class="Polymer" conc="25" units="w/v" ph=""/>
+			<item name="succinate-phosphate-glycine" class="Buffer" conc="10" units="v/v" ph="4"/>
+		</well>
+		<well number="2" label="A2">
+			<item name="polyethylene glycol 1500" class="Polymer" conc="25" units="w/v" ph=""/>
+			<item name="succinate-phosphate-glycine" class="Buffer" conc="10" units="v/v" ph="5"/>
+		</well>
+		<well number="3" label="A3">
+			<item name="polyethylene glycol 1500" class="Polymer" conc="25" units="w/v" ph=""/>
+			<item name="succinate-phosphate-glycine" class="Buffer" conc="10" units="v/v" ph="6"/>
+		</well>
+		<well number="4" label="A4">
+			<item name="polyethylene glycol 1500" class="Polymer" conc="25" units="w/v" ph=""/>
+			<item name="succinate-phosphate-glycine" class="Buffer" conc="10" units="v/v" ph="7"/>
+		</well>
+		<well number="5" label="A5">
+			<item name="polyethylene glycol 1500" class="Polymer" conc="25" units="w/v" ph=""/>
+			<item name="succinate-phosphate-glycine" class="Buffer" conc="10" units="v/v" ph="8"/>
+		</well>
+		<well number="6" label="A6">
+			<item name="polyethylene glycol 1500" class="Polymer" conc="25" units="w/v" ph=""/>
+			<item name="succinate-phosphate-glycine" class="Buffer" conc="10" units="v/v" ph="9"/>
+		</well>
+		<well number="7" label="A7">
+			<item name="polyethylene glycol 6000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="5"/>
+			<item name="sodium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="8" label="A8">
+			<item name="ammonium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="polyethylene glycol 6000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="5"/>
+		</well>
+		<well number="9" label="A9">
+			<item name="lithium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="polyethylene glycol 6000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="5"/>
+		</well>
+		<well number="10" label="A10">
+			<item name="magnesium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="polyethylene glycol 6000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="5"/>
+		</well>
+		<well number="11" label="A11">
+			<item name="calcium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="polyethylene glycol 6000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="5"/>
+		</well>
+		<well number="12" label="A12">
+			<item name="polyethylene glycol 6000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="5"/>
+			<item name="zinc chloride" class="Salt" conc="0.01" units="M" ph=""/>
+		</well>
+		<well number="13" label="B1">
+			<item name="polyethylene glycol 1500" class="Polymer" conc="25" units="w/v" ph=""/>
+			<item name="malonate-imidazole-borate" class="Buffer" conc="10" units="v/v" ph="4"/>
+		</well>
+		<well number="14" label="B2">
+			<item name="polyethylene glycol 1500" class="Polymer" conc="25" units="w/v" ph=""/>
+			<item name="malonate-imidazole-borate" class="Buffer" conc="10" units="v/v" ph="5"/>
+		</well>
+		<well number="15" label="B3">
+			<item name="polyethylene glycol 1500" class="Polymer" conc="25" units="w/v" ph=""/>
+			<item name="malonate-imidazole-borate" class="Buffer" conc="10" units="v/v" ph="6"/>
+		</well>
+		<well number="16" label="B4">
+			<item name="polyethylene glycol 1500" class="Polymer" conc="25" units="w/v" ph=""/>
+			<item name="malonate-imidazole-borate" class="Buffer" conc="10" units="v/v" ph="7"/>
+		</well>
+		<well number="17" label="B5">
+			<item name="polyethylene glycol 1500" class="Polymer" conc="25" units="w/v" ph=""/>
+			<item name="malonate-imidazole-borate" class="Buffer" conc="10" units="v/v" ph="8"/>
+		</well>
+		<well number="18" label="B6">
+			<item name="polyethylene glycol 1500" class="Polymer" conc="25" units="w/v" ph=""/>
+			<item name="malonate-imidazole-borate" class="Buffer" conc="10" units="v/v" ph="9"/>
+		</well>
+		<well number="19" label="B7">
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6"/>
+			<item name="polyethylene glycol 6000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="20" label="B8">
+			<item name="ammonium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6"/>
+			<item name="polyethylene glycol 6000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="21" label="B9">
+			<item name="lithium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6"/>
+			<item name="polyethylene glycol 6000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="22" label="B10">
+			<item name="magnesium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6"/>
+			<item name="polyethylene glycol 6000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="23" label="B11">
+			<item name="calcium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6"/>
+			<item name="polyethylene glycol 6000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="24" label="B12">
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6"/>
+			<item name="polyethylene glycol 6000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="zinc chloride" class="Salt" conc="0.01" units="M" ph=""/>
+		</well>
+		<well number="25" label="C1">
+			<item name="polyethylene glycol 1500" class="Polymer" conc="25" units="w/v" ph=""/>
+			<item name="tartrate-bis tris-glygly" class="Buffer" conc="10" units="v/v" ph="4"/>
+		</well>
+		<well number="26" label="C2">
+			<item name="polyethylene glycol 1500" class="Polymer" conc="25" units="w/v" ph=""/>
+			<item name="tartrate-bis tris-glygly" class="Buffer" conc="10" units="v/v" ph="5"/>
+		</well>
+		<well number="27" label="C3">
+			<item name="polyethylene glycol 1500" class="Polymer" conc="25" units="w/v" ph=""/>
+			<item name="tartrate-bis tris-glygly" class="Buffer" conc="10" units="v/v" ph="6"/>
+		</well>
+		<well number="28" label="C4">
+			<item name="polyethylene glycol 1500" class="Polymer" conc="25" units="w/v" ph=""/>
+			<item name="tartrate-bis tris-glygly" class="Buffer" conc="10" units="v/v" ph="7"/>
+		</well>
+		<well number="29" label="C5">
+			<item name="polyethylene glycol 1500" class="Polymer" conc="25" units="w/v" ph=""/>
+			<item name="tartrate-bis tris-glygly" class="Buffer" conc="10" units="v/v" ph="8"/>
+		</well>
+		<well number="30" label="C6">
+			<item name="polyethylene glycol 1500" class="Polymer" conc="25" units="w/v" ph=""/>
+			<item name="tartrate-bis tris-glygly" class="Buffer" conc="10" units="v/v" ph="9"/>
+		</well>
+		<well number="31" label="C7">
+			<item name="polyethylene glycol 6000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="sodium HEPES" class="Buffer" conc="0.1" units="M" ph="5"/>
+		</well>
+		<well number="32" label="C8">
+			<item name="ammonium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="polyethylene glycol 6000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium HEPES" class="Buffer" conc="0.1" units="M" ph="5"/>
+		</well>
+		<well number="33" label="C9">
+			<item name="lithium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="polyethylene glycol 6000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium HEPES" class="Buffer" conc="0.1" units="M" ph="5"/>
+		</well>
+		<well number="34" label="C10">
+			<item name="magnesium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="polyethylene glycol 6000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium HEPES" class="Buffer" conc="0.1" units="M" ph="5"/>
+		</well>
+		<well number="35" label="C11">
+			<item name="calcium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="polyethylene glycol 6000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium HEPES" class="Buffer" conc="0.1" units="M" ph="5"/>
+		</well>
+		<well number="36" label="C12">
+			<item name="polyethylene glycol 6000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium HEPES" class="Buffer" conc="0.1" units="M" ph="5"/>
+			<item name="zinc chloride" class="Salt" conc="0.01" units="M" ph=""/>
+		</well>
+		<well number="37" label="D1">
+			<item name="polyethylene glycol 1500" class="Polymer" conc="25" units="w/v" ph=""/>
+			<item name="DL-malate-MES-tris" class="Buffer" conc="10" units="v/v" ph="4"/>
+		</well>
+		<well number="38" label="D2">
+			<item name="polyethylene glycol 1500" class="Polymer" conc="25" units="w/v" ph=""/>
+			<item name="DL-malate-MES-tris" class="Buffer" conc="10" units="v/v" ph="5"/>
+		</well>
+		<well number="39" label="D3">
+			<item name="polyethylene glycol 1500" class="Polymer" conc="25" units="w/v" ph=""/>
+			<item name="DL-malate-MES-tris" class="Buffer" conc="10" units="v/v" ph="6"/>
+		</well>
+		<well number="40" label="D4">
+			<item name="polyethylene glycol 1500" class="Polymer" conc="25" units="w/v" ph=""/>
+			<item name="DL-malate-MES-tris" class="Buffer" conc="10" units="v/v" ph="7"/>
+		</well>
+		<well number="41" label="D5">
+			<item name="polyethylene glycol 1500" class="Polymer" conc="25" units="w/v" ph=""/>
+			<item name="DL-malate-MES-tris" class="Buffer" conc="10" units="v/v" ph="8"/>
+		</well>
+		<well number="42" label="D6">
+			<item name="polyethylene glycol 1500" class="Polymer" conc="25" units="w/v" ph=""/>
+			<item name="DL-malate-MES-tris" class="Buffer" conc="10" units="v/v" ph="9"/>
+		</well>
+		<well number="43" label="D7">
+			<item name="polyethylene glycol 6000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="6"/>
+		</well>
+		<well number="44" label="D8">
+			<item name="ammonium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="polyethylene glycol 6000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="6"/>
+		</well>
+		<well number="45" label="D9">
+			<item name="lithium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="polyethylene glycol 6000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="6"/>
+		</well>
+		<well number="46" label="D10">
+			<item name="magnesium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="polyethylene glycol 6000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="6"/>
+		</well>
+		<well number="47" label="D11">
+			<item name="calcium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="polyethylene glycol 6000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="6"/>
+		</well>
+		<well number="48" label="D12">
+			<item name="polyethylene glycol 6000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="6"/>
+			<item name="zinc chloride" class="Salt" conc="0.01" units="M" ph=""/>
+		</well>
+		<well number="49" label="E1">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium fluoride" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="50" label="E2">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium bromide" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="51" label="E3">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium iodide" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="52" label="E4">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="potassium thiocyanate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="53" label="E5">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium nitrate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="54" label="E6">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium formate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="55" label="E7">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium acetate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="56" label="E8">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium sulfate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="57" label="E9">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="potassium sodium tartrate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="58" label="E10">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="potassium sodium phosphate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="59" label="E11">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium citrate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="60" label="E12">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium malonate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="61" label="F1">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium fluoride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+		</well>
+		<well number="62" label="F2">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+			<item name="sodium bromide" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="63" label="F3">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium iodide" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+		</well>
+		<well number="64" label="F4">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="potassium thiocyanate" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+		</well>
+		<well number="65" label="F5">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium nitrate" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+		</well>
+		<well number="66" label="F6">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium formate" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+		</well>
+		<well number="67" label="F7">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium acetate" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+		</well>
+		<well number="68" label="F8">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium sulfate" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+		</well>
+		<well number="69" label="F9">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="potassium sodium tartrate" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+		</well>
+		<well number="70" label="F10">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+			<item name="potassium sodium phosphate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="71" label="F11">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium citrate" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+		</well>
+		<well number="72" label="F12">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+			<item name="sodium malonate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="73" label="G1">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium fluoride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+		</well>
+		<well number="74" label="G2">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+			<item name="sodium bromide" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="75" label="G3">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium iodide" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+		</well>
+		<well number="76" label="G4">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="potassium thiocyanate" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+		</well>
+		<well number="77" label="G5">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium nitrate" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+		</well>
+		<well number="78" label="G6">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium formate" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+		</well>
+		<well number="79" label="G7">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium acetate" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+		</well>
+		<well number="80" label="G8">
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+			<item name="sodium sulfate" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="81" label="G9">
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+			<item name="potassium sodium tartrate" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="82" label="G10">
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+			<item name="potassium sodium phosphate" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="83" label="G11">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium citrate" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+		</well>
+		<well number="84" label="G12">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+			<item name="sodium malonate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="85" label="H1">
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium fluoride" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="86" label="H2">
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium bromide" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="87" label="H3">
+			<item name="sodium iodide" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+		</well>
+		<well number="88" label="H4">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="potassium thiocyanate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="89" label="H5">
+			<item name="sodium nitrate" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+		</well>
+		<well number="90" label="H6">
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="sodium formate" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="91" label="H7">
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium acetate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="92" label="H8">
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium sulfate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="93" label="H9">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="potassium sodium tartrate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="94" label="H10">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="potassium sodium phosphate" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+		</well>
+		<well number="95" label="H11">
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="sodium citrate" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="96" label="H12">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium malonate" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+		</well>
+	</screen>
+</crystaltrak>

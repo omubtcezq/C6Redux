@@ -1,0 +1,718 @@
+<crystaltrak datatype="screen" version="2.3.43">
+	<chemicals>
+		<chemical name="1,6-hexanediol" units="M" formula="HO(CH2)6OH" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="6" def_stock_units="M" max_stock_conc="82.7" mw="118.18" ions="" CAS="629-11-8" CMC="" SMILES="">
+			<class>Precipitant</class>
+			<class>Organic</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>1 6-Hexanediol</alias>
+			<alias>1,6 hexanediol</alias>
+			<alias>1-6 hexanediol</alias>
+			<alias>1.6 hexandiol</alias>
+			<alias>HDO</alias>
+			<alias>hexamethylene glycol</alias>
+			<alias>hexamethylenediol</alias>
+			<alias>hexanediol</alias>
+		</chemical>
+		<chemical name="2-butanol" units="v/v" formula="CH3CH2CH(OH)CH3" density="0.808" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="80.8" mw="74.12" ions="" CAS="78-92-2" CMC="" SMILES="">
+			<class>Organic</class>
+			<alias>sec-Butyl alcohol</alias>
+		</chemical>
+		<chemical name="2-methyl-2,4-pentanediol" units="v/v" formula="CH3CH(OH)CH2C(OH)(CH3)2" density="0.9254" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="93" mw="188.18" ions="" CAS="107-41-5" CMC="" SMILES="">
+			<class>Organic</class>
+			<class>Additive</class>
+			<alias>(+/-)-2-Methyl-2,4-pentanediol</alias>
+			<alias>2-Methyl-2 4-pentanediol</alias>
+			<alias>2-Methyl-2,4-pentandiol</alias>
+			<alias>2-methyl-2-4-pentanediol</alias>
+			<alias>MPD</alias>
+			<alias>goop</alias>
+		</chemical>
+		<chemical name="2-propanol" units="v/v" formula="CH3CH(OH)CH3" density="0.7855" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="78.5" mw="60.11" ions="" CAS="67-63-0" CMC="" SMILES="">
+			<class>Organic</class>
+			<alias>IPA</alias>
+			<alias>iso-propanol</alias>
+			<alias>isopropanol</alias>
+			<alias>isopropyl alcohol</alias>
+			<alias>propan-2-ol</alias>
+			<alias>propanol</alias>
+		</chemical>
+		<chemical name="ammonium acetate" units="M" formula="C2H7NO2" density="" solubility="148" pka1="4.76" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="148" mw="77.08" ions="NH4;CH3CO2" CAS="631-61-8" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Am(Oac)</alias>
+			<alias>AmAc</alias>
+			<alias>NH4 Ac</alias>
+			<alias>NH4 Acetate</alias>
+			<alias>NH4-acetate</alias>
+			<alias>NH4OAc</alias>
+			<alias>am acetate</alias>
+			<alias>am-acetate</alias>
+		</chemical>
+		<chemical name="ammonium formate" units="M" formula="NH4CHO2" density="" solubility="102" pka1="3.75" pka2="" pka3="" def_stock_conc="10" def_stock_units="M" max_stock_conc="81" mw="63.06" ions="NH4;CHO2" CAS="540-69-2" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>AmFo</alias>
+			<alias>NH4-formate</alias>
+			<alias>am formate</alias>
+			<alias>am-formate</alias>
+		</chemical>
+		<chemical name="bis-tris propane" units="M" formula="C11H26N2O6" density="" solubility="45" pka1="6.8" pka2="9" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="36" mw="282.33" ions="" CAS="64431-96-5" CMC="" SMILES="">
+			<class>Buffer</class>
+			<class>Ambiguous</class>
+			<alias>BTP</alias>
+			<alias>bis tris propane</alias>
+			<alias>bis-tris-propane</alias>
+			<alias>bistripro</alias>
+			<alias>bistris propane</alias>
+		</chemical>
+		<chemical name="calcium acetate" units="M" formula="Ca(C2H3O2)2" density="" solubility="37.4" pka1="4.76" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="30" mw="158.17" ions="Ca;2CH3CO2" CAS="62-54-4" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Ca(Oac)</alias>
+			<alias>CaAc</alias>
+			<alias>ca acetate</alias>
+			<alias>ca-acetate</alias>
+			<alias>caacet</alias>
+			<alias>calcium ac</alias>
+		</chemical>
+		<chemical name="calcium chloride" units="M" formula="CaCl2" density="" solubility="74.5" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="75.5" mw="110.98" ions="Ca;2Cl" CAS="10043-52-4" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Calcium  Chloride</alias>
+			<alias>Calcium chloride dihydrate</alias>
+			<alias>ca chloride</alias>
+			<alias>ca-chloride</alias>
+			<alias>cacl2</alias>
+		</chemical>
+		<chemical name="dimethyl sulfoxide" units="v/v" formula="C2H6OS" density="1.1" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="110" mw="78.13" ions="" CAS="67-68-5" CMC="" SMILES="">
+			<class>Organic</class>
+			<class>Additive</class>
+			<alias>DMSO</alias>
+			<alias>Dimethyl sulfoxide</alias>
+			<alias>Dimethylsulfoxide</alias>
+		</chemical>
+		<chemical name="disodium hydrogen-dipotassium hydrogen phosphate" units="M" formula="Na2HPO4/K2HPO4" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="4" def_stock_units="M" max_stock_conc="" mw="" ions="" CAS="" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Fundamental Mixtures</class>
+			<class>Buffer</class>
+			<alias>K2H/Na2H Phosphate</alias>
+			<alias>Na2H/K2H phosphate</alias>
+			<alias>dipotassium hydrogen-disodium hydrogen phosphate</alias>
+			<alias>na-k-phosphate</alias>
+		</chemical>
+		<chemical name="ethanol" units="v/v" formula="C2H5OH" density="0.7893" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="78.9" mw="46.07" ions="" CAS="64-17-5" CMC="" SMILES="">
+			<class>Organic</class>
+			<class>Additive</class>
+			<alias>EtOH</alias>
+			<alias>booze</alias>
+			<alias>ethyl alcohol</alias>
+		</chemical>
+		<chemical name="glycerol" units="v/v" formula="C3H8O3" density="1.26" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="126" mw="92.09" ions="" CAS="56-81-5" CMC="" SMILES="">
+			<class>Organic</class>
+			<class>Additive</class>
+			<alias>1,2,3 propanetriol</alias>
+			<alias>Gycerol</alias>
+			<alias>glycerin</alias>
+			<alias>glyerol</alias>
+		</chemical>
+		<chemical name="HEPES" units="M" formula="C8H18N2O4S" density="" solubility="40" pka1="7.5" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="40" mw="238.31" ions="" CAS="7365-45-9" CMC="" SMILES="">
+			<class>Buffer</class>
+			<class>Ambiguous</class>
+			<alias>4-(2-Hydroxyethyl)piperazine-1-ethanesulfonic acid</alias>
+			<alias>4-(2-hydroxyethyl)-1-piperazineethanesulfonic acid</alias>
+		</chemical>
+		<chemical name="imidazole maleate" units="M" formula="" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="" ions="" CAS="" CMC="" SMILES="">
+			<class>Fundamental Mixtures</class>
+			<class>Buffer</class>
+			<alias>Imidazole-maleate</alias>
+		</chemical>
+		<chemical name="LDAO" units="w/v" formula="CH3(CH2)11N(O)(CH3)2" density="" solubility="30" pka1="" pka2="" pka3="" def_stock_conc="5" def_stock_units="w/v" max_stock_conc="30" mw="229.4" ions="" CAS="1643-20-5" CMC="" SMILES="">
+			<class>Detergent-Non Ionic</class>
+			<class>Detergent</class>
+			<class>Additive</class>
+			<alias>Lauramine oxide</alias>
+			<alias>Lauryldimethylamine N-oxide</alias>
+			<alias>N,N-dimethyldodecan-1-amine oxide</alias>
+			<alias>N,N-dimethyldodecylamine N-oxide</alias>
+			<alias>dodecyldimethylamine oxide</alias>
+			<alias>n-dodecyl-N,N-dimethylamine-N-oxide</alias>
+		</chemical>
+		<chemical name="lithium sulfate" units="M" formula="Li2SO4" density="" solubility="26.1" pka1="" pka2="" pka3="" def_stock_conc="2" def_stock_units="M" max_stock_conc="26.1" mw="109.94" ions="2Li;SO4" CAS="10377-48-7" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Li Sulfate</alias>
+			<alias>Lithium sulphate</alias>
+			<alias>Lithiumsulfat</alias>
+			<alias>li-sulfate</alias>
+			<alias>li2so4</alias>
+		</chemical>
+		<chemical name="magnesium chloride" units="M" formula="MgCl2" density="" solubility="54.3" pka1="" pka2="" pka3="" def_stock_conc="5" def_stock_units="M" max_stock_conc="54.3" mw="95.22" ions="Mg;2Cl" CAS="7786-30-3" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Magnesium  Chloride</alias>
+			<alias>Magnesium Chloride</alias>
+			<alias>Magnesium chloride hexahydrate</alias>
+			<alias>Mg Chloride</alias>
+			<alias>MgCl2</alias>
+			<alias>mg-chloride</alias>
+		</chemical>
+		<chemical name="magnesium formate" units="M" formula="Mg(CHO2)2" density="" solubility="14" pka1="3.75" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="14" mw="114.34" ions="Mg;2CHO2" CAS="6150-82-9" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Mg-formiate</alias>
+			<alias>mg formate</alias>
+			<alias>mg-formate</alias>
+		</chemical>
+		<chemical name="MEGA 7" units="w/v" formula="C14H29NO6" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="10" def_stock_units="w/v" max_stock_conc="" mw="307.38" ions="" CAS="101397-87-9" CMC="" SMILES="">
+			<class>Detergent-Non Ionic</class>
+			<class>Detergent</class>
+			<class>Additive</class>
+			<alias>MEGA-7</alias>
+			<alias>MEGA7</alias>
+			<alias>N-Heptanoyl-N-methyl-D-glucamine</alias>
+			<alias>mg7</alias>
+		</chemical>
+		<chemical name="MEGA 8" units="w/v" formula="C15H31NO6" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="10" def_stock_units="w/v" max_stock_conc="" mw="321.41" ions="" CAS="85316-98-9" CMC="" SMILES="">
+			<class>Detergent-Non Ionic</class>
+			<class>Detergent</class>
+			<class>Additive</class>
+			<alias>MEGA-8</alias>
+			<alias>MEGA8</alias>
+			<alias>N-Octanoyl-N-methylglucamine</alias>
+			<alias>mg8</alias>
+		</chemical>
+		<chemical name="methanol" units="v/v" formula="CH3OH" density="0.79" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="79" mw="32.04" ions="" CAS="67-56-1" CMC="" SMILES="">
+			<class>Organic</class>
+			<alias>MeOH</alias>
+			<alias>Methyl alcohol</alias>
+		</chemical>
+		<chemical name="n-octyl-b-D-Glucopyranoside" units="M" formula="C14H28O6" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="mM" max_stock_conc="" mw="292.37" ions="" CAS="29836-26-8" CMC="" SMILES="">
+			<class>Detergent-Non Ionic</class>
+			<class>Detergent</class>
+			<class>Additive</class>
+			<alias>Octyl beta-glucopyranoside</alias>
+			<alias>Octyl-beta-D-glucopyranoside</alias>
+			<alias>b-octyl-b-D-glucopyranoside</alias>
+			<alias>b-og</alias>
+			<alias>beta-Octyl monoglucoside</alias>
+			<alias>beta-octylglucoside</alias>
+			<alias>bog</alias>
+			<alias>n-OCTYL-b-D-GLUCOPYRANOSIDE</alias>
+			<alias>n-Octyl beta-D-glucoside</alias>
+			<alias>n-Octyl-b-D-glucoside</alias>
+			<alias>n-octyl b-D-glucopyranoside</alias>
+		</chemical>
+		<chemical name="potassium chloride" units="M" formula="KCl" density="" solubility="34.7" pka1="" pka2="" pka3="" def_stock_conc="4" def_stock_units="M" max_stock_conc="34.7" mw="74.56" ions="K;Cl" CAS="7447-40-7" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>k chloride</alias>
+			<alias>k-chloride</alias>
+			<alias>kcl</alias>
+		</chemical>
+		<chemical name="sodium acetate" units="M" formula="NaC2H3O2" density="" solubility="46.5" pka1="4.76" pka2="" pka3="" def_stock_conc="3.5" def_stock_units="M" max_stock_conc="37" mw="82.03" ions="Na;CH3CO2" CAS="127-09-3" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Ambiguous</class>
+			<alias>NaAc/acetic acid</alias>
+			<alias>Sodium  Acetate</alias>
+			<alias>acetate</alias>
+			<alias>na acetate</alias>
+			<alias>na-acetate</alias>
+			<alias>naac</alias>
+			<alias>naoac</alias>
+		</chemical>
+		<chemical name="sodium dihydrogen-dipotassium hydrogen phosphate" units="M" formula="NaH2PO4/K2HPO4" density="" solubility="" pka1="2.1" pka2="7.2" pka3="12.3" def_stock_conc="3" def_stock_units="M" max_stock_conc="" mw="" ions="Na,2K;PO4" CAS="" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Fundamental Mixtures</class>
+			<class>Buffer</class>
+			<alias>K/Na phosphate</alias>
+			<alias>K2 H phosphate/Na H2 phosphate</alias>
+			<alias>K2H phosphate/NaH2 phosphate</alias>
+			<alias>NaH2/K2H phosphate</alias>
+			<alias>Potassium Phosphate (dibasic) / Sodium Phosphate (monobasic)</alias>
+			<alias>dipotassium hydrogen-sodium dihydrogen phosphate</alias>
+			<alias>nak2po4</alias>
+		</chemical>
+		<chemical name="sodium succinate" units="M" formula="C4H4Na2O4" density="" solubility="34.8" pka1="4.21" pka2="5.61" pka3="" def_stock_conc="1.5" def_stock_units="M" max_stock_conc="34.8" mw="162.05" ions="2Na;C4H4O4" CAS="150-90-3" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Butanedioic acid disodium salt</alias>
+			<alias>Sodium succinate dibasic</alias>
+			<alias>Succinic acid disodium salt</alias>
+			<alias>Succinic acid disodium salt hexahydrate</alias>
+			<alias>na succinate</alias>
+			<alias>na-succinate</alias>
+			<alias>soduim succinate</alias>
+			<alias>succinate</alias>
+		</chemical>
+		<chemical name="tris chloride" units="M" formula="C4H11NO3   HCl" density="" solubility="67" pka1="8.1" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="67" mw="157.6" ions=";Cl" CAS="1185-53-1" CMC="" SMILES="">
+			<class>Buffer</class>
+			<alias>Tris -HCl</alias>
+			<alias>Tris HCl</alias>
+			<alias>Tris base/HCl</alias>
+			<alias>Tris- HCl</alias>
+			<alias>tris</alias>
+			<alias>tris hydrochloride</alias>
+			<alias>tris-hcl</alias>
+			<alias>tris-hydrochloride</alias>
+			<alias>tris.hcl</alias>
+			<alias>trishcl</alias>
+		</chemical>
+		<chemical name="tris maleate" units="M" formula="" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="" ions="" CAS="" CMC="" SMILES="">
+			<class>Fundamental Mixtures</class>
+			<class>Buffer</class>
+			<alias>tris-maleate</alias>
+		</chemical>
+		<chemical name="trisodium citrate-citric acid" units="M" formula="" density="" solubility="" pka1="3.13" pka2="4.76" pka3="6.4" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="258.06" ions="3Na;C6H5O7" CAS="" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Buffer</class>
+			<alias>Na3 citrate/citric acid</alias>
+			<alias>Sodium Citrate / Citric Acid</alias>
+			<alias>citric acid sodium citrate</alias>
+			<alias>citric acid-sodium citrate</alias>
+			<alias>tri-sodium citrate - citric acid</alias>
+			<alias>trisodium Citrate-Citric Acid</alias>
+		</chemical>
+	</chemicals>
+	<screen name="CP-CUSTOM-II" username="Axygen" design_date="2007-03-16 13:03:46" res_vol="0">
+		<format name="Generic 96 Well" rows="8" cols="12" subs="1" max_res_vol="1" def_res_vol="1" max_drop_vol="1" def_drop_vol="1"/>
+		<comments>Alcohol Precipitants Screens (APS)</comments>
+		<well number="1" label="A1">
+			<item name="1,6-hexanediol" class="Organic" conc="29.6" units="w/v" ph=""/>
+			<item name="LDAO" class="Additive" conc="0.39" units="w/v" ph=""/>
+			<item name="tris maleate" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+		</well>
+		<well number="2" label="A2">
+			<item name="1,6-hexanediol" class="Organic" conc="0.78" units="w/v" ph=""/>
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="25.11" units="v/v" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+		</well>
+		<well number="3" label="A3">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="44.62" units="v/v" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+		</well>
+		<well number="4" label="A4">
+			<item name="2-propanol" class="Organic" conc="46.99" units="v/v" ph=""/>
+			<item name="sodium succinate" class="Buffer" conc="0.1" units="M" ph="4.5"/>
+		</well>
+		<well number="5" label="A5">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="35.61" units="v/v" ph=""/>
+			<item name="ethanol" class="Organic" conc="5.84" units="v/v" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="5.5"/>
+		</well>
+		<well number="6" label="A6">
+			<item name="2-propanol" class="Organic" conc="30.79" units="v/v" ph=""/>
+		</well>
+		<well number="7" label="A7">
+			<item name="1,6-hexanediol" class="Organic" conc="33.23" units="w/v" ph=""/>
+		</well>
+		<well number="8" label="A8">
+			<item name="1,6-hexanediol" class="Organic" conc="36.03" units="w/v" ph=""/>
+		</well>
+		<well number="9" label="A9">
+			<item name="2-propanol" class="Organic" conc="40.04" units="v/v" ph=""/>
+			<item name="magnesium chloride" class="Salt" conc="0.07" units="M" ph=""/>
+		</well>
+		<well number="10" label="A10">
+			<item name="1,6-hexanediol" class="Organic" conc="19.13" units="w/v" ph=""/>
+			<item name="glycerol" class="Organic" conc="7.51" units="v/v" ph=""/>
+			<item name="methanol" class="Organic" conc="1.31" units="v/v" ph=""/>
+			<item name="sodium dihydrogen-dipotassium hydrogen phosphate" class="Buffer" conc="0.1" units="M" ph="5.5"/>
+		</well>
+		<well number="11" label="A11">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="52.49" units="v/v" ph=""/>
+			<item name="ethanol" class="Organic" conc="2.96" units="v/v" ph=""/>
+			<item name="glycerol" class="Organic" conc="9.46" units="v/v" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+		</well>
+		<well number="12" label="A12">
+			<item name="1,6-hexanediol" class="Organic" conc="34.04" units="w/v" ph=""/>
+		</well>
+		<well number="13" label="B1">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="20.24" units="v/v" ph=""/>
+			<item name="glycerol" class="Organic" conc="4.67" units="v/v" ph=""/>
+			<item name="sodium succinate" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+			<item name="2-butanol" class="Organic" conc="7.64" units="v/v" ph=""/>
+		</well>
+		<well number="14" label="B2">
+			<item name="ethanol" class="Organic" conc="21.83" units="v/v" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+		</well>
+		<well number="15" label="B3">
+			<item name="2-propanol" class="Organic" conc="8.09" units="v/v" ph=""/>
+			<item name="ethanol" class="Organic" conc="48.44" units="v/v" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="5.5"/>
+		</well>
+		<well number="16" label="B4">
+			<item name="ethanol" class="Organic" conc="40.65" units="v/v" ph=""/>
+			<item name="potassium chloride" class="Salt" conc="0.29" units="M" ph=""/>
+			<item name="tris maleate" class="Buffer" conc="0.1" units="M" ph="5.5"/>
+		</well>
+		<well number="17" label="B5">
+			<item name="2-propanol" class="Organic" conc="18.96" units="v/v" ph=""/>
+			<item name="lithium sulfate" class="Salt" conc="0.09" units="M" ph=""/>
+			<item name="tris maleate" class="Buffer" conc="0.1" units="M" ph="5.5"/>
+		</well>
+		<well number="18" label="B6">
+			<item name="2-propanol" class="Organic" conc="42.29" units="v/v" ph=""/>
+			<item name="ethanol" class="Organic" conc="4.21" units="v/v" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Buffer" conc="0.1" units="M" ph="4.5"/>
+			<item name="MEGA 8" class="Additive" conc="0.91" units="w/v" ph=""/>
+		</well>
+		<well number="19" label="B7">
+			<item name="2-propanol" class="Organic" conc="39.12" units="v/v" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+		</well>
+		<well number="20" label="B8">
+			<item name="ethanol" class="Organic" conc="24.12" units="v/v" ph=""/>
+			<item name="magnesium formate" class="Salt" conc="0.06" units="M" ph=""/>
+		</well>
+		<well number="21" label="B9">
+			<item name="1,6-hexanediol" class="Organic" conc="6.08" units="w/v" ph=""/>
+			<item name="magnesium formate" class="Salt" conc="0.01" units="M" ph=""/>
+			<item name="MEGA 8" class="Additive" conc="0.6" units="w/v" ph=""/>
+		</well>
+		<well number="22" label="B10">
+			<item name="1,6-hexanediol" class="Organic" conc="5.12" units="w/v" ph=""/>
+			<item name="2-propanol" class="Organic" conc="42.14" units="v/v" ph=""/>
+			<item name="glycerol" class="Organic" conc="1.72" units="v/v" ph=""/>
+		</well>
+		<well number="23" label="B11">
+			<item name="1,6-hexanediol" class="Organic" conc="32.37" units="w/v" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Buffer" conc="0.1" units="M" ph="5.5"/>
+			<item name="MEGA 8" class="Additive" conc="0.92" units="w/v" ph=""/>
+		</well>
+		<well number="24" label="B12">
+			<item name="ethanol" class="Organic" conc="57.11" units="v/v" ph=""/>
+		</well>
+		<well number="25" label="C1">
+			<item name="2-propanol" class="Organic" conc="45.92" units="v/v" ph=""/>
+			<item name="sodium succinate" class="Buffer" conc="0.1" units="M" ph="4.5"/>
+		</well>
+		<well number="26" label="C2">
+			<item name="ethanol" class="Organic" conc="14.89" units="v/v" ph=""/>
+			<item name="glycerol" class="Organic" conc="3.94" units="v/v" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Buffer" conc="0.1" units="M" ph="5.5"/>
+		</well>
+		<well number="27" label="C3">
+			<item name="2-propanol" class="Organic" conc="19.98" units="v/v" ph=""/>
+			<item name="LDAO" class="Additive" conc="0.38" units="w/v" ph=""/>
+			<item name="tris maleate" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+		</well>
+		<well number="28" label="C4">
+			<item name="2-propanol" class="Organic" conc="58.88" units="v/v" ph=""/>
+			<item name="n-octyl-b-D-Glucopyranoside" class="Additive" conc="0.14" units="w/v" ph=""/>
+			<item name="tris maleate" class="Buffer" conc="0.1" units="M" ph="5.5"/>
+		</well>
+		<well number="29" label="C5">
+			<item name="1,6-hexanediol" class="Organic" conc="27.48" units="w/v" ph=""/>
+		</well>
+		<well number="30" label="C6">
+			<item name="1,6-hexanediol" class="Organic" conc="26.57" units="w/v" ph=""/>
+			<item name="2-propanol" class="Organic" conc="1.9" units="v/v" ph=""/>
+			<item name="MEGA 7" class="Additive" conc="0.58" units="w/v" ph=""/>
+		</well>
+		<well number="31" label="C7">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="15.31" units="v/v" ph=""/>
+			<item name="methanol" class="Organic" conc="4.56" units="v/v" ph=""/>
+			<item name="LDAO" class="Additive" conc="0.72" units="w/v" ph=""/>
+		</well>
+		<well number="32" label="C8">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="35.61" units="v/v" ph=""/>
+			<item name="calcium acetate" class="Salt" conc="0.08" units="M" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="MEGA 8" class="Additive" conc="0.98" units="w/v" ph=""/>
+		</well>
+		<well number="33" label="C9">
+			<item name="1,6-hexanediol" class="Organic" conc="8.39" units="w/v" ph=""/>
+		</well>
+		<well number="34" label="C10">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="22.84" units="v/v" ph=""/>
+			<item name="magnesium chloride" class="Salt" conc="0.38" units="M" ph=""/>
+			<item name="MEGA 7" class="Additive" conc="0.5" units="w/v" ph=""/>
+		</well>
+		<well number="35" label="C11">
+			<item name="1,6-hexanediol" class="Organic" conc="24.21" units="w/v" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+			<item name="disodium hydrogen-dipotassium hydrogen phosphate" class="Fundamental Mixtures" conc="0.22" units="M" ph=""/>
+		</well>
+		<well number="36" label="C12">
+			<item name="ethanol" class="Organic" conc="21.2" units="v/v" ph=""/>
+			<item name="n-octyl-b-D-Glucopyranoside" class="Additive" conc="0.99" units="w/v" ph=""/>
+			<item name="sodium succinate" class="Buffer" conc="0.1" units="M" ph="5.5"/>
+		</well>
+		<well number="37" label="D1">
+			<item name="1,6-hexanediol" class="Organic" conc="10.02" units="w/v" ph=""/>
+		</well>
+		<well number="38" label="D2">
+			<item name="2-propanol" class="Organic" conc="50.97" units="v/v" ph=""/>
+			<item name="imidazole maleate" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+		</well>
+		<well number="39" label="D3">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="23.75" units="v/v" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+		</well>
+		<well number="40" label="D4">
+			<item name="1,6-hexanediol" class="Organic" conc="11.19" units="w/v" ph=""/>
+			<item name="tris maleate" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+			<item name="MEGA 8" class="Additive" conc="0.36" units="w/v" ph=""/>
+		</well>
+		<well number="41" label="D5">
+			<item name="1,6-hexanediol" class="Organic" conc="36.75" units="w/v" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+		</well>
+		<well number="42" label="D6">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="32.19" units="v/v" ph=""/>
+			<item name="LDAO" class="Additive" conc="0.85" units="w/v" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Buffer" conc="0.1" units="M" ph="4.5"/>
+		</well>
+		<well number="43" label="D7">
+			<item name="2-propanol" class="Organic" conc="52.35" units="v/v" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+		</well>
+		<well number="44" label="D8">
+			<item name="2-propanol" class="Organic" conc="51.57" units="v/v" ph=""/>
+			<item name="LDAO" class="Additive" conc="0.55" units="w/v" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Buffer" conc="0.1" units="M" ph="5.5"/>
+		</well>
+		<well number="45" label="D9">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="20.73" units="v/v" ph=""/>
+			<item name="MEGA 7" class="Additive" conc="0.52" units="w/v" ph=""/>
+		</well>
+		<well number="46" label="D10">
+			<item name="2-propanol" class="Organic" conc="49.06" units="v/v" ph=""/>
+			<item name="glycerol" class="Organic" conc="9.25" units="v/v" ph=""/>
+		</well>
+		<well number="47" label="D11">
+			<item name="2-propanol" class="Organic" conc="38.99" units="v/v" ph=""/>
+			<item name="glycerol" class="Organic" conc="8.69" units="v/v" ph=""/>
+		</well>
+		<well number="48" label="D12">
+			<item name="1,6-hexanediol" class="Organic" conc="21.08" units="w/v" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="n-octyl-b-D-Glucopyranoside" class="Additive" conc="0.61" units="w/v" ph=""/>
+			<item name="disodium hydrogen-dipotassium hydrogen phosphate" class="Fundamental Mixtures" conc="0.16" units="M" ph=""/>
+		</well>
+		<well number="49" label="E1">
+			<item name="ethanol" class="Organic" conc="29.98" units="v/v" ph=""/>
+			<item name="glycerol" class="Organic" conc="8.17" units="v/v" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+		</well>
+		<well number="50" label="E2">
+			<item name="2-propanol" class="Organic" conc="28.66" units="v/v" ph=""/>
+			<item name="glycerol" class="Organic" conc="1.34" units="v/v" ph=""/>
+			<item name="sodium dihydrogen-dipotassium hydrogen phosphate" class="Buffer" conc="0.1" units="M" ph="5.5"/>
+		</well>
+		<well number="51" label="E3">
+			<item name="2-propanol" class="Organic" conc="49.2" units="v/v" ph=""/>
+			<item name="glycerol" class="Organic" conc="8.66" units="v/v" ph=""/>
+			<item name="magnesium chloride" class="Salt" conc="0.03" units="M" ph=""/>
+		</well>
+		<well number="52" label="E4">
+			<item name="sodium succinate" class="Buffer" conc="0.1" units="M" ph="5.5"/>
+			<item name="2-butanol" class="Organic" conc="16.56" units="v/v" ph=""/>
+		</well>
+		<well number="53" label="E5">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="52.67" units="v/v" ph=""/>
+			<item name="calcium acetate" class="Salt" conc="0.09" units="M" ph=""/>
+			<item name="LDAO" class="Additive" conc="0.88" units="w/v" ph=""/>
+		</well>
+		<well number="54" label="E6">
+			<item name="dimethyl sulfoxide" class="Organic" conc="9.69" units="v/v" ph=""/>
+			<item name="sodium succinate" class="Buffer" conc="0.1" units="M" ph="5.5"/>
+			<item name="2-butanol" class="Organic" conc="11.05" units="v/v" ph=""/>
+		</well>
+		<well number="55" label="E7">
+			<item name="2-propanol" class="Organic" conc="10.36" units="v/v" ph=""/>
+			<item name="calcium chloride" class="Salt" conc="0.17" units="M" ph=""/>
+			<item name="tris maleate" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+		</well>
+		<well number="56" label="E8">
+			<item name="2-propanol" class="Organic" conc="51.47" units="v/v" ph=""/>
+			<item name="glycerol" class="Organic" conc="2.6" units="v/v" ph=""/>
+			<item name="imidazole maleate" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+			<item name="ammonium formate" class="Salt" conc="0.13" units="M" ph=""/>
+		</well>
+		<well number="57" label="E9">
+			<item name="2-propanol" class="Organic" conc="25.67" units="v/v" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+			<item name="LDAO" class="Additive" conc="0.77" units="w/v" ph=""/>
+			<item name="ammonium formate" class="Salt" conc="0.3" units="M" ph=""/>
+		</well>
+		<well number="58" label="E10">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="23.31" units="v/v" ph=""/>
+			<item name="2-butanol" class="Organic" conc="2.81" units="v/v" ph=""/>
+			<item name="LDAO" class="Additive" conc="0.29" units="w/v" ph=""/>
+		</well>
+		<well number="59" label="E11">
+			<item name="ethanol" class="Organic" conc="52.38" units="v/v" ph=""/>
+			<item name="methanol" class="Organic" conc="7.65" units="v/v" ph=""/>
+			<item name="LDAO" class="Additive" conc="0.44" units="w/v" ph=""/>
+		</well>
+		<well number="60" label="E12">
+			<item name="2-propanol" class="Organic" conc="59.55" units="v/v" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+		</well>
+		<well number="61" label="F1">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="50.2" units="v/v" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+		</well>
+		<well number="62" label="F2">
+			<item name="ethanol" class="Organic" conc="27.67" units="v/v" ph=""/>
+			<item name="glycerol" class="Organic" conc="3.06" units="v/v" ph=""/>
+		</well>
+		<well number="63" label="F3">
+			<item name="ethanol" class="Organic" conc="38.87" units="v/v" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+		</well>
+		<well number="64" label="F4">
+			<item name="2-propanol" class="Organic" conc="53.97" units="v/v" ph=""/>
+			<item name="magnesium chloride" class="Salt" conc="0.06" units="M" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="5.5"/>
+			<item name="LDAO" class="Additive" conc="0.19" units="w/v" ph=""/>
+		</well>
+		<well number="65" label="F5">
+			<item name="2-propanol" class="Organic" conc="30.47" units="v/v" ph=""/>
+			<item name="tris maleate" class="Buffer" conc="0.1" units="M" ph="4.5"/>
+		</well>
+		<well number="66" label="F6">
+			<item name="ethanol" class="Organic" conc="55.22" units="v/v" ph=""/>
+			<item name="glycerol" class="Organic" conc="7.92" units="v/v" ph=""/>
+			<item name="disodium hydrogen-dipotassium hydrogen phosphate" class="Fundamental Mixtures" conc="0.04" units="M" ph=""/>
+		</well>
+		<well number="67" label="F7">
+			<item name="1,6-hexanediol" class="Organic" conc="29.72" units="w/v" ph=""/>
+			<item name="imidazole maleate" class="Buffer" conc="0.1" units="M" ph="5.5"/>
+		</well>
+		<well number="68" label="F8">
+			<item name="1,6-hexanediol" class="Organic" conc="10.8" units="w/v" ph=""/>
+			<item name="2-propanol" class="Organic" conc="4.76" units="v/v" ph=""/>
+			<item name="glycerol" class="Organic" conc="4.73" units="v/v" ph=""/>
+		</well>
+		<well number="69" label="F9">
+			<item name="2-propanol" class="Organic" conc="59.72" units="v/v" ph=""/>
+			<item name="dimethyl sulfoxide" class="Organic" conc="9.07" units="v/v" ph=""/>
+		</well>
+		<well number="70" label="F10">
+			<item name="2-propanol" class="Organic" conc="57.64" units="v/v" ph=""/>
+			<item name="tris maleate" class="Buffer" conc="0.1" units="M" ph="5.5"/>
+		</well>
+		<well number="71" label="F11">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="36.39" units="v/v" ph=""/>
+			<item name="MEGA 8" class="Additive" conc="0.74" units="w/v" ph=""/>
+			<item name="ammonium formate" class="Salt" conc="0.09" units="M" ph=""/>
+		</well>
+		<well number="72" label="F12">
+			<item name="ethanol" class="Organic" conc="26.88" units="v/v" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+			<item name="LDAO" class="Additive" conc="0.95" units="w/v" ph=""/>
+		</well>
+		<well number="73" label="G1">
+			<item name="1,6-hexanediol" class="Organic" conc="29.33" units="w/v" ph=""/>
+			<item name="imidazole maleate" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+		</well>
+		<well number="74" label="G2">
+			<item name="2-propanol" class="Organic" conc="52.18" units="v/v" ph=""/>
+			<item name="LDAO" class="Additive" conc="0.73" units="w/v" ph=""/>
+		</well>
+		<well number="75" label="G3">
+			<item name="2-propanol" class="Organic" conc="59.63" units="v/v" ph=""/>
+			<item name="ammonium acetate" class="Salt" conc="0.26" units="M" ph=""/>
+			<item name="LDAO" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="tris maleate" class="Buffer" conc="0.1" units="M" ph="5.5"/>
+		</well>
+		<well number="76" label="G4">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="38.56" units="v/v" ph=""/>
+			<item name="MEGA 8" class="Additive" conc="0.33" units="w/v" ph=""/>
+		</well>
+		<well number="77" label="G5">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="57.91" units="v/v" ph=""/>
+			<item name="LDAO" class="Additive" conc="0.71" units="w/v" ph=""/>
+		</well>
+		<well number="78" label="G6">
+			<item name="2-propanol" class="Organic" conc="14.24" units="v/v" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+			<item name="2-butanol" class="Organic" conc="1.99" units="v/v" ph=""/>
+		</well>
+		<well number="79" label="G7">
+			<item name="1,6-hexanediol" class="Organic" conc="30.28" units="w/v" ph=""/>
+			<item name="ethanol" class="Organic" conc="8.3" units="v/v" ph=""/>
+		</well>
+		<well number="80" label="G8">
+			<item name="1,6-hexanediol" class="Organic" conc="32.75" units="w/v" ph=""/>
+		</well>
+		<well number="81" label="G9">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="31.7" units="v/v" ph=""/>
+			<item name="LDAO" class="Additive" conc="0.65" units="w/v" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Buffer" conc="0.1" units="M" ph="5.5"/>
+		</well>
+		<well number="82" label="G10">
+			<item name="2-propanol" class="Organic" conc="0.66" units="v/v" ph=""/>
+			<item name="ethanol" class="Organic" conc="46.16" units="v/v" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.5"/>
+		</well>
+		<well number="83" label="G11">
+			<item name="2-propanol" class="Organic" conc="7.93" units="v/v" ph=""/>
+			<item name="2-propanol" class="Organic" conc="22.39" units="v/v" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Buffer" conc="0.1" units="M" ph="4.5"/>
+			<item name="MEGA 8" class="Additive" conc="0.16" units="w/v" ph=""/>
+		</well>
+		<well number="84" label="G12">
+			<item name="2-propanol" class="Organic" conc="10.45" units="v/v" ph=""/>
+			<item name="glycerol" class="Organic" conc="4.22" units="v/v" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+			<item name="dimethyl sulfoxide" class="Organic" conc="7.24" units="v/v" ph=""/>
+		</well>
+		<well number="85" label="H1">
+			<item name="2-propanol" class="Organic" conc="41.18" units="v/v" ph=""/>
+			<item name="glycerol" class="Organic" conc="9.96" units="v/v" ph=""/>
+		</well>
+		<well number="86" label="H2">
+			<item name="ethanol" class="Organic" conc="20.59" units="v/v" ph=""/>
+			<item name="glycerol" class="Organic" conc="5.64" units="v/v" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Buffer" conc="0.1" units="M" ph="5.5"/>
+		</well>
+		<well number="87" label="H3">
+			<item name="1,6-hexanediol" class="Organic" conc="23.38" units="w/v" ph=""/>
+			<item name="tris maleate" class="Buffer" conc="0.1" units="M" ph="5.5"/>
+		</well>
+		<well number="88" label="H4">
+			<item name="1,6-hexanediol" class="Organic" conc="39.22" units="w/v" ph=""/>
+			<item name="sodium acetate" class="Salt" conc="0.08" units="M" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+			<item name="n-octyl-b-D-Glucopyranoside" class="Additive" conc="0.78" units="w/v" ph=""/>
+		</well>
+		<well number="89" label="H5">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="46.34" units="v/v" ph=""/>
+		</well>
+		<well number="90" label="H6">
+			<item name="2-propanol" class="Organic" conc="24.27" units="v/v" ph=""/>
+		</well>
+		<well number="91" label="H7">
+			<item name="2-propanol" class="Organic" conc="20.65" units="v/v" ph=""/>
+			<item name="glycerol" class="Organic" conc="2.56" units="v/v" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+			<item name="ammonium formate" class="Salt" conc="0.42" units="M" ph=""/>
+		</well>
+		<well number="92" label="H8">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="26.46" units="v/v" ph=""/>
+			<item name="dimethyl sulfoxide" class="Organic" conc="6.84" units="v/v" ph=""/>
+			<item name="imidazole maleate" class="Buffer" conc="0.1" units="M" ph="5.5"/>
+		</well>
+		<well number="93" label="H9">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="30.41" units="v/v" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+		</well>
+		<well number="94" label="H10">
+			<item name="1,6-hexanediol" class="Organic" conc="32.32" units="w/v" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="5.5"/>
+			<item name="n-octyl-b-D-Glucopyranoside" class="Additive" conc="0.8" units="w/v" ph=""/>
+			<item name="ammonium formate" class="Salt" conc="0.06" units="M" ph=""/>
+		</well>
+		<well number="95" label="H11">
+			<item name="2-propanol" class="Organic" conc="50.01" units="v/v" ph=""/>
+			<item name="glycerol" class="Organic" conc="9.63" units="v/v" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+			<item name="dimethyl sulfoxide" class="Organic" conc="1.41" units="v/v" ph=""/>
+		</well>
+		<well number="96" label="H12">
+			<item name="1,6-hexanediol" class="Organic" conc="31.68" units="w/v" ph=""/>
+			<item name="sodium dihydrogen-dipotassium hydrogen phosphate" class="Buffer" conc="0.1" units="M" ph="5.5"/>
+		</well>
+	</screen>
+</crystaltrak>

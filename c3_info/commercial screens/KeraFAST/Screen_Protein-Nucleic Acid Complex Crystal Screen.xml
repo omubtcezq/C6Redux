@@ -1,0 +1,354 @@
+<crystaltrak datatype="screen" version="2.3.43">
+	<chemicals>
+		<chemical name="calcium chloride" units="M" formula="CaCl2" density="" solubility="74.5" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="75.5" mw="110.98" ions="Ca;2Cl" CAS="10043-52-4" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Calcium  Chloride</alias>
+			<alias>Calcium chloride dihydrate</alias>
+			<alias>ca chloride</alias>
+			<alias>ca-chloride</alias>
+			<alias>cacl2</alias>
+		</chemical>
+		<chemical name="HEPES" units="M" formula="C8H18N2O4S" density="" solubility="40" pka1="7.5" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="40" mw="238.31" ions="" CAS="7365-45-9" CMC="" SMILES="">
+			<class>Buffer</class>
+			<class>Ambiguous</class>
+			<alias>4-(2-Hydroxyethyl)piperazine-1-ethanesulfonic acid</alias>
+			<alias>4-(2-hydroxyethyl)-1-piperazineethanesulfonic acid</alias>
+		</chemical>
+		<chemical name="magnesium chloride" units="M" formula="MgCl2" density="" solubility="54.3" pka1="" pka2="" pka3="" def_stock_conc="5" def_stock_units="M" max_stock_conc="54.3" mw="95.22" ions="Mg;2Cl" CAS="7786-30-3" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Magnesium  Chloride</alias>
+			<alias>Magnesium Chloride</alias>
+			<alias>Magnesium chloride hexahydrate</alias>
+			<alias>Mg Chloride</alias>
+			<alias>MgCl2</alias>
+			<alias>mg-chloride</alias>
+		</chemical>
+		<chemical name="MES" units="M" formula="C6H13NO4S" density="" solubility="20" pka1="6.15" pka2="" pka3="" def_stock_conc="0.5" def_stock_units="M" max_stock_conc="20" mw="195.23" ions="" CAS="4432-31-9" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Buffer</class>
+			<class>Ambiguous</class>
+			<class>Additive</class>
+			<alias>2-Morpholinoethanesulfonic acid</alias>
+			<alias>MES monohydrate</alias>
+		</chemical>
+		<chemical name="polyethylene glycol 2000" units="w/v" formula="HO-(CH2-CH2-O)n-H" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="50" mw="2000" ions="" CAS="25322-68-3" CMC="" SMILES="">
+			<class>Polymer</class>
+			<alias>PEG 2000</alias>
+			<alias>PEG 2K</alias>
+			<alias>PEG-2000</alias>
+		</chemical>
+		<chemical name="polyethylene glycol 4000" units="w/v" formula="HO-(CH2-CH2-O)n-H" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="50" mw="4000" ions="" CAS="25322-68-3" CMC="" SMILES="">
+			<class>Polymer</class>
+			<alias>PEG 4,000</alias>
+			<alias>PEG 4000</alias>
+			<alias>PEG 4K</alias>
+			<alias>PEG-4000</alias>
+			<alias>PEG4K</alias>
+			<alias>polyethylene glycol 4,000</alias>
+			<alias>polyethylene glycol 4K</alias>
+		</chemical>
+		<chemical name="polyethylene glycol 6000" units="w/v" formula="HO-(CH2-CH2-O)n-H" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="50" mw="6000" ions="" CAS="25322-68-3" CMC="" SMILES="">
+			<class>Polymer</class>
+			<alias>PEG 6,000</alias>
+			<alias>PEG 6000</alias>
+			<alias>PEG 6K</alias>
+			<alias>PEG-6000</alias>
+			<alias>PEG6K</alias>
+			<alias>polyethylene glycol 6,000</alias>
+			<alias>polyethylene glycol 6K</alias>
+		</chemical>
+		<chemical name="polyethylene glycol 8000" units="w/v" formula="HO-(CH2-CH2-O)n-H" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="50" mw="8000" ions="" CAS="25322-68-3" CMC="" SMILES="">
+			<class>Polymer</class>
+			<class>Additive</class>
+			<alias>PEG 8,000</alias>
+			<alias>PEG 8000</alias>
+			<alias>PEG 8K</alias>
+			<alias>PEG-8000</alias>
+			<alias>PEG8K</alias>
+			<alias>polyethylene glycol 8,000</alias>
+			<alias>polyethylene glycol 8K</alias>
+		</chemical>
+		<chemical name="sodium acetate" units="M" formula="NaC2H3O2" density="" solubility="46.5" pka1="4.76" pka2="" pka3="" def_stock_conc="3.5" def_stock_units="M" max_stock_conc="37" mw="82.03" ions="Na;CH3CO2" CAS="127-09-3" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Ambiguous</class>
+			<alias>NaAc/acetic acid</alias>
+			<alias>Sodium  Acetate</alias>
+			<alias>acetate</alias>
+			<alias>na acetate</alias>
+			<alias>na-acetate</alias>
+			<alias>naac</alias>
+			<alias>naoac</alias>
+		</chemical>
+		<chemical name="sodium chloride" units="M" formula="NaCl" density="" solubility="35.7" pka1="" pka2="" pka3="" def_stock_conc="5" def_stock_units="M" max_stock_conc="35.7" mw="58.44" ions="Na;Cl" CAS="7647-14-5" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Na chloride</alias>
+			<alias>Sodium  Chloride</alias>
+			<alias>Sodium Chloride</alias>
+			<alias>na-chloride</alias>
+			<alias>nacl</alias>
+			<alias>salt</alias>
+		</chemical>
+	</chemicals>
+	<screen name="Protein-Nucleic Acid Complex Crystal Screen" username="KeraFAST" design_date="2011-10-05 10:00:45" res_vol="0">
+		<format name="Screen96Well" rows="8" cols="12" subs="0" max_res_vol="" def_res_vol="" max_drop_vol="" def_drop_vol=""/>
+		<comments/>
+		<well number="1" label="A1">
+			<item name="polyethylene glycol 6000" class="Polymer" conc="6" units="w/v" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+		</well>
+		<well number="2" label="A2">
+			<item name="calcium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6"/>
+			<item name="sodium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="polyethylene glycol 8000" class="Polymer" conc="16" units="w/v" ph=""/>
+		</well>
+		<well number="3" label="A3">
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+			<item name="magnesium chloride" class="Salt" conc="0.05" units="M" ph=""/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="11" units="w/v" ph=""/>
+		</well>
+		<well number="4" label="A4">
+			<item name="calcium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+			<item name="polyethylene glycol 8000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="5" label="A5">
+			<item name="calcium chloride" class="Salt" conc="0.05" units="M" ph=""/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="6" units="w/v" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+		</well>
+		<well number="6" label="A6">
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+			<item name="magnesium chloride" class="Salt" conc="0.05" units="M" ph=""/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="16" units="w/v" ph=""/>
+			<item name="sodium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+		</well>
+		<well number="7" label="A7">
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6"/>
+			<item name="sodium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="polyethylene glycol 2000" class="Polymer" conc="11" units="w/v" ph=""/>
+		</well>
+		<well number="8" label="A8">
+			<item name="calcium chloride" class="Salt" conc="0.05" units="M" ph=""/>
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6"/>
+			<item name="sodium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="polyethylene glycol 2000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="9" label="A9">
+			<item name="calcium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+			<item name="sodium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="polyethylene glycol 2000" class="Polymer" conc="16" units="w/v" ph=""/>
+		</well>
+		<well number="10" label="A10">
+			<item name="calcium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+			<item name="sodium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="polyethylene glycol 2000" class="Polymer" conc="25" units="w/v" ph=""/>
+		</well>
+		<well number="11" label="A11">
+			<item name="magnesium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="12" label="A12">
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+			<item name="polyethylene glycol 8000" class="Polymer" conc="11" units="w/v" ph=""/>
+		</well>
+		<well number="13" label="B1">
+			<item name="calcium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="25" units="w/v" ph=""/>
+			<item name="sodium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+		</well>
+		<well number="14" label="B2">
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+			<item name="sodium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="polyethylene glycol 2000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="15" label="B3">
+			<item name="calcium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+			<item name="polyethylene glycol 8000" class="Polymer" conc="11" units="w/v" ph=""/>
+		</well>
+		<well number="16" label="B4">
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6"/>
+			<item name="polyethylene glycol 2000" class="Polymer" conc="6" units="w/v" ph=""/>
+		</well>
+		<well number="17" label="B5">
+			<item name="magnesium chloride" class="Salt" conc="0.05" units="M" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+			<item name="sodium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="polyethylene glycol 2000" class="Polymer" conc="11" units="w/v" ph=""/>
+		</well>
+		<well number="18" label="B6">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+			<item name="sodium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+		</well>
+		<well number="19" label="B7">
+			<item name="magnesium chloride" class="Salt" conc="0.05" units="M" ph=""/>
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="16" units="w/v" ph=""/>
+		</well>
+		<well number="20" label="B8">
+			<item name="calcium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6"/>
+			<item name="polyethylene glycol 6000" class="Polymer" conc="6" units="w/v" ph=""/>
+			<item name="sodium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+		</well>
+		<well number="21" label="B9">
+			<item name="magnesium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+			<item name="sodium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="polyethylene glycol 8000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="22" label="B10">
+			<item name="calcium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="11" units="w/v" ph=""/>
+		</well>
+		<well number="23" label="B11">
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+			<item name="polyethylene glycol 2000" class="Polymer" conc="16" units="w/v" ph=""/>
+		</well>
+		<well number="24" label="B12">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="6" units="w/v" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+			<item name="sodium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+		</well>
+		<well number="25" label="C1">
+			<item name="calcium chloride" class="Salt" conc="0.05" units="M" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+			<item name="sodium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="polyethylene glycol 2000" class="Polymer" conc="16" units="w/v" ph=""/>
+		</well>
+		<well number="26" label="C2">
+			<item name="calcium chloride" class="Salt" conc="0.05" units="M" ph=""/>
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+		</well>
+		<well number="27" label="C3">
+			<item name="calcium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6"/>
+			<item name="sodium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="polyethylene glycol 2000" class="Polymer" conc="6" units="w/v" ph=""/>
+		</well>
+		<well number="28" label="C4">
+			<item name="calcium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+			<item name="polyethylene glycol 8000" class="Polymer" conc="11" units="w/v" ph=""/>
+		</well>
+		<well number="29" label="C5">
+			<item name="calcium chloride" class="Salt" conc="0.05" units="M" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+			<item name="polyethylene glycol 8000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="30" label="C6">
+			<item name="calcium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="16" units="w/v" ph=""/>
+		</well>
+		<well number="31" label="C7">
+			<item name="polyethylene glycol 8000" class="Polymer" conc="11" units="w/v" ph=""/>
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6"/>
+		</well>
+		<well number="32" label="C8">
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+			<item name="polyethylene glycol 6000" class="Polymer" conc="6" units="w/v" ph=""/>
+		</well>
+		<well number="33" label="C9">
+			<item name="sodium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6"/>
+			<item name="polyethylene glycol 8000" class="Polymer" conc="16" units="w/v" ph=""/>
+			<item name="magnesium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+		</well>
+		<well number="34" label="C10">
+			<item name="polyethylene glycol 2000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+			<item name="calcium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+		</well>
+		<well number="35" label="C11">
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="11" units="w/v" ph=""/>
+			<item name="sodium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+		</well>
+		<well number="36" label="C12">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="6" units="w/v" ph=""/>
+			<item name="calcium chloride" class="Salt" conc="0.05" units="M" ph=""/>
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6"/>
+			<item name="sodium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+		</well>
+		<well number="37" label="D1">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="6" units="w/v" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+			<item name="calcium chloride" class="Salt" conc="0.05" units="M" ph=""/>
+		</well>
+		<well number="38" label="D2">
+			<item name="polyethylene glycol 8000" class="Polymer" conc="16" units="w/v" ph=""/>
+			<item name="sodium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="calcium chloride" class="Salt" conc="0.05" units="M" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+		</well>
+		<well number="39" label="D3">
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6"/>
+			<item name="calcium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="polyethylene glycol 2000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="40" label="D4">
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+			<item name="sodium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="magnesium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="polyethylene glycol 2000" class="Polymer" conc="11" units="w/v" ph=""/>
+		</well>
+		<well number="41" label="D5">
+			<item name="calcium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="11" units="w/v" ph=""/>
+			<item name="sodium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+		</well>
+		<well number="42" label="D6">
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6"/>
+			<item name="polyethylene glycol 2000" class="Polymer" conc="6" units="w/v" ph=""/>
+		</well>
+		<well number="43" label="D7">
+			<item name="polyethylene glycol 8000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="calcium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+			<item name="sodium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+		</well>
+		<well number="44" label="D8">
+			<item name="magnesium chloride" class="Salt" conc="0.05" units="M" ph=""/>
+			<item name="sodium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="16" units="w/v" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+		</well>
+		<well number="45" label="D9">
+			<item name="polyethylene glycol 2000" class="Polymer" conc="8" units="w/v" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+			<item name="calcium chloride" class="Salt" conc="0.05" units="M" ph=""/>
+		</well>
+		<well number="46" label="D10">
+			<item name="polyethylene glycol 6000" class="Polymer" conc="6" units="w/v" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+			<item name="magnesium chloride" class="Salt" conc="0.05" units="M" ph=""/>
+		</well>
+		<well number="47" label="D11">
+			<item name="polyethylene glycol 8000" class="Polymer" conc="11" units="w/v" ph=""/>
+			<item name="sodium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="calcium chloride" class="Salt" conc="0.05" units="M" ph=""/>
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6"/>
+		</well>
+		<well number="48" label="D12">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="25" units="w/v" ph=""/>
+			<item name="calcium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+		</well>
+	</screen>
+</crystaltrak>

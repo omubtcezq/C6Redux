@@ -1,0 +1,250 @@
+<crystaltrak datatype="screen" version="2.3.43">
+	<chemicals>
+		<chemical name="2-methyl-2,4-pentanediol" units="v/v" formula="CH3CH(OH)CH2C(OH)(CH3)2" density="0.9254" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="93" mw="188.18" ions="" CAS="107-41-5" CMC="" SMILES="">
+			<class>Organic</class>
+			<class>Additive</class>
+			<alias>(+/-)-2-Methyl-2,4-pentanediol</alias>
+			<alias>2-Methyl-2 4-pentanediol</alias>
+			<alias>2-Methyl-2,4-pentandiol</alias>
+			<alias>2-methyl-2-4-pentanediol</alias>
+			<alias>MPD</alias>
+			<alias>goop</alias>
+		</chemical>
+		<chemical name="ADA" units="M" formula="C6H10N2O5" density="" solubility="19" pka1="6.6" pka2="" pka3="" def_stock_conc="0.5" def_stock_units="M" max_stock_conc="19" mw="190.2" ions="" CAS="26239-55-4" CMC="" SMILES="">
+			<class>Buffer</class>
+			<alias>ADA</alias>
+			<alias>ADA/NaOH</alias>
+			<alias>N-(2-Acetamido)iminodiacetic acid</alias>
+			<alias>N-(Carbamoylmethyl)iminodiacetic acid</alias>
+		</chemical>
+		<chemical name="ammonium dihydrogen phosphate" units="M" formula="NH4H2PO4" density="" solubility="36" pka1="2.1" pka2="7.2" pka3="12.3" def_stock_conc="2.5" def_stock_units="M" max_stock_conc="29" mw="115.03" ions="2H,NH4;PO4" CAS="7722-76-1" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>NH4 dihydrogen phosphate</alias>
+			<alias>NH4-dihydrogenphosphate</alias>
+			<alias>NH4-dihyrogenphosphate</alias>
+			<alias>amh2phosphate</alias>
+			<alias>amh2po4</alias>
+			<alias>ammonium di-hydrogen phosphate</alias>
+			<alias>ammonium dihydrogen monophosphate</alias>
+			<alias>ammonium phosphate (monobasic)</alias>
+			<alias>ammonium phosphate monobasic</alias>
+			<alias>ammonium phosphate, monobasic</alias>
+			<alias>dihydrogen ammonium phosphate</alias>
+			<alias>mono-ammonium dihydrogen phosphate</alias>
+		</chemical>
+		<chemical name="HEPES" units="M" formula="C8H18N2O4S" density="" solubility="40" pka1="7.5" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="40" mw="238.31" ions="" CAS="7365-45-9" CMC="" SMILES="">
+			<class>Buffer</class>
+			<class>Ambiguous</class>
+			<alias>4-(2-Hydroxyethyl)piperazine-1-ethanesulfonic acid</alias>
+			<alias>4-(2-hydroxyethyl)-1-piperazineethanesulfonic acid</alias>
+		</chemical>
+		<chemical name="lithium sulfate" units="M" formula="Li2SO4" density="" solubility="26.1" pka1="" pka2="" pka3="" def_stock_conc="2" def_stock_units="M" max_stock_conc="26.1" mw="109.94" ions="2Li;SO4" CAS="10377-48-7" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Li Sulfate</alias>
+			<alias>Lithium sulphate</alias>
+			<alias>Lithiumsulfat</alias>
+			<alias>li-sulfate</alias>
+			<alias>li2so4</alias>
+		</chemical>
+		<chemical name="magnesium chloride" units="M" formula="MgCl2" density="" solubility="54.3" pka1="" pka2="" pka3="" def_stock_conc="5" def_stock_units="M" max_stock_conc="54.3" mw="95.22" ions="Mg;2Cl" CAS="7786-30-3" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Magnesium  Chloride</alias>
+			<alias>Magnesium Chloride</alias>
+			<alias>Magnesium chloride hexahydrate</alias>
+			<alias>Mg Chloride</alias>
+			<alias>MgCl2</alias>
+			<alias>mg-chloride</alias>
+		</chemical>
+		<chemical name="magnesium sulfate" units="M" formula="MgSO4" density="" solubility="34.6" pka1="" pka2="" pka3="" def_stock_conc="2.5" def_stock_units="M" max_stock_conc="34.6" mw="120.37" ions="Mg;SO4" CAS="7487-88-9" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Mg sulfate</alias>
+			<alias>magnesium sulfate aq.</alias>
+			<alias>magnesium sulphate</alias>
+			<alias>mg-sulfate</alias>
+			<alias>mgso4</alias>
+		</chemical>
+		<chemical name="MES" units="M" formula="C6H13NO4S" density="" solubility="20" pka1="6.15" pka2="" pka3="" def_stock_conc="0.5" def_stock_units="M" max_stock_conc="20" mw="195.23" ions="" CAS="4432-31-9" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Buffer</class>
+			<class>Ambiguous</class>
+			<class>Additive</class>
+			<alias>2-Morpholinoethanesulfonic acid</alias>
+			<alias>MES monohydrate</alias>
+		</chemical>
+		<chemical name="potassium sodium tartrate" units="M" formula="C4H4KNaO6" density="" solubility="47.4" pka1="3.02" pka2="4.54" pka3="" def_stock_conc="2" def_stock_units="M" max_stock_conc="47.4" mw="210.16" ions="K,Na;C4H4O6" CAS="304-59-6" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>K,Na-tartrate</alias>
+			<alias>K,na tartrate</alias>
+			<alias>K- na tartrate</alias>
+			<alias>K-,Na-tartrate</alias>
+			<alias>K-Na-tartrate</alias>
+			<alias>K/na tartrate</alias>
+			<alias>NaK-Tartrate</alias>
+			<alias>Potassium / Sodium Tartrate</alias>
+			<alias>Potassium sodium tartrate</alias>
+			<alias>Rochelle Salt</alias>
+			<alias>Seignette salt</alias>
+			<alias>Sodium-Potassium Tartrate</alias>
+			<alias>Sodium/Potassium tartrate</alias>
+			<alias>na-K-tartrate</alias>
+			<alias>na/K tartrate</alias>
+			<alias>nak tartrate</alias>
+			<alias>potassium/sodium tartrate</alias>
+			<alias>sodium / potassium tartrate</alias>
+			<alias>sodium potassium tartrate</alias>
+		</chemical>
+		<chemical name="sodium acetate" units="M" formula="NaC2H3O2" density="" solubility="46.5" pka1="4.76" pka2="" pka3="" def_stock_conc="3.5" def_stock_units="M" max_stock_conc="37" mw="82.03" ions="Na;CH3CO2" CAS="127-09-3" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Ambiguous</class>
+			<alias>NaAc/acetic acid</alias>
+			<alias>Sodium  Acetate</alias>
+			<alias>acetate</alias>
+			<alias>na acetate</alias>
+			<alias>na-acetate</alias>
+			<alias>naac</alias>
+			<alias>naoac</alias>
+		</chemical>
+		<chemical name="sodium chloride" units="M" formula="NaCl" density="" solubility="35.7" pka1="" pka2="" pka3="" def_stock_conc="5" def_stock_units="M" max_stock_conc="35.7" mw="58.44" ions="Na;Cl" CAS="7647-14-5" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Na chloride</alias>
+			<alias>Sodium  Chloride</alias>
+			<alias>Sodium Chloride</alias>
+			<alias>na-chloride</alias>
+			<alias>nacl</alias>
+			<alias>salt</alias>
+		</chemical>
+		<chemical name="sodium formate" units="M" formula="NaCHO2" density="" solubility="97.02" pka1="3.75" pka2="" pka3="" def_stock_conc="7" def_stock_units="M" max_stock_conc="97.02" mw="68.01" ions="Na;CHO2" CAS="141-53-7" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Na-formiate</alias>
+			<alias>NaFo</alias>
+			<alias>na formate</alias>
+			<alias>na-formate</alias>
+		</chemical>
+		<chemical name="tris" units="M" formula="C4H11NO3" density="" solubility="55" pka1="8.1" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="55" mw="121.14" ions="" CAS="77-86-1" CMC="" SMILES="">
+			<class>Buffer</class>
+			<class>Ambiguous</class>
+			<alias>Trizma</alias>
+		</chemical>
+		<chemical name="trisodium citrate" units="M" formula="Na3C6H5O7" density="" solubility="63" pka1="3.13" pka2="4.74" pka3="6.4" def_stock_conc="1.6" def_stock_units="M" max_stock_conc="63" mw="258.06" ions="3Na;C6H5O7" CAS="68-04-2" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Sodium citrate tribasic</alias>
+			<alias>Sodium citrate tribasic (H2O)2</alias>
+			<alias>Tri-Na-Citrate</alias>
+			<alias>na3 citrate</alias>
+			<alias>na3-citrate</alias>
+			<alias>na3citrate</alias>
+			<alias>sodium citrate, tribasic</alias>
+			<alias>tri-na citrate</alias>
+			<alias>tri-sodium citrate</alias>
+			<alias>trisodium citrate</alias>
+		</chemical>
+	</chemicals>
+	<screen name="JBScreen Membrane 4" username="Jena Bioscience" design_date="2017-09-06 10:45:18" res_vol="0">
+		<format name="Screen24Well" rows="4" cols="6" subs="0" max_res_vol="" def_res_vol="" max_drop_vol="" def_drop_vol=""/>
+		<comments/>
+		<well number="1" label="A1">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="12" units="w/v" ph=""/>
+			<item name="sodium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+		</well>
+		<well number="2" label="A2">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="4" units="w/v" ph=""/>
+			<item name="trisodium citrate" class="Buffer" conc="0.1" units="M" ph="5.6"/>
+			<item name="magnesium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+		</well>
+		<well number="3" label="A3">
+			<item name="ADA" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="12" units="w/v" ph=""/>
+		</well>
+		<well number="4" label="A4">
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="12" units="w/v" ph=""/>
+			<item name="trisodium citrate" class="Salt" conc="0.1" units="M" ph=""/>
+		</well>
+		<well number="5" label="A5">
+			<item name="tris" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="lithium sulfate" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="12" units="w/v" ph=""/>
+		</well>
+		<well number="6" label="A6">
+			<item name="trisodium citrate" class="Salt" conc="1" units="M" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+		</well>
+		<well number="7" label="B1">
+			<item name="lithium sulfate" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="tris" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+		</well>
+		<well number="8" label="B2">
+			<item name="sodium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="trisodium citrate" class="Buffer" conc="0.1" units="M" ph="5.6"/>
+		</well>
+		<well number="9" label="B3">
+			<item name="sodium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="tris" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+		</well>
+		<well number="10" label="B4">
+			<item name="lithium sulfate" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+			<item name="ammonium dihydrogen phosphate" class="Salt" conc="1" units="M" ph=""/>
+		</well>
+		<well number="11" label="B5">
+			<item name="trisodium citrate" class="Buffer" conc="0.1" units="M" ph="5.6"/>
+			<item name="ammonium dihydrogen phosphate" class="Salt" conc="1" units="M" ph=""/>
+		</well>
+		<well number="12" label="B6">
+			<item name="ammonium dihydrogen phosphate" class="Salt" conc="1" units="M" ph=""/>
+			<item name="ADA" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+		</well>
+		<well number="13" label="C1">
+			<item name="tris" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+			<item name="ammonium dihydrogen phosphate" class="Salt" conc="2" units="M" ph=""/>
+		</well>
+		<well number="14" label="C2">
+			<item name="magnesium sulfate" class="Salt" conc="1" units="M" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+		</well>
+		<well number="15" label="C3">
+			<item name="trisodium citrate" class="Buffer" conc="0.1" units="M" ph="5.6"/>
+			<item name="magnesium sulfate" class="Salt" conc="1" units="M" ph=""/>
+		</well>
+		<well number="16" label="C4">
+			<item name="magnesium sulfate" class="Salt" conc="1" units="M" ph=""/>
+			<item name="lithium sulfate" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="ADA" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+		</well>
+		<well number="17" label="C5">
+			<item name="tris" class="Buffer" conc="0.05" units="M" ph="7.5"/>
+			<item name="magnesium sulfate" class="Salt" conc="0.4" units="M" ph=""/>
+		</well>
+		<well number="18" label="C6">
+			<item name="potassium sodium tartrate" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="magnesium sulfate" class="Salt" conc="0.4" units="M" ph=""/>
+			<item name="tris" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+		</well>
+		<well number="19" label="D1">
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+			<item name="potassium sodium tartrate" class="Salt" conc="1" units="M" ph=""/>
+		</well>
+		<well number="20" label="D2">
+			<item name="lithium sulfate" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="potassium sodium tartrate" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+		</well>
+		<well number="21" label="D3">
+			<item name="sodium formate" class="Salt" conc="4" units="M" ph=""/>
+		</well>
+		<well number="22" label="D4">
+			<item name="sodium formate" class="Salt" conc="2" units="M" ph="4.6"/>
+		</well>
+		<well number="23" label="D5">
+			<item name="sodium acetate" class="Salt" conc="1.4" units="M" ph=""/>
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+		</well>
+		<well number="24" label="D6">
+			<item name="sodium acetate" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="tris" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+		</well>
+	</screen>
+</crystaltrak>

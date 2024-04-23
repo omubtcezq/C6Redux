@@ -1,0 +1,576 @@
+<crystaltrak datatype="screen" version="2.3.43">
+	<chemicals>
+		<chemical name="2-methyl-2,4-pentanediol" units="v/v" formula="CH3CH(OH)CH2C(OH)(CH3)2" density="0.9254" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="93" mw="188.18" ions="" CAS="107-41-5" CMC="" SMILES="">
+			<class>Organic</class>
+			<class>Additive</class>
+			<alias>(+/-)-2-Methyl-2,4-pentanediol</alias>
+			<alias>2-Methyl-2 4-pentanediol</alias>
+			<alias>2-Methyl-2,4-pentandiol</alias>
+			<alias>2-methyl-2-4-pentanediol</alias>
+			<alias>MPD</alias>
+			<alias>goop</alias>
+		</chemical>
+		<chemical name="2-propanol" units="v/v" formula="CH3CH(OH)CH3" density="0.7855" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="78.5" mw="60.11" ions="" CAS="67-63-0" CMC="" SMILES="">
+			<class>Organic</class>
+			<alias>IPA</alias>
+			<alias>iso-propanol</alias>
+			<alias>isopropanol</alias>
+			<alias>isopropyl alcohol</alias>
+			<alias>propan-2-ol</alias>
+			<alias>propanol</alias>
+		</chemical>
+		<chemical name="acetone" units="v/v" formula="C3H6O" density="0.791" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="79.1" mw="58.08" ions="" CAS="67-64-1" CMC="" SMILES="">
+			<class>Organic</class>
+		</chemical>
+		<chemical name="ammonium chloride" units="M" formula="NH4Cl" density="" solubility="29.7" pka1="" pka2="" pka3="" def_stock_conc="5" def_stock_units="M" max_stock_conc="23.8" mw="53.49" ions="NH4;Cl" CAS="12125-02-9" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>AmCl</alias>
+			<alias>Ammoniumchlorid</alias>
+			<alias>Salmiac</alias>
+			<alias>sal ammoniac</alias>
+			<alias>smelling salts</alias>
+		</chemical>
+		<chemical name="ammonium sulfate" units="M" formula="(NH4)2SO4" density="" solubility="55.5" pka1="" pka2="" pka3="" def_stock_conc="4" def_stock_units="M" max_stock_conc="57" mw="132.14" ions="2NH4;SO4" CAS="7783-20-2" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>(NH4)2 sulfate</alias>
+			<alias>A.S.</alias>
+			<alias>AS</alias>
+			<alias>AmS</alias>
+			<alias>AmSO4</alias>
+			<alias>AmmSulph</alias>
+			<alias>Ammoniumsulfate</alias>
+			<alias>NH4-sulfate</alias>
+			<alias>am-sulfate</alias>
+			<alias>ammoniium sulphate</alias>
+			<alias>ammonium sulphate</alias>
+			<alias>ammso4</alias>
+			<alias>di-Ammonium sulfate</alias>
+			<alias>spirit of hartshorn vitriolate</alias>
+		</chemical>
+		<chemical name="barium chloride" units="M" formula="BaCl2" density="" solubility="37.5" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="30" mw="208.25" ions="Ba;2Cl" CAS="10361-37-2" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Additive</class>
+		</chemical>
+		<chemical name="cadmium chloride" units="M" formula="CdCl2" density="" solubility="140" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="112" mw="183.32" ions="Cd;2Cl" CAS="10108-64-2" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Cadmium chloride hydrate</alias>
+			<alias>Cadmiumchlorid</alias>
+			<alias>Cd-chloride</alias>
+			<alias>cd chloride</alias>
+			<alias>cdcl2</alias>
+		</chemical>
+		<chemical name="calcium chloride" units="M" formula="CaCl2" density="" solubility="74.5" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="75.5" mw="110.98" ions="Ca;2Cl" CAS="10043-52-4" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Calcium  Chloride</alias>
+			<alias>Calcium chloride dihydrate</alias>
+			<alias>ca chloride</alias>
+			<alias>ca-chloride</alias>
+			<alias>cacl2</alias>
+		</chemical>
+		<chemical name="cobalt chloride" units="M" formula="CoCl2" density="" solubility="45" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="45" mw="129.84" ions="Co;2Cl" CAS="7646-79-9" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Co-chloride</alias>
+			<alias>Cobalt(II) chloride hexahydrate</alias>
+			<alias>Cobalt(II)-chloride</alias>
+			<alias>cobalt (II) chloride</alias>
+			<alias>cobalt(II) chloride</alias>
+			<alias>cobaltous chloride</alias>
+			<alias>cocl2</alias>
+		</chemical>
+		<chemical name="dioxane" units="v/v" formula="C4H8O2" density="1.034" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="103" mw="88.12" ions="" CAS="123-91-1" CMC="" SMILES="">
+			<class>Organic</class>
+			<alias>1,4 dioxane</alias>
+			<alias>1,4-Dioxane</alias>
+			<alias>1.4-dioxane</alias>
+			<alias>Dioxan</alias>
+			<alias>diethylene oxide</alias>
+		</chemical>
+		<chemical name="ethanol" units="v/v" formula="C2H5OH" density="0.7893" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="78.9" mw="46.07" ions="" CAS="64-17-5" CMC="" SMILES="">
+			<class>Organic</class>
+			<class>Additive</class>
+			<alias>EtOH</alias>
+			<alias>booze</alias>
+			<alias>ethyl alcohol</alias>
+		</chemical>
+		<chemical name="HEPES" units="M" formula="C8H18N2O4S" density="" solubility="40" pka1="7.5" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="40" mw="238.31" ions="" CAS="7365-45-9" CMC="" SMILES="">
+			<class>Buffer</class>
+			<class>Ambiguous</class>
+			<alias>4-(2-Hydroxyethyl)piperazine-1-ethanesulfonic acid</alias>
+			<alias>4-(2-hydroxyethyl)-1-piperazineethanesulfonic acid</alias>
+		</chemical>
+		<chemical name="hexammine cobalt(III) chloride" units="M" formula="Cl3CoH18N6" density="" solubility="2" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="27" mw="267.5" ions="Co(NH3)6;3Cl" CAS="10534-89-1" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Cobalt hexammine trichloride</alias>
+			<alias>Cobalt(III)-hexamine</alias>
+			<alias>Cobalt(III)hexamin</alias>
+			<alias>Cobalt(III)hexamine</alias>
+			<alias>Cobalthexamine chloride</alias>
+			<alias>Hexaamminecobalt trichloride</alias>
+			<alias>Hexammine cobalt(III) chloride</alias>
+			<alias>Hexamminecobalt(III) chloride</alias>
+			<alias>Kobalt(III)hexamin</alias>
+			<alias>cobalt (III) hexamine</alias>
+			<alias>cobalt (III) hexamine chloride</alias>
+			<alias>cobalt hexamine</alias>
+			<alias>hexaaminecobalt (III) chloride</alias>
+			<alias>hexaammincobalt(III) chloride</alias>
+			<alias>hexamine cobalt (III) chloride</alias>
+			<alias>hexaminecobalt trichloride</alias>
+			<alias>hexammine cobalt (III) chloride</alias>
+		</chemical>
+		<chemical name="L-argininamide dihydrochloride" units="M" formula="C6H15N5O 2HCl" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="0.2" def_stock_units="M" max_stock_conc="" mw="246.14" ions="" CAS="14975-30-5" CMC="" SMILES="">
+			<class>Additive</class>
+			<alias>L argininamide dihydrochloride</alias>
+			<alias>L-argininamide hydrochloride</alias>
+			<alias>argininamid</alias>
+			<alias>argininamide</alias>
+			<alias>argininamide hydrochloride</alias>
+		</chemical>
+		<chemical name="lithium chloride" units="M" formula="LiCl" density="" solubility="63.7" pka1="" pka2="" pka3="" def_stock_conc="10" def_stock_units="M" max_stock_conc="63.7" mw="42.39" ions="Li;Cl" CAS="7447-41-8" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Li Chloride</alias>
+			<alias>licl</alias>
+		</chemical>
+		<chemical name="magnesium chloride" units="M" formula="MgCl2" density="" solubility="54.3" pka1="" pka2="" pka3="" def_stock_conc="5" def_stock_units="M" max_stock_conc="54.3" mw="95.22" ions="Mg;2Cl" CAS="7786-30-3" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Magnesium  Chloride</alias>
+			<alias>Magnesium Chloride</alias>
+			<alias>Magnesium chloride hexahydrate</alias>
+			<alias>Mg Chloride</alias>
+			<alias>MgCl2</alias>
+			<alias>mg-chloride</alias>
+		</chemical>
+		<chemical name="manganese(II) chloride" units="M" formula="MnCl2" density="" solubility="151" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="151" mw="124.84" ions="Mn;2Cl" CAS="7773-01-5" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Manganese chloride</alias>
+			<alias>Manganese(II) chloride tetrahydrate</alias>
+			<alias>mangan (II) chloride</alias>
+			<alias>mncl2</alias>
+		</chemical>
+		<chemical name="polyethylene glycol 1000" units="w/v" formula="HO-(CH2-CH2-O)n-H" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="50" mw="1000" ions="" CAS="25322-68-3" CMC="" SMILES="">
+			<class>Polymer</class>
+			<alias>PEG 1000</alias>
+			<alias>PEG 1K</alias>
+			<alias>PEG-1000</alias>
+			<alias>PEG1k</alias>
+			<alias>Polyethylene glycol 1,000</alias>
+		</chemical>
+		<chemical name="polyethylene glycol 400" units="v/v" formula="HO-(CH2-CH2-O)n-H" density="1.126" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="113" mw="400" ions="" CAS="25322-68-3" CMC="" SMILES="">
+			<class>Polymer</class>
+			<alias>PEG 400</alias>
+			<alias>PEG-400</alias>
+		</chemical>
+		<chemical name="polyethylene glycol 4000" units="w/v" formula="HO-(CH2-CH2-O)n-H" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="50" mw="4000" ions="" CAS="25322-68-3" CMC="" SMILES="">
+			<class>Polymer</class>
+			<alias>PEG 4,000</alias>
+			<alias>PEG 4000</alias>
+			<alias>PEG 4K</alias>
+			<alias>PEG-4000</alias>
+			<alias>PEG4K</alias>
+			<alias>polyethylene glycol 4,000</alias>
+			<alias>polyethylene glycol 4K</alias>
+		</chemical>
+		<chemical name="polyethylene glycol 600" units="w/v" formula="HO-(CH2-CH2-O)n-H" density="1.12" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="112" mw="600" ions="" CAS="25322-68-3" CMC="" SMILES="">
+			<class>Polymer</class>
+			<alias>PEG 600</alias>
+			<alias>PEG-600</alias>
+		</chemical>
+		<chemical name="polyethylene glycol 8000" units="w/v" formula="HO-(CH2-CH2-O)n-H" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="50" mw="8000" ions="" CAS="25322-68-3" CMC="" SMILES="">
+			<class>Polymer</class>
+			<class>Additive</class>
+			<alias>PEG 8,000</alias>
+			<alias>PEG 8000</alias>
+			<alias>PEG 8K</alias>
+			<alias>PEG-8000</alias>
+			<alias>PEG8K</alias>
+			<alias>polyethylene glycol 8,000</alias>
+			<alias>polyethylene glycol 8K</alias>
+		</chemical>
+		<chemical name="potassium chloride" units="M" formula="KCl" density="" solubility="34.7" pka1="" pka2="" pka3="" def_stock_conc="4" def_stock_units="M" max_stock_conc="34.7" mw="74.56" ions="K;Cl" CAS="7447-40-7" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>k chloride</alias>
+			<alias>k-chloride</alias>
+			<alias>kcl</alias>
+		</chemical>
+		<chemical name="putrescine dihydrochloride" units="M" formula="C4H12N2" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="mM" max_stock_conc="" mw="161.07" ions="" CAS="333-93-7" CMC="" SMILES="">
+			<class>Additive</class>
+			<alias>1,4 diaminobutane, 2hcl</alias>
+			<alias>1,4-Diaminobutane dihydrochloride</alias>
+			<alias>1,4-butanediamine dihydrochloride</alias>
+			<alias>1,4-diaminebutane dihydrochloride</alias>
+			<alias>1,4-diaminobutane, 2HCl</alias>
+			<alias>Tetramethylenediamine dihydrochloride</alias>
+			<alias>putrescine hydrochloride</alias>
+		</chemical>
+		<chemical name="ruthenium chloride" units="M" formula="RuCl3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="" mw="207.43" ions="Ru;3Cl" CAS="10049-08-8" CMC="" SMILES="">
+			<class>Additive</class>
+			<alias>Ruthenium(III)-chloride</alias>
+		</chemical>
+		<chemical name="samarium chloride" units="M" formula="SmCl3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="" mw="256.72" ions="Sm;3Cl" CAS="10361-82-7" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Samarium (III) chloride</alias>
+			<alias>Samarium(III) chloride</alias>
+			<alias>Samarium(III) chloride hexahydrate</alias>
+			<alias>Samarium(III)-chloride</alias>
+		</chemical>
+		<chemical name="sodium acetate" units="M" formula="NaC2H3O2" density="" solubility="46.5" pka1="4.76" pka2="" pka3="" def_stock_conc="3.5" def_stock_units="M" max_stock_conc="37" mw="82.03" ions="Na;CH3CO2" CAS="127-09-3" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Ambiguous</class>
+			<alias>NaAc/acetic acid</alias>
+			<alias>Sodium  Acetate</alias>
+			<alias>acetate</alias>
+			<alias>na acetate</alias>
+			<alias>na-acetate</alias>
+			<alias>naac</alias>
+			<alias>naoac</alias>
+		</chemical>
+		<chemical name="sodium cacodylate" units="M" formula="Na[(CH3)2AsO2]" density="" solubility="148.6" pka1="6.27" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="148.6" mw="159.98" ions="Na;(CH3)2AsO2" CAS="124-65-2" CMC="" SMILES="">
+			<class>Buffer</class>
+			<alias>Na Cacodylate/HCl</alias>
+			<alias>Na-cacodylate</alias>
+			<alias>cacodylate</alias>
+			<alias>na cacodylate</alias>
+			<alias>sodium dimethyl arsonide</alias>
+		</chemical>
+		<chemical name="sodium chloride" units="M" formula="NaCl" density="" solubility="35.7" pka1="" pka2="" pka3="" def_stock_conc="5" def_stock_units="M" max_stock_conc="35.7" mw="58.44" ions="Na;Cl" CAS="7647-14-5" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Na chloride</alias>
+			<alias>Sodium  Chloride</alias>
+			<alias>Sodium Chloride</alias>
+			<alias>na-chloride</alias>
+			<alias>nacl</alias>
+			<alias>salt</alias>
+		</chemical>
+		<chemical name="spermidine trihydrochloride" units="M" formula="C7H19N3 3HCl" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="254.63" ions="" CAS="334-50-9" CMC="" SMILES="">
+			<class>Additive</class>
+			<alias>4-azoniaoctamethylenediammonium trichloride</alias>
+			<alias>N-(3-AMINOPROPYL)-1 4-BUTANEDIAMINE HYDROCHLORIDE</alias>
+			<alias>N-(3-Aminopropyl)-1,4-butanediamine trihydrochloride</alias>
+			<alias>N-(3-Aminopropyl)-1,4-diamino-butane trihydrochloride</alias>
+			<alias>spermadine, 3 hcl</alias>
+			<alias>spermidine hydrochloride</alias>
+			<alias>spermidine, 3HCl</alias>
+		</chemical>
+		<chemical name="spermine tetrahydrochloride" units="M" formula="C10H26N4   4HCl" density="" solubility="10" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="10" mw="348.18" ions="" CAS="306-67-2" CMC="" SMILES="">
+			<class>Organic</class>
+			<class>Additive</class>
+			<alias>1,4-Bis(aminopropyl)butanediamine Tetrahydrochloride</alias>
+			<alias>Gerontine Tetrahydrochloride</alias>
+			<alias>Musculamine tetrahydrochloride</alias>
+			<alias>Neuridine tetrahydrochloride</alias>
+			<alias>spermine hydrochloride</alias>
+			<alias>spermine tetra-hcl</alias>
+			<alias>spermine, 4 hcl</alias>
+		</chemical>
+		<chemical name="tert-butanol" units="v/v" formula="C4H10O" density="0.79" solubility="79" pka1="" pka2="" pka3="" def_stock_conc="80" def_stock_units="v/v" max_stock_conc="79" mw="74.12" ions="" CAS="75-65-0" CMC="" SMILES="">
+			<class>Organic</class>
+			<alias>2-Methyl-2-propanol</alias>
+			<alias>Trimethyl carbinol</alias>
+			<alias>t-butanol</alias>
+			<alias>tert butanol</alias>
+			<alias>tert-Butyl alcohol</alias>
+			<alias>tert.-Butanol</alias>
+		</chemical>
+		<chemical name="tris" units="M" formula="C4H11NO3" density="" solubility="55" pka1="8.1" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="55" mw="121.14" ions="" CAS="77-86-1" CMC="" SMILES="">
+			<class>Buffer</class>
+			<class>Ambiguous</class>
+			<alias>Trizma</alias>
+		</chemical>
+		<chemical name="zinc chloride" units="M" formula="ZnCl2" density="" solubility="432" pka1="" pka2="" pka3="" def_stock_conc="2" def_stock_units="M" max_stock_conc="432" mw="136.28" ions="Zn;2Cl" CAS="7646-85-7" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>zn chloride</alias>
+		</chemical>
+	</chemicals>
+	<screen name="RNA Kit" username="Sigma" design_date="2007-06-19 16:31:51" res_vol="0">
+		<format name="Generic 96 Well" rows="8" cols="12" subs="1" max_res_vol="1" def_res_vol="1" max_drop_vol="1" def_drop_vol="1"/>
+		<comments>This is Sigma product  18839</comments>
+		<well number="1" label="A1">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="35" units="v/v" ph=""/>
+			<item name="magnesium chloride" class="Salt" conc="0.005" units="M" ph=""/>
+			<item name="sodium cacodylate" class="Buffer" conc="0.05" units="M" ph="6.5"/>
+			<item name="sodium chloride" class="Salt" conc="0.02" units="M" ph=""/>
+			<item name="spermine tetrahydrochloride" class="Organic" conc="0.002" units="M" ph=""/>
+		</well>
+		<well number="2" label="A2">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="35" units="v/v" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.05" units="M" ph="7"/>
+			<item name="magnesium chloride" class="Salt" conc="0.005" units="M" ph=""/>
+		</well>
+		<well number="3" label="A3">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="30" units="v/v" ph=""/>
+			<item name="potassium chloride" class="Salt" conc="0.02" units="M" ph=""/>
+			<item name="spermine tetrahydrochloride" class="Organic" conc="0.002" units="M" ph=""/>
+			<item name="tris" class="Buffer" conc="0.05" units="M" ph="7.5"/>
+		</well>
+		<well number="4" label="A4">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="35" units="v/v" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.05" units="M" ph="7"/>
+			<item name="potassium chloride" class="Salt" conc="0.02" units="M" ph=""/>
+			<item name="manganese(II) chloride" class="Salt" conc="0.005" units="M" ph=""/>
+		</well>
+		<well number="5" label="A5">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="30" units="v/v" ph=""/>
+			<item name="ammonium chloride" class="Salt" conc="0.02" units="M" ph=""/>
+			<item name="barium chloride" class="Salt" conc="0.001" units="M" ph=""/>
+			<item name="sodium cacodylate" class="Buffer" conc="0.05" units="M" ph="6.5"/>
+		</well>
+		<well number="6" label="A6">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="35" units="v/v" ph=""/>
+			<item name="cadmium chloride" class="Salt" conc="0.001" units="M" ph=""/>
+			<item name="sodium cacodylate" class="Buffer" conc="0.05" units="M" ph="6.5"/>
+			<item name="sodium chloride" class="Salt" conc="0.02" units="M" ph=""/>
+		</well>
+		<well number="7" label="A7">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="30" units="v/v" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.05" units="M" ph="7"/>
+			<item name="sodium chloride" class="Salt" conc="0.02" units="M" ph=""/>
+			<item name="zinc chloride" class="Salt" conc="0.005" units="M" ph=""/>
+		</well>
+		<well number="8" label="A8">
+			<item name="2-propanol" class="Organic" conc="15" units="v/v" ph=""/>
+			<item name="sodium cacodylate" class="Buffer" conc="0.05" units="M" ph="6.5"/>
+		</well>
+		<well number="9" label="A9">
+			<item name="2-propanol" class="Organic" conc="15" units="v/v" ph=""/>
+			<item name="magnesium chloride" class="Salt" conc="0.005" units="M" ph=""/>
+			<item name="sodium chloride" class="Salt" conc="0.02" units="M" ph=""/>
+		</well>
+		<well number="10" label="A10">
+			<item name="2-propanol" class="Organic" conc="15" units="v/v" ph=""/>
+			<item name="cadmium chloride" class="Salt" conc="0.005" units="M" ph=""/>
+			<item name="spermine tetrahydrochloride" class="Organic" conc="0.002" units="M" ph=""/>
+			<item name="tris" class="Buffer" conc="0.05" units="M" ph="7.5"/>
+		</well>
+		<well number="11" label="A11">
+			<item name="ammonium chloride" class="Salt" conc="0.02" units="M" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.05" units="M" ph="7"/>
+			<item name="polyethylene glycol 400" class="Polymer" conc="30" units="v/v" ph=""/>
+		</well>
+		<well number="12" label="A12">
+			<item name="magnesium chloride" class="Salt" conc="0.005" units="M" ph=""/>
+			<item name="polyethylene glycol 400" class="Polymer" conc="35" units="v/v" ph=""/>
+			<item name="sodium cacodylate" class="Buffer" conc="0.05" units="M" ph="6.5"/>
+			<item name="sodium chloride" class="Salt" conc="0.02" units="M" ph=""/>
+			<item name="spermine tetrahydrochloride" class="Organic" conc="0.002" units="M" ph=""/>
+		</well>
+		<well number="13" label="B1">
+			<item name="magnesium chloride" class="Salt" conc="0.005" units="M" ph=""/>
+			<item name="polyethylene glycol 400" class="Polymer" conc="35" units="v/v" ph=""/>
+			<item name="sodium chloride" class="Salt" conc="0.02" units="M" ph=""/>
+			<item name="tris" class="Buffer" conc="0.05" units="M" ph="7.5"/>
+		</well>
+		<well number="14" label="B2">
+			<item name="cadmium chloride" class="Salt" conc="0.001" units="M" ph=""/>
+			<item name="polyethylene glycol 400" class="Polymer" conc="35" units="v/v" ph=""/>
+			<item name="potassium chloride" class="Salt" conc="0.02" units="M" ph=""/>
+			<item name="sodium cacodylate" class="Buffer" conc="0.05" units="M" ph="6.5"/>
+		</well>
+		<well number="15" label="B3">
+			<item name="ammonium chloride" class="Salt" conc="0.02" units="M" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.05" units="M" ph="7"/>
+			<item name="magnesium chloride" class="Salt" conc="0.005" units="M" ph=""/>
+			<item name="polyethylene glycol 600" class="Polymer" conc="35" units="w/v" ph=""/>
+		</well>
+		<well number="16" label="B4">
+			<item name="magnesium chloride" class="Salt" conc="0.005" units="M" ph=""/>
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="sodium cacodylate" class="Buffer" conc="0.05" units="M" ph="6.5"/>
+			<item name="sodium chloride" class="Salt" conc="0.02" units="M" ph=""/>
+		</well>
+		<well number="17" label="B5">
+			<item name="magnesium chloride" class="Salt" conc="0.005" units="M" ph=""/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="35" units="w/v" ph=""/>
+			<item name="sodium cacodylate" class="Buffer" conc="0.05" units="M" ph="6.5"/>
+			<item name="spermine tetrahydrochloride" class="Organic" conc="0.005" units="M" ph=""/>
+		</well>
+		<well number="18" label="B6">
+			<item name="sodium chloride" class="Salt" conc="0.02" units="M" ph=""/>
+			<item name="tris" class="Buffer" conc="0.05" units="M" ph="7.5"/>
+			<item name="polyethylene glycol 8000" class="Polymer" conc="35" units="w/v" ph=""/>
+		</well>
+		<well number="19" label="B7">
+			<item name="ammonium sulfate" class="Salt" conc="1.2" units="M" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.05" units="M" ph="7"/>
+			<item name="magnesium chloride" class="Salt" conc="0.005" units="M" ph=""/>
+			<item name="potassium chloride" class="Salt" conc="0.02" units="M" ph=""/>
+		</well>
+		<well number="20" label="B8">
+			<item name="ammonium sulfate" class="Salt" conc="1.2" units="M" ph=""/>
+			<item name="sodium cacodylate" class="Buffer" conc="0.05" units="M" ph="6.5"/>
+			<item name="sodium chloride" class="Salt" conc="0.02" units="M" ph=""/>
+		</well>
+		<well number="21" label="B9">
+			<item name="magnesium chloride" class="Salt" conc="0.005" units="M" ph=""/>
+			<item name="potassium chloride" class="Salt" conc="0.02" units="M" ph=""/>
+			<item name="sodium acetate" class="Salt" conc="1.2" units="M" ph=""/>
+			<item name="sodium cacodylate" class="Buffer" conc="0.05" units="M" ph="6.5"/>
+		</well>
+		<well number="22" label="B10">
+			<item name="barium chloride" class="Salt" conc="0.001" units="M" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.05" units="M" ph="7"/>
+			<item name="sodium acetate" class="Salt" conc="1.2" units="M" ph=""/>
+		</well>
+		<well number="23" label="B11">
+			<item name="HEPES" class="Buffer" conc="0.05" units="M" ph="7"/>
+			<item name="sodium chloride" class="Salt" conc="0.02" units="M" ph=""/>
+			<item name="tert-butanol" class="Organic" conc="40" units="w/v" ph=""/>
+		</well>
+		<well number="24" label="B12">
+			<item name="magnesium chloride" class="Salt" conc="0.005" units="M" ph=""/>
+			<item name="spermine tetrahydrochloride" class="Organic" conc="0.002" units="M" ph=""/>
+			<item name="acetone" class="Organic" conc="15" units="v/v" ph=""/>
+		</well>
+		<well number="25" label="C1">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="35" units="v/v" ph=""/>
+			<item name="lithium chloride" class="Salt" conc="0.02" units="M" ph=""/>
+			<item name="magnesium chloride" class="Salt" conc="0.005" units="M" ph=""/>
+			<item name="sodium cacodylate" class="Buffer" conc="0.05" units="M" ph="6.5"/>
+		</well>
+		<well number="26" label="C2">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="30" units="v/v" ph=""/>
+			<item name="sodium cacodylate" class="Buffer" conc="0.05" units="M" ph="6"/>
+			<item name="manganese(II) chloride" class="Salt" conc="0.005" units="M" ph=""/>
+			<item name="samarium chloride" class="Additive" conc="0.001" units="M" ph=""/>
+			<item name="L-argininamide dihydrochloride" class="Additive" conc="0.005" units="M" ph=""/>
+		</well>
+		<well number="27" label="C3">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="30" units="v/v" ph=""/>
+			<item name="sodium chloride" class="Salt" conc="0.02" units="M" ph=""/>
+			<item name="tris" class="Buffer" conc="0.05" units="M" ph="8"/>
+			<item name="zinc chloride" class="Salt" conc="0.005" units="M" ph=""/>
+		</well>
+		<well number="28" label="C4">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="30" units="v/v" ph=""/>
+			<item name="tris" class="Buffer" conc="0.05" units="M" ph="7.5"/>
+			<item name="ruthenium chloride" class="Additive" conc="0.001" units="M" ph=""/>
+		</well>
+		<well number="29" label="C5">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="30" units="v/v" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.05" units="M" ph="7"/>
+			<item name="polyethylene glycol 1000" class="Polymer" conc="10" units="w/v" ph=""/>
+			<item name="hexammine cobalt(III) chloride" class="Salt" conc="0.001" units="M" ph=""/>
+			<item name="L-argininamide dihydrochloride" class="Additive" conc="0.005" units="M" ph=""/>
+		</well>
+		<well number="30" label="C6">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="30" units="v/v" ph=""/>
+			<item name="ammonium chloride" class="Salt" conc="0.02" units="M" ph=""/>
+			<item name="polyethylene glycol 400" class="Polymer" conc="10" units="v/v" ph=""/>
+			<item name="sodium cacodylate" class="Buffer" conc="0.05" units="M" ph="6"/>
+			<item name="putrescine dihydrochloride" class="Additive" conc="0.002" units="M" ph=""/>
+		</well>
+		<well number="31" label="C7">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="30" units="v/v" ph=""/>
+			<item name="2-propanol" class="Organic" conc="5" units="v/v" ph=""/>
+			<item name="magnesium chloride" class="Salt" conc="0.005" units="M" ph=""/>
+			<item name="potassium chloride" class="Salt" conc="0.02" units="M" ph=""/>
+			<item name="tris" class="Buffer" conc="0.05" units="M" ph="8"/>
+		</well>
+		<well number="32" label="C8">
+			<item name="barium chloride" class="Salt" conc="0.001" units="M" ph=""/>
+			<item name="ethanol" class="Organic" conc="20" units="v/v" ph=""/>
+			<item name="sodium cacodylate" class="Buffer" conc="0.05" units="M" ph="6"/>
+		</well>
+		<well number="33" label="C9">
+			<item name="ammonium chloride" class="Salt" conc="0.02" units="M" ph=""/>
+			<item name="ethanol" class="Organic" conc="20" units="v/v" ph=""/>
+			<item name="samarium chloride" class="Additive" conc="0.001" units="M" ph=""/>
+			<item name="tris" class="Buffer" conc="0.05" units="M" ph="8"/>
+		</well>
+		<well number="34" label="C10">
+			<item name="barium chloride" class="Salt" conc="0.001" units="M" ph=""/>
+			<item name="spermidine trihydrochloride" class="Additive" conc="0.002" units="M" ph=""/>
+			<item name="L-argininamide dihydrochloride" class="Additive" conc="0.02" units="M" ph=""/>
+			<item name="sodium cacodylate" class="Buffer" conc="0.05" units="M" ph="6"/>
+			<item name="polyethylene glycol 400" class="Polymer" conc="30" units="v/v" ph=""/>
+		</well>
+		<well number="35" label="C11">
+			<item name="polyethylene glycol 400" class="Polymer" conc="30" units="v/v" ph=""/>
+			<item name="potassium chloride" class="Salt" conc="0.02" units="M" ph=""/>
+			<item name="calcium chloride" class="Salt" conc="0.005" units="M" ph=""/>
+			<item name="sodium cacodylate" class="Buffer" conc="0.05" units="M" ph="6.5"/>
+		</well>
+		<well number="36" label="C12">
+			<item name="HEPES" class="Buffer" conc="0.05" units="M" ph="7"/>
+			<item name="hexammine cobalt(III) chloride" class="Salt" conc="0.001" units="M" ph=""/>
+			<item name="polyethylene glycol 400" class="Polymer" conc="35" units="v/v" ph=""/>
+		</well>
+		<well number="37" label="D1">
+			<item name="polyethylene glycol 400" class="Polymer" conc="35" units="v/v" ph=""/>
+			<item name="ruthenium chloride" class="Additive" conc="0.001" units="M" ph=""/>
+			<item name="tris" class="Buffer" conc="0.05" units="M" ph="8"/>
+			<item name="sodium chloride" class="Salt" conc="0.02" units="M" ph=""/>
+		</well>
+		<well number="38" label="D2">
+			<item name="lithium chloride" class="Salt" conc="0.02" units="M" ph=""/>
+			<item name="cobalt chloride" class="Salt" conc="0.005" units="M" ph=""/>
+			<item name="sodium cacodylate" class="Buffer" conc="0.05" units="M" ph="6.5"/>
+			<item name="polyethylene glycol 600" class="Polymer" conc="35" units="w/v" ph=""/>
+		</well>
+		<well number="39" label="D3">
+			<item name="polyethylene glycol 600" class="Polymer" conc="35" units="w/v" ph=""/>
+			<item name="putrescine dihydrochloride" class="Additive" conc="0.002" units="M" ph=""/>
+			<item name="hexammine cobalt(III) chloride" class="Salt" conc="0.001" units="M" ph=""/>
+		</well>
+		<well number="40" label="D4">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="cadmium chloride" class="Salt" conc="0.001" units="M" ph=""/>
+			<item name="L-argininamide dihydrochloride" class="Additive" conc="0.02" units="M" ph=""/>
+			<item name="sodium cacodylate" class="Buffer" conc="0.05" units="M" ph="6"/>
+		</well>
+		<well number="41" label="D5">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="35" units="w/v" ph=""/>
+			<item name="samarium chloride" class="Additive" conc="0.001" units="M" ph=""/>
+			<item name="barium chloride" class="Salt" conc="0.001" units="M" ph=""/>
+			<item name="sodium cacodylate" class="Buffer" conc="0.05" units="M" ph="6"/>
+		</well>
+		<well number="42" label="D6">
+			<item name="ruthenium chloride" class="Additive" conc="0.001" units="M" ph=""/>
+			<item name="polyethylene glycol 8000" class="Polymer" conc="35" units="w/v" ph=""/>
+			<item name="tris" class="Buffer" conc="0.05" units="M" ph="8"/>
+			<item name="sodium chloride" class="Salt" conc="0.02" units="M" ph=""/>
+		</well>
+		<well number="43" label="D7">
+			<item name="polyethylene glycol 8000" class="Polymer" conc="35" units="w/v" ph=""/>
+			<item name="zinc chloride" class="Salt" conc="0.005" units="M" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.05" units="M" ph="7"/>
+		</well>
+		<well number="44" label="D8">
+			<item name="dioxane" class="Organic" conc="20" units="v/v" ph=""/>
+			<item name="spermidine trihydrochloride" class="Additive" conc="0.002" units="M" ph=""/>
+			<item name="calcium chloride" class="Salt" conc="0.005" units="M" ph=""/>
+			<item name="sodium cacodylate" class="Buffer" conc="0.05" units="M" ph="6.5"/>
+		</well>
+		<well number="45" label="D9">
+			<item name="sodium cacodylate" class="Buffer" conc="0.05" units="M" ph="6"/>
+			<item name="dioxane" class="Organic" conc="20" units="v/v" ph=""/>
+			<item name="lithium chloride" class="Salt" conc="0.02" units="M" ph=""/>
+			<item name="cobalt chloride" class="Salt" conc="0.005" units="M" ph=""/>
+		</well>
+		<well number="46" label="D10">
+			<item name="ammonium chloride" class="Salt" conc="0.02" units="M" ph=""/>
+			<item name="dioxane" class="Organic" conc="20" units="v/v" ph=""/>
+			<item name="tris" class="Buffer" conc="0.05" units="M" ph="7.5"/>
+		</well>
+		<well number="47" label="D11">
+			<item name="spermine tetrahydrochloride" class="Organic" conc="0.002" units="M" ph=""/>
+			<item name="cadmium chloride" class="Salt" conc="0.001" units="M" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.05" units="M" ph="7"/>
+			<item name="tert-butanol" class="Organic" conc="40" units="w/v" ph=""/>
+		</well>
+		<well number="48" label="D12">
+			<item name="tris" class="Buffer" conc="0.05" units="M" ph="7.5"/>
+			<item name="potassium chloride" class="Salt" conc="0.02" units="M" ph=""/>
+			<item name="barium chloride" class="Salt" conc="0.001" units="M" ph=""/>
+			<item name="acetone" class="Organic" conc="15" units="v/v" ph=""/>
+		</well>
+	</screen>
+</crystaltrak>

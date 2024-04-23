@@ -1,0 +1,283 @@
+<crystaltrak datatype="screen" version="2.3.43">
+	<chemicals>
+		<chemical name="aluminium(III) chloride" units="M" formula="AlCl3" density="" solubility="45" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="133.3" ions="Al;3Cl" CAS="7446-70-0" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Aluminium trichloride</alias>
+			<alias>Aluminum Chloride</alias>
+			<alias>Aluminum trichloride</alias>
+			<alias>aluminium (III) chloride</alias>
+			<alias>aluminium chloride</alias>
+		</chemical>
+		<chemical name="ammonium formate" units="M" formula="NH4CHO2" density="" solubility="102" pka1="3.75" pka2="" pka3="" def_stock_conc="10" def_stock_units="M" max_stock_conc="81" mw="63.06" ions="NH4;CHO2" CAS="540-69-2" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>AmFo</alias>
+			<alias>NH4-formate</alias>
+			<alias>am formate</alias>
+			<alias>am-formate</alias>
+		</chemical>
+		<chemical name="ammonium sulfate" units="M" formula="(NH4)2SO4" density="" solubility="55.5" pka1="" pka2="" pka3="" def_stock_conc="4" def_stock_units="M" max_stock_conc="57" mw="132.14" ions="2NH4;SO4" CAS="7783-20-2" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>(NH4)2 sulfate</alias>
+			<alias>A.S.</alias>
+			<alias>AS</alias>
+			<alias>AmS</alias>
+			<alias>AmSO4</alias>
+			<alias>AmmSulph</alias>
+			<alias>Ammoniumsulfate</alias>
+			<alias>NH4-sulfate</alias>
+			<alias>am-sulfate</alias>
+			<alias>ammoniium sulphate</alias>
+			<alias>ammonium sulphate</alias>
+			<alias>ammso4</alias>
+			<alias>di-Ammonium sulfate</alias>
+			<alias>spirit of hartshorn vitriolate</alias>
+		</chemical>
+		<chemical name="betaine" units="M" formula="(CH3)3NCH2COO" density="" solubility="64" pka1="1.84" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="51" mw="117.15" ions="" CAS="107-43-7" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Betaine anhydrous</alias>
+			<alias>Oxyneurine</alias>
+			<alias>Trimethylaminoacetate</alias>
+			<alias>Trimethylaminoacetic acid</alias>
+			<alias>Trimethylglycine</alias>
+			<alias>betain</alias>
+		</chemical>
+		<chemical name="calcium chloride" units="M" formula="CaCl2" density="" solubility="74.5" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="75.5" mw="110.98" ions="Ca;2Cl" CAS="10043-52-4" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Calcium  Chloride</alias>
+			<alias>Calcium chloride dihydrate</alias>
+			<alias>ca chloride</alias>
+			<alias>ca-chloride</alias>
+			<alias>cacl2</alias>
+		</chemical>
+		<chemical name="diammonium hydrogen phosphate" units="M" formula="(NH4)2HPO4" density="" solubility="57.5" pka1="2.1" pka2="7.2" pka3="12.3" def_stock_conc="3.5" def_stock_units="M" max_stock_conc="57.5" mw="132.05" ions="H,2NH4;PO4" CAS="7783-28-0" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>am2hpo4</alias>
+			<alias>ammonium monohydrogen phosphate</alias>
+			<alias>ammonium phosphate (dibasic)</alias>
+			<alias>ammonium phosphate dibasic</alias>
+			<alias>ammonium phosphate, dibasic</alias>
+			<alias>di-ammonium phosphate</alias>
+			<alias>diammonium hydrogen phosphate</alias>
+		</chemical>
+		<chemical name="ectoine" units="M" formula="C6H10N2O2" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="" mw="142.16" ions="" CAS="96702-03-3" CMC="" SMILES="">
+			<class>Additive</class>
+			<alias>(4S)-2-methyl-1,4,5,6-tetrahydropyrimidine-4-carboxylic acid</alias>
+			<alias>1,4,5,6-Tetrahydro-2-methyl-4-pyrimidinecarboxylic acid</alias>
+			<alias>L-Ectoine</alias>
+		</chemical>
+		<chemical name="erythritol" units="M" formula="C4H10O4" density="" solubility="37" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="30" mw="122.12" ions="" CAS="149-32-6" CMC="" SMILES="">
+			<class>Additive</class>
+			<alias>Erythrol</alias>
+			<alias>Mesoerythritol</alias>
+			<alias>Phycitol</alias>
+			<alias>dl-Threitol</alias>
+			<alias>meso-Erythritol</alias>
+		</chemical>
+		<chemical name="glycerol" units="v/v" formula="C3H8O3" density="1.26" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="126" mw="92.09" ions="" CAS="56-81-5" CMC="" SMILES="">
+			<class>Organic</class>
+			<class>Additive</class>
+			<alias>1,2,3 propanetriol</alias>
+			<alias>Gycerol</alias>
+			<alias>glycerin</alias>
+			<alias>glyerol</alias>
+		</chemical>
+		<chemical name="glycine" units="M" formula="NH2CH2COOH" density="" solubility="10" pka1="2.34" pka2="9.6" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="10" mw="75.07" ions="" CAS="56-40-6" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Bullet</class>
+			<class>Buffer</class>
+			<class>Additive</class>
+			<alias>2-aminoacetic acid</alias>
+			<alias>Aminoacetic acid</alias>
+			<alias>Aminoethanoic acid</alias>
+			<alias>Gly</alias>
+			<alias>Glycine/NaOH</alias>
+			<alias>glycine-sodium hydroxide</alias>
+		</chemical>
+		<chemical name="lithium chloride" units="M" formula="LiCl" density="" solubility="63.7" pka1="" pka2="" pka3="" def_stock_conc="10" def_stock_units="M" max_stock_conc="63.7" mw="42.39" ions="Li;Cl" CAS="7447-41-8" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Li Chloride</alias>
+			<alias>licl</alias>
+		</chemical>
+		<chemical name="magnesium chloride" units="M" formula="MgCl2" density="" solubility="54.3" pka1="" pka2="" pka3="" def_stock_conc="5" def_stock_units="M" max_stock_conc="54.3" mw="95.22" ions="Mg;2Cl" CAS="7786-30-3" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Magnesium  Chloride</alias>
+			<alias>Magnesium Chloride</alias>
+			<alias>Magnesium chloride hexahydrate</alias>
+			<alias>Mg Chloride</alias>
+			<alias>MgCl2</alias>
+			<alias>mg-chloride</alias>
+		</chemical>
+		<chemical name="manganese(II) chloride" units="M" formula="MnCl2" density="" solubility="151" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="151" mw="124.84" ions="Mn;2Cl" CAS="7773-01-5" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Manganese chloride</alias>
+			<alias>Manganese(II) chloride tetrahydrate</alias>
+			<alias>mangan (II) chloride</alias>
+			<alias>mncl2</alias>
+		</chemical>
+		<chemical name="mannitol" units="M" formula="C6H14O6" density="" solubility="18" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="" mw="182.17" ions="" CAS="87-78-5" CMC="" SMILES="">
+			<class>Additive</class>
+			<alias>D-mannitol</alias>
+			<alias>Manna Sugar</alias>
+			<alias>Mannite</alias>
+			<alias>dulcitol</alias>
+			<alias>dulcose</alias>
+			<alias>galactitol</alias>
+			<alias>glucitol</alias>
+			<alias>hexane-1,2,3,4,5,6-hexol</alias>
+		</chemical>
+		<chemical name="proline" units="M" formula="C5H9O2N" density="" solubility="162" pka1="1.99" pka2="10.6" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="129" mw="115.13" ions="" CAS="147-85-3" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>(2S)-pyrrolidine-2-carboxylic acid</alias>
+			<alias>Carboxypyrrolidine</alias>
+			<alias>L-Proline</alias>
+			<alias>Pyrrolidine-2-carboxylic acid</alias>
+			<alias>pro</alias>
+		</chemical>
+		<chemical name="ribitol" units="M" formula="C5H12O5" density="" solubility="93.6" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="152.15" ions="" CAS="488-81-3" CMC="" SMILES="">
+			<class>Additive</class>
+			<alias>1,2,3,4,5-pentanepentol</alias>
+			<alias>Adonit</alias>
+			<alias>Adonitrol</alias>
+			<alias>Pentane-1,2,3,4,5-pentol</alias>
+			<alias>Pentitol</alias>
+			<alias>adonitol</alias>
+			<alias>meso-ribitol</alias>
+		</chemical>
+		<chemical name="sodium citrate" units="M" formula="Na3C6H5O7" density="" solubility="63" pka1="3.13" pka2="4.74" pka3="6.4" def_stock_conc="2" def_stock_units="M" max_stock_conc="63" mw="258.06" ions="3Na;C6H5O7" CAS="" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Ambiguous</class>
+			<alias>Citric Acid-Sodium Hydroxide</alias>
+			<alias>citrate</alias>
+			<alias>na-citrate</alias>
+		</chemical>
+		<chemical name="sodium fluoride" units="M" formula="NaF" density="" solubility="4.22" pka1="" pka2="" pka3="" def_stock_conc="0.8" def_stock_units="M" max_stock_conc="4.2" mw="41.99" ions="Na;F" CAS="7681-49-4" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>na fluoride</alias>
+			<alias>naf</alias>
+		</chemical>
+		<chemical name="sodium malonate" units="M" formula="C3H2Na2O4" density="" solubility="51" pka1="2.83" pka2="5.69" pka3="" def_stock_conc="3.4" def_stock_units="M" max_stock_conc="" mw="148.03" ions="2Na;C3H2O4" CAS="141-95-7" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Buffer</class>
+			<alias>di-sodium malonate</alias>
+			<alias>malonate</alias>
+			<alias>na malonate</alias>
+			<alias>na-malonate</alias>
+			<alias>sodium malonate dibasic</alias>
+		</chemical>
+		<chemical name="sorbitol" units="w/v" formula="C6H14O6" density="" solubility="235" pka1="" pka2="" pka3="" def_stock_conc="30" def_stock_units="w/v" max_stock_conc="" mw="182.17" ions="" CAS="50-70-4" CMC="" SMILES="">
+			<class>Organic</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>D-Glucitol</alias>
+			<alias>D-Sorbitol</alias>
+		</chemical>
+		<chemical name="taurine" units="M" formula="C2H7NO3S" density="" solubility="7" pka1="1.5" pka2="8.74" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="7" mw="125.14" ions="" CAS="107-35-7" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>2-aminoethanesulfonic acid</alias>
+			<alias>ethylaminesulphonic acid</alias>
+		</chemical>
+		<chemical name="trimethylamine N-oxide" units="M" formula="C3H9NO" density="" solubility="60" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="60" mw="75.1" ions="" CAS="1184-78-7" CMC="" SMILES="">
+			<class>Organic</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>TMAO</alias>
+			<alias>Tri-methylamine N-oxide</alias>
+			<alias>Trimethylamine N-oxide dihydrate</alias>
+			<alias>Trimethylamine-N-oxide</alias>
+		</chemical>
+		<chemical name="xylitol" units="M" formula="C5H12O5" density="" solubility="63" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="63" mw="152.15" ions="" CAS="87-99-0" CMC="" SMILES="">
+			<class>Cryoprotectant</class>
+			<class>Additive</class>
+			<alias>xylite</alias>
+		</chemical>
+		<chemical name="zinc chloride" units="M" formula="ZnCl2" density="" solubility="432" pka1="" pka2="" pka3="" def_stock_conc="2" def_stock_units="M" max_stock_conc="432" mw="136.28" ions="Zn;2Cl" CAS="7646-85-7" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>zn chloride</alias>
+		</chemical>
+	</chemicals>
+	<screen name="JBScreen Plus Kosmotropic" username="Jena Bioscience" design_date="2008-05-27 09:19:22" res_vol="0">
+		<format name="Screen24Well" rows="4" cols="6" subs="0" max_res_vol="" def_res_vol="" max_drop_vol="" def_drop_vol=""/>
+		<comments>Product code CS-501</comments>
+		<well number="1" label="A1">
+			<item name="trimethylamine N-oxide" class="Organic" conc="1" units="M" ph=""/>
+		</well>
+		<well number="2" label="A2">
+			<item name="proline" class="Additive" conc="1" units="M" ph=""/>
+		</well>
+		<well number="3" label="A3">
+			<item name="ectoine" class="Additive" conc="0.1" units="M" ph=""/>
+		</well>
+		<well number="4" label="A4">
+			<item name="glycine" class="Additive" conc="1" units="M" ph=""/>
+		</well>
+		<well number="5" label="A5">
+			<item name="betaine" class="Additive" conc="0.1" units="M" ph=""/>
+		</well>
+		<well number="6" label="A6">
+			<item name="taurine" class="Additive" conc="0.1" units="M" ph=""/>
+		</well>
+		<well number="7" label="B1">
+			<item name="glycerol" class="Organic" conc="2" units="M" ph=""/>
+		</well>
+		<well number="8" label="B2">
+			<item name="erythritol" class="Additive" conc="2" units="M" ph=""/>
+		</well>
+		<well number="9" label="B3">
+			<item name="xylitol" class="Additive" conc="2" units="M" ph=""/>
+		</well>
+		<well number="10" label="B4">
+			<item name="ribitol" class="Additive" conc="2" units="M" ph=""/>
+		</well>
+		<well number="11" label="B5">
+			<item name="mannitol" class="Additive" conc="1" units="M" ph=""/>
+		</well>
+		<well number="12" label="B6">
+			<item name="sorbitol" class="Additive" conc="1" units="M" ph=""/>
+		</well>
+		<well number="13" label="C1">
+			<item name="aluminium(III) chloride" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="14" label="C2">
+			<item name="magnesium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="15" label="C3">
+			<item name="calcium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="16" label="C4">
+			<item name="lithium chloride" class="Salt" conc="2" units="M" ph=""/>
+		</well>
+		<well number="17" label="C5">
+			<item name="manganese(II) chloride" class="Salt" conc="1" units="M" ph=""/>
+		</well>
+		<well number="18" label="C6">
+			<item name="zinc chloride" class="Salt" conc="1" units="M" ph=""/>
+		</well>
+		<well number="19" label="D1">
+			<item name="sodium malonate" class="Salt" conc="2" units="M" ph=""/>
+		</well>
+		<well number="20" label="D2">
+			<item name="sodium citrate" class="Salt" conc="2" units="M" ph=""/>
+		</well>
+		<well number="21" label="D3">
+			<item name="sodium fluoride" class="Salt" conc="2" units="M" ph=""/>
+		</well>
+		<well number="22" label="D4">
+			<item name="ammonium sulfate" class="Salt" conc="2" units="M" ph=""/>
+		</well>
+		<well number="23" label="D5">
+			<item name="diammonium hydrogen phosphate" class="Salt" conc="1" units="M" ph=""/>
+		</well>
+		<well number="24" label="D6">
+			<item name="ammonium formate" class="Salt" conc="1" units="M" ph=""/>
+		</well>
+	</screen>
+</crystaltrak>

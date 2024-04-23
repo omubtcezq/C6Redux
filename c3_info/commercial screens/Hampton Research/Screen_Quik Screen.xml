@@ -1,0 +1,128 @@
+<crystaltrak datatype="screen" version="2.3.43">
+	<chemicals>
+		<chemical name="dipotassium hydrogen phosphate" units="M" formula="K2HPO4" density="" solubility="167" pka1="2.1" pka2="7.2" pka3="12.3" def_stock_conc="3" def_stock_units="M" max_stock_conc="167" mw="174.18" ions="H,2K;PO4" CAS="7758-11-4" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Buffer</class>
+			<alias>K phosphate dib</alias>
+			<alias>K2HPO4</alias>
+			<alias>K2HPO4/phosphoric acid</alias>
+			<alias>di-potassium phosphate</alias>
+			<alias>dipotassium hydrogen phosphate</alias>
+			<alias>potassium phosphate (dibasic)</alias>
+			<alias>potassium phosphate dibasic</alias>
+			<alias>potassium phosphate, dibasic</alias>
+		</chemical>
+		<chemical name="sodium dihydrogen phosphate" units="M" formula="NaH2PO4" density="" solubility="60" pka1="2.1" pka2="7.2" pka3="12.3" def_stock_conc="5" def_stock_units="M" max_stock_conc="60" mw="119.97" ions="2H,Na;PO4" CAS="7558-80-7" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Buffer</class>
+			<alias>Monosodium phosphate</alias>
+			<alias>NaH2 phosphate</alias>
+			<alias>Sodium phosphate monobasic (H2O)</alias>
+			<alias>mono-sodium dihydrogen phosphate</alias>
+			<alias>nah2po4</alias>
+			<alias>sodium phosphate (monobasic)</alias>
+			<alias>sodium phosphate monobasic</alias>
+			<alias>sodium phosphate, monobasic</alias>
+		</chemical>
+	</chemicals>
+	<screen name="Quik Screen" username="Hampton Research" design_date="2004-12-13 13:15:40" res_vol="0">
+		<format name="Generic 24 Well" rows="4" cols="6" subs="1" max_res_vol="1" def_res_vol="1" max_drop_vol="1" def_drop_vol="1"/>
+		<comments>HR2-221  	Quik Screen kit  	10 ml, tube format</comments>
+		<well number="1" label="A1">
+			<item name="sodium dihydrogen phosphate" class="Salt" conc="0.784" units="M" ph=""/>
+			<item name="dipotassium hydrogen phosphate" class="Salt" conc="0.016" units="M" ph=""/>
+		</well>
+		<well number="2" label="A2">
+			<item name="dipotassium hydrogen phosphate" class="Salt" conc="0.02" units="M" ph=""/>
+			<item name="sodium dihydrogen phosphate" class="Salt" conc="0.98" units="M" ph=""/>
+		</well>
+		<well number="3" label="A3">
+			<item name="sodium dihydrogen phosphate" class="Salt" conc="1.372" units="M" ph=""/>
+			<item name="dipotassium hydrogen phosphate" class="Salt" conc="0.028" units="M" ph=""/>
+		</well>
+		<well number="4" label="A4">
+			<item name="sodium dihydrogen phosphate" class="Salt" conc="1.764" units="M" ph=""/>
+			<item name="dipotassium hydrogen phosphate" class="Salt" conc="0.036" units="M" ph=""/>
+		</well>
+		<well number="5" label="A5">
+			<item name="sodium dihydrogen phosphate" class="Salt" conc="0.72" units="M" ph=""/>
+			<item name="dipotassium hydrogen phosphate" class="Salt" conc="0.08" units="M" ph=""/>
+		</well>
+		<well number="6" label="A6">
+			<item name="dipotassium hydrogen phosphate" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="sodium dihydrogen phosphate" class="Salt" conc="0.9" units="M" ph=""/>
+		</well>
+		<well number="7" label="B1">
+			<item name="sodium dihydrogen phosphate" class="Salt" conc="1.26" units="M" ph=""/>
+			<item name="dipotassium hydrogen phosphate" class="Salt" conc="0.14" units="M" ph=""/>
+		</well>
+		<well number="8" label="B2">
+			<item name="sodium dihydrogen phosphate" class="Salt" conc="1.62" units="M" ph=""/>
+			<item name="dipotassium hydrogen phosphate" class="Salt" conc="0.18" units="M" ph=""/>
+		</well>
+		<well number="9" label="B3">
+			<item name="dipotassium hydrogen phosphate" class="Salt" conc="0.28" units="M" ph=""/>
+			<item name="sodium dihydrogen phosphate" class="Salt" conc="0.52" units="M" ph=""/>
+		</well>
+		<well number="10" label="B4">
+			<item name="dipotassium hydrogen phosphate" class="Salt" conc="0.35" units="M" ph=""/>
+			<item name="sodium dihydrogen phosphate" class="Salt" conc="0.65" units="M" ph=""/>
+		</well>
+		<well number="11" label="B5">
+			<item name="dipotassium hydrogen phosphate" class="Salt" conc="0.49" units="M" ph=""/>
+			<item name="sodium dihydrogen phosphate" class="Salt" conc="0.91" units="M" ph=""/>
+		</well>
+		<well number="12" label="B6">
+			<item name="dipotassium hydrogen phosphate" class="Salt" conc="0.63" units="M" ph=""/>
+			<item name="sodium dihydrogen phosphate" class="Salt" conc="1.17" units="M" ph=""/>
+		</well>
+		<well number="13" label="C1">
+			<item name="dipotassium hydrogen phosphate" class="Salt" conc="0.52" units="M" ph=""/>
+			<item name="sodium dihydrogen phosphate" class="Salt" conc="0.28" units="M" ph=""/>
+		</well>
+		<well number="14" label="C2">
+			<item name="dipotassium hydrogen phosphate" class="Salt" conc="0.65" units="M" ph=""/>
+			<item name="sodium dihydrogen phosphate" class="Salt" conc="0.35" units="M" ph=""/>
+		</well>
+		<well number="15" label="C3">
+			<item name="sodium dihydrogen phosphate" class="Salt" conc="0.49" units="M" ph=""/>
+			<item name="dipotassium hydrogen phosphate" class="Salt" conc="0.91" units="M" ph=""/>
+		</well>
+		<well number="16" label="C4">
+			<item name="sodium dihydrogen phosphate" class="Salt" conc="0.63" units="M" ph=""/>
+			<item name="dipotassium hydrogen phosphate" class="Salt" conc="1.17" units="M" ph=""/>
+		</well>
+		<well number="17" label="C5">
+			<item name="sodium dihydrogen phosphate" class="Salt" conc="0.12" units="M" ph=""/>
+			<item name="dipotassium hydrogen phosphate" class="Salt" conc="0.68" units="M" ph=""/>
+		</well>
+		<well number="18" label="C6">
+			<item name="dipotassium hydrogen phosphate" class="Salt" conc="0.85" units="M" ph=""/>
+			<item name="sodium dihydrogen phosphate" class="Salt" conc="0.15" units="M" ph=""/>
+		</well>
+		<well number="19" label="D1">
+			<item name="sodium dihydrogen phosphate" class="Salt" conc="0.21" units="M" ph=""/>
+			<item name="dipotassium hydrogen phosphate" class="Salt" conc="1.19" units="M" ph=""/>
+		</well>
+		<well number="20" label="D2">
+			<item name="sodium dihydrogen phosphate" class="Salt" conc="0.27" units="M" ph=""/>
+			<item name="dipotassium hydrogen phosphate" class="Salt" conc="1.53" units="M" ph=""/>
+		</well>
+		<well number="21" label="D3">
+			<item name="dipotassium hydrogen phosphate" class="Salt" conc="0.768" units="M" ph=""/>
+			<item name="sodium dihydrogen phosphate" class="Salt" conc="0.032" units="M" ph=""/>
+		</well>
+		<well number="22" label="D4">
+			<item name="sodium dihydrogen phosphate" class="Salt" conc="0.04" units="M" ph=""/>
+			<item name="dipotassium hydrogen phosphate" class="Salt" conc="0.96" units="M" ph=""/>
+		</well>
+		<well number="23" label="D5">
+			<item name="dipotassium hydrogen phosphate" class="Salt" conc="1.344" units="M" ph=""/>
+			<item name="sodium dihydrogen phosphate" class="Salt" conc="0.056" units="M" ph=""/>
+		</well>
+		<well number="24" label="D6">
+			<item name="dipotassium hydrogen phosphate" class="Salt" conc="1.728" units="M" ph=""/>
+			<item name="sodium dihydrogen phosphate" class="Salt" conc="0.072" units="M" ph=""/>
+		</well>
+	</screen>
+</crystaltrak>

@@ -1,0 +1,223 @@
+<crystaltrak datatype="screen" version="2.3.43">
+	<chemicals>
+		<chemical name="ammonium bromide" units="M" formula="NH4Br" density="" solubility="75.5" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="60.4" mw="97.94" ions="NH4;Br" CAS="12124-97-9" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="ammonium chloride" units="M" formula="NH4Cl" density="" solubility="29.7" pka1="" pka2="" pka3="" def_stock_conc="5" def_stock_units="M" max_stock_conc="23.8" mw="53.49" ions="NH4;Cl" CAS="12125-02-9" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>AmCl</alias>
+			<alias>Ammoniumchlorid</alias>
+			<alias>Salmiac</alias>
+			<alias>sal ammoniac</alias>
+			<alias>smelling salts</alias>
+		</chemical>
+		<chemical name="ammonium fluoride" units="M" formula="NH4F" density="" solubility="100" pka1="" pka2="" pka3="" def_stock_conc="10" def_stock_units="M" max_stock_conc="80" mw="37.04" ions="NH4;F" CAS="12125-01-8" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>am fluoride</alias>
+		</chemical>
+		<chemical name="ammonium nitrate" units="M" formula="NH4NO3" density="" solubility="118.3" pka1="" pka2="" pka3="" def_stock_conc="10" def_stock_units="M" max_stock_conc="94" mw="80.04" ions="NH4;NO3" CAS="6484-52-2" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>AmNO3</alias>
+			<alias>am no3</alias>
+		</chemical>
+		<chemical name="ammonium thiocyanate" units="M" formula="NH4SCN" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="1.5" def_stock_units="M" max_stock_conc="" mw="76.12" ions="NH4;SCN" CAS="1762-95-4" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Additive</class>
+			<alias>Amthio</alias>
+			<alias>Thiocyanic acid, ammonium salt</alias>
+			<alias>ammonium rhodanide</alias>
+			<alias>ammonium scn</alias>
+			<alias>ammonium sulfocanide</alias>
+			<alias>ammonium sulphocyanide</alias>
+		</chemical>
+		<chemical name="ammonium trifluoroacetate" units="M" formula="CF3COONH4" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="2" def_stock_units="M" max_stock_conc="" mw="131.05" ions="" CAS="3336-58-1" CMC="" SMILES="">
+			<class>Additive</class>
+			<alias>Trifluoroacetic acid ammonium salt</alias>
+		</chemical>
+		<chemical name="barium chloride" units="M" formula="BaCl2" density="" solubility="37.5" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="30" mw="208.25" ions="Ba;2Cl" CAS="10361-37-2" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Additive</class>
+		</chemical>
+		<chemical name="beryllium sulfate" units="M" formula="BeSO4" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="105.1" ions="Be;SO4" CAS="13510-49-1" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Additive</class>
+			<alias>beryllium sulphate</alias>
+		</chemical>
+		<chemical name="cadmium chloride" units="M" formula="CdCl2" density="" solubility="140" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="112" mw="183.32" ions="Cd;2Cl" CAS="10108-64-2" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Cadmium chloride hydrate</alias>
+			<alias>Cadmiumchlorid</alias>
+			<alias>Cd-chloride</alias>
+			<alias>cd chloride</alias>
+			<alias>cdcl2</alias>
+		</chemical>
+		<chemical name="cobalt chloride" units="M" formula="CoCl2" density="" solubility="45" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="45" mw="129.84" ions="Co;2Cl" CAS="7646-79-9" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Co-chloride</alias>
+			<alias>Cobalt(II) chloride hexahydrate</alias>
+			<alias>Cobalt(II)-chloride</alias>
+			<alias>cobalt (II) chloride</alias>
+			<alias>cobalt(II) chloride</alias>
+			<alias>cobaltous chloride</alias>
+			<alias>cocl2</alias>
+		</chemical>
+		<chemical name="copper(II) chloride" units="M" formula="CuCl2" density="" solubility="76" pka1="" pka2="" pka3="" def_stock_conc="2" def_stock_units="M" max_stock_conc="76" mw="134.45" ions="Cu;2Cl" CAS="7447-39-4" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Copper(II) chloride dihydrate</alias>
+			<alias>copper (II) chloride</alias>
+			<alias>cupric chloride</alias>
+		</chemical>
+		<chemical name="diammonium tartrate" units="M" formula="(NH4)2C4H4O6" density="" solubility="58.01" pka1="3.02" pka2="4.54" pka3="" def_stock_conc="2" def_stock_units="M" max_stock_conc="58" mw="184.15" ions="2NH4;C4H4O6" CAS="3164-29-2" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Amtart</alias>
+			<alias>Di-ammonium tartrate</alias>
+			<alias>am2 tartrate</alias>
+			<alias>ammonium tartrate</alias>
+			<alias>ammonium tartrate dibasic</alias>
+			<alias>ammonium tartrate, dibasic</alias>
+			<alias>diammonium tartrate</alias>
+		</chemical>
+		<chemical name="lithium acetate" units="M" formula="C2H3LiO2" density="" solubility="40.8" pka1="" pka2="" pka3="" def_stock_conc="5" def_stock_units="M" max_stock_conc="35" mw="66.06" ions="Li;CH3CO2" CAS="546-89-4" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>LiAc</alias>
+			<alias>LiOAc</alias>
+			<alias>li acetate</alias>
+		</chemical>
+		<chemical name="lithium bromide" units="M" formula="LiBr" density="" solubility="145" pka1="" pka2="" pka3="" def_stock_conc="5" def_stock_units="M" max_stock_conc="116" mw="86.85" ions="Li;Br" CAS="7550-35-8" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="lithium nitrate" units="M" formula="LiNO3" density="" solubility="89.9" pka1="" pka2="" pka3="" def_stock_conc="10" def_stock_units="M" max_stock_conc="89.9" mw="68.95" ions="Li;NO3" CAS="7790-69-4" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>lino3</alias>
+		</chemical>
+		<chemical name="lithium perchlorate" units="M" formula="LiClO4" density="" solubility="60" pka1="" pka2="" pka3="" def_stock_conc="2" def_stock_units="M" max_stock_conc="" mw="106.39" ions="Li;ClO4" CAS="7791-03-9" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Additive</class>
+			<alias>Perchloric acid, lithium salt</alias>
+		</chemical>
+		<chemical name="lithium salicylate" units="M" formula="C7H5LiO3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="2" def_stock_units="M" max_stock_conc="" mw="144.05" ions="" CAS="552-38-5" CMC="" SMILES="">
+			<class>Additive</class>
+			<alias>Benzoic acid, 2-hydroxy-, monolithium salt</alias>
+			<alias>Salicylic acid lithium salt</alias>
+			<alias>lithium 2-hydroxybenzoate</alias>
+		</chemical>
+		<chemical name="lithium sulfate" units="M" formula="Li2SO4" density="" solubility="26.1" pka1="" pka2="" pka3="" def_stock_conc="2" def_stock_units="M" max_stock_conc="26.1" mw="109.94" ions="2Li;SO4" CAS="10377-48-7" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Li Sulfate</alias>
+			<alias>Lithium sulphate</alias>
+			<alias>Lithiumsulfat</alias>
+			<alias>li-sulfate</alias>
+			<alias>li2so4</alias>
+		</chemical>
+		<chemical name="magnesium sulfate" units="M" formula="MgSO4" density="" solubility="34.6" pka1="" pka2="" pka3="" def_stock_conc="2.5" def_stock_units="M" max_stock_conc="34.6" mw="120.37" ions="Mg;SO4" CAS="7487-88-9" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Mg sulfate</alias>
+			<alias>magnesium sulfate aq.</alias>
+			<alias>magnesium sulphate</alias>
+			<alias>mg-sulfate</alias>
+			<alias>mgso4</alias>
+		</chemical>
+		<chemical name="potassium sulfate" units="M" formula="K2SO4" density="" solubility="12" pka1="" pka2="" pka3="" def_stock_conc="0.5" def_stock_units="M" max_stock_conc="12" mw="174.27" ions="2K;SO4" CAS="7778-80-5" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>K2SO4</alias>
+			<alias>potassium sulphate</alias>
+		</chemical>
+		<chemical name="sodium sulfate" units="M" formula="Na2SO4" density="" solubility="21" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="21" mw="142.04" ions="2Na;SO4" CAS="7757-82-6" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>na sulfate</alias>
+			<alias>na2so4</alias>
+			<alias>sodium sulphate</alias>
+		</chemical>
+		<chemical name="strontium chloride" units="M" formula="SrCl2" density="" solubility="53.8" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="53.8" mw="158.53" ions="Sr;2Cl" CAS="10476-85-4" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="trilithium citrate" units="M" formula="Li3C6H5O7" density="" solubility="55.5" pka1="3.06" pka2="4.74" pka3="6.4" def_stock_conc="1.5" def_stock_units="M" max_stock_conc="55.5" mw="209.9" ions="3Li;C6H5O7" CAS="919-16-4" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Lithium citrate tribasic</alias>
+			<alias>li3 citrate</alias>
+			<alias>lithium citrate, tribasic</alias>
+			<alias>tri-lithium citrate</alias>
+		</chemical>
+		<chemical name="yttrium chloride" units="M" formula="YCl3" density="" solubility="217" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="217" mw="195.26" ions="Y;3Cl" CAS="10361-92-9" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Yttrium (III) Chloride</alias>
+			<alias>Yttrium(III) chloride</alias>
+		</chemical>
+	</chemicals>
+	<screen name="JBScreen Plus Salts" username="Jena Bioscience" design_date="2008-05-27 09:19:25" res_vol="0">
+		<format name="Screen24Well" rows="4" cols="6" subs="0" max_res_vol="" def_res_vol="" max_drop_vol="" def_drop_vol=""/>
+		<comments>Product code CS-503</comments>
+		<well number="1" label="A1">
+			<item name="trilithium citrate" class="Salt" conc="1" units="M" ph=""/>
+		</well>
+		<well number="2" label="A2">
+			<item name="lithium acetate" class="Salt" conc="2" units="M" ph=""/>
+		</well>
+		<well number="3" label="A3">
+			<item name="lithium bromide" class="Salt" conc="2" units="M" ph=""/>
+		</well>
+		<well number="4" label="A4">
+			<item name="lithium salicylate" class="Additive" conc="2" units="M" ph=""/>
+		</well>
+		<well number="5" label="A5">
+			<item name="lithium nitrate" class="Salt" conc="2" units="M" ph=""/>
+		</well>
+		<well number="6" label="A6">
+			<item name="lithium perchlorate" class="Additive" conc="2" units="M" ph=""/>
+		</well>
+		<well number="7" label="B1">
+			<item name="ammonium fluoride" class="Salt" conc="2" units="M" ph=""/>
+		</well>
+		<well number="8" label="B2">
+			<item name="ammonium chloride" class="Salt" conc="2" units="M" ph=""/>
+		</well>
+		<well number="9" label="B3">
+			<item name="ammonium bromide" class="Salt" conc="2" units="M" ph=""/>
+		</well>
+		<well number="10" label="B4">
+			<item name="ammonium nitrate" class="Salt" conc="2" units="M" ph=""/>
+		</well>
+		<well number="11" label="B5">
+			<item name="ammonium thiocyanate" class="Additive" conc="2" units="M" ph=""/>
+		</well>
+		<well number="12" label="B6">
+			<item name="ammonium trifluoroacetate" class="Additive" conc="2" units="M" ph=""/>
+		</well>
+		<well number="13" label="C1">
+			<item name="diammonium tartrate" class="Salt" conc="2" units="M" ph=""/>
+		</well>
+		<well number="14" label="C2">
+			<item name="potassium sulfate" class="Salt" conc="0.7" units="M" ph=""/>
+		</well>
+		<well number="15" label="C3">
+			<item name="sodium sulfate" class="Salt" conc="2" units="M" ph=""/>
+		</well>
+		<well number="16" label="C4">
+			<item name="lithium sulfate" class="Salt" conc="2" units="M" ph=""/>
+		</well>
+		<well number="17" label="C5">
+			<item name="magnesium sulfate" class="Salt" conc="2" units="M" ph=""/>
+		</well>
+		<well number="18" label="C6">
+			<item name="beryllium sulfate" class="Additive" conc="1" units="M" ph=""/>
+		</well>
+		<well number="19" label="D1">
+			<item name="barium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+		</well>
+		<well number="20" label="D2">
+			<item name="strontium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+		</well>
+		<well number="21" label="D3">
+			<item name="cadmium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+		</well>
+		<well number="22" label="D4">
+			<item name="cobalt chloride" class="Salt" conc="0.1" units="M" ph=""/>
+		</well>
+		<well number="23" label="D5">
+			<item name="copper(II) chloride" class="Salt" conc="0.1" units="M" ph=""/>
+		</well>
+		<well number="24" label="D6">
+			<item name="yttrium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+		</well>
+	</screen>
+</crystaltrak>

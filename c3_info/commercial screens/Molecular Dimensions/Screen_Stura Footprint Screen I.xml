@@ -1,0 +1,191 @@
+<crystaltrak datatype="screen" version="2.3.43">
+	<chemicals>
+		<chemical name="ammonium sulfate" units="M" formula="(NH4)2SO4" density="" solubility="55.5" pka1="" pka2="" pka3="" def_stock_conc="4" def_stock_units="M" max_stock_conc="57" mw="132.14" ions="2NH4;SO4" CAS="7783-20-2" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>(NH4)2 sulfate</alias>
+			<alias>A.S.</alias>
+			<alias>AS</alias>
+			<alias>AmS</alias>
+			<alias>AmSO4</alias>
+			<alias>AmmSulph</alias>
+			<alias>Ammoniumsulfate</alias>
+			<alias>NH4-sulfate</alias>
+			<alias>am-sulfate</alias>
+			<alias>ammoniium sulphate</alias>
+			<alias>ammonium sulphate</alias>
+			<alias>ammso4</alias>
+			<alias>di-Ammonium sulfate</alias>
+			<alias>spirit of hartshorn vitriolate</alias>
+		</chemical>
+		<chemical name="DL-malate-imidazole" units="M" formula="" density="" solubility="" pka1="3.2" pka2="5.2" pka3="7.2" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="" ions="" CAS="" CMC="" SMILES="">
+			<class>Fundamental Mixtures</class>
+			<class>Buffer</class>
+			<alias>Imidazole malate</alias>
+			<alias>imidazol-malate</alias>
+			<alias>imidazole-malate</alias>
+		</chemical>
+		<chemical name="polyethylene glycol 10000" units="w/v" formula="HO-(CH2-CH2-O)n-H" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="50" mw="10000" ions="" CAS="25322-68-3" CMC="" SMILES="">
+			<class>Polymer</class>
+			<alias>PEG 10,000</alias>
+			<alias>PEG 10000</alias>
+			<alias>PEG 10K</alias>
+			<alias>PEG-10000</alias>
+			<alias>polyethylene glycol 10,000</alias>
+		</chemical>
+		<chemical name="polyethylene glycol 4000" units="w/v" formula="HO-(CH2-CH2-O)n-H" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="50" mw="4000" ions="" CAS="25322-68-3" CMC="" SMILES="">
+			<class>Polymer</class>
+			<alias>PEG 4,000</alias>
+			<alias>PEG 4000</alias>
+			<alias>PEG 4K</alias>
+			<alias>PEG-4000</alias>
+			<alias>PEG4K</alias>
+			<alias>polyethylene glycol 4,000</alias>
+			<alias>polyethylene glycol 4K</alias>
+		</chemical>
+		<chemical name="polyethylene glycol 600" units="w/v" formula="HO-(CH2-CH2-O)n-H" density="1.12" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="112" mw="600" ions="" CAS="25322-68-3" CMC="" SMILES="">
+			<class>Polymer</class>
+			<alias>PEG 600</alias>
+			<alias>PEG-600</alias>
+		</chemical>
+		<chemical name="sodium dihydrogen-dipotassium hydrogen phosphate" units="M" formula="NaH2PO4/K2HPO4" density="" solubility="" pka1="2.1" pka2="7.2" pka3="12.3" def_stock_conc="3" def_stock_units="M" max_stock_conc="" mw="" ions="Na,2K;PO4" CAS="" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Fundamental Mixtures</class>
+			<class>Buffer</class>
+			<alias>K/Na phosphate</alias>
+			<alias>K2 H phosphate/Na H2 phosphate</alias>
+			<alias>K2H phosphate/NaH2 phosphate</alias>
+			<alias>NaH2/K2H phosphate</alias>
+			<alias>Potassium Phosphate (dibasic) / Sodium Phosphate (monobasic)</alias>
+			<alias>dipotassium hydrogen-sodium dihydrogen phosphate</alias>
+			<alias>nak2po4</alias>
+		</chemical>
+		<chemical name="sodium tetraborate" units="M" formula="Na2B4O7" density="" solubility="2.56" pka1="9.14" pka2="12.74" pka3="13.8" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="2.2" mw="201.22" ions="2Na;B4O7" CAS="1330-43-4" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Bullet</class>
+			<class>Buffer</class>
+			<class>Additive</class>
+			<alias>Sodium tetraborate decahydrate</alias>
+			<alias>na borate</alias>
+			<alias>sodium borate</alias>
+		</chemical>
+		<chemical name="trisodium citrate" units="M" formula="Na3C6H5O7" density="" solubility="63" pka1="3.13" pka2="4.74" pka3="6.4" def_stock_conc="1.6" def_stock_units="M" max_stock_conc="63" mw="258.06" ions="3Na;C6H5O7" CAS="68-04-2" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Sodium citrate tribasic</alias>
+			<alias>Sodium citrate tribasic (H2O)2</alias>
+			<alias>Tri-Na-Citrate</alias>
+			<alias>na3 citrate</alias>
+			<alias>na3-citrate</alias>
+			<alias>na3citrate</alias>
+			<alias>sodium citrate, tribasic</alias>
+			<alias>tri-na citrate</alias>
+			<alias>tri-sodium citrate</alias>
+			<alias>trisodium citrate</alias>
+		</chemical>
+		<chemical name="trisodium citrate-citric acid" units="M" formula="" density="" solubility="" pka1="3.13" pka2="4.76" pka3="6.4" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="258.06" ions="3Na;C6H5O7" CAS="" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Buffer</class>
+			<alias>Na3 citrate/citric acid</alias>
+			<alias>Sodium Citrate / Citric Acid</alias>
+			<alias>citric acid sodium citrate</alias>
+			<alias>citric acid-sodium citrate</alias>
+			<alias>tri-sodium citrate - citric acid</alias>
+			<alias>trisodium Citrate-Citric Acid</alias>
+		</chemical>
+	</chemicals>
+	<screen name="Stura Footprint Screen I" username="Molecular Dimensions" design_date="2005-06-07 13:29:13" res_vol="0">
+		<format name="Generic 24 Well" rows="4" cols="6" subs="1" max_res_vol="1" def_res_vol="1" max_drop_vol="1" def_drop_vol="1"/>
+		<comments>MD1-20ROWORLD</comments>
+		<well number="1" label="A1">
+			<item name="polyethylene glycol 600" class="Polymer" conc="15" units="w/v" ph=""/>
+			<item name="DL-malate-imidazole" class="Fundamental Mixtures" conc="0.2" units="M" ph="5.5"/>
+		</well>
+		<well number="2" label="A2">
+			<item name="DL-malate-imidazole" class="Fundamental Mixtures" conc="0.2" units="M" ph="7"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="10" units="w/v" ph=""/>
+		</well>
+		<well number="3" label="A3">
+			<item name="polyethylene glycol 10000" class="Polymer" conc="7.5" units="w/v" ph=""/>
+			<item name="DL-malate-imidazole" class="Fundamental Mixtures" conc="0.2" units="M" ph="8.5"/>
+		</well>
+		<well number="4" label="A4">
+			<item name="ammonium sulfate" class="Salt" conc="0.75" units="M" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Fundamental Mixtures" conc="0.15" units="M" ph="5.5"/>
+		</well>
+		<well number="5" label="A5">
+			<item name="sodium dihydrogen-dipotassium hydrogen phosphate" class="Salt" conc="0.8" units="M" ph="7"/>
+		</well>
+		<well number="6" label="A6">
+			<item name="sodium tetraborate" class="Buffer" conc="0.01" units="M" ph="8.5"/>
+			<item name="trisodium citrate" class="Salt" conc="0.75" units="M" ph=""/>
+		</well>
+		<well number="7" label="B1">
+			<item name="polyethylene glycol 600" class="Polymer" conc="24" units="w/v" ph=""/>
+			<item name="DL-malate-imidazole" class="Fundamental Mixtures" conc="0.2" units="M" ph="5.5"/>
+		</well>
+		<well number="8" label="B2">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="15" units="w/v" ph=""/>
+			<item name="DL-malate-imidazole" class="Fundamental Mixtures" conc="0.2" units="M" ph="7"/>
+		</well>
+		<well number="9" label="B3">
+			<item name="polyethylene glycol 10000" class="Polymer" conc="12.5" units="w/v" ph=""/>
+			<item name="DL-malate-imidazole" class="Fundamental Mixtures" conc="0.2" units="M" ph="8.5"/>
+		</well>
+		<well number="10" label="B4">
+			<item name="trisodium citrate-citric acid" class="Fundamental Mixtures" conc="0.15" units="M" ph="5.5"/>
+			<item name="ammonium sulfate" class="Salt" conc="1" units="M" ph=""/>
+		</well>
+		<well number="11" label="B5">
+			<item name="sodium dihydrogen-dipotassium hydrogen phosphate" class="Salt" conc="1.32" units="M" ph="7"/>
+		</well>
+		<well number="12" label="B6">
+			<item name="trisodium citrate" class="Salt" conc="1" units="M" ph=""/>
+			<item name="sodium tetraborate" class="Buffer" conc="0.01" units="M" ph="8.5"/>
+		</well>
+		<well number="13" label="C1">
+			<item name="polyethylene glycol 600" class="Polymer" conc="33" units="w/v" ph=""/>
+			<item name="DL-malate-imidazole" class="Fundamental Mixtures" conc="0.2" units="M" ph="5.5"/>
+		</well>
+		<well number="14" label="C2">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="DL-malate-imidazole" class="Fundamental Mixtures" conc="0.2" units="M" ph="7"/>
+		</well>
+		<well number="15" label="C3">
+			<item name="polyethylene glycol 10000" class="Polymer" conc="17.5" units="w/v" ph=""/>
+			<item name="DL-malate-imidazole" class="Fundamental Mixtures" conc="0.2" units="M" ph="8.5"/>
+		</well>
+		<well number="16" label="C4">
+			<item name="trisodium citrate-citric acid" class="Fundamental Mixtures" conc="0.15" units="M" ph="5.5"/>
+			<item name="ammonium sulfate" class="Salt" conc="1.5" units="M" ph=""/>
+		</well>
+		<well number="17" label="C5">
+			<item name="sodium dihydrogen-dipotassium hydrogen phosphate" class="Salt" conc="1.6" units="M" ph="7"/>
+		</well>
+		<well number="18" label="C6">
+			<item name="sodium tetraborate" class="Buffer" conc="0.01" units="M" ph="8.5"/>
+			<item name="trisodium citrate" class="Salt" conc="1.2" units="M" ph=""/>
+		</well>
+		<well number="19" label="D1">
+			<item name="DL-malate-imidazole" class="Fundamental Mixtures" conc="0.2" units="M" ph="5.5"/>
+			<item name="polyethylene glycol 600" class="Polymer" conc="42" units="w/v" ph=""/>
+		</well>
+		<well number="20" label="D2">
+			<item name="DL-malate-imidazole" class="Fundamental Mixtures" conc="0.2" units="M" ph="7"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="25" units="w/v" ph=""/>
+		</well>
+		<well number="21" label="D3">
+			<item name="DL-malate-imidazole" class="Fundamental Mixtures" conc="0.2" units="M" ph="8.5"/>
+			<item name="polyethylene glycol 10000" class="Polymer" conc="22.5" units="w/v" ph=""/>
+		</well>
+		<well number="22" label="D4">
+			<item name="ammonium sulfate" class="Salt" conc="2" units="M" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Fundamental Mixtures" conc="0.15" units="M" ph="5.5"/>
+		</well>
+		<well number="23" label="D5">
+			<item name="sodium dihydrogen-dipotassium hydrogen phosphate" class="Salt" conc="2" units="M" ph="7"/>
+		</well>
+		<well number="24" label="D6">
+			<item name="sodium tetraborate" class="Buffer" conc="0.01" units="M" ph="8.5"/>
+			<item name="trisodium citrate" class="Salt" conc="1.5" units="M" ph=""/>
+		</well>
+	</screen>
+</crystaltrak>

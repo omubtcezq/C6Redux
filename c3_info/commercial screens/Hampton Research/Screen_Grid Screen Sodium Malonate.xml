@@ -1,0 +1,89 @@
+<crystaltrak datatype="screen" version="2.3.43">
+	<chemicals>
+		<chemical name="sodium malonate" units="M" formula="C3H2Na2O4" density="" solubility="51" pka1="2.83" pka2="5.69" pka3="" def_stock_conc="3.4" def_stock_units="M" max_stock_conc="" mw="148.03" ions="2Na;C3H2O4" CAS="141-95-7" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Buffer</class>
+			<alias>di-sodium malonate</alias>
+			<alias>malonate</alias>
+			<alias>na malonate</alias>
+			<alias>na-malonate</alias>
+			<alias>sodium malonate dibasic</alias>
+		</chemical>
+	</chemicals>
+	<screen name="Grid Screen Sodium Malonate" username="Hampton Research" design_date="2005-06-23 12:58:03" res_vol="0">
+		<format name="Generic 24 Well" rows="4" cols="6" subs="1" max_res_vol="1" def_res_vol="1" max_drop_vol="1" def_drop_vol="1"/>
+		<comments>HR2-247  	Grid Screen Sodium Malonate kit  	10 ml, tube format</comments>
+		<well number="1" label="A1">
+			<item name="sodium malonate" class="Buffer" conc="1" units="M" ph="4"/>
+		</well>
+		<well number="2" label="A2">
+			<item name="sodium malonate" class="Buffer" conc="1.5" units="M" ph="4"/>
+		</well>
+		<well number="3" label="A3">
+			<item name="sodium malonate" class="Buffer" conc="1.9" units="M" ph="4"/>
+		</well>
+		<well number="4" label="A4">
+			<item name="sodium malonate" class="Buffer" conc="2.4" units="M" ph="4"/>
+		</well>
+		<well number="5" label="A5">
+			<item name="sodium malonate" class="Buffer" conc="2.9" units="M" ph="4"/>
+		</well>
+		<well number="6" label="A6">
+			<item name="sodium malonate" class="Buffer" conc="3.4" units="M" ph="4"/>
+		</well>
+		<well number="7" label="B1">
+			<item name="sodium malonate" class="Buffer" conc="1" units="M" ph="5"/>
+		</well>
+		<well number="8" label="B2">
+			<item name="sodium malonate" class="Buffer" conc="1.5" units="M" ph="5"/>
+		</well>
+		<well number="9" label="B3">
+			<item name="sodium malonate" class="Buffer" conc="1.9" units="M" ph="5"/>
+		</well>
+		<well number="10" label="B4">
+			<item name="sodium malonate" class="Buffer" conc="2.4" units="M" ph="5"/>
+		</well>
+		<well number="11" label="B5">
+			<item name="sodium malonate" class="Buffer" conc="2.9" units="M" ph="5"/>
+		</well>
+		<well number="12" label="B6">
+			<item name="sodium malonate" class="Buffer" conc="3.4" units="M" ph="5"/>
+		</well>
+		<well number="13" label="C1">
+			<item name="sodium malonate" class="Buffer" conc="1" units="M" ph="6"/>
+		</well>
+		<well number="14" label="C2">
+			<item name="sodium malonate" class="Buffer" conc="1.5" units="M" ph="6"/>
+		</well>
+		<well number="15" label="C3">
+			<item name="sodium malonate" class="Buffer" conc="1.9" units="M" ph="6"/>
+		</well>
+		<well number="16" label="C4">
+			<item name="sodium malonate" class="Buffer" conc="2.4" units="M" ph="6"/>
+		</well>
+		<well number="17" label="C5">
+			<item name="sodium malonate" class="Buffer" conc="2.9" units="M" ph="6"/>
+		</well>
+		<well number="18" label="C6">
+			<item name="sodium malonate" class="Buffer" conc="3.4" units="M" ph="6"/>
+		</well>
+		<well number="19" label="D1">
+			<item name="sodium malonate" class="Buffer" conc="1" units="M" ph="7"/>
+		</well>
+		<well number="20" label="D2">
+			<item name="sodium malonate" class="Buffer" conc="1.5" units="M" ph="7"/>
+		</well>
+		<well number="21" label="D3">
+			<item name="sodium malonate" class="Buffer" conc="1.9" units="M" ph="7"/>
+		</well>
+		<well number="22" label="D4">
+			<item name="sodium malonate" class="Buffer" conc="2.4" units="M" ph="7"/>
+		</well>
+		<well number="23" label="D5">
+			<item name="sodium malonate" class="Buffer" conc="2.9" units="M" ph="7"/>
+		</well>
+		<well number="24" label="D6">
+			<item name="sodium malonate" class="Buffer" conc="3.4" units="M" ph="7"/>
+		</well>
+	</screen>
+</crystaltrak>

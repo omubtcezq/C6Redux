@@ -1,0 +1,302 @@
+<crystaltrak datatype="screen" version="2.3.43">
+	<chemicals>
+		<chemical name="dipotassium hydrogen phosphate" units="M" formula="K2HPO4" density="" solubility="167" pka1="2.1" pka2="7.2" pka3="12.3" def_stock_conc="3" def_stock_units="M" max_stock_conc="167" mw="174.18" ions="H,2K;PO4" CAS="7758-11-4" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Buffer</class>
+			<alias>K phosphate dib</alias>
+			<alias>K2HPO4</alias>
+			<alias>K2HPO4/phosphoric acid</alias>
+			<alias>di-potassium phosphate</alias>
+			<alias>dipotassium hydrogen phosphate</alias>
+			<alias>potassium phosphate (dibasic)</alias>
+			<alias>potassium phosphate dibasic</alias>
+			<alias>potassium phosphate, dibasic</alias>
+		</chemical>
+		<chemical name="disodium hydrogen phosphate" units="M" formula="Na2HPO4" density="" solubility="79.8" pka1="2.1" pka2="7.2" pka3="12.3" def_stock_conc="0.5" def_stock_units="M" max_stock_conc="79.8" mw="141.95" ions="H,2Na;PO4" CAS="7558-79-4" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Buffer</class>
+			<alias>Na2HPO4/phosphoric acid</alias>
+			<alias>Sodium phosphate dibasic dihydrate</alias>
+			<alias>di-sodium phosphate</alias>
+			<alias>disodium hydrogen phosphate</alias>
+			<alias>na2hpo4</alias>
+			<alias>na2po4</alias>
+			<alias>sodium phosphate (dibasic)</alias>
+			<alias>sodium phosphate dibasic</alias>
+		</chemical>
+		<chemical name="disodium tartrate" units="M" formula="C4H4Na2O6" density="" solubility="24.5" pka1="3.02" pka2="4.54" pka3="" def_stock_conc="1.5" def_stock_units="M" max_stock_conc="31.5" mw="194.04" ions="2Na;C4H4O6" CAS="868-18-8" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>di-sodium tartate</alias>
+			<alias>di-sodium tartrate</alias>
+			<alias>disodium tartrate</alias>
+			<alias>na2 tartrate</alias>
+			<alias>sodium tartrate</alias>
+			<alias>sodium tartrate (dibasic)</alias>
+			<alias>sodium tartrate dibasic</alias>
+		</chemical>
+		<chemical name="polyethylene glycol 3350" units="w/v" formula="HO-(CH2-CH2-O)n-H" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="50" mw="3350" ions="" CAS="25322-68-3" CMC="" SMILES="">
+			<class>Polymer</class>
+			<alias>PEG 3350</alias>
+			<alias>PEG 3350K</alias>
+			<alias>PEG-3350</alias>
+			<alias>PEG3350</alias>
+			<alias>polyethylene glycol 3,350</alias>
+		</chemical>
+		<chemical name="potassium acetate" units="M" formula="KC2H3O2" density="" solubility="253" pka1="4.76" pka2="" pka3="" def_stock_conc="5" def_stock_units="M" max_stock_conc="253" mw="98.15" ions="K;CH3CO2" CAS="127-08-2" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>K acetate</alias>
+			<alias>KOAc</alias>
+			<alias>Kac</alias>
+		</chemical>
+		<chemical name="potassium chloride" units="M" formula="KCl" density="" solubility="34.7" pka1="" pka2="" pka3="" def_stock_conc="4" def_stock_units="M" max_stock_conc="34.7" mw="74.56" ions="K;Cl" CAS="7447-40-7" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>k chloride</alias>
+			<alias>k-chloride</alias>
+			<alias>kcl</alias>
+		</chemical>
+		<chemical name="potassium dihydrogen phosphate" units="M" formula="KH2PO4" density="" solubility="33" pka1="2.1" pka2="7.2" pka3="12.3" def_stock_conc="2" def_stock_units="M" max_stock_conc="33" mw="136.09" ions="2H,K;PO4" CAS="7778-77-0" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>K-dihydrogenphosphate</alias>
+			<alias>KH2PO4</alias>
+			<alias>Monopotassium phosphate</alias>
+			<alias>kh2phosphate</alias>
+			<alias>mono-Potassium dihydrogen phosphate</alias>
+			<alias>potassium phosphate (monobasic)</alias>
+			<alias>potassium phosphate monobasic</alias>
+			<alias>potassium phosphate, monobasic</alias>
+		</chemical>
+		<chemical name="potassium fluoride" units="M" formula="KF" density="" solubility="92.3" pka1="" pka2="" pka3="" def_stock_conc="6" def_stock_units="M" max_stock_conc="92.3" mw="58.1" ions="K;F" CAS="7789-23-3" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>K fluoride</alias>
+			<alias>potassium flouride</alias>
+		</chemical>
+		<chemical name="potassium iodide" units="M" formula="KI" density="" solubility="127.5" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="127.5" mw="166.01" ions="K;I" CAS="7681-11-0" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>KI</alias>
+		</chemical>
+		<chemical name="potassium nitrate" units="M" formula="KNO3" density="" solubility="38.8" pka1="" pka2="" pka3="" def_stock_conc="3" def_stock_units="M" max_stock_conc="38.8" mw="101.11" ions="K;NO3" CAS="7757-79-1" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>KNO3</alias>
+			<alias>saltpeter</alias>
+		</chemical>
+		<chemical name="potassium sodium tartrate" units="M" formula="C4H4KNaO6" density="" solubility="47.4" pka1="3.02" pka2="4.54" pka3="" def_stock_conc="2" def_stock_units="M" max_stock_conc="47.4" mw="210.16" ions="K,Na;C4H4O6" CAS="304-59-6" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>K,Na-tartrate</alias>
+			<alias>K,na tartrate</alias>
+			<alias>K- na tartrate</alias>
+			<alias>K-,Na-tartrate</alias>
+			<alias>K-Na-tartrate</alias>
+			<alias>K/na tartrate</alias>
+			<alias>NaK-Tartrate</alias>
+			<alias>Potassium / Sodium Tartrate</alias>
+			<alias>Potassium sodium tartrate</alias>
+			<alias>Rochelle Salt</alias>
+			<alias>Seignette salt</alias>
+			<alias>Sodium-Potassium Tartrate</alias>
+			<alias>Sodium/Potassium tartrate</alias>
+			<alias>na-K-tartrate</alias>
+			<alias>na/K tartrate</alias>
+			<alias>nak tartrate</alias>
+			<alias>potassium/sodium tartrate</alias>
+			<alias>sodium / potassium tartrate</alias>
+			<alias>sodium potassium tartrate</alias>
+		</chemical>
+		<chemical name="potassium sulfate" units="M" formula="K2SO4" density="" solubility="12" pka1="" pka2="" pka3="" def_stock_conc="0.5" def_stock_units="M" max_stock_conc="12" mw="174.27" ions="2K;SO4" CAS="7778-80-5" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>K2SO4</alias>
+			<alias>potassium sulphate</alias>
+		</chemical>
+		<chemical name="potassium thiocyanate" units="M" formula="KSCN" density="" solubility="177.2" pka1="" pka2="" pka3="" def_stock_conc="8" def_stock_units="M" max_stock_conc="177.2" mw="97.18" ions="K;SCN" CAS="333-20-0" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>KSCN</alias>
+			<alias>Potassium rhodanide</alias>
+		</chemical>
+		<chemical name="sodium acetate" units="M" formula="NaC2H3O2" density="" solubility="46.5" pka1="4.76" pka2="" pka3="" def_stock_conc="3.5" def_stock_units="M" max_stock_conc="37" mw="82.03" ions="Na;CH3CO2" CAS="127-09-3" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Ambiguous</class>
+			<alias>NaAc/acetic acid</alias>
+			<alias>Sodium  Acetate</alias>
+			<alias>acetate</alias>
+			<alias>na acetate</alias>
+			<alias>na-acetate</alias>
+			<alias>naac</alias>
+			<alias>naoac</alias>
+		</chemical>
+		<chemical name="sodium chloride" units="M" formula="NaCl" density="" solubility="35.7" pka1="" pka2="" pka3="" def_stock_conc="5" def_stock_units="M" max_stock_conc="35.7" mw="58.44" ions="Na;Cl" CAS="7647-14-5" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Na chloride</alias>
+			<alias>Sodium  Chloride</alias>
+			<alias>Sodium Chloride</alias>
+			<alias>na-chloride</alias>
+			<alias>nacl</alias>
+			<alias>salt</alias>
+		</chemical>
+		<chemical name="sodium citrate" units="M" formula="Na3C6H5O7" density="" solubility="63" pka1="3.13" pka2="4.74" pka3="6.4" def_stock_conc="2" def_stock_units="M" max_stock_conc="63" mw="258.06" ions="3Na;C6H5O7" CAS="" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Ambiguous</class>
+			<alias>Citric Acid-Sodium Hydroxide</alias>
+			<alias>citrate</alias>
+			<alias>na-citrate</alias>
+		</chemical>
+		<chemical name="sodium dihydrogen phosphate" units="M" formula="NaH2PO4" density="" solubility="60" pka1="2.1" pka2="7.2" pka3="12.3" def_stock_conc="5" def_stock_units="M" max_stock_conc="60" mw="119.97" ions="2H,Na;PO4" CAS="7558-80-7" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Buffer</class>
+			<alias>Monosodium phosphate</alias>
+			<alias>NaH2 phosphate</alias>
+			<alias>Sodium phosphate monobasic (H2O)</alias>
+			<alias>mono-sodium dihydrogen phosphate</alias>
+			<alias>nah2po4</alias>
+			<alias>sodium phosphate (monobasic)</alias>
+			<alias>sodium phosphate monobasic</alias>
+			<alias>sodium phosphate, monobasic</alias>
+		</chemical>
+		<chemical name="sodium fluoride" units="M" formula="NaF" density="" solubility="4.22" pka1="" pka2="" pka3="" def_stock_conc="0.8" def_stock_units="M" max_stock_conc="4.2" mw="41.99" ions="Na;F" CAS="7681-49-4" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>na fluoride</alias>
+			<alias>naf</alias>
+		</chemical>
+		<chemical name="sodium formate" units="M" formula="NaCHO2" density="" solubility="97.02" pka1="3.75" pka2="" pka3="" def_stock_conc="7" def_stock_units="M" max_stock_conc="97.02" mw="68.01" ions="Na;CHO2" CAS="141-53-7" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Na-formiate</alias>
+			<alias>NaFo</alias>
+			<alias>na formate</alias>
+			<alias>na-formate</alias>
+		</chemical>
+		<chemical name="sodium iodide" units="M" formula="NaI" density="" solubility="184" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="184" mw="149.89" ions="Na;I" CAS="7681-82-5" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>nai</alias>
+		</chemical>
+		<chemical name="sodium nitrate" units="M" formula="NaNO3" density="" solubility="92.1" pka1="" pka2="" pka3="" def_stock_conc="7" def_stock_units="M" max_stock_conc="92.1" mw="84.99" ions="Na;NO3" CAS="7631-99-4" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Chile salpeter</alias>
+			<alias>nano3</alias>
+		</chemical>
+		<chemical name="sodium sulfate" units="M" formula="Na2SO4" density="" solubility="21" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="21" mw="142.04" ions="2Na;SO4" CAS="7757-82-6" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>na sulfate</alias>
+			<alias>na2so4</alias>
+			<alias>sodium sulphate</alias>
+		</chemical>
+		<chemical name="sodium thiocyanate" units="M" formula="NaSCN" density="" solubility="139.3" pka1="" pka2="" pka3="" def_stock_conc="8" def_stock_units="M" max_stock_conc="139.3" mw="81.07" ions="Na;SCN" CAS="540-72-7" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>nascn</alias>
+			<alias>sodium isothiocyanate</alias>
+		</chemical>
+		<chemical name="tripotassium citrate" units="M" formula="K3C6H5O7" density="" solubility="140.7" pka1="3.06" pka2="4.74" pka3="6.4" def_stock_conc="2.5" def_stock_units="M" max_stock_conc="140.7" mw="306.4" ions="3K;C6H5O7" CAS="866-84-2" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Buffer</class>
+			<alias>K3 citrate</alias>
+			<alias>Potassium citrate tribasic</alias>
+			<alias>tri-potassium citrate</alias>
+			<alias>tripotassium citrate</alias>
+		</chemical>
+		<chemical name="zinc acetate" units="M" formula="Zn(C2H3O2)2" density="" solubility="43" pka1="4.76" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="34" mw="183.48" ions="Zn;2CH3CO2" CAS="557-34-6" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Zn(OAc)</alias>
+			<alias>Zn(OAc)2</alias>
+			<alias>ZnAc</alias>
+			<alias>zn acetate</alias>
+			<alias>zn-acetate</alias>
+		</chemical>
+	</chemicals>
+	<screen name="JBScreen PEG/Salt 2" username="Jena Bioscience" design_date="2008-05-26 18:34:24" res_vol="0">
+		<format name="Screen24Well" rows="4" cols="6" subs="0" max_res_vol="" def_res_vol="" max_drop_vol="" def_drop_vol=""/>
+		<comments>Product code CS-142</comments>
+		<well number="1" label="A1">
+			<item name="potassium acetate" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="2" label="A2">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="potassium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="3" label="A3">
+			<item name="potassium fluoride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="4" label="A4">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="potassium iodide" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="5" label="A5">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="potassium nitrate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="6" label="A6">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="potassium dihydrogen phosphate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="7" label="B1">
+			<item name="dipotassium hydrogen phosphate" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="8" label="B2">
+			<item name="potassium sulfate" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="9" label="B3">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="potassium thiocyanate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="10" label="B4">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="potassium sodium tartrate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="11" label="B5">
+			<item name="sodium acetate" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="12" label="B6">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="13" label="C1">
+			<item name="sodium citrate" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="14" label="C2">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium fluoride" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="15" label="C3">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium formate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="16" label="C4">
+			<item name="sodium iodide" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="17" label="C5">
+			<item name="sodium thiocyanate" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="18" label="C6">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium nitrate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="19" label="D1">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium dihydrogen phosphate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="20" label="D2">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="disodium hydrogen phosphate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="21" label="D3">
+			<item name="sodium sulfate" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="22" label="D4">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="disodium tartrate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="23" label="D5">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="tripotassium citrate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="24" label="D6">
+			<item name="polyethylene glycol 3350" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="zinc acetate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+	</screen>
+</crystaltrak>

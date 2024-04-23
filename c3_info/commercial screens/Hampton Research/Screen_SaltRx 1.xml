@@ -1,0 +1,319 @@
+<crystaltrak datatype="screen" version="2.3.43">
+	<chemicals>
+		<chemical name="ammonium chloride" units="M" formula="NH4Cl" density="" solubility="29.7" pka1="" pka2="" pka3="" def_stock_conc="5" def_stock_units="M" max_stock_conc="23.8" mw="53.49" ions="NH4;Cl" CAS="12125-02-9" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>AmCl</alias>
+			<alias>Ammoniumchlorid</alias>
+			<alias>Salmiac</alias>
+			<alias>sal ammoniac</alias>
+			<alias>smelling salts</alias>
+		</chemical>
+		<chemical name="ammonium nitrate" units="M" formula="NH4NO3" density="" solubility="118.3" pka1="" pka2="" pka3="" def_stock_conc="10" def_stock_units="M" max_stock_conc="94" mw="80.04" ions="NH4;NO3" CAS="6484-52-2" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>AmNO3</alias>
+			<alias>am no3</alias>
+		</chemical>
+		<chemical name="bis-tris propane" units="M" formula="C11H26N2O6" density="" solubility="45" pka1="6.8" pka2="9" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="36" mw="282.33" ions="" CAS="64431-96-5" CMC="" SMILES="">
+			<class>Buffer</class>
+			<class>Ambiguous</class>
+			<alias>BTP</alias>
+			<alias>bis tris propane</alias>
+			<alias>bis-tris-propane</alias>
+			<alias>bistripro</alias>
+			<alias>bistris propane</alias>
+		</chemical>
+		<chemical name="diammonium hydrogen citrate" units="M" formula="(NH4)2HC6H5O7" density="" solubility="100" pka1="3.1" pka2="4.8" pka3="6.4" def_stock_conc="2.5" def_stock_units="M" max_stock_conc="100" mw="226.19" ions="H,2NH4;C6H5O7" CAS="3012-65-5" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Am2HCit</alias>
+			<alias>Di-ammonium hydrogen citrate</alias>
+			<alias>am2h citrate</alias>
+			<alias>ammonium citrate (dibasic)</alias>
+			<alias>ammonium citrate dibasic</alias>
+			<alias>ammonium citrate, dibasic</alias>
+			<alias>ammonium monohydrogen citrate</alias>
+			<alias>di-NH4 cit</alias>
+			<alias>di-ammonium citrate</alias>
+			<alias>di-ammonium hydrogen phosphate</alias>
+			<alias>diammonium hydrogen citrate</alias>
+			<alias>dibasic ammonium citrate</alias>
+		</chemical>
+		<chemical name="DL-malic acid" units="M" formula="C4H6O5" density="" solubility="41" pka1="3.4" pka2="5.1" pka3="" def_stock_conc="3" def_stock_units="M" max_stock_conc="" mw="134.1" ions="2H;C4H4O5" CAS="6915-15-7" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>2-Hydroxysuccinic acid</alias>
+			<alias>D,L-Malic Acid</alias>
+			<alias>DL Malic acid</alias>
+			<alias>DL- Malic acid</alias>
+			<alias>DL-malic acid</alias>
+			<alias>Hydroxybutanedioic acid</alias>
+		</chemical>
+		<chemical name="magnesium formate" units="M" formula="Mg(CHO2)2" density="" solubility="14" pka1="3.75" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="14" mw="114.34" ions="Mg;2CHO2" CAS="6150-82-9" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Mg-formiate</alias>
+			<alias>mg formate</alias>
+			<alias>mg-formate</alias>
+		</chemical>
+		<chemical name="sodium acetate" units="M" formula="NaC2H3O2" density="" solubility="46.5" pka1="4.76" pka2="" pka3="" def_stock_conc="3.5" def_stock_units="M" max_stock_conc="37" mw="82.03" ions="Na;CH3CO2" CAS="127-09-3" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Ambiguous</class>
+			<alias>NaAc/acetic acid</alias>
+			<alias>Sodium  Acetate</alias>
+			<alias>acetate</alias>
+			<alias>na acetate</alias>
+			<alias>na-acetate</alias>
+			<alias>naac</alias>
+			<alias>naoac</alias>
+		</chemical>
+		<chemical name="sodium chloride" units="M" formula="NaCl" density="" solubility="35.7" pka1="" pka2="" pka3="" def_stock_conc="5" def_stock_units="M" max_stock_conc="35.7" mw="58.44" ions="Na;Cl" CAS="7647-14-5" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Na chloride</alias>
+			<alias>Sodium  Chloride</alias>
+			<alias>Sodium Chloride</alias>
+			<alias>na-chloride</alias>
+			<alias>nacl</alias>
+			<alias>salt</alias>
+		</chemical>
+		<chemical name="sodium formate" units="M" formula="NaCHO2" density="" solubility="97.02" pka1="3.75" pka2="" pka3="" def_stock_conc="7" def_stock_units="M" max_stock_conc="97.02" mw="68.01" ions="Na;CHO2" CAS="141-53-7" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Na-formiate</alias>
+			<alias>NaFo</alias>
+			<alias>na formate</alias>
+			<alias>na-formate</alias>
+		</chemical>
+		<chemical name="sodium malonate" units="M" formula="C3H2Na2O4" density="" solubility="51" pka1="2.83" pka2="5.69" pka3="" def_stock_conc="3.4" def_stock_units="M" max_stock_conc="" mw="148.03" ions="2Na;C3H2O4" CAS="141-95-7" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Buffer</class>
+			<alias>di-sodium malonate</alias>
+			<alias>malonate</alias>
+			<alias>na malonate</alias>
+			<alias>na-malonate</alias>
+			<alias>sodium malonate dibasic</alias>
+		</chemical>
+		<chemical name="sodium nitrate" units="M" formula="NaNO3" density="" solubility="92.1" pka1="" pka2="" pka3="" def_stock_conc="7" def_stock_units="M" max_stock_conc="92.1" mw="84.99" ions="Na;NO3" CAS="7631-99-4" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Chile salpeter</alias>
+			<alias>nano3</alias>
+		</chemical>
+		<chemical name="triammonium citrate" units="M" formula="C6H17N3O7" density="" solubility="61" pka1="3.06" pka2="4.74" pka3="6.4" def_stock_conc="2.5" def_stock_units="M" max_stock_conc="49" mw="243.33" ions="3NH4;C6H5O7" CAS="3458-72-8" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Buffer</class>
+			<alias>Ammonium citrate tribasic</alias>
+			<alias>am3 citrate</alias>
+			<alias>ammonium citrate, tribasic</alias>
+			<alias>tri-ammonium citrate</alias>
+		</chemical>
+		<chemical name="tris" units="M" formula="C4H11NO3" density="" solubility="55" pka1="8.1" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="55" mw="121.14" ions="" CAS="77-86-1" CMC="" SMILES="">
+			<class>Buffer</class>
+			<class>Ambiguous</class>
+			<alias>Trizma</alias>
+		</chemical>
+		<chemical name="trisodium citrate" units="M" formula="Na3C6H5O7" density="" solubility="63" pka1="3.13" pka2="4.74" pka3="6.4" def_stock_conc="1.6" def_stock_units="M" max_stock_conc="63" mw="258.06" ions="3Na;C6H5O7" CAS="68-04-2" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Sodium citrate tribasic</alias>
+			<alias>Sodium citrate tribasic (H2O)2</alias>
+			<alias>Tri-Na-Citrate</alias>
+			<alias>na3 citrate</alias>
+			<alias>na3-citrate</alias>
+			<alias>na3citrate</alias>
+			<alias>sodium citrate, tribasic</alias>
+			<alias>tri-na citrate</alias>
+			<alias>tri-sodium citrate</alias>
+			<alias>trisodium citrate</alias>
+		</chemical>
+	</chemicals>
+	<screen name="SaltRx 1" username="Hampton Research" design_date="2010-10-26 17:49:30" res_vol="0">
+		<format name="Generic 48 Well" rows="6" cols="8" subs="1" max_res_vol="1" def_res_vol="1" max_drop_vol="1" def_drop_vol="1"/>
+		<comments>10 ml tubes HR2-107</comments>
+		<well number="1" label="A1">
+			<item name="sodium acetate" class="Salt" conc="1.8" units="M" ph="7"/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="7"/>
+		</well>
+		<well number="2" label="A2">
+			<item name="sodium acetate" class="Salt" conc="2.8" units="M" ph="7"/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="7"/>
+		</well>
+		<well number="3" label="A3">
+			<item name="ammonium chloride" class="Salt" conc="1.5" units="M" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+		</well>
+		<well number="4" label="A4">
+			<item name="ammonium chloride" class="Salt" conc="1.5" units="M" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="7"/>
+		</well>
+		<well number="5" label="A5">
+			<item name="ammonium chloride" class="Salt" conc="1.5" units="M" ph=""/>
+			<item name="tris" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+		</well>
+		<well number="6" label="A6">
+			<item name="ammonium chloride" class="Salt" conc="3.5" units="M" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+		</well>
+		<well number="7" label="A7">
+			<item name="ammonium chloride" class="Salt" conc="3.5" units="M" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="7"/>
+		</well>
+		<well number="8" label="A8">
+			<item name="ammonium chloride" class="Salt" conc="3.5" units="M" ph=""/>
+			<item name="tris" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+		</well>
+		<well number="9" label="B1">
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+			<item name="sodium chloride" class="Salt" conc="2.2" units="M" ph=""/>
+		</well>
+		<well number="10" label="B2">
+			<item name="sodium chloride" class="Salt" conc="2.2" units="M" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="7"/>
+		</well>
+		<well number="11" label="B3">
+			<item name="sodium chloride" class="Salt" conc="2.2" units="M" ph=""/>
+			<item name="tris" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+		</well>
+		<well number="12" label="B4">
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+			<item name="sodium chloride" class="Salt" conc="3.2" units="M" ph=""/>
+		</well>
+		<well number="13" label="B5">
+			<item name="sodium chloride" class="Salt" conc="3.2" units="M" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="7"/>
+		</well>
+		<well number="14" label="B6">
+			<item name="sodium chloride" class="Salt" conc="3.2" units="M" ph=""/>
+			<item name="tris" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+		</well>
+		<well number="15" label="B7">
+			<item name="diammonium hydrogen citrate" class="Salt" conc="1" units="M" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+		</well>
+		<well number="16" label="B8">
+			<item name="diammonium hydrogen citrate" class="Salt" conc="1.8" units="M" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+		</well>
+		<well number="17" label="C1">
+			<item name="triammonium citrate" class="Salt" conc="1" units="M" ph="7"/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="7"/>
+		</well>
+		<well number="18" label="C2">
+			<item name="triammonium citrate" class="Salt" conc="2" units="M" ph="7"/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="7"/>
+		</well>
+		<well number="19" label="C3">
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="7"/>
+			<item name="trisodium citrate" class="Salt" conc="0.7" units="M" ph=""/>
+		</well>
+		<well number="20" label="C4">
+			<item name="tris" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="trisodium citrate" class="Salt" conc="0.7" units="M" ph=""/>
+		</well>
+		<well number="21" label="C5">
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="7"/>
+			<item name="trisodium citrate" class="Salt" conc="1.2" units="M" ph=""/>
+		</well>
+		<well number="22" label="C6">
+			<item name="tris" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="trisodium citrate" class="Salt" conc="1.2" units="M" ph=""/>
+		</well>
+		<well number="23" label="C7">
+			<item name="magnesium formate" class="Salt" conc="0.4" units="M" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+		</well>
+		<well number="24" label="C8">
+			<item name="magnesium formate" class="Salt" conc="0.4" units="M" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="7"/>
+		</well>
+		<well number="25" label="D1">
+			<item name="magnesium formate" class="Salt" conc="0.4" units="M" ph=""/>
+			<item name="tris" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+		</well>
+		<well number="26" label="D2">
+			<item name="magnesium formate" class="Salt" conc="0.7" units="M" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="7"/>
+		</well>
+		<well number="27" label="D3">
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+			<item name="sodium formate" class="Salt" conc="2" units="M" ph=""/>
+		</well>
+		<well number="28" label="D4">
+			<item name="sodium formate" class="Salt" conc="2" units="M" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="7"/>
+		</well>
+		<well number="29" label="D5">
+			<item name="sodium formate" class="Salt" conc="2" units="M" ph=""/>
+			<item name="tris" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+		</well>
+		<well number="30" label="D6">
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+			<item name="sodium formate" class="Salt" conc="3.5" units="M" ph=""/>
+		</well>
+		<well number="31" label="D7">
+			<item name="sodium formate" class="Salt" conc="3.5" units="M" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="7"/>
+		</well>
+		<well number="32" label="D8">
+			<item name="sodium formate" class="Salt" conc="3.5" units="M" ph=""/>
+			<item name="tris" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+		</well>
+		<well number="33" label="E1">
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="7"/>
+			<item name="DL-malic acid" class="Salt" conc="1.2" units="M" ph="7"/>
+		</well>
+		<well number="34" label="E2">
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="7"/>
+			<item name="DL-malic acid" class="Salt" conc="2.2" units="M" ph="7"/>
+		</well>
+		<well number="35" label="E3">
+			<item name="sodium malonate" class="Salt" conc="1.4" units="M" ph="7"/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="7"/>
+		</well>
+		<well number="36" label="E4">
+			<item name="sodium malonate" class="Salt" conc="2.4" units="M" ph="7"/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="7"/>
+		</well>
+		<well number="37" label="E5">
+			<item name="ammonium nitrate" class="Salt" conc="2.5" units="M" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+		</well>
+		<well number="38" label="E6">
+			<item name="ammonium nitrate" class="Salt" conc="2.5" units="M" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="7"/>
+		</well>
+		<well number="39" label="E7">
+			<item name="tris" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="ammonium nitrate" class="Salt" conc="2.5" units="M" ph=""/>
+		</well>
+		<well number="40" label="E8">
+			<item name="ammonium nitrate" class="Salt" conc="6" units="M" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+		</well>
+		<well number="41" label="F1">
+			<item name="ammonium nitrate" class="Salt" conc="6" units="M" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="7"/>
+		</well>
+		<well number="42" label="F2">
+			<item name="tris" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="ammonium nitrate" class="Salt" conc="6" units="M" ph=""/>
+		</well>
+		<well number="43" label="F3">
+			<item name="sodium nitrate" class="Salt" conc="1.5" units="M" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+		</well>
+		<well number="44" label="F4">
+			<item name="sodium nitrate" class="Salt" conc="1.5" units="M" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="7"/>
+		</well>
+		<well number="45" label="F5">
+			<item name="sodium nitrate" class="Salt" conc="1.5" units="M" ph=""/>
+			<item name="tris" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+		</well>
+		<well number="46" label="F6">
+			<item name="sodium nitrate" class="Salt" conc="4" units="M" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+		</well>
+		<well number="47" label="F7">
+			<item name="sodium nitrate" class="Salt" conc="4" units="M" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.1" units="M" ph="7"/>
+		</well>
+		<well number="48" label="F8">
+			<item name="sodium nitrate" class="Salt" conc="4" units="M" ph=""/>
+			<item name="tris" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+		</well>
+	</screen>
+</crystaltrak>

@@ -1,0 +1,156 @@
+<crystaltrak datatype="screen" version="2.3.43">
+	<chemicals>
+		<chemical name="bicine" units="M" formula="C6H13NO4" density="" solubility="18" pka1="8.35" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="16.3" mw="163.2" ions="" CAS="150-25-4" CMC="" SMILES="">
+			<class>Buffer</class>
+			<class>Ambiguous</class>
+			<alias>Bicine/NaOH</alias>
+			<alias>N,N-Bis(2-hydroxyethyl)glycine</alias>
+		</chemical>
+		<chemical name="HEPES" units="M" formula="C8H18N2O4S" density="" solubility="40" pka1="7.5" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="40" mw="238.31" ions="" CAS="7365-45-9" CMC="" SMILES="">
+			<class>Buffer</class>
+			<class>Ambiguous</class>
+			<alias>4-(2-Hydroxyethyl)piperazine-1-ethanesulfonic acid</alias>
+			<alias>4-(2-hydroxyethyl)-1-piperazineethanesulfonic acid</alias>
+		</chemical>
+		<chemical name="MES" units="M" formula="C6H13NO4S" density="" solubility="20" pka1="6.15" pka2="" pka3="" def_stock_conc="0.5" def_stock_units="M" max_stock_conc="20" mw="195.23" ions="" CAS="4432-31-9" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Buffer</class>
+			<class>Ambiguous</class>
+			<class>Additive</class>
+			<alias>2-Morpholinoethanesulfonic acid</alias>
+			<alias>MES monohydrate</alias>
+		</chemical>
+		<chemical name="sodium chloride" units="M" formula="NaCl" density="" solubility="35.7" pka1="" pka2="" pka3="" def_stock_conc="5" def_stock_units="M" max_stock_conc="35.7" mw="58.44" ions="Na;Cl" CAS="7647-14-5" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Na chloride</alias>
+			<alias>Sodium  Chloride</alias>
+			<alias>Sodium Chloride</alias>
+			<alias>na-chloride</alias>
+			<alias>nacl</alias>
+			<alias>salt</alias>
+		</chemical>
+		<chemical name="tris chloride" units="M" formula="C4H11NO3   HCl" density="" solubility="67" pka1="8.1" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="67" mw="157.6" ions=";Cl" CAS="1185-53-1" CMC="" SMILES="">
+			<class>Buffer</class>
+			<alias>Tris -HCl</alias>
+			<alias>Tris HCl</alias>
+			<alias>Tris base/HCl</alias>
+			<alias>Tris- HCl</alias>
+			<alias>tris</alias>
+			<alias>tris hydrochloride</alias>
+			<alias>tris-hcl</alias>
+			<alias>tris-hydrochloride</alias>
+			<alias>tris.hcl</alias>
+			<alias>trishcl</alias>
+		</chemical>
+		<chemical name="trisodium citrate-citric acid" units="M" formula="" density="" solubility="" pka1="3.13" pka2="4.76" pka3="6.4" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="258.06" ions="3Na;C6H5O7" CAS="" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Buffer</class>
+			<alias>Na3 citrate/citric acid</alias>
+			<alias>Sodium Citrate / Citric Acid</alias>
+			<alias>citric acid sodium citrate</alias>
+			<alias>citric acid-sodium citrate</alias>
+			<alias>tri-sodium citrate - citric acid</alias>
+			<alias>trisodium Citrate-Citric Acid</alias>
+		</chemical>
+	</chemicals>
+	<screen name="Grid Screen Sodium Chloride" username="Hampton Research" design_date="2003-10-10 16:18:41" res_vol="0">
+		<format name="Generic 24 Well" rows="4" cols="6" subs="1" max_res_vol="1" def_res_vol="1" max_drop_vol="1" def_drop_vol="1"/>
+		<comments>HR2-219  	Grid Screen NaCl kit  	10 ml, tube format</comments>
+		<well number="1" label="A1">
+			<item name="sodium chloride" class="Precipitant" conc="1" units="M" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Fundamental Mixtures" conc="0.1" units="M" ph="4"/>
+		</well>
+		<well number="2" label="A2">
+			<item name="sodium chloride" class="Precipitant" conc="1" units="M" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Fundamental Mixtures" conc="0.1" units="M" ph="5"/>
+		</well>
+		<well number="3" label="A3">
+			<item name="sodium chloride" class="Precipitant" conc="1" units="M" ph=""/>
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6"/>
+		</well>
+		<well number="4" label="A4">
+			<item name="sodium chloride" class="Precipitant" conc="1" units="M" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7"/>
+		</well>
+		<well number="5" label="A5">
+			<item name="sodium chloride" class="Precipitant" conc="1" units="M" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8"/>
+		</well>
+		<well number="6" label="A6">
+			<item name="sodium chloride" class="Precipitant" conc="1" units="M" ph=""/>
+			<item name="bicine" class="Buffer" conc="0.1" units="M" ph="9"/>
+		</well>
+		<well number="7" label="B1">
+			<item name="trisodium citrate-citric acid" class="Fundamental Mixtures" conc="0.1" units="M" ph="4"/>
+			<item name="sodium chloride" class="Precipitant" conc="2" units="M" ph=""/>
+		</well>
+		<well number="8" label="B2">
+			<item name="trisodium citrate-citric acid" class="Fundamental Mixtures" conc="0.1" units="M" ph="5"/>
+			<item name="sodium chloride" class="Precipitant" conc="2" units="M" ph=""/>
+		</well>
+		<well number="9" label="B3">
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6"/>
+			<item name="sodium chloride" class="Precipitant" conc="2" units="M" ph=""/>
+		</well>
+		<well number="10" label="B4">
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7"/>
+			<item name="sodium chloride" class="Precipitant" conc="2" units="M" ph=""/>
+		</well>
+		<well number="11" label="B5">
+			<item name="sodium chloride" class="Precipitant" conc="2" units="M" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8"/>
+		</well>
+		<well number="12" label="B6">
+			<item name="sodium chloride" class="Precipitant" conc="2" units="M" ph=""/>
+			<item name="bicine" class="Buffer" conc="0.1" units="M" ph="9"/>
+		</well>
+		<well number="13" label="C1">
+			<item name="trisodium citrate-citric acid" class="Fundamental Mixtures" conc="0.1" units="M" ph="4"/>
+			<item name="sodium chloride" class="Precipitant" conc="3" units="M" ph=""/>
+		</well>
+		<well number="14" label="C2">
+			<item name="sodium chloride" class="Precipitant" conc="3" units="M" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Fundamental Mixtures" conc="0.1" units="M" ph="5"/>
+		</well>
+		<well number="15" label="C3">
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6"/>
+			<item name="sodium chloride" class="Precipitant" conc="3" units="M" ph=""/>
+		</well>
+		<well number="16" label="C4">
+			<item name="sodium chloride" class="Precipitant" conc="3" units="M" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7"/>
+		</well>
+		<well number="17" label="C5">
+			<item name="sodium chloride" class="Precipitant" conc="3" units="M" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8"/>
+		</well>
+		<well number="18" label="C6">
+			<item name="bicine" class="Buffer" conc="0.1" units="M" ph="9"/>
+			<item name="sodium chloride" class="Precipitant" conc="3" units="M" ph=""/>
+		</well>
+		<well number="19" label="D1">
+			<item name="sodium chloride" class="Precipitant" conc="4" units="M" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Fundamental Mixtures" conc="0.1" units="M" ph="4"/>
+		</well>
+		<well number="20" label="D2">
+			<item name="sodium chloride" class="Precipitant" conc="4" units="M" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Fundamental Mixtures" conc="0.1" units="M" ph="5"/>
+		</well>
+		<well number="21" label="D3">
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6"/>
+			<item name="sodium chloride" class="Precipitant" conc="4" units="M" ph=""/>
+		</well>
+		<well number="22" label="D4">
+			<item name="sodium chloride" class="Precipitant" conc="4" units="M" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7"/>
+		</well>
+		<well number="23" label="D5">
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8"/>
+			<item name="sodium chloride" class="Precipitant" conc="4" units="M" ph=""/>
+		</well>
+		<well number="24" label="D6">
+			<item name="bicine" class="Buffer" conc="0.1" units="M" ph="9"/>
+			<item name="sodium chloride" class="Precipitant" conc="4" units="M" ph=""/>
+		</well>
+	</screen>
+</crystaltrak>

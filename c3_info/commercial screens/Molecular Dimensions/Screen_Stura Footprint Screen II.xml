@@ -1,0 +1,224 @@
+<crystaltrak datatype="screen" version="2.3.43">
+	<chemicals>
+		<chemical name="ammonium acetate" units="M" formula="C2H7NO2" density="" solubility="148" pka1="4.76" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="148" mw="77.08" ions="NH4;CH3CO2" CAS="631-61-8" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Am(Oac)</alias>
+			<alias>AmAc</alias>
+			<alias>NH4 Ac</alias>
+			<alias>NH4 Acetate</alias>
+			<alias>NH4-acetate</alias>
+			<alias>NH4OAc</alias>
+			<alias>am acetate</alias>
+			<alias>am-acetate</alias>
+		</chemical>
+		<chemical name="DL-malate-imidazole" units="M" formula="" density="" solubility="" pka1="3.2" pka2="5.2" pka3="7.2" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="" ions="" CAS="" CMC="" SMILES="">
+			<class>Fundamental Mixtures</class>
+			<class>Buffer</class>
+			<alias>Imidazole malate</alias>
+			<alias>imidazol-malate</alias>
+			<alias>imidazole-malate</alias>
+		</chemical>
+		<chemical name="HEPES" units="M" formula="C8H18N2O4S" density="" solubility="40" pka1="7.5" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="40" mw="238.31" ions="" CAS="7365-45-9" CMC="" SMILES="">
+			<class>Buffer</class>
+			<class>Ambiguous</class>
+			<alias>4-(2-Hydroxyethyl)piperazine-1-ethanesulfonic acid</alias>
+			<alias>4-(2-hydroxyethyl)-1-piperazineethanesulfonic acid</alias>
+		</chemical>
+		<chemical name="polyethylene glycol 10000" units="w/v" formula="HO-(CH2-CH2-O)n-H" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="50" mw="10000" ions="" CAS="25322-68-3" CMC="" SMILES="">
+			<class>Polymer</class>
+			<alias>PEG 10,000</alias>
+			<alias>PEG 10000</alias>
+			<alias>PEG 10K</alias>
+			<alias>PEG-10000</alias>
+			<alias>polyethylene glycol 10,000</alias>
+		</chemical>
+		<chemical name="polyethylene glycol 4000" units="w/v" formula="HO-(CH2-CH2-O)n-H" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="50" mw="4000" ions="" CAS="25322-68-3" CMC="" SMILES="">
+			<class>Polymer</class>
+			<alias>PEG 4,000</alias>
+			<alias>PEG 4000</alias>
+			<alias>PEG 4K</alias>
+			<alias>PEG-4000</alias>
+			<alias>PEG4K</alias>
+			<alias>polyethylene glycol 4,000</alias>
+			<alias>polyethylene glycol 4K</alias>
+		</chemical>
+		<chemical name="polyethylene glycol 600" units="w/v" formula="HO-(CH2-CH2-O)n-H" density="1.12" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="112" mw="600" ions="" CAS="25322-68-3" CMC="" SMILES="">
+			<class>Polymer</class>
+			<alias>PEG 600</alias>
+			<alias>PEG-600</alias>
+		</chemical>
+		<chemical name="polyethylene glycol monomethyl ether 2000" units="w/v" formula="CH3O-(CH2-CH2-O)n-H" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="50" mw="2000" ions="" CAS="9004-74-4" CMC="" SMILES="">
+			<class>Polymer</class>
+			<alias>MPEG 2000</alias>
+			<alias>MPEG 2K</alias>
+			<alias>PEG 2000 MME</alias>
+			<alias>PEG 2000MME</alias>
+			<alias>PEG 2K MME</alias>
+			<alias>PEG MME 2,000</alias>
+			<alias>PEG MME 2000</alias>
+			<alias>PEG MME 2K</alias>
+			<alias>PEG monomethylether 2000</alias>
+			<alias>PEG-MME 2000</alias>
+			<alias>PEG-MME 2k</alias>
+			<alias>PGME 2000</alias>
+			<alias>PGME 2K</alias>
+			<alias>PMME 2000</alias>
+			<alias>polyethylene glycol 2000 MME</alias>
+			<alias>polyethylene glycol MME 2000</alias>
+			<alias>polyethylene glycol monomethyl ether 2,000</alias>
+		</chemical>
+		<chemical name="polyethylene glycol monomethyl ether 5000" units="w/v" formula="CH3O-(CH2-CH2-O)n-H" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="50" mw="5000" ions="" CAS="9004-74-4" CMC="" SMILES="">
+			<class>Polymer</class>
+			<alias>5KMME</alias>
+			<alias>MPEG 5000</alias>
+			<alias>MPEG 5K</alias>
+			<alias>PEG  5000 MME</alias>
+			<alias>PEG 5000 MME</alias>
+			<alias>PEG MME 5,000</alias>
+			<alias>PEG MME 5000</alias>
+			<alias>PEG MME 5K</alias>
+			<alias>PEG monomethylether 5000</alias>
+			<alias>PEG-5000 MME</alias>
+			<alias>PEG-MME 5000</alias>
+			<alias>PEG-MME 5k</alias>
+			<alias>PMME 5000</alias>
+			<alias>polyethylene glycol MME 5000</alias>
+			<alias>polyethylene glycol monomethyl ether 5,000</alias>
+		</chemical>
+		<chemical name="polyethylene glycol monomethyl ether 550" units="v/v" formula="CH3O-(CH2-CH2-O)n-H" density="1.089" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="109.4" mw="550" ions="" CAS="9004-74-4" CMC="" SMILES="">
+			<class>Polymer</class>
+			<alias>MPEG 500</alias>
+			<alias>MPEG 550</alias>
+			<alias>P550MME</alias>
+			<alias>PEG 500 MME</alias>
+			<alias>PEG 550 MME</alias>
+			<alias>PEG 550MME</alias>
+			<alias>PEG MME 500</alias>
+			<alias>PEG MME 550</alias>
+			<alias>PEG monomethylether 550</alias>
+			<alias>PEG-MME 550</alias>
+			<alias>PMME 550</alias>
+			<alias>polyethylene glycol MME 550</alias>
+			<alias>polyethylene glycol monomethyl ether 500</alias>
+		</chemical>
+		<chemical name="sodium acetate" units="M" formula="NaC2H3O2" density="" solubility="46.5" pka1="4.76" pka2="" pka3="" def_stock_conc="3.5" def_stock_units="M" max_stock_conc="37" mw="82.03" ions="Na;CH3CO2" CAS="127-09-3" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Ambiguous</class>
+			<alias>NaAc/acetic acid</alias>
+			<alias>Sodium  Acetate</alias>
+			<alias>acetate</alias>
+			<alias>na acetate</alias>
+			<alias>na-acetate</alias>
+			<alias>naac</alias>
+			<alias>naoac</alias>
+		</chemical>
+		<chemical name="sodium cacodylate" units="M" formula="Na[(CH3)2AsO2]" density="" solubility="148.6" pka1="6.27" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="148.6" mw="159.98" ions="Na;(CH3)2AsO2" CAS="124-65-2" CMC="" SMILES="">
+			<class>Buffer</class>
+			<alias>Na Cacodylate/HCl</alias>
+			<alias>Na-cacodylate</alias>
+			<alias>cacodylate</alias>
+			<alias>na cacodylate</alias>
+			<alias>sodium dimethyl arsonide</alias>
+		</chemical>
+	</chemicals>
+	<screen name="Stura Footprint Screen II" username="Molecular Dimensions" design_date="2005-06-07 17:49:39" res_vol="0">
+		<format name="Generic 24 Well" rows="4" cols="6" subs="1" max_res_vol="1" def_res_vol="1" max_drop_vol="1" def_drop_vol="1"/>
+		<comments>MD1-20ROWORLD</comments>
+		<well number="1" label="A1">
+			<item name="polyethylene glycol monomethyl ether 550" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="8.2"/>
+		</well>
+		<well number="2" label="A2">
+			<item name="polyethylene glycol 600" class="Polymer" conc="18" units="w/v" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+		</well>
+		<well number="3" label="A3">
+			<item name="sodium cacodylate" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+			<item name="polyethylene glycol monomethyl ether 2000" class="Polymer" conc="18" units="w/v" ph=""/>
+		</well>
+		<well number="4" label="A4">
+			<item name="DL-malate-imidazole" class="Fundamental Mixtures" conc="0.2" units="M" ph="6"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="8" units="w/v" ph=""/>
+		</well>
+		<well number="5" label="A5">
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="5.5"/>
+			<item name="polyethylene glycol monomethyl ether 5000" class="Polymer" conc="12" units="w/v" ph=""/>
+		</well>
+		<well number="6" label="A6">
+			<item name="ammonium acetate" class="Salt" conc="0.1" units="M" ph="4.5"/>
+			<item name="polyethylene glycol 10000" class="Polymer" conc="9" units="w/v" ph=""/>
+		</well>
+		<well number="7" label="B1">
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="8.2"/>
+			<item name="polyethylene glycol monomethyl ether 550" class="Polymer" conc="40" units="w/v" ph=""/>
+		</well>
+		<well number="8" label="B2">
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+			<item name="polyethylene glycol 600" class="Polymer" conc="27" units="w/v" ph=""/>
+		</well>
+		<well number="9" label="B3">
+			<item name="polyethylene glycol monomethyl ether 2000" class="Polymer" conc="27" units="w/v" ph=""/>
+			<item name="sodium cacodylate" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+		</well>
+		<well number="10" label="B4">
+			<item name="DL-malate-imidazole" class="Fundamental Mixtures" conc="0.2" units="M" ph="6"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="15" units="w/v" ph=""/>
+		</well>
+		<well number="11" label="B5">
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="5.5"/>
+			<item name="polyethylene glycol monomethyl ether 5000" class="Polymer" conc="18" units="w/v" ph=""/>
+		</well>
+		<well number="12" label="B6">
+			<item name="ammonium acetate" class="Salt" conc="0.1" units="M" ph="4.5"/>
+			<item name="polyethylene glycol 10000" class="Polymer" conc="15" units="w/v" ph=""/>
+		</well>
+		<well number="13" label="C1">
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="8.2"/>
+			<item name="polyethylene glycol monomethyl ether 550" class="Polymer" conc="50" units="w/v" ph=""/>
+		</well>
+		<well number="14" label="C2">
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+			<item name="polyethylene glycol 600" class="Polymer" conc="36" units="w/v" ph=""/>
+		</well>
+		<well number="15" label="C3">
+			<item name="sodium cacodylate" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+			<item name="polyethylene glycol monomethyl ether 2000" class="Polymer" conc="36" units="w/v" ph=""/>
+		</well>
+		<well number="16" label="C4">
+			<item name="DL-malate-imidazole" class="Fundamental Mixtures" conc="0.2" units="M" ph="6"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="17" label="C5">
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="5.5"/>
+			<item name="polyethylene glycol monomethyl ether 5000" class="Polymer" conc="24" units="w/v" ph=""/>
+		</well>
+		<well number="18" label="C6">
+			<item name="ammonium acetate" class="Salt" conc="0.1" units="M" ph="4.5"/>
+			<item name="polyethylene glycol 10000" class="Polymer" conc="22.5" units="w/v" ph=""/>
+		</well>
+		<well number="19" label="D1">
+			<item name="polyethylene glycol monomethyl ether 550" class="Polymer" conc="60" units="w/v" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="8.2"/>
+		</well>
+		<well number="20" label="D2">
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7.5"/>
+			<item name="polyethylene glycol 600" class="Polymer" conc="45" units="w/v" ph=""/>
+		</well>
+		<well number="21" label="D3">
+			<item name="polyethylene glycol monomethyl ether 2000" class="Polymer" conc="45" units="w/v" ph=""/>
+			<item name="sodium cacodylate" class="Buffer" conc="0.1" units="M" ph="6.5"/>
+		</well>
+		<well number="22" label="D4">
+			<item name="DL-malate-imidazole" class="Fundamental Mixtures" conc="0.2" units="M" ph="6"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="30" units="w/v" ph=""/>
+		</well>
+		<well number="23" label="D5">
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="5.5"/>
+			<item name="polyethylene glycol monomethyl ether 5000" class="Polymer" conc="36" units="w/v" ph=""/>
+		</well>
+		<well number="24" label="D6">
+			<item name="ammonium acetate" class="Salt" conc="0.1" units="M" ph="4.5"/>
+			<item name="polyethylene glycol 10000" class="Polymer" conc="27" units="w/v" ph=""/>
+		</well>
+	</screen>
+</crystaltrak>

@@ -1,0 +1,275 @@
+<crystaltrak datatype="screen" version="2.3.43">
+	<chemicals>
+		<chemical name="1,2,3-hexanetriol" units="M" formula="C6H14O3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="134.17" ions="" CAS="25323-24-4" CMC="" SMILES="">
+			<class>Additive</class>
+			<alias>HT</alias>
+			<alias>hexane-1,2,3-triol</alias>
+		</chemical>
+		<chemical name="1,6-diaminohexane" units="v/v" formula="C6H16N2" density="0.929" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="92.9" mw="116.2" ions="" CAS="124-09-4" CMC="" SMILES="">
+			<class>Additive</class>
+			<alias>1,6 diaminohexane</alias>
+			<alias>1,6-Hexanediamine</alias>
+			<alias>1,6-hexamethylenediamine</alias>
+			<alias>dihex</alias>
+		</chemical>
+		<chemical name="1,8-diaminooctane" units="w/v" formula="C8H20N2" density="" solubility="57.5" pka1="" pka2="" pka3="" def_stock_conc="30" def_stock_units="w/v" max_stock_conc="57.5" mw="144.26" ions="" CAS="373-44-4" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>1,8 diaminooctane</alias>
+			<alias>1,8-Octanediamine</alias>
+			<alias>Octamethylenediamine</alias>
+		</chemical>
+		<chemical name="6-aminocaproic acid" units="M" formula="C6H13NO2" density="" solubility="50.5" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="40" mw="131.17" ions="" CAS="60-32-2" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>6-Aminohexanoic acid</alias>
+		</chemical>
+		<chemical name="adenosine triphosphate" units="M" formula="C10H14N5Na2O13P3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="" mw="551.14" ions="" CAS="987-65-5" CMC="" SMILES="">
+			<class>Ligand</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>ATP</alias>
+			<alias>ATP disodium salt</alias>
+			<alias>ATP, sodium salt</alias>
+			<alias>Adenosine 5'-triphosphate disodium salt hydrate</alias>
+			<alias>Na2ATP</alias>
+			<alias>adenosine-5-triphosphate disodium salt</alias>
+			<alias>sodium ATP</alias>
+		</chemical>
+		<chemical name="benzamidine hydrochloride" units="M" formula="C7H8N2.HCl" density="" solubility="5" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="mg/ml" max_stock_conc="5" mw="156.61" ions="" CAS="1670-14-0" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Benzamidine hydrochloride</alias>
+			<alias>Benzamidinium chloride</alias>
+			<alias>benzamidine</alias>
+			<alias>benzamidine hcl</alias>
+		</chemical>
+		<chemical name="cysteine" units="M" formula="C3H7NO2S" density="" solubility="28" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="28" mw="121.16" ions="" CAS="52-90-4" CMC="" SMILES="">
+			<class>Organic</class>
+			<class>Additive</class>
+			<alias>l-cysteine</alias>
+		</chemical>
+		<chemical name="dextran sulfate 5000" units="w/v" formula="" density="" solubility="30" pka1="" pka2="" pka3="" def_stock_conc="30" def_stock_units="w/v" max_stock_conc="30" mw="5000" ions="" CAS="9011-18-1" CMC="" SMILES="">
+			<class>Polymer</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Dextrane Sulfate</alias>
+			<alias>dextran sulfate sodium salt</alias>
+			<alias>dextran sulfate, sodium salt</alias>
+		</chemical>
+		<chemical name="disodium EDTA" units="M" formula="C10H14N2Na2O8" density="" solubility="168" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="168" mw="336.21" ions="" CAS="139-33-3" CMC="" SMILES="">
+			<class>Additive</class>
+			<alias>EDTA Na2</alias>
+			<alias>EDTA disodium salt</alias>
+			<alias>EDTA sodium salt</alias>
+			<alias>Ethylenediamine-tetraacetic acid disodium salt</alias>
+			<alias>Ethylenediaminetetraacetic acid disodium salt</alias>
+			<alias>Ethylenediaminetetraacetic acid disodium salt dihydrate</alias>
+			<alias>Na2 EDTA</alias>
+		</chemical>
+		<chemical name="dithiothreitol" units="M" formula="C4H10O2S2" density="" solubility="15.4" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="15.4" mw="154.25" ions="" CAS="3483-12-3" CMC="" SMILES="">
+			<class>reductant</class>
+			<alias>1,4-dithio-DL-threitol</alias>
+			<alias>Cleland's reagent</alias>
+			<alias>DTT</alias>
+		</chemical>
+		<chemical name="DL-fructose" units="M" formula="C6H12O6" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="180.16" ions="" CAS="6035-50-3" CMC="" SMILES="">
+			<class>Additive</class>
+			<alias>D,L-fructose</alias>
+		</chemical>
+		<chemical name="DL-glucose" units="M" formula="C6H12O6" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="180.16" ions="" CAS="58367-01-4" CMC="" SMILES="">
+			<class>Additive</class>
+			<alias>D,L-dextrose</alias>
+			<alias>D,L-glucose</alias>
+		</chemical>
+		<chemical name="DL-mannose" units="M" formula="C6H12O6" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="180.15" ions="" CAS="" CMC="" SMILES="">
+			<class>Additive</class>
+			<alias>D,L-mannose</alias>
+		</chemical>
+		<chemical name="ethanolamine" units="M" formula="C2H7NO" density="1.01" solubility="" pka1="" pka2="" pka3="" def_stock_conc="2" def_stock_units="M" max_stock_conc="" mw="61.08" ions="" CAS="141-43-5" CMC="" SMILES="">
+			<class>Additive</class>
+			<alias>2-Hydroxyethylamine</alias>
+			<alias>2-aminoethanol</alias>
+			<alias>Aminoethanol</alias>
+			<alias>Ethylolamine</alias>
+			<alias>Glycinol</alias>
+			<alias>MEA</alias>
+			<alias>Olamine</alias>
+			<alias>beta-Aminoethanol</alias>
+			<alias>colamine</alias>
+			<alias>monoethanolamine</alias>
+		</chemical>
+		<chemical name="gly-gly-gly" units="M" formula="C6H11N3O4" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="0.3" def_stock_units="M" max_stock_conc="6" mw="189.17" ions="" CAS="556-33-2" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Gly-Gly-Gly</alias>
+			<alias>Triglycine</alias>
+			<alias>glycyl-glycyl-glycine</alias>
+		</chemical>
+		<chemical name="lactose" units="M" formula="C12H22O11" density="" solubility="21.6" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="342.3" ions="" CAS="63-42-3" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Aletobiose</alias>
+			<alias>D-Lactose</alias>
+			<alias>D-Lactose monohydrate</alias>
+			<alias>Galactinum</alias>
+			<alias>Lactin</alias>
+			<alias>Lactobiose</alias>
+			<alias>Milk sugar</alias>
+			<alias>Tablettose</alias>
+			<alias>beta-D-Lactose</alias>
+			<alias>beta-Lactose</alias>
+		</chemical>
+		<chemical name="polyethylene glycol 200" units="v/v" formula="HO-(CH2-CH2-O)n-H" density="1.124" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="112" mw="200" ions="" CAS="25322-68-3" CMC="" SMILES="">
+			<class>Polymer</class>
+			<alias>PEG 200</alias>
+			<alias>PEG-200</alias>
+		</chemical>
+		<chemical name="polyethylene glycol 600" units="w/v" formula="HO-(CH2-CH2-O)n-H" density="1.12" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="112" mw="600" ions="" CAS="25322-68-3" CMC="" SMILES="">
+			<class>Polymer</class>
+			<alias>PEG 600</alias>
+			<alias>PEG-600</alias>
+		</chemical>
+		<chemical name="polypropylene glycol P400" units="v/v" formula="HO-(CH2-CH2-CH2-O)n-H" density="1.009" solubility="101" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="101" mw="400" ions="" CAS="25322-69-4" CMC="" SMILES="">
+			<class>Polymer</class>
+			<alias>PPG 400</alias>
+			<alias>PPG P 400</alias>
+			<alias>PPG P-400</alias>
+			<alias>PPG P400</alias>
+			<alias>polypropylene glycol 400</alias>
+			<alias>polypropylene glycol P400</alias>
+		</chemical>
+		<chemical name="polyvinyl alcohol" units="w/v" formula="(C2H4O)x" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="w/v" max_stock_conc="" mw="10000" ions="" CAS="9002-89-5" CMC="" SMILES="">
+			<class>Polymer</class>
+			<class>Additive</class>
+			<alias>Alkotex</alias>
+			<alias>Alvyl</alias>
+			<alias>Covol</alias>
+			<alias>Gelvatol</alias>
+			<alias>Lemol</alias>
+			<alias>PVA</alias>
+			<alias>PVOH</alias>
+			<alias>Polyviol</alias>
+			<alias>Sigma 360627</alias>
+			<alias>Vinol</alias>
+			<alias>polyvinyl alcohol type II</alias>
+		</chemical>
+		<chemical name="polyvinylpyrrolidone K15" units="w/v" formula="(C6H9NO)n" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="50" mw="10000" ions="" CAS="9003-39-8" CMC="" SMILES="">
+			<class>Polymer</class>
+			<alias>PVP K15</alias>
+			<alias>Polyvinylpyrolidine</alias>
+			<alias>Povidone</alias>
+			<alias>poly(vinyl pyrrolidone) K15</alias>
+			<alias>polyvinyl pyrrolidone K15</alias>
+			<alias>polyvinylpyrrolidone K15</alias>
+		</chemical>
+		<chemical name="spermidine trihydrochloride" units="M" formula="C7H19N3 3HCl" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="254.63" ions="" CAS="334-50-9" CMC="" SMILES="">
+			<class>Additive</class>
+			<alias>4-azoniaoctamethylenediammonium trichloride</alias>
+			<alias>N-(3-AMINOPROPYL)-1 4-BUTANEDIAMINE HYDROCHLORIDE</alias>
+			<alias>N-(3-Aminopropyl)-1,4-butanediamine trihydrochloride</alias>
+			<alias>N-(3-Aminopropyl)-1,4-diamino-butane trihydrochloride</alias>
+			<alias>spermadine, 3 hcl</alias>
+			<alias>spermidine hydrochloride</alias>
+			<alias>spermidine, 3HCl</alias>
+		</chemical>
+		<chemical name="sucrose" units="M" formula="C12H22O11" density="" solubility="67" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="67" mw="342.3" ions="" CAS="57-50-1" CMC="" SMILES="">
+			<class>Organic</class>
+			<class>Cryoprotectant</class>
+			<class>Additive</class>
+			<alias>D(+)-sucrose</alias>
+			<alias>D(+)sucrose</alias>
+			<alias>D-(+)-sucrose</alias>
+			<alias>sugar</alias>
+		</chemical>
+		<chemical name="trehalose" units="M" formula="C12H22O11" density="" solubility="68.9" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="55" mw="342.3" ions="" CAS="6138-23-4" CMC="" SMILES="">
+			<class>Organic</class>
+			<class>Cryoprotectant</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>D trehalose</alias>
+			<alias>D-(+)-Trehalose</alias>
+			<alias>D-(+)-Trehalose dihydrate</alias>
+			<alias>D-trehalose</alias>
+			<alias>Ergot sugar</alias>
+			<alias>Mycose</alias>
+			<alias>alpha-Trehalose</alias>
+		</chemical>
+	</chemicals>
+	<screen name="JBScreen Plus Additives" username="Jena Bioscience" design_date="2008-05-27 09:19:21" res_vol="0">
+		<format name="Screen24Well" rows="4" cols="6" subs="0" max_res_vol="" def_res_vol="" max_drop_vol="" def_drop_vol=""/>
+		<comments>Product code CS-504</comments>
+		<well number="1" label="A1">
+			<item name="6-aminocaproic acid" class="Additive" conc="2" units="M" ph=""/>
+		</well>
+		<well number="2" label="A2">
+			<item name="ethanolamine" class="Additive" conc="2" units="M" ph=""/>
+		</well>
+		<well number="3" label="A3">
+			<item name="1,6-diaminohexane" class="Additive" conc="2" units="M" ph=""/>
+		</well>
+		<well number="4" label="A4">
+			<item name="1,8-diaminooctane" class="Additive" conc="2" units="M" ph=""/>
+		</well>
+		<well number="5" label="A5">
+			<item name="1,2,3-hexanetriol" class="Additive" conc="1" units="M" ph=""/>
+		</well>
+		<well number="6" label="A6">
+			<item name="spermidine trihydrochloride" class="Additive" conc="0.1" units="M" ph=""/>
+		</well>
+		<well number="7" label="B1">
+			<item name="polypropylene glycol P400" class="Polymer" conc="0.5" units="M" ph=""/>
+		</well>
+		<well number="8" label="B2">
+			<item name="polyethylene glycol 200" class="Polymer" conc="1" units="M" ph=""/>
+		</well>
+		<well number="9" label="B3">
+			<item name="polyethylene glycol 600" class="Polymer" conc="0.5" units="M" ph=""/>
+		</well>
+		<well number="10" label="B4">
+			<item name="dextran sulfate 5000" class="Polymer" conc="0.02" units="M" ph=""/>
+		</well>
+		<well number="11" label="B5">
+			<item name="polyvinyl alcohol" class="Additive" conc="1" units="w/v" ph=""/>
+		</well>
+		<well number="12" label="B6">
+			<item name="polyvinylpyrrolidone K15" class="Polymer" conc="5" units="w/v" ph=""/>
+		</well>
+		<well number="13" label="C1">
+			<item name="DL-fructose" class="Additive" conc="1" units="M" ph=""/>
+		</well>
+		<well number="14" label="C2">
+			<item name="DL-glucose" class="Additive" conc="1" units="M" ph=""/>
+		</well>
+		<well number="15" label="C3">
+			<item name="DL-mannose" class="Additive" conc="1" units="M" ph=""/>
+		</well>
+		<well number="16" label="C4">
+			<item name="lactose" class="Additive" conc="1" units="M" ph=""/>
+		</well>
+		<well number="17" label="C5">
+			<item name="sucrose" class="Additive" conc="1" units="M" ph=""/>
+		</well>
+		<well number="18" label="C6">
+			<item name="trehalose" class="Additive" conc="1" units="M" ph=""/>
+		</well>
+		<well number="19" label="D1">
+			<item name="dithiothreitol" class="Additive" conc="0.1" units="M" ph=""/>
+		</well>
+		<well number="20" label="D2">
+			<item name="cysteine" class="Organic" conc="0.1" units="M" ph=""/>
+		</well>
+		<well number="21" label="D3">
+			<item name="disodium EDTA" class="Additive" conc="0.1" units="M" ph=""/>
+		</well>
+		<well number="22" label="D4">
+			<item name="adenosine triphosphate" class="Ligand" conc="0.1" units="M" ph=""/>
+		</well>
+		<well number="23" label="D5">
+			<item name="benzamidine hydrochloride" class="Additive" conc="1" units="M" ph=""/>
+		</well>
+		<well number="24" label="D6">
+			<item name="gly-gly-gly" class="Additive" conc="0.3" units="M" ph=""/>
+		</well>
+	</screen>
+</crystaltrak>

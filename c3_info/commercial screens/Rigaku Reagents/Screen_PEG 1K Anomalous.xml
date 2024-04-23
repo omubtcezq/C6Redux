@@ -1,0 +1,380 @@
+<crystaltrak datatype="screen" version="2.3.43">
+	<chemicals>
+		<chemical name="ammonium bromide" units="M" formula="NH4Br" density="" solubility="75.5" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="60.4" mw="97.94" ions="NH4;Br" CAS="12124-97-9" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="ammonium iodide" units="M" formula="NH4I" density="" solubility="154.2" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="123" mw="144.94" ions="NH4;I" CAS="12027-06-4" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>AmI</alias>
+		</chemical>
+		<chemical name="ammonium selenate" units="M" formula="(NH4)2SeO4" density="" solubility="117" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="94" mw="179" ions="2NH4;SeO4" CAS="7783-21-3" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="barium acetate" units="M" formula="(CH3COO)2Ba" density="" solubility="59" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="47" mw="255.42" ions="Ba;2CH3COO" CAS="543-80-6" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="barium bromide" units="M" formula="BaBr2" density="" solubility="89" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="71" mw="297.14" ions="Ba;2Br" CAS="7791-28-8" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="barium chloride" units="M" formula="BaCl2" density="" solubility="37.5" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="30" mw="208.25" ions="Ba;2Cl" CAS="10361-37-2" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Additive</class>
+		</chemical>
+		<chemical name="barium iodide" units="M" formula="BaI2" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="" mw="319.14" ions="Ba;2I" CAS="13718-50-8" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="cadmium acetate" units="M" formula="Cd(CH3COO)2" density="" solubility="" pka1="4.76" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="230.5" ions="Cd;2CH3COO" CAS="543-90-8" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="cadmium bromide" units="M" formula="CdBr2" density="" solubility="95.7" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="76" mw="272.22" ions="Cd;2Br" CAS="7789-42-6" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="cadmium iodide" units="M" formula="CdI2" density="" solubility="79.8" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="63" mw="366.22" ions="Cd;I2" CAS="7790-80-9" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="cadmium nitrate" units="M" formula="Cd(NO3)2" density="" solubility="127" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="101" mw="236.48" ions="Cd;2NO3" CAS="10325-94-7" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="cadmium sulfate" units="M" formula="CdSO4" density="" solubility="75.5" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="60" mw="208.46" ions="Cd;SO4" CAS="10124-36-4" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>cadmium sulphate</alias>
+			<alias>cd-sulfate</alias>
+			<alias>cdso4</alias>
+		</chemical>
+		<chemical name="cesium acetate" units="M" formula="CH3COOCs" density="" solubility="945" pka1="4.76" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="756" mw="191.95" ions="Cs;CH3COO" CAS="3396-11-0" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="cesium bromide" units="M" formula="CsBr" density="" solubility="124" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="99" mw="212.81" ions="Cs;Br" CAS="7787-69-1" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="cesium chloride" units="M" formula="CsCl" density="" solubility="162.2" pka1="" pka2="" pka3="" def_stock_conc="5" def_stock_units="M" max_stock_conc="162.2" mw="168.36" ions="Cs;Cl" CAS="7647-17-8" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Caesium chloride</alias>
+			<alias>Cs-chloride</alias>
+			<alias>cscl</alias>
+		</chemical>
+		<chemical name="cesium fluoride" units="M" formula="CsF" density="" solubility="367" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="293" mw="151.9" ions="Cs;F" CAS="13400-13-0" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="cesium formate" units="M" formula="CsHCOO" density="" solubility="81" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="64" mw="177.92" ions="Cs;HCOO" CAS="3495-36-1" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="cesium iodide" units="M" formula="CsI" density="" solubility="74" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="59" mw="259.81" ions="Cs;I" CAS="7789-17-5" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="cesium nitrate" units="M" formula="CsNO3" density="" solubility="23" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="18" mw="194.91" ions="Cs;NO3" CAS="7789-18-6" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="cesium sulfate" units="M" formula="Cs2SO4" density="" solubility="167" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="361.87" ions="2Cs;SO4" CAS="10294-54-9" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="gadolinium acetate" units="M" formula="(CH3CO2)3Gd" density="" solubility="9.5" pka1="4.76" pka2="" pka3="" def_stock_conc="0.5" def_stock_units="M" max_stock_conc="" mw="334.45" ions="Gd;3CH3COO" CAS="100587-93-7" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="gadolinium bromide" units="M" formula="GdBr3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="" mw="396.96" ions="Gd;3Br" CAS="13818-75-2" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="gadolinium chloride" units="M" formula="GdCl3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="" mw="263.61" ions="Gd;3Cl" CAS="10138-52-0" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Gadolinium (III) chloride</alias>
+			<alias>Gadolinium(III) chloride</alias>
+			<alias>Gadolinium(III) chloride hexahydrate</alias>
+		</chemical>
+		<chemical name="gadolinium nitrate" units="M" formula="Gd(NO3)3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="343.26" ions="Gd;3NO3" CAS="52788-53-1" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="holmium bromide" units="M" formula="HoBr3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="404.64" ions="Ho;3Br" CAS="13825-76-8" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="holmium chloride" units="M" formula="HoCl3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="" mw="271.29" ions="Ho;3Cl" CAS="10138-62-2" CMC="" SMILES="">
+			<class>Additive</class>
+		</chemical>
+		<chemical name="holmium nitrate" units="M" formula="Ho(NO3)3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="382.56" ions="Ho;3NO3" CAS="14483-18-2" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="lanthanum bromide" units="M" formula="LaBr3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="378.62" ions="La;3Br" CAS="13536-79-3" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="lanthanum chloride" units="M" formula="LaCl3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="245.27" ions="La;3Cl" CAS="10099-58-8" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="lanthanum nitrate" units="M" formula="La(NO3)3" density="" solubility="151.1" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="324.92" ions="La;3NO3" CAS="10277-43-7" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="lanthanum(III) acetate" units="M" formula="(CH3COO)3La" density="" solubility="16.88" pka1="" pka2="" pka3="" def_stock_conc="0.5" def_stock_units="M" max_stock_conc="" mw="316.04" ions="La;3CH3COO" CAS="100587-90-4" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Lanthanum acetate</alias>
+			<alias>lanthanum (III) acetate</alias>
+			<alias>lathanum acetate</alias>
+		</chemical>
+		<chemical name="lithium bromide" units="M" formula="LiBr" density="" solubility="145" pka1="" pka2="" pka3="" def_stock_conc="5" def_stock_units="M" max_stock_conc="116" mw="86.85" ions="Li;Br" CAS="7550-35-8" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="lithium iodide" units="M" formula="LiI" density="" solubility="165" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="132" mw="133.84" ions="Li;I" CAS="10377-51-2" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="magnesium bromide" units="M" formula="MgBr2" density="" solubility="101.5" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="80" mw="184.11" ions="Mg;2Br" CAS="7789-48-2" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="polyethylene glycol 1000" units="w/v" formula="HO-(CH2-CH2-O)n-H" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="50" mw="1000" ions="" CAS="25322-68-3" CMC="" SMILES="">
+			<class>Polymer</class>
+			<alias>PEG 1000</alias>
+			<alias>PEG 1K</alias>
+			<alias>PEG-1000</alias>
+			<alias>PEG1k</alias>
+			<alias>Polyethylene glycol 1,000</alias>
+		</chemical>
+		<chemical name="potassium bromide" units="M" formula="KBr" density="" solubility="53.5" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="119" ions="K;Br" CAS="7758-02-3" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>kbr</alias>
+		</chemical>
+		<chemical name="potassium iodide" units="M" formula="KI" density="" solubility="127.5" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="127.5" mw="166.01" ions="K;I" CAS="7681-11-0" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>KI</alias>
+		</chemical>
+		<chemical name="potassium selenate" units="M" formula="K2SeO4" density="" solubility="110.5" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="88" mw="221.15" ions="2K;SeO4" CAS="7790-59-2" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="samarium bromide" units="M" formula="SmBr3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="" mw="390.07" ions="Sm;3Br" CAS="13759-87-0" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="samarium chloride" units="M" formula="SmCl3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="" mw="256.72" ions="Sm;3Cl" CAS="10361-82-7" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Samarium (III) chloride</alias>
+			<alias>Samarium(III) chloride</alias>
+			<alias>Samarium(III) chloride hexahydrate</alias>
+			<alias>Samarium(III)-chloride</alias>
+		</chemical>
+		<chemical name="samarium nitrate" units="M" formula="Sm(NO3)3" density="" solubility="76" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="60" mw="336.47" ions="Sm;3NO3" CAS="13759-83-6" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="sodium bromide" units="M" formula="NaBr" density="" solubility="73.3" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="116" mw="102.89" ions="Na;Br" CAS="7647-15-6" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>nabr</alias>
+		</chemical>
+		<chemical name="sodium iodide" units="M" formula="NaI" density="" solubility="184" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="184" mw="149.89" ions="Na;I" CAS="7681-82-5" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>nai</alias>
+		</chemical>
+		<chemical name="sodium selenate" units="M" formula="Na2SeO4" density="" solubility="84" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="67" mw="188.94" ions="2Na;SeO4" CAS="13410-01-0" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="sodium tungstate" units="M" formula="Na2WO4" density="" solubility="57.5" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="46" mw="293.83" ions="2Na;WO4" CAS="10212-10-2" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="strontium nitrate" units="M" formula="Sr(NO3)2" density="" solubility="70.9" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="57" mw="211.63" ions="Sr;2NO3" CAS="10042-76-9" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="ytterbium(III) chloride" units="M" formula="YbCl3" density="" solubility="17" pka1="" pka2="" pka3="" def_stock_conc="0.5" def_stock_units="M" max_stock_conc="" mw="279.4" ions="Yb;3Cl" CAS="19423-87-1" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>ytterbium (III) chloride</alias>
+			<alias>ytterbium chloride</alias>
+			<alias>ytterbium trichloride</alias>
+		</chemical>
+		<chemical name="yttrium nitrate" units="M" formula="Y(NO3)3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="" mw="275" ions="Y;3NO3" CAS="13494-98-9" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="zinc bromide" units="M" formula="ZnBr2" density="" solubility="447" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="225.2" ions="Zn;2Br" CAS="7699-45-8" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+	</chemicals>
+	<screen name="PEG 1K Anomalous" username="Rigaku Reagents" design_date="2005-07-18 14:21:56" res_vol="0">
+		<format name="Generic 48 Well" rows="6" cols="8" subs="1" max_res_vol="1" def_res_vol="1" max_drop_vol="1" def_drop_vol="1"/>
+		<comments>EBS-PEGAN-1 (Formerly Emerald BioSystems)</comments>
+		<well number="1" label="A1">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="ammonium bromide" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="2" label="A2">
+			<item name="ammonium iodide" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+		</well>
+		<well number="3" label="A3">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="ammonium selenate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="4" label="A4">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="barium acetate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="5" label="A5">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="barium bromide" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="6" label="A6">
+			<item name="barium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+		</well>
+		<well number="7" label="A7">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="barium iodide" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="8" label="A8">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="cadmium acetate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="9" label="B1">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="cadmium bromide" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="10" label="B2">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="cadmium iodide" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="11" label="B3">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="cadmium nitrate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="12" label="B4">
+			<item name="cadmium sulfate" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+		</well>
+		<well number="13" label="B5">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="cesium acetate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="14" label="B6">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="cesium bromide" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="15" label="B7">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="cesium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="16" label="B8">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="cesium fluoride" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="17" label="C1">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="cesium formate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="18" label="C2">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="cesium iodide" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="19" label="C3">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="cesium nitrate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="20" label="C4">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="cesium sulfate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="21" label="C5">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="gadolinium acetate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="22" label="C6">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="gadolinium bromide" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="23" label="C7">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="gadolinium chloride" class="Additive" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="24" label="C8">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="gadolinium nitrate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="25" label="D1">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="holmium bromide" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="26" label="D2">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="holmium chloride" class="Additive" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="27" label="D3">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="holmium nitrate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="28" label="D4">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="lanthanum(III) acetate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="29" label="D5">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="lanthanum bromide" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="30" label="D6">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="lanthanum chloride" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="31" label="D7">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="lanthanum nitrate" class="Salt" conc="0.05" units="M" ph=""/>
+		</well>
+		<well number="32" label="D8">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="lithium bromide" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="33" label="E1">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="lithium iodide" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="34" label="E2">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="magnesium bromide" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="35" label="E3">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="potassium bromide" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="36" label="E4">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="potassium iodide" class="Salt" conc="0.15" units="M" ph=""/>
+		</well>
+		<well number="37" label="E5">
+			<item name="potassium selenate" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+		</well>
+		<well number="38" label="E6">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="samarium bromide" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="39" label="E7">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="samarium chloride" class="" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="40" label="E8">
+			<item name="samarium nitrate" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+		</well>
+		<well number="41" label="F1">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="sodium bromide" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="42" label="F2">
+			<item name="sodium iodide" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+		</well>
+		<well number="43" label="F3">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="sodium selenate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="44" label="F4">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="sodium tungstate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="45" label="F5">
+			<item name="strontium nitrate" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+		</well>
+		<well number="46" label="F6">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="ytterbium(III) chloride" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="47" label="F7">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="yttrium nitrate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="48" label="F8">
+			<item name="polyethylene glycol 1000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="zinc bromide" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+	</screen>
+</crystaltrak>

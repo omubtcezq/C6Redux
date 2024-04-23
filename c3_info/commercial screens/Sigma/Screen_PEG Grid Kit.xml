@@ -1,0 +1,255 @@
+<crystaltrak datatype="screen" version="2.3.43">
+	<chemicals>
+		<chemical name="bicine" units="M" formula="C6H13NO4" density="" solubility="18" pka1="8.35" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="16.3" mw="163.2" ions="" CAS="150-25-4" CMC="" SMILES="">
+			<class>Buffer</class>
+			<class>Ambiguous</class>
+			<alias>Bicine/NaOH</alias>
+			<alias>N,N-Bis(2-hydroxyethyl)glycine</alias>
+		</chemical>
+		<chemical name="HEPES" units="M" formula="C8H18N2O4S" density="" solubility="40" pka1="7.5" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="40" mw="238.31" ions="" CAS="7365-45-9" CMC="" SMILES="">
+			<class>Buffer</class>
+			<class>Ambiguous</class>
+			<alias>4-(2-Hydroxyethyl)piperazine-1-ethanesulfonic acid</alias>
+			<alias>4-(2-hydroxyethyl)-1-piperazineethanesulfonic acid</alias>
+		</chemical>
+		<chemical name="MES" units="M" formula="C6H13NO4S" density="" solubility="20" pka1="6.15" pka2="" pka3="" def_stock_conc="0.5" def_stock_units="M" max_stock_conc="20" mw="195.23" ions="" CAS="4432-31-9" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Buffer</class>
+			<class>Ambiguous</class>
+			<class>Additive</class>
+			<alias>2-Morpholinoethanesulfonic acid</alias>
+			<alias>MES monohydrate</alias>
+		</chemical>
+		<chemical name="polyethylene glycol 600" units="w/v" formula="HO-(CH2-CH2-O)n-H" density="1.12" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="112" mw="600" ions="" CAS="25322-68-3" CMC="" SMILES="">
+			<class>Polymer</class>
+			<alias>PEG 600</alias>
+			<alias>PEG-600</alias>
+		</chemical>
+		<chemical name="polyethylene glycol 6000" units="w/v" formula="HO-(CH2-CH2-O)n-H" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="50" mw="6000" ions="" CAS="25322-68-3" CMC="" SMILES="">
+			<class>Polymer</class>
+			<alias>PEG 6,000</alias>
+			<alias>PEG 6000</alias>
+			<alias>PEG 6K</alias>
+			<alias>PEG-6000</alias>
+			<alias>PEG6K</alias>
+			<alias>polyethylene glycol 6,000</alias>
+			<alias>polyethylene glycol 6K</alias>
+		</chemical>
+		<chemical name="sodium citrate" units="M" formula="Na3C6H5O7" density="" solubility="63" pka1="3.13" pka2="4.74" pka3="6.4" def_stock_conc="2" def_stock_units="M" max_stock_conc="63" mw="258.06" ions="3Na;C6H5O7" CAS="" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Ambiguous</class>
+			<alias>Citric Acid-Sodium Hydroxide</alias>
+			<alias>citrate</alias>
+			<alias>na-citrate</alias>
+		</chemical>
+		<chemical name="tris chloride" units="M" formula="C4H11NO3   HCl" density="" solubility="67" pka1="8.1" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="67" mw="157.6" ions=";Cl" CAS="1185-53-1" CMC="" SMILES="">
+			<class>Buffer</class>
+			<alias>Tris -HCl</alias>
+			<alias>Tris HCl</alias>
+			<alias>Tris base/HCl</alias>
+			<alias>Tris- HCl</alias>
+			<alias>tris</alias>
+			<alias>tris hydrochloride</alias>
+			<alias>tris-hcl</alias>
+			<alias>tris-hydrochloride</alias>
+			<alias>tris.hcl</alias>
+			<alias>trishcl</alias>
+		</chemical>
+	</chemicals>
+	<screen name="PEG Grid Kit" username="Sigma" design_date="2007-06-19 07:25:20" res_vol="0">
+		<format name="Generic 96 Well" rows="8" cols="12" subs="1" max_res_vol="1" def_res_vol="1" max_drop_vol="1" def_drop_vol="1"/>
+		<comments>This is Sigma product  36436</comments>
+		<well number="1" label="A1">
+			<item name="sodium citrate" class="Buffer" conc="0.1" units="M" ph="4"/>
+			<item name="polyethylene glycol 600" class="Polymer" conc="5" units="w/v" ph=""/>
+		</well>
+		<well number="2" label="A2">
+			<item name="sodium citrate" class="Buffer" conc="0.1" units="M" ph="4"/>
+			<item name="polyethylene glycol 600" class="Polymer" conc="10" units="w/v" ph=""/>
+		</well>
+		<well number="3" label="A3">
+			<item name="sodium citrate" class="Buffer" conc="0.1" units="M" ph="4"/>
+			<item name="polyethylene glycol 600" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="4" label="A4">
+			<item name="polyethylene glycol 600" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="sodium citrate" class="Buffer" conc="0.1" units="M" ph="4"/>
+		</well>
+		<well number="5" label="A5">
+			<item name="polyethylene glycol 600" class="Polymer" conc="5" units="w/v" ph=""/>
+			<item name="sodium citrate" class="Buffer" conc="0.1" units="M" ph="5"/>
+		</well>
+		<well number="6" label="A6">
+			<item name="polyethylene glycol 600" class="Polymer" conc="10" units="w/v" ph=""/>
+			<item name="sodium citrate" class="Buffer" conc="0.1" units="M" ph="5"/>
+		</well>
+		<well number="7" label="A7">
+			<item name="sodium citrate" class="Buffer" conc="0.1" units="M" ph="5"/>
+			<item name="polyethylene glycol 600" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="8" label="A8">
+			<item name="sodium citrate" class="Buffer" conc="0.1" units="M" ph="5"/>
+			<item name="polyethylene glycol 600" class="Polymer" conc="30" units="w/v" ph=""/>
+		</well>
+		<well number="9" label="A9">
+			<item name="polyethylene glycol 600" class="Polymer" conc="5" units="w/v" ph=""/>
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6"/>
+		</well>
+		<well number="10" label="A10">
+			<item name="polyethylene glycol 600" class="Polymer" conc="10" units="w/v" ph=""/>
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6"/>
+		</well>
+		<well number="11" label="A11">
+			<item name="polyethylene glycol 600" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6"/>
+		</well>
+		<well number="12" label="A12">
+			<item name="polyethylene glycol 600" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6"/>
+		</well>
+		<well number="13" label="B1">
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7"/>
+			<item name="polyethylene glycol 600" class="Polymer" conc="5" units="w/v" ph=""/>
+		</well>
+		<well number="14" label="B2">
+			<item name="polyethylene glycol 600" class="Polymer" conc="10" units="w/v" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7"/>
+		</well>
+		<well number="15" label="B3">
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7"/>
+			<item name="polyethylene glycol 600" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="16" label="B4">
+			<item name="polyethylene glycol 600" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7"/>
+		</well>
+		<well number="17" label="B5">
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8"/>
+			<item name="polyethylene glycol 600" class="Polymer" conc="5" units="w/v" ph=""/>
+		</well>
+		<well number="18" label="B6">
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8"/>
+			<item name="polyethylene glycol 600" class="Polymer" conc="10" units="w/v" ph=""/>
+		</well>
+		<well number="19" label="B7">
+			<item name="polyethylene glycol 600" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8"/>
+		</well>
+		<well number="20" label="B8">
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8"/>
+			<item name="polyethylene glycol 600" class="Polymer" conc="30" units="w/v" ph=""/>
+		</well>
+		<well number="21" label="B9">
+			<item name="polyethylene glycol 600" class="Polymer" conc="5" units="w/v" ph=""/>
+			<item name="bicine" class="Buffer" conc="0.1" units="M" ph="9"/>
+		</well>
+		<well number="22" label="B10">
+			<item name="polyethylene glycol 600" class="Polymer" conc="10" units="w/v" ph=""/>
+			<item name="bicine" class="Buffer" conc="0.1" units="M" ph="9"/>
+		</well>
+		<well number="23" label="B11">
+			<item name="polyethylene glycol 600" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="bicine" class="Buffer" conc="0.1" units="M" ph="9"/>
+		</well>
+		<well number="24" label="B12">
+			<item name="polyethylene glycol 600" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="bicine" class="Buffer" conc="0.1" units="M" ph="9"/>
+		</well>
+		<well number="25" label="C1">
+			<item name="polyethylene glycol 6000" class="Polymer" conc="5" units="w/v" ph=""/>
+			<item name="sodium citrate" class="Buffer" conc="0.1" units="M" ph="4"/>
+		</well>
+		<well number="26" label="C2">
+			<item name="sodium citrate" class="Buffer" conc="0.1" units="M" ph="4"/>
+			<item name="polyethylene glycol 6000" class="Polymer" conc="10" units="w/v" ph=""/>
+		</well>
+		<well number="27" label="C3">
+			<item name="sodium citrate" class="Buffer" conc="0.1" units="M" ph="4"/>
+			<item name="polyethylene glycol 6000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="28" label="C4">
+			<item name="sodium citrate" class="Buffer" conc="0.1" units="M" ph="4"/>
+			<item name="polyethylene glycol 6000" class="Polymer" conc="30" units="w/v" ph=""/>
+		</well>
+		<well number="29" label="C5">
+			<item name="sodium citrate" class="Buffer" conc="0.1" units="M" ph="5"/>
+			<item name="polyethylene glycol 6000" class="Polymer" conc="5" units="w/v" ph=""/>
+		</well>
+		<well number="30" label="C6">
+			<item name="polyethylene glycol 6000" class="Polymer" conc="10" units="w/v" ph=""/>
+			<item name="sodium citrate" class="Buffer" conc="0.1" units="M" ph="5"/>
+		</well>
+		<well number="31" label="C7">
+			<item name="sodium citrate" class="Buffer" conc="0.1" units="M" ph="5"/>
+			<item name="polyethylene glycol 6000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="32" label="C8">
+			<item name="polyethylene glycol 6000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="sodium citrate" class="Buffer" conc="0.1" units="M" ph="5"/>
+		</well>
+		<well number="33" label="C9">
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6"/>
+			<item name="polyethylene glycol 6000" class="Polymer" conc="5" units="w/v" ph=""/>
+		</well>
+		<well number="34" label="C10">
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6"/>
+			<item name="polyethylene glycol 6000" class="Polymer" conc="10" units="w/v" ph=""/>
+		</well>
+		<well number="35" label="C11">
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6"/>
+			<item name="polyethylene glycol 6000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="36" label="C12">
+			<item name="polyethylene glycol 6000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="MES" class="Buffer" conc="0.1" units="M" ph="6"/>
+		</well>
+		<well number="37" label="D1">
+			<item name="polyethylene glycol 6000" class="Polymer" conc="5" units="w/v" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7"/>
+		</well>
+		<well number="38" label="D2">
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7"/>
+			<item name="polyethylene glycol 6000" class="Polymer" conc="10" units="w/v" ph=""/>
+		</well>
+		<well number="39" label="D3">
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7"/>
+			<item name="polyethylene glycol 6000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="40" label="D4">
+			<item name="polyethylene glycol 6000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.1" units="M" ph="7"/>
+		</well>
+		<well number="41" label="D5">
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8"/>
+			<item name="polyethylene glycol 6000" class="Polymer" conc="5" units="w/v" ph=""/>
+		</well>
+		<well number="42" label="D6">
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8"/>
+			<item name="polyethylene glycol 6000" class="Polymer" conc="10" units="w/v" ph=""/>
+		</well>
+		<well number="43" label="D7">
+			<item name="polyethylene glycol 6000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8"/>
+		</well>
+		<well number="44" label="D8">
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8"/>
+			<item name="polyethylene glycol 6000" class="Polymer" conc="30" units="w/v" ph=""/>
+		</well>
+		<well number="45" label="D9">
+			<item name="polyethylene glycol 6000" class="Polymer" conc="5" units="w/v" ph=""/>
+			<item name="bicine" class="Buffer" conc="0.1" units="M" ph="9"/>
+		</well>
+		<well number="46" label="D10">
+			<item name="polyethylene glycol 6000" class="Polymer" conc="10" units="w/v" ph=""/>
+			<item name="bicine" class="Buffer" conc="0.1" units="M" ph="9"/>
+		</well>
+		<well number="47" label="D11">
+			<item name="polyethylene glycol 6000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="bicine" class="Buffer" conc="0.1" units="M" ph="9"/>
+		</well>
+		<well number="48" label="D12">
+			<item name="polyethylene glycol 6000" class="Polymer" conc="30" units="w/v" ph=""/>
+			<item name="bicine" class="Buffer" conc="0.1" units="M" ph="9"/>
+		</well>
+	</screen>
+</crystaltrak>

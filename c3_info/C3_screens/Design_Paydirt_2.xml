@@ -1,0 +1,581 @@
+<crystaltrak datatype="design" version="2.3.43">
+	<chemicals>
+		<chemical name="1-butyl-3-methylimidazolium tetrafluoroborate" units="w/v" formula="C8H15BF4N2" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="" mw="226.02" ions="" CAS="174501-65-6" CMC="" SMILES="">
+			<class>IL</class>
+			<class>Additive</class>
+			<alias>BMIMBF4</alias>
+		</chemical>
+		<chemical name="choline dihydrogen phosphate" units="w/v" formula="C5H16NPO5" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="" mw="201.16" ions="" CAS="83846-92-8" CMC="" SMILES="">
+			<class>IL</class>
+			<class>Additive</class>
+			<alias>2-Hydroxy-N,N,N-trimethylethanaminium dihydrogen phosphate</alias>
+		</chemical>
+		<chemical name="citrate-HEPES-CHES" units="v/v" formula="" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="" mw="" ions="" CAS="" CMC="" SMILES="">
+			<class>Fundamental Mixtures</class>
+			<class>Buffer</class>
+			<alias>CHC</alias>
+			<alias>citric acid, HEPES, CHES</alias>
+		</chemical>
+		<chemical name="DL-malate-MES-tris" units="v/v" formula="" density="1" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="" mw="" ions="" CAS="" CMC="" SMILES="">
+			<class>Fundamental Mixtures</class>
+			<class>Buffer</class>
+			<alias>MMT</alias>
+			<alias>MMT Buffer</alias>
+			<alias>MMT buffer/naoh</alias>
+			<alias>malic acid, MES, Tris</alias>
+		</chemical>
+		<chemical name="ethylammonium nitrate" units="M" formula="(CH3CH2NH3)+(NO3)-" density="1.261" solubility="" pka1="" pka2="" pka3="" def_stock_conc="4" def_stock_units="M" max_stock_conc="" mw="108.1" ions="CH3CH2NH3;NO3" CAS="" CMC="" SMILES="">
+			<class>IL</class>
+			<class>Additive</class>
+			<alias>EAN</alias>
+		</chemical>
+		<chemical name="gamma-polyglutamic acid" units="w/v" formula="(C5 H9 NO4 ) n" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="40" def_stock_units="w/v" max_stock_conc="" mw="10000" ions="" CAS="25513-46-6" CMC="" SMILES="">
+			<class>Polymer</class>
+			<alias>PGA</alias>
+			<alias>PGA sodium salt</alias>
+			<alias>gamma PGA</alias>
+			<alias>gamma PGA sodium salt</alias>
+		</chemical>
+		<chemical name="jeffamine D-400" units="v/v" formula="" density="0.972" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="v/v" max_stock_conc="" mw="430" ions="" CAS="9046-10-0" CMC="" SMILES="">
+			<class>Polymer</class>
+			<class>Organic</class>
+			<alias>PPGBA 400</alias>
+		</chemical>
+		<chemical name="jeffamine M-1000" units="w/v" formula="CH3OCH2CH2O[CH(CH3)CH2O]nCH2CH(NH2)CH3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="" mw="1000" ions="" CAS="" CMC="" SMILES="">
+			<class>Polymer</class>
+		</chemical>
+		<chemical name="jeffamine M-2070" units="w/v" formula="" density="1.072" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="" mw="2000" ions="" CAS="83713-01-3" CMC="" SMILES="">
+			<class>Polymer</class>
+			<alias>Jeffamine M2070</alias>
+		</chemical>
+		<chemical name="lithium nitrate" units="M" formula="LiNO3" density="" solubility="89.9" pka1="" pka2="" pka3="" def_stock_conc="10" def_stock_units="M" max_stock_conc="89.9" mw="68.95" ions="Li;NO3" CAS="7790-69-4" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>lino3</alias>
+		</chemical>
+		<chemical name="magnesium formate" units="M" formula="Mg(CHO2)2" density="" solubility="14" pka1="3.75" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="14" mw="114.34" ions="Mg;2CHO2" CAS="6150-82-9" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Mg-formiate</alias>
+			<alias>mg formate</alias>
+			<alias>mg-formate</alias>
+		</chemical>
+		<chemical name="polyacrylic acid 2100 sodium salt" units="w/v" formula="(C3H3NaO2)n" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="" mw="2100" ions="" CAS="9003-04-7" CMC="" SMILES="">
+			<class>Polymer</class>
+			<alias>polyacrylate 2100  sodium salt</alias>
+		</chemical>
+		<chemical name="polyethylene glycol dimethyl ether 500" units="v/v" formula="CH3O(CH2CH2O)nCH3" density="1.05" solubility="105" pka1="" pka2="" pka3="" def_stock_conc="80" def_stock_units="v/v" max_stock_conc="105" mw="500" ions="" CAS="24991-55-7" CMC="" SMILES="">
+			<class>Polymer</class>
+			<alias>Dimethyl polyethylene glycol 500</alias>
+			<alias>PEG 500 DME</alias>
+			<alias>PEG DME 500</alias>
+		</chemical>
+		<chemical name="potassium formate" units="M" formula="KCHO2" density="" solubility="331" pka1="3.75" pka2="" pka3="" def_stock_conc="14" def_stock_units="M" max_stock_conc="331" mw="84.12" ions="K;CHO2" CAS="590-29-4" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>K formate</alias>
+			<alias>Kfo</alias>
+			<alias>formic acid potassium salt</alias>
+		</chemical>
+		<chemical name="sodium chloride" units="M" formula="NaCl" density="" solubility="35.7" pka1="" pka2="" pka3="" def_stock_conc="5" def_stock_units="M" max_stock_conc="35.7" mw="58.44" ions="Na;Cl" CAS="7647-14-5" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Na chloride</alias>
+			<alias>Sodium  Chloride</alias>
+			<alias>Sodium Chloride</alias>
+			<alias>na-chloride</alias>
+			<alias>nacl</alias>
+			<alias>salt</alias>
+		</chemical>
+		<chemical name="sokalan CP 42" units="w/v" formula="" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="" mw="" ions="" CAS="" CMC="" SMILES="">
+			<class>Polymer</class>
+		</chemical>
+		<chemical name="sokalan CP 7" units="w/v" formula="" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="" mw="" ions="" CAS="60472-42-6" CMC="" SMILES="">
+			<class>Polymer</class>
+		</chemical>
+		<chemical name="succinate-phosphate-glycine" units="v/v" formula="" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="" mw="" ions="" CAS="" CMC="" SMILES="">
+			<class>Fundamental Mixtures</class>
+			<class>Buffer</class>
+			<alias>SPG</alias>
+			<alias>SPG Buffer</alias>
+			<alias>SPG buffer/naoh</alias>
+			<alias>succinic acid, sodium dihydrogen phosphate, glycine</alias>
+		</chemical>
+		<chemical name="tacsimate" units="v/v" formula="" density="1.25" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="" mw="118.97" ions="" CAS="" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Microlytic Mix</alias>
+			<alias>T-mate</alias>
+		</chemical>
+		<chemical name="tartrate-bis tris-glygly" units="v/v" formula="" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="" mw="" ions="" CAS="" CMC="" SMILES="">
+			<class>Fundamental Mixtures</class>
+			<class>Buffer</class>
+			<alias>TBG</alias>
+			<alias>TBG Buffer</alias>
+			<alias>sodium tartrate, bis-tris, glycylglycine</alias>
+		</chemical>
+		<chemical name="tetraethylammonium bromide" units="w/v" formula="C8H20BrN" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="" mw="210.16" ions="" CAS="71-91-0" CMC="" SMILES="">
+			<class>IL</class>
+			<class>Additive</class>
+			<alias>TEA</alias>
+			<alias>TEABr</alias>
+			<alias>Tetrylammonium bromide</alias>
+		</chemical>
+	</chemicals>
+	<reservoir_design name="Paydirt_2" username="c3@csiro.au" design_date="2020-09-21 08:57:45" res_vol="0">
+		<format name="Generic 96 Well" rows="8" cols="12" subs="1" max_res_vol="1" def_res_vol="1" max_drop_vol="1" def_drop_vol="1"/>
+		<comments/>
+		<well number="1" label="A1">
+			<item name="magnesium formate" class="Salt" conc="0.249" units="M" ph=""/>
+			<item name="tartrate-bis tris-glygly" class="Buffer" conc="10" units="v/v" ph="7.17"/>
+			<item name="gamma-polyglutamic acid" class="Polymer" conc="17" units="w/v" ph=""/>
+		</well>
+		<well number="2" label="A2">
+			<item name="magnesium formate" class="Salt" conc="0.083" units="M" ph=""/>
+			<item name="citrate-HEPES-CHES" class="Buffer" conc="10" units="v/v" ph="5.07"/>
+			<item name="gamma-polyglutamic acid" class="Polymer" conc="20.1" units="w/v" ph=""/>
+		</well>
+		<well number="3" label="A3">
+			<item name="lithium nitrate" class="Salt" conc="0.025" units="M" ph=""/>
+			<item name="succinate-phosphate-glycine" class="Buffer" conc="10" units="v/v" ph="8.36"/>
+			<item name="gamma-polyglutamic acid" class="Polymer" conc="15.5" units="w/v" ph=""/>
+		</well>
+		<well number="4" label="A4">
+			<item name="DL-malate-MES-tris" class="Buffer" conc="10" units="v/v" ph="8.66"/>
+			<item name="tetraethylammonium bromide" class="Additive" conc="4.53" units="w/v" ph=""/>
+			<item name="jeffamine M-2070" class="Polymer" conc="14" units="w/v" ph="7"/>
+		</well>
+		<well number="5" label="A5">
+			<item name="lithium nitrate" class="Salt" conc="0.296" units="M" ph=""/>
+			<item name="citrate-HEPES-CHES" class="Buffer" conc="10" units="v/v" ph="6.55"/>
+			<item name="jeffamine M-2070" class="Polymer" conc="15.7" units="w/v" ph="7"/>
+		</well>
+		<well number="6" label="A6">
+			<item name="succinate-phosphate-glycine" class="Buffer" conc="10" units="v/v" ph="5.96"/>
+			<item name="choline dihydrogen phosphate" class="Additive" conc="7.72" units="w/v" ph=""/>
+			<item name="sokalan CP 7" class="Polymer" conc="23.3" units="w/v" ph=""/>
+		</well>
+		<well number="7" label="A7">
+			<item name="potassium formate" class="Salt" conc="0.159" units="M" ph=""/>
+			<item name="citrate-HEPES-CHES" class="Buffer" conc="10" units="v/v" ph="7.9"/>
+			<item name="sokalan CP 7" class="Polymer" conc="21.2" units="w/v" ph=""/>
+		</well>
+		<well number="8" label="A8">
+			<item name="citrate-HEPES-CHES" class="Buffer" conc="10" units="v/v" ph="6.3"/>
+			<item name="choline dihydrogen phosphate" class="Additive" conc="2.36" units="w/v" ph=""/>
+			<item name="jeffamine D-400" class="Organic" conc="11.8" units="v/v" ph="7"/>
+		</well>
+		<well number="9" label="A9">
+			<item name="sodium chloride" class="Salt" conc="0.023" units="M" ph=""/>
+			<item name="jeffamine M-1000" class="Polymer" conc="10.1" units="w/v" ph="7"/>
+		</well>
+		<well number="10" label="A10">
+			<item name="magnesium formate" class="Salt" conc="0.195" units="M" ph=""/>
+			<item name="tartrate-bis tris-glygly" class="Buffer" conc="10" units="v/v" ph="6.58"/>
+			<item name="polyacrylic acid 2100 sodium salt" class="Polymer" conc="26.3" units="w/v" ph=""/>
+		</well>
+		<well number="11" label="A11">
+			<item name="tacsimate" class="Salt" conc="1.95" units="v/v" ph="7"/>
+			<item name="succinate-phosphate-glycine" class="Buffer" conc="10" units="v/v" ph="8.93"/>
+			<item name="polyethylene glycol dimethyl ether 500" class="Polymer" conc="39.3" units="v/v" ph=""/>
+		</well>
+		<well number="12" label="A12">
+			<item name="tartrate-bis tris-glygly" class="Buffer" conc="10" units="v/v" ph="7.34"/>
+			<item name="choline dihydrogen phosphate" class="Additive" conc="6.91" units="w/v" ph=""/>
+			<item name="sokalan CP 42" class="Polymer" conc="19.1" units="w/v" ph=""/>
+		</well>
+		<well number="13" label="B1">
+			<item name="magnesium formate" class="Salt" conc="0.285" units="M" ph=""/>
+			<item name="gamma-polyglutamic acid" class="Polymer" conc="16.4" units="w/v" ph=""/>
+		</well>
+		<well number="14" label="B2">
+			<item name="tacsimate" class="Salt" conc="1.03" units="v/v" ph="7"/>
+			<item name="DL-malate-MES-tris" class="Buffer" conc="10" units="v/v" ph="8.44"/>
+			<item name="gamma-polyglutamic acid" class="Polymer" conc="19.4" units="w/v" ph=""/>
+		</well>
+		<well number="15" label="B3">
+			<item name="citrate-HEPES-CHES" class="Buffer" conc="10" units="v/v" ph="7.24"/>
+			<item name="1-butyl-3-methylimidazolium tetrafluoroborate" class="Additive" conc="2.51" units="w/v" ph=""/>
+			<item name="gamma-polyglutamic acid" class="Polymer" conc="19.2" units="w/v" ph=""/>
+		</well>
+		<well number="16" label="B4">
+			<item name="tacsimate" class="Salt" conc="4.91" units="v/v" ph="7"/>
+			<item name="citrate-HEPES-CHES" class="Buffer" conc="10" units="v/v" ph="7.4"/>
+			<item name="jeffamine M-2070" class="Polymer" conc="18.8" units="w/v" ph="7"/>
+		</well>
+		<well number="17" label="B5">
+			<item name="tacsimate" class="Salt" conc="4.16" units="v/v" ph="7"/>
+			<item name="jeffamine M-2070" class="Polymer" conc="14.1" units="w/v" ph="7"/>
+		</well>
+		<well number="18" label="B6">
+			<item name="sodium chloride" class="Salt" conc="0.091" units="M" ph=""/>
+			<item name="tartrate-bis tris-glygly" class="Buffer" conc="10" units="v/v" ph="5.72"/>
+			<item name="sokalan CP 7" class="Polymer" conc="23.2" units="w/v" ph=""/>
+		</well>
+		<well number="19" label="B7">
+			<item name="succinate-phosphate-glycine" class="Buffer" conc="10" units="v/v" ph="5.97"/>
+			<item name="choline dihydrogen phosphate" class="Additive" conc="1.08" units="w/v" ph=""/>
+			<item name="sokalan CP 7" class="Polymer" conc="23.6" units="w/v" ph=""/>
+		</well>
+		<well number="20" label="B8">
+			<item name="DL-malate-MES-tris" class="Buffer" conc="10" units="v/v" ph="7.99"/>
+			<item name="choline dihydrogen phosphate" class="Additive" conc="1.79" units="w/v" ph=""/>
+			<item name="jeffamine D-400" class="Organic" conc="10.9" units="v/v" ph="7"/>
+		</well>
+		<well number="21" label="B9">
+			<item name="tacsimate" class="Salt" conc="4.22" units="v/v" ph="7"/>
+			<item name="succinate-phosphate-glycine" class="Buffer" conc="10" units="v/v" ph="6.72"/>
+			<item name="jeffamine M-1000" class="Polymer" conc="19.9" units="w/v" ph="7"/>
+		</well>
+		<well number="22" label="B10">
+			<item name="magnesium formate" class="Salt" conc="0.213" units="M" ph=""/>
+			<item name="DL-malate-MES-tris" class="Buffer" conc="10" units="v/v" ph="7.44"/>
+			<item name="polyacrylic acid 2100 sodium salt" class="Polymer" conc="18.3" units="w/v" ph=""/>
+		</well>
+		<well number="23" label="B11">
+			<item name="DL-malate-MES-tris" class="Buffer" conc="10" units="v/v" ph="6.18"/>
+			<item name="tetraethylammonium bromide" class="Additive" conc="9.24" units="w/v" ph=""/>
+			<item name="polyethylene glycol dimethyl ether 500" class="Polymer" conc="33.1" units="v/v" ph=""/>
+		</well>
+		<well number="24" label="B12">
+			<item name="magnesium formate" class="Salt" conc="0.253" units="M" ph=""/>
+			<item name="tartrate-bis tris-glygly" class="Buffer" conc="10" units="v/v" ph="8.01"/>
+			<item name="sokalan CP 42" class="Polymer" conc="17.4" units="w/v" ph=""/>
+		</well>
+		<well number="25" label="C1">
+			<item name="succinate-phosphate-glycine" class="Buffer" conc="10" units="v/v" ph="8.38"/>
+			<item name="choline dihydrogen phosphate" class="Additive" conc="7.14" units="w/v" ph=""/>
+			<item name="gamma-polyglutamic acid" class="Polymer" conc="9.73" units="w/v" ph=""/>
+		</well>
+		<well number="26" label="C2">
+			<item name="citrate-HEPES-CHES" class="Buffer" conc="10" units="v/v" ph="5.96"/>
+			<item name="tetraethylammonium bromide" class="Additive" conc="7.07" units="w/v" ph=""/>
+			<item name="gamma-polyglutamic acid" class="Polymer" conc="17.2" units="w/v" ph=""/>
+		</well>
+		<well number="27" label="C3">
+			<item name="tartrate-bis tris-glygly" class="Buffer" conc="10" units="v/v" ph="7.01"/>
+			<item name="ethylammonium nitrate" class="Additive" conc="4.44" units="v/v" ph=""/>
+			<item name="gamma-polyglutamic acid" class="Polymer" conc="21.2" units="w/v" ph=""/>
+		</well>
+		<well number="28" label="C4">
+			<item name="tacsimate" class="Salt" conc="2.74" units="v/v" ph="7"/>
+			<item name="citrate-HEPES-CHES" class="Buffer" conc="10" units="v/v" ph="5.26"/>
+			<item name="jeffamine M-2070" class="Polymer" conc="27.8" units="w/v" ph="7"/>
+		</well>
+		<well number="29" label="C5">
+			<item name="magnesium formate" class="Salt" conc="0.096" units="M" ph=""/>
+			<item name="jeffamine M-2070" class="Polymer" conc="15.3" units="w/v" ph="7"/>
+		</well>
+		<well number="30" label="C6">
+			<item name="potassium formate" class="Salt" conc="0.246" units="M" ph=""/>
+			<item name="tartrate-bis tris-glygly" class="Buffer" conc="10" units="v/v" ph="7.5"/>
+			<item name="sokalan CP 7" class="Polymer" conc="22.4" units="w/v" ph=""/>
+		</well>
+		<well number="31" label="C7">
+			<item name="magnesium formate" class="Salt" conc="0.101" units="M" ph=""/>
+			<item name="sokalan CP 7" class="Polymer" conc="18.5" units="w/v" ph=""/>
+		</well>
+		<well number="32" label="C8">
+			<item name="magnesium formate" class="Salt" conc="0.02" units="M" ph=""/>
+			<item name="tartrate-bis tris-glygly" class="Buffer" conc="10" units="v/v" ph="7.06"/>
+			<item name="jeffamine D-400" class="Organic" conc="21" units="v/v" ph="7"/>
+		</well>
+		<well number="33" label="C9">
+			<item name="sodium chloride" class="Salt" conc="0.294" units="M" ph=""/>
+			<item name="jeffamine M-1000" class="Polymer" conc="10.8" units="w/v" ph="7"/>
+		</well>
+		<well number="34" label="C10">
+			<item name="sodium chloride" class="Salt" conc="0.241" units="M" ph=""/>
+			<item name="polyacrylic acid 2100 sodium salt" class="Polymer" conc="23.4" units="w/v" ph=""/>
+		</well>
+		<well number="35" label="C11">
+			<item name="sodium chloride" class="Salt" conc="0.292" units="M" ph=""/>
+			<item name="succinate-phosphate-glycine" class="Buffer" conc="10" units="v/v" ph="6.85"/>
+			<item name="polyethylene glycol dimethyl ether 500" class="Polymer" conc="38.2" units="v/v" ph=""/>
+		</well>
+		<well number="36" label="C12">
+			<item name="succinate-phosphate-glycine" class="Buffer" conc="10" units="v/v" ph="7.37"/>
+			<item name="1-butyl-3-methylimidazolium tetrafluoroborate" class="Additive" conc="1.75" units="w/v" ph=""/>
+			<item name="sokalan CP 42" class="Polymer" conc="17.3" units="w/v" ph=""/>
+		</well>
+		<well number="37" label="D1">
+			<item name="DL-malate-MES-tris" class="Buffer" conc="10" units="v/v" ph="6.48"/>
+			<item name="1-butyl-3-methylimidazolium tetrafluoroborate" class="Additive" conc="2.93" units="w/v" ph=""/>
+			<item name="gamma-polyglutamic acid" class="Polymer" conc="19.9" units="w/v" ph=""/>
+		</well>
+		<well number="38" label="D2">
+			<item name="ethylammonium nitrate" class="Additive" conc="3.25" units="v/v" ph=""/>
+			<item name="gamma-polyglutamic acid" class="Polymer" conc="19.5" units="w/v" ph=""/>
+		</well>
+		<well number="39" label="D3">
+			<item name="tacsimate" class="Salt" conc="2.31" units="v/v" ph="7"/>
+			<item name="gamma-polyglutamic acid" class="Polymer" conc="11.8" units="w/v" ph=""/>
+		</well>
+		<well number="40" label="D4">
+			<item name="citrate-HEPES-CHES" class="Buffer" conc="10" units="v/v" ph="5.23"/>
+			<item name="1-butyl-3-methylimidazolium tetrafluoroborate" class="Additive" conc="2.71" units="w/v" ph=""/>
+			<item name="jeffamine M-2070" class="Polymer" conc="19.1" units="w/v" ph="7"/>
+		</well>
+		<well number="41" label="D5">
+			<item name="ethylammonium nitrate" class="Additive" conc="1.21" units="v/v" ph=""/>
+			<item name="jeffamine M-2070" class="Polymer" conc="19.8" units="w/v" ph="7"/>
+		</well>
+		<well number="42" label="D6">
+			<item name="citrate-HEPES-CHES" class="Buffer" conc="10" units="v/v" ph="6.3"/>
+			<item name="ethylammonium nitrate" class="Additive" conc="3.17" units="v/v" ph=""/>
+			<item name="sokalan CP 7" class="Polymer" conc="22" units="w/v" ph=""/>
+		</well>
+		<well number="43" label="D7">
+			<item name="potassium formate" class="Salt" conc="0.298" units="M" ph=""/>
+			<item name="tartrate-bis tris-glygly" class="Buffer" conc="10" units="v/v" ph="5.75"/>
+			<item name="sokalan CP 7" class="Polymer" conc="20.6" units="w/v" ph=""/>
+		</well>
+		<well number="44" label="D8">
+			<item name="tartrate-bis tris-glygly" class="Buffer" conc="10" units="v/v" ph="8.77"/>
+			<item name="choline dihydrogen phosphate" class="Additive" conc="2.96" units="w/v" ph=""/>
+			<item name="jeffamine D-400" class="Organic" conc="24.8" units="v/v" ph="7"/>
+		</well>
+		<well number="45" label="D9">
+			<item name="lithium nitrate" class="Salt" conc="0.047" units="M" ph=""/>
+			<item name="jeffamine M-1000" class="Polymer" conc="15.1" units="w/v" ph="7"/>
+		</well>
+		<well number="46" label="D10">
+			<item name="tartrate-bis tris-glygly" class="Buffer" conc="10" units="v/v" ph="7.02"/>
+			<item name="choline dihydrogen phosphate" class="Additive" conc="9.31" units="w/v" ph=""/>
+			<item name="polyacrylic acid 2100 sodium salt" class="Polymer" conc="24.3" units="w/v" ph=""/>
+		</well>
+		<well number="47" label="D11">
+			<item name="DL-malate-MES-tris" class="Buffer" conc="10" units="v/v" ph="8.75"/>
+			<item name="1-butyl-3-methylimidazolium tetrafluoroborate" class="Additive" conc="4.16" units="w/v" ph=""/>
+			<item name="polyethylene glycol dimethyl ether 500" class="Polymer" conc="38.2" units="v/v" ph=""/>
+		</well>
+		<well number="48" label="D12">
+			<item name="lithium nitrate" class="Salt" conc="0.231" units="M" ph=""/>
+			<item name="sokalan CP 42" class="Polymer" conc="19.4" units="w/v" ph=""/>
+		</well>
+		<well number="49" label="E1">
+			<item name="magnesium formate" class="Salt" conc="0.269" units="M" ph=""/>
+			<item name="tartrate-bis tris-glygly" class="Buffer" conc="10" units="v/v" ph="8.53"/>
+			<item name="gamma-polyglutamic acid" class="Polymer" conc="5.9" units="w/v" ph=""/>
+		</well>
+		<well number="50" label="E2">
+			<item name="citrate-HEPES-CHES" class="Buffer" conc="10" units="v/v" ph="7.97"/>
+			<item name="choline dihydrogen phosphate" class="Additive" conc="4.43" units="w/v" ph=""/>
+			<item name="gamma-polyglutamic acid" class="Polymer" conc="16.2" units="w/v" ph=""/>
+		</well>
+		<well number="51" label="E3">
+			<item name="tartrate-bis tris-glygly" class="Buffer" conc="10" units="v/v" ph="7.55"/>
+			<item name="ethylammonium nitrate" class="Additive" conc="3.35" units="v/v" ph=""/>
+			<item name="gamma-polyglutamic acid" class="Polymer" conc="24.3" units="w/v" ph=""/>
+		</well>
+		<well number="52" label="E4">
+			<item name="succinate-phosphate-glycine" class="Buffer" conc="10" units="v/v" ph="8.35"/>
+			<item name="tetraethylammonium bromide" class="Additive" conc="5.76" units="w/v" ph=""/>
+			<item name="jeffamine M-2070" class="Polymer" conc="28.6" units="w/v" ph="7"/>
+		</well>
+		<well number="53" label="E5">
+			<item name="lithium nitrate" class="Salt" conc="0.061" units="M" ph=""/>
+			<item name="jeffamine M-2070" class="Polymer" conc="24.6" units="w/v" ph="7"/>
+		</well>
+		<well number="54" label="E6">
+			<item name="DL-malate-MES-tris" class="Buffer" conc="10" units="v/v" ph="5.15"/>
+			<item name="ethylammonium nitrate" class="Additive" conc="4.17" units="v/v" ph=""/>
+			<item name="sokalan CP 7" class="Polymer" conc="25.7" units="w/v" ph=""/>
+		</well>
+		<well number="55" label="E7">
+			<item name="tacsimate" class="Salt" conc="4.23" units="v/v" ph="7"/>
+			<item name="citrate-HEPES-CHES" class="Buffer" conc="10" units="v/v" ph="5.88"/>
+			<item name="sokalan CP 7" class="Polymer" conc="23.6" units="w/v" ph=""/>
+		</well>
+		<well number="56" label="E8">
+			<item name="sodium chloride" class="Salt" conc="0.258" units="M" ph=""/>
+			<item name="succinate-phosphate-glycine" class="Buffer" conc="10" units="v/v" ph="7.56"/>
+			<item name="jeffamine D-400" class="Organic" conc="22.4" units="v/v" ph="7"/>
+		</well>
+		<well number="57" label="E9">
+			<item name="lithium nitrate" class="Salt" conc="0.184" units="M" ph=""/>
+			<item name="jeffamine M-1000" class="Polymer" conc="31.3" units="w/v" ph="7"/>
+		</well>
+		<well number="58" label="E10">
+			<item name="DL-malate-MES-tris" class="Buffer" conc="10" units="v/v" ph="8.44"/>
+			<item name="ethylammonium nitrate" class="Additive" conc="1.25" units="v/v" ph=""/>
+			<item name="polyacrylic acid 2100 sodium salt" class="Polymer" conc="25.9" units="w/v" ph=""/>
+		</well>
+		<well number="59" label="E11">
+			<item name="DL-malate-MES-tris" class="Buffer" conc="10" units="v/v" ph="5.97"/>
+			<item name="choline dihydrogen phosphate" class="Additive" conc="1.12" units="w/v" ph=""/>
+			<item name="polyethylene glycol dimethyl ether 500" class="Polymer" conc="32.4" units="v/v" ph=""/>
+		</well>
+		<well number="60" label="E12">
+			<item name="lithium nitrate" class="Salt" conc="0.269" units="M" ph=""/>
+			<item name="DL-malate-MES-tris" class="Buffer" conc="10" units="v/v" ph="5.3"/>
+			<item name="sokalan CP 42" class="Polymer" conc="17.5" units="w/v" ph=""/>
+		</well>
+		<well number="61" label="F1">
+			<item name="sodium chloride" class="Salt" conc="0.191" units="M" ph=""/>
+			<item name="gamma-polyglutamic acid" class="Polymer" conc="8.8" units="w/v" ph=""/>
+		</well>
+		<well number="62" label="F2">
+			<item name="tartrate-bis tris-glygly" class="Buffer" conc="10" units="v/v" ph="5.88"/>
+			<item name="tetraethylammonium bromide" class="Additive" conc="7.6" units="w/v" ph=""/>
+			<item name="gamma-polyglutamic acid" class="Polymer" conc="23" units="w/v" ph=""/>
+		</well>
+		<well number="63" label="F3">
+			<item name="magnesium formate" class="Salt" conc="0.216" units="M" ph=""/>
+			<item name="gamma-polyglutamic acid" class="Polymer" conc="7.95" units="w/v" ph=""/>
+		</well>
+		<well number="64" label="F4">
+			<item name="succinate-phosphate-glycine" class="Buffer" conc="10" units="v/v" ph="6.91"/>
+			<item name="ethylammonium nitrate" class="Additive" conc="4.8" units="v/v" ph=""/>
+			<item name="jeffamine M-2070" class="Polymer" conc="11.9" units="w/v" ph="7"/>
+		</well>
+		<well number="65" label="F5">
+			<item name="sodium chloride" class="Salt" conc="0.034" units="M" ph=""/>
+			<item name="citrate-HEPES-CHES" class="Buffer" conc="10" units="v/v" ph="5.65"/>
+			<item name="jeffamine M-2070" class="Polymer" conc="15.5" units="w/v" ph="7"/>
+		</well>
+		<well number="66" label="F6">
+			<item name="tacsimate" class="Salt" conc="2.47" units="v/v" ph="7"/>
+			<item name="citrate-HEPES-CHES" class="Buffer" conc="10" units="v/v" ph="7.88"/>
+			<item name="sokalan CP 7" class="Polymer" conc="20.1" units="w/v" ph=""/>
+		</well>
+		<well number="67" label="F7">
+			<item name="lithium nitrate" class="Salt" conc="0.224" units="M" ph=""/>
+			<item name="sokalan CP 7" class="Polymer" conc="17.5" units="w/v" ph=""/>
+		</well>
+		<well number="68" label="F8">
+			<item name="lithium nitrate" class="Salt" conc="0.079" units="M" ph=""/>
+			<item name="jeffamine D-400" class="Organic" conc="22.4" units="v/v" ph="7"/>
+		</well>
+		<well number="69" label="F9">
+			<item name="lithium nitrate" class="Salt" conc="0.26" units="M" ph=""/>
+			<item name="tartrate-bis tris-glygly" class="Buffer" conc="10" units="v/v" ph="7.65"/>
+			<item name="jeffamine M-1000" class="Polymer" conc="30.2" units="w/v" ph="7"/>
+		</well>
+		<well number="70" label="F10">
+			<item name="tacsimate" class="Salt" conc="3.09" units="v/v" ph="7"/>
+			<item name="succinate-phosphate-glycine" class="Buffer" conc="10" units="v/v" ph="5.1"/>
+			<item name="polyacrylic acid 2100 sodium salt" class="Polymer" conc="16.3" units="w/v" ph=""/>
+		</well>
+		<well number="71" label="F11">
+			<item name="DL-malate-MES-tris" class="Buffer" conc="10" units="v/v" ph="5.2"/>
+			<item name="1-butyl-3-methylimidazolium tetrafluoroborate" class="Additive" conc="2.28" units="w/v" ph=""/>
+			<item name="polyethylene glycol dimethyl ether 500" class="Polymer" conc="36" units="v/v" ph=""/>
+		</well>
+		<well number="72" label="F12">
+			<item name="sodium chloride" class="Salt" conc="0.062" units="M" ph=""/>
+			<item name="citrate-HEPES-CHES" class="Buffer" conc="10" units="v/v" ph="7.61"/>
+			<item name="sokalan CP 42" class="Polymer" conc="18.7" units="w/v" ph=""/>
+		</well>
+		<well number="73" label="G1">
+			<item name="tetraethylammonium bromide" class="Additive" conc="6.52" units="w/v" ph=""/>
+			<item name="gamma-polyglutamic acid" class="Polymer" conc="13.4" units="w/v" ph=""/>
+		</well>
+		<well number="74" label="G2">
+			<item name="citrate-HEPES-CHES" class="Buffer" conc="10" units="v/v" ph="7.8"/>
+			<item name="ethylammonium nitrate" class="Additive" conc="1.4" units="v/v" ph=""/>
+			<item name="gamma-polyglutamic acid" class="Polymer" conc="5.28" units="w/v" ph=""/>
+		</well>
+		<well number="75" label="G3">
+			<item name="citrate-HEPES-CHES" class="Buffer" conc="10" units="v/v" ph="5.58"/>
+			<item name="ethylammonium nitrate" class="Additive" conc="3.7" units="v/v" ph=""/>
+			<item name="gamma-polyglutamic acid" class="Polymer" conc="5.97" units="w/v" ph=""/>
+		</well>
+		<well number="76" label="G4">
+			<item name="citrate-HEPES-CHES" class="Buffer" conc="10" units="v/v" ph="5.79"/>
+			<item name="tetraethylammonium bromide" class="Additive" conc="5.79" units="w/v" ph=""/>
+			<item name="jeffamine M-2070" class="Polymer" conc="16.2" units="w/v" ph="7"/>
+		</well>
+		<well number="77" label="G5">
+			<item name="DL-malate-MES-tris" class="Buffer" conc="10" units="v/v" ph="7.81"/>
+			<item name="ethylammonium nitrate" class="Additive" conc="3.73" units="v/v" ph=""/>
+			<item name="jeffamine M-2070" class="Polymer" conc="28.3" units="w/v" ph="7"/>
+		</well>
+		<well number="78" label="G6">
+			<item name="citrate-HEPES-CHES" class="Buffer" conc="10" units="v/v" ph="8.34"/>
+			<item name="1-butyl-3-methylimidazolium tetrafluoroborate" class="Additive" conc="1.62" units="w/v" ph=""/>
+			<item name="sokalan CP 7" class="Polymer" conc="20.7" units="w/v" ph=""/>
+		</well>
+		<well number="79" label="G7">
+			<item name="tartrate-bis tris-glygly" class="Buffer" conc="10" units="v/v" ph="6.25"/>
+			<item name="ethylammonium nitrate" class="Additive" conc="3.17" units="v/v" ph=""/>
+			<item name="sokalan CP 7" class="Polymer" conc="24" units="w/v" ph=""/>
+		</well>
+		<well number="80" label="G8">
+			<item name="DL-malate-MES-tris" class="Buffer" conc="10" units="v/v" ph="5.95"/>
+			<item name="choline dihydrogen phosphate" class="Additive" conc="5.47" units="w/v" ph=""/>
+			<item name="jeffamine D-400" class="Organic" conc="21.9" units="v/v" ph="7"/>
+		</well>
+		<well number="81" label="G9">
+			<item name="DL-malate-MES-tris" class="Buffer" conc="10" units="v/v" ph="7.85"/>
+			<item name="tetraethylammonium bromide" class="Additive" conc="2.14" units="w/v" ph=""/>
+			<item name="jeffamine M-1000" class="Polymer" conc="16.8" units="w/v" ph="7"/>
+		</well>
+		<well number="82" label="G10">
+			<item name="lithium nitrate" class="Salt" conc="0.073" units="M" ph=""/>
+			<item name="tartrate-bis tris-glygly" class="Buffer" conc="10" units="v/v" ph="5.68"/>
+			<item name="polyacrylic acid 2100 sodium salt" class="Polymer" conc="26.4" units="w/v" ph=""/>
+		</well>
+		<well number="83" label="G11">
+			<item name="succinate-phosphate-glycine" class="Buffer" conc="10" units="v/v" ph="6"/>
+			<item name="choline dihydrogen phosphate" class="Additive" conc="6.29" units="w/v" ph=""/>
+			<item name="polyethylene glycol dimethyl ether 500" class="Polymer" conc="39.4" units="v/v" ph=""/>
+		</well>
+		<well number="84" label="G12">
+			<item name="sodium chloride" class="Salt" conc="0.197" units="M" ph=""/>
+			<item name="citrate-HEPES-CHES" class="Buffer" conc="10" units="v/v" ph="8.88"/>
+			<item name="sokalan CP 42" class="Polymer" conc="17.5" units="w/v" ph=""/>
+		</well>
+		<well number="85" label="H1">
+			<item name="tetraethylammonium bromide" class="Additive" conc="2.52" units="w/v" ph=""/>
+			<item name="gamma-polyglutamic acid" class="Polymer" conc="15" units="w/v" ph=""/>
+		</well>
+		<well number="86" label="H2">
+			<item name="sodium chloride" class="Salt" conc="0.087" units="M" ph=""/>
+			<item name="DL-malate-MES-tris" class="Buffer" conc="10" units="v/v" ph="6.77"/>
+			<item name="gamma-polyglutamic acid" class="Polymer" conc="8.86" units="w/v" ph=""/>
+		</well>
+		<well number="87" label="H3">
+			<item name="lithium nitrate" class="Salt" conc="0.16" units="M" ph=""/>
+			<item name="gamma-polyglutamic acid" class="Polymer" conc="15.4" units="w/v" ph=""/>
+		</well>
+		<well number="88" label="H4">
+			<item name="DL-malate-MES-tris" class="Buffer" conc="10" units="v/v" ph="8.91"/>
+			<item name="tetraethylammonium bromide" class="Additive" conc="2.84" units="w/v" ph=""/>
+			<item name="jeffamine M-2070" class="Polymer" conc="16" units="w/v" ph="7"/>
+		</well>
+		<well number="89" label="H5">
+			<item name="tetraethylammonium bromide" class="Additive" conc="8.22" units="w/v" ph=""/>
+			<item name="jeffamine M-2070" class="Polymer" conc="23" units="w/v" ph="7"/>
+		</well>
+		<well number="90" label="H6">
+			<item name="citrate-HEPES-CHES" class="Buffer" conc="10" units="v/v" ph="5.3"/>
+			<item name="choline dihydrogen phosphate" class="Additive" conc="6.43" units="w/v" ph=""/>
+			<item name="sokalan CP 7" class="Polymer" conc="25.2" units="w/v" ph=""/>
+		</well>
+		<well number="91" label="H7">
+			<item name="DL-malate-MES-tris" class="Buffer" conc="10" units="v/v" ph="6.45"/>
+			<item name="1-butyl-3-methylimidazolium tetrafluoroborate" class="Additive" conc="3.73" units="w/v" ph=""/>
+			<item name="sokalan CP 7" class="Polymer" conc="17.8" units="w/v" ph=""/>
+		</well>
+		<well number="92" label="H8">
+			<item name="DL-malate-MES-tris" class="Buffer" conc="10" units="v/v" ph="5.17"/>
+			<item name="1-butyl-3-methylimidazolium tetrafluoroborate" class="Additive" conc="1.14" units="w/v" ph=""/>
+			<item name="jeffamine D-400" class="Organic" conc="23.5" units="v/v" ph="7"/>
+		</well>
+		<well number="93" label="H9">
+			<item name="citrate-HEPES-CHES" class="Buffer" conc="10" units="v/v" ph="6.33"/>
+			<item name="ethylammonium nitrate" class="Additive" conc="1.66" units="v/v" ph=""/>
+			<item name="jeffamine M-1000" class="Polymer" conc="20" units="w/v" ph="7"/>
+		</well>
+		<well number="94" label="H10">
+			<item name="succinate-phosphate-glycine" class="Buffer" conc="10" units="v/v" ph="8.47"/>
+			<item name="1-butyl-3-methylimidazolium tetrafluoroborate" class="Additive" conc="2.04" units="w/v" ph=""/>
+			<item name="polyacrylic acid 2100 sodium salt" class="Polymer" conc="21.7" units="w/v" ph=""/>
+		</well>
+		<well number="95" label="H11">
+			<item name="sodium chloride" class="Salt" conc="0.106" units="M" ph=""/>
+			<item name="polyethylene glycol dimethyl ether 500" class="Polymer" conc="28.2" units="v/v" ph=""/>
+		</well>
+		<well number="96" label="H12">
+			<item name="citrate-HEPES-CHES" class="Buffer" conc="10" units="v/v" ph="8.4"/>
+			<item name="1-butyl-3-methylimidazolium tetrafluoroborate" class="Additive" conc="2.23" units="w/v" ph=""/>
+			<item name="sokalan CP 42" class="Polymer" conc="15.2" units="w/v" ph=""/>
+		</well>
+	</reservoir_design>
+</crystaltrak>

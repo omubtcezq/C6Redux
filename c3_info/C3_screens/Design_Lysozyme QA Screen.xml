@@ -1,0 +1,567 @@
+<crystaltrak datatype="design" version="2.3.43">
+	<chemicals>
+		<chemical name="jeffamine ED-2001" units="w/v" formula="CH3CH(NH2)CH2(OCH2CH2)nOCH2CH(NH2)CH3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="50" mw="2000" ions="" CAS="70939-81-0" CMC="" SMILES="">
+			<class>Polymer</class>
+			<class>Ambiguous</class>
+			<alias>Jeffamine ED-2001 (pH 7.0)</alias>
+			<alias>Jeffamine ED2003</alias>
+			<alias>O,O'-bis (2-aminopropyl) polyethylene glycol</alias>
+			<alias>jeffamine ED 2001</alias>
+			<alias>jeffamine ED-2001 reagent</alias>
+			<alias>jeffamine ED2001</alias>
+		</chemical>
+		<chemical name="lithium chloride" units="M" formula="LiCl" density="" solubility="63.7" pka1="" pka2="" pka3="" def_stock_conc="10" def_stock_units="M" max_stock_conc="63.7" mw="42.39" ions="Li;Cl" CAS="7447-41-8" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Li Chloride</alias>
+			<alias>licl</alias>
+		</chemical>
+		<chemical name="magnesium chloride" units="M" formula="MgCl2" density="" solubility="54.3" pka1="" pka2="" pka3="" def_stock_conc="5" def_stock_units="M" max_stock_conc="54.3" mw="95.22" ions="Mg;2Cl" CAS="7786-30-3" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Magnesium  Chloride</alias>
+			<alias>Magnesium Chloride</alias>
+			<alias>Magnesium chloride hexahydrate</alias>
+			<alias>Mg Chloride</alias>
+			<alias>MgCl2</alias>
+			<alias>mg-chloride</alias>
+		</chemical>
+		<chemical name="polyethylene glycol 6000" units="w/v" formula="HO-(CH2-CH2-O)n-H" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="50" mw="6000" ions="" CAS="25322-68-3" CMC="" SMILES="">
+			<class>Polymer</class>
+			<alias>PEG 6,000</alias>
+			<alias>PEG 6000</alias>
+			<alias>PEG 6K</alias>
+			<alias>PEG-6000</alias>
+			<alias>PEG6K</alias>
+			<alias>polyethylene glycol 6,000</alias>
+			<alias>polyethylene glycol 6K</alias>
+		</chemical>
+		<chemical name="polyethylene glycol 8000" units="w/v" formula="HO-(CH2-CH2-O)n-H" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="50" mw="8000" ions="" CAS="25322-68-3" CMC="" SMILES="">
+			<class>Polymer</class>
+			<class>Additive</class>
+			<alias>PEG 8,000</alias>
+			<alias>PEG 8000</alias>
+			<alias>PEG 8K</alias>
+			<alias>PEG-8000</alias>
+			<alias>PEG8K</alias>
+			<alias>polyethylene glycol 8,000</alias>
+			<alias>polyethylene glycol 8K</alias>
+		</chemical>
+		<chemical name="sodium acetate-acetic acid" units="M" formula="NaCH3COO" density="" solubility="46" pka1="4.76" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="82.02" ions="Na;CH3COO" CAS="127-09-3" CMC="" SMILES="">
+			<class>Buffer</class>
+			<alias>Sodium Acetate / Acetic Acid</alias>
+			<alias>Sodium Acetate-Acetic Acid</alias>
+			<alias>acetic acid-sodium acetate</alias>
+		</chemical>
+		<chemical name="sodium chloride" units="M" formula="NaCl" density="" solubility="35.7" pka1="" pka2="" pka3="" def_stock_conc="5" def_stock_units="M" max_stock_conc="35.7" mw="58.44" ions="Na;Cl" CAS="7647-14-5" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Na chloride</alias>
+			<alias>Sodium  Chloride</alias>
+			<alias>Sodium Chloride</alias>
+			<alias>na-chloride</alias>
+			<alias>nacl</alias>
+			<alias>salt</alias>
+		</chemical>
+		<chemical name="sodium HEPES" units="M" formula="C8H17N2NaO4S" density="" solubility="26.1" pka1="7.55" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="26.1" mw="260.3" ions="" CAS="75277-39-3" CMC="" SMILES="">
+			<class>Buffer</class>
+			<alias>HEPES - Na</alias>
+			<alias>HEPES - Sodium</alias>
+			<alias>HEPES sodium</alias>
+			<alias>HEPES sodium salt</alias>
+			<alias>HEPES-NaOH</alias>
+			<alias>HEPES-na</alias>
+			<alias>HEPES/NaOH</alias>
+			<alias>Na HEPES</alias>
+			<alias>na-HEPES</alias>
+		</chemical>
+		<chemical name="sodium malonate-malonic acid" units="M" formula="" density="" solubility="" pka1="2.83" pka2="5.69" pka3="" def_stock_conc="3.4" def_stock_units="M" max_stock_conc="36" mw="104.6" ions="" CAS="" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Fundamental Mixtures</class>
+			<class>Buffer</class>
+			<alias>malonic acid-sodium malonate</alias>
+		</chemical>
+		<chemical name="tris chloride" units="M" formula="C4H11NO3   HCl" density="" solubility="67" pka1="8.1" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="67" mw="157.6" ions=";Cl" CAS="1185-53-1" CMC="" SMILES="">
+			<class>Buffer</class>
+			<alias>Tris -HCl</alias>
+			<alias>Tris HCl</alias>
+			<alias>Tris base/HCl</alias>
+			<alias>Tris- HCl</alias>
+			<alias>tris</alias>
+			<alias>tris hydrochloride</alias>
+			<alias>tris-hcl</alias>
+			<alias>tris-hydrochloride</alias>
+			<alias>tris.hcl</alias>
+			<alias>trishcl</alias>
+		</chemical>
+		<chemical name="trisodium citrate-citric acid" units="M" formula="" density="" solubility="" pka1="3.13" pka2="4.76" pka3="6.4" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="258.06" ions="3Na;C6H5O7" CAS="" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Buffer</class>
+			<alias>Na3 citrate/citric acid</alias>
+			<alias>Sodium Citrate / Citric Acid</alias>
+			<alias>citric acid sodium citrate</alias>
+			<alias>citric acid-sodium citrate</alias>
+			<alias>tri-sodium citrate - citric acid</alias>
+			<alias>trisodium Citrate-Citric Acid</alias>
+		</chemical>
+	</chemicals>
+	<reservoir_design name="Lysozyme QA Screen" username="c3@csiro.au" design_date="" res_vol="0">
+		<format name="Generic 96 Well" rows="8" cols="12" subs="1" max_res_vol="1" def_res_vol="1" max_drop_vol="1" def_drop_vol="1"/>
+		<comments>Four conditions that grow lysozyme crystals with different morphology.</comments>
+		<well number="1" label="A1">
+			<item name="sodium HEPES" class="Buffer" conc="100" units="mM" ph="7"/>
+			<item name="sodium malonate-malonic acid" class="Salt" conc="1.1" units="M" ph="7"/>
+			<item name="jeffamine ED-2001" class="" conc="0.5" units="w/v" ph="7"/>
+		</well>
+		<well number="2" label="A2">
+			<item name="trisodium citrate-citric acid" class="Fundamental Mixtures" conc="0.1" units="M" ph="4"/>
+			<item name="polyethylene glycol 6000" class="Precipitant" conc="20" units="w/v" ph=""/>
+			<item name="lithium chloride" class="Salt" conc="1" units="M" ph=""/>
+		</well>
+		<well number="3" label="A3">
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="magnesium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="polyethylene glycol 8000" class="Precipitant" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="4" label="A4">
+			<item name="sodium chloride" class="Precipitant" conc="1" units="M" ph=""/>
+			<item name="sodium acetate-acetic acid" class="Buffer" conc="0.1" units="M" ph="4.5"/>
+		</well>
+		<well number="5" label="A5">
+			<item name="sodium malonate-malonic acid" class="Salt" conc="1.1" units="M" ph="7"/>
+			<item name="jeffamine ED-2001" class="" conc="0.5" units="w/v" ph="7"/>
+			<item name="sodium HEPES" class="Buffer" conc="100" units="mM" ph="7"/>
+		</well>
+		<well number="6" label="A6">
+			<item name="polyethylene glycol 6000" class="Precipitant" conc="20" units="w/v" ph=""/>
+			<item name="lithium chloride" class="Salt" conc="1" units="M" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Fundamental Mixtures" conc="0.1" units="M" ph="4"/>
+		</well>
+		<well number="7" label="A7">
+			<item name="polyethylene glycol 8000" class="Precipitant" conc="20" units="w/v" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="magnesium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="8" label="A8">
+			<item name="sodium acetate-acetic acid" class="Buffer" conc="0.1" units="M" ph="4.5"/>
+			<item name="sodium chloride" class="Precipitant" conc="1" units="M" ph=""/>
+		</well>
+		<well number="9" label="A9">
+			<item name="jeffamine ED-2001" class="" conc="0.5" units="w/v" ph="7"/>
+			<item name="sodium malonate-malonic acid" class="Salt" conc="1.1" units="M" ph="7"/>
+			<item name="sodium HEPES" class="Buffer" conc="100" units="mM" ph="7"/>
+		</well>
+		<well number="10" label="A10">
+			<item name="trisodium citrate-citric acid" class="Fundamental Mixtures" conc="0.1" units="M" ph="4"/>
+			<item name="lithium chloride" class="Salt" conc="1" units="M" ph=""/>
+			<item name="polyethylene glycol 6000" class="Precipitant" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="11" label="A11">
+			<item name="polyethylene glycol 8000" class="Precipitant" conc="20" units="w/v" ph=""/>
+			<item name="magnesium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+		</well>
+		<well number="12" label="A12">
+			<item name="sodium acetate-acetic acid" class="Buffer" conc="0.1" units="M" ph="4.5"/>
+			<item name="sodium chloride" class="Precipitant" conc="1" units="M" ph=""/>
+		</well>
+		<well number="13" label="B1">
+			<item name="sodium malonate-malonic acid" class="Salt" conc="1.1" units="M" ph="7"/>
+			<item name="jeffamine ED-2001" class="" conc="0.5" units="w/v" ph="7"/>
+			<item name="sodium HEPES" class="Buffer" conc="100" units="mM" ph="7"/>
+		</well>
+		<well number="14" label="B2">
+			<item name="polyethylene glycol 6000" class="Precipitant" conc="20" units="w/v" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Fundamental Mixtures" conc="0.1" units="M" ph="4"/>
+			<item name="lithium chloride" class="Salt" conc="1" units="M" ph=""/>
+		</well>
+		<well number="15" label="B3">
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="magnesium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="polyethylene glycol 8000" class="Precipitant" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="16" label="B4">
+			<item name="sodium chloride" class="Precipitant" conc="1" units="M" ph=""/>
+			<item name="sodium acetate-acetic acid" class="Buffer" conc="0.1" units="M" ph="4.5"/>
+		</well>
+		<well number="17" label="B5">
+			<item name="sodium HEPES" class="Buffer" conc="100" units="mM" ph="7"/>
+			<item name="jeffamine ED-2001" class="" conc="0.5" units="w/v" ph="7"/>
+			<item name="sodium malonate-malonic acid" class="Salt" conc="1.1" units="M" ph="7"/>
+		</well>
+		<well number="18" label="B6">
+			<item name="trisodium citrate-citric acid" class="Fundamental Mixtures" conc="0.1" units="M" ph="4"/>
+			<item name="polyethylene glycol 6000" class="Precipitant" conc="20" units="w/v" ph=""/>
+			<item name="lithium chloride" class="Salt" conc="1" units="M" ph=""/>
+		</well>
+		<well number="19" label="B7">
+			<item name="magnesium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="polyethylene glycol 8000" class="Precipitant" conc="20" units="w/v" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+		</well>
+		<well number="20" label="B8">
+			<item name="sodium acetate-acetic acid" class="Buffer" conc="0.1" units="M" ph="4.5"/>
+			<item name="sodium chloride" class="Precipitant" conc="1" units="M" ph=""/>
+		</well>
+		<well number="21" label="B9">
+			<item name="sodium HEPES" class="Buffer" conc="100" units="mM" ph="7"/>
+			<item name="jeffamine ED-2001" class="" conc="0.5" units="w/v" ph="7"/>
+			<item name="sodium malonate-malonic acid" class="Salt" conc="1.1" units="M" ph="7"/>
+		</well>
+		<well number="22" label="B10">
+			<item name="polyethylene glycol 6000" class="Precipitant" conc="20" units="w/v" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Fundamental Mixtures" conc="0.1" units="M" ph="4"/>
+			<item name="lithium chloride" class="Salt" conc="1" units="M" ph=""/>
+		</well>
+		<well number="23" label="B11">
+			<item name="polyethylene glycol 8000" class="Precipitant" conc="20" units="w/v" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="magnesium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="24" label="B12">
+			<item name="sodium chloride" class="Precipitant" conc="1" units="M" ph=""/>
+			<item name="sodium acetate-acetic acid" class="Buffer" conc="0.1" units="M" ph="4.5"/>
+		</well>
+		<well number="25" label="C1">
+			<item name="sodium HEPES" class="Buffer" conc="100" units="mM" ph="7"/>
+			<item name="jeffamine ED-2001" class="" conc="0.5" units="w/v" ph="7"/>
+			<item name="sodium malonate-malonic acid" class="Salt" conc="1.1" units="M" ph="7"/>
+		</well>
+		<well number="26" label="C2">
+			<item name="lithium chloride" class="Salt" conc="1" units="M" ph=""/>
+			<item name="polyethylene glycol 6000" class="Precipitant" conc="20" units="w/v" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Fundamental Mixtures" conc="0.1" units="M" ph="4"/>
+		</well>
+		<well number="27" label="C3">
+			<item name="magnesium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="polyethylene glycol 8000" class="Precipitant" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="28" label="C4">
+			<item name="sodium chloride" class="Precipitant" conc="1" units="M" ph=""/>
+			<item name="sodium acetate-acetic acid" class="Buffer" conc="0.1" units="M" ph="4.5"/>
+		</well>
+		<well number="29" label="C5">
+			<item name="sodium HEPES" class="Buffer" conc="100" units="mM" ph="7"/>
+			<item name="jeffamine ED-2001" class="" conc="0.5" units="w/v" ph="7"/>
+			<item name="sodium malonate-malonic acid" class="Salt" conc="1.1" units="M" ph="7"/>
+		</well>
+		<well number="30" label="C6">
+			<item name="lithium chloride" class="Salt" conc="1" units="M" ph=""/>
+			<item name="polyethylene glycol 6000" class="Precipitant" conc="20" units="w/v" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Fundamental Mixtures" conc="0.1" units="M" ph="4"/>
+		</well>
+		<well number="31" label="C7">
+			<item name="magnesium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="polyethylene glycol 8000" class="Precipitant" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="32" label="C8">
+			<item name="sodium chloride" class="Precipitant" conc="1" units="M" ph=""/>
+			<item name="sodium acetate-acetic acid" class="Buffer" conc="0.1" units="M" ph="4.5"/>
+		</well>
+		<well number="33" label="C9">
+			<item name="sodium HEPES" class="Buffer" conc="100" units="mM" ph="7"/>
+			<item name="jeffamine ED-2001" class="" conc="0.5" units="w/v" ph="7"/>
+			<item name="sodium malonate-malonic acid" class="Salt" conc="1.1" units="M" ph="7"/>
+		</well>
+		<well number="34" label="C10">
+			<item name="lithium chloride" class="Salt" conc="1" units="M" ph=""/>
+			<item name="polyethylene glycol 6000" class="Precipitant" conc="20" units="w/v" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Fundamental Mixtures" conc="0.1" units="M" ph="4"/>
+		</well>
+		<well number="35" label="C11">
+			<item name="magnesium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="polyethylene glycol 8000" class="Precipitant" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="36" label="C12">
+			<item name="sodium chloride" class="Precipitant" conc="1" units="M" ph=""/>
+			<item name="sodium acetate-acetic acid" class="Buffer" conc="0.1" units="M" ph="4.5"/>
+		</well>
+		<well number="37" label="D1">
+			<item name="sodium HEPES" class="Buffer" conc="100" units="mM" ph="7"/>
+			<item name="jeffamine ED-2001" class="" conc="0.5" units="w/v" ph="7"/>
+			<item name="sodium malonate-malonic acid" class="Salt" conc="1.1" units="M" ph="7"/>
+		</well>
+		<well number="38" label="D2">
+			<item name="lithium chloride" class="Salt" conc="1" units="M" ph=""/>
+			<item name="polyethylene glycol 6000" class="Precipitant" conc="20" units="w/v" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Fundamental Mixtures" conc="0.1" units="M" ph="4"/>
+		</well>
+		<well number="39" label="D3">
+			<item name="magnesium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="polyethylene glycol 8000" class="Precipitant" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="40" label="D4">
+			<item name="sodium chloride" class="Precipitant" conc="1" units="M" ph=""/>
+			<item name="sodium acetate-acetic acid" class="Buffer" conc="0.1" units="M" ph="4.5"/>
+		</well>
+		<well number="41" label="D5">
+			<item name="sodium HEPES" class="Buffer" conc="100" units="mM" ph="7"/>
+			<item name="jeffamine ED-2001" class="" conc="0.5" units="w/v" ph="7"/>
+			<item name="sodium malonate-malonic acid" class="Salt" conc="1.1" units="M" ph="7"/>
+		</well>
+		<well number="42" label="D6">
+			<item name="lithium chloride" class="Salt" conc="1" units="M" ph=""/>
+			<item name="polyethylene glycol 6000" class="Precipitant" conc="20" units="w/v" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Fundamental Mixtures" conc="0.1" units="M" ph="4"/>
+		</well>
+		<well number="43" label="D7">
+			<item name="magnesium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="polyethylene glycol 8000" class="Precipitant" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="44" label="D8">
+			<item name="sodium chloride" class="Precipitant" conc="1" units="M" ph=""/>
+			<item name="sodium acetate-acetic acid" class="Buffer" conc="0.1" units="M" ph="4.5"/>
+		</well>
+		<well number="45" label="D9">
+			<item name="sodium HEPES" class="Buffer" conc="100" units="mM" ph="7"/>
+			<item name="jeffamine ED-2001" class="" conc="0.5" units="w/v" ph="7"/>
+			<item name="sodium malonate-malonic acid" class="Salt" conc="1.1" units="M" ph="7"/>
+		</well>
+		<well number="46" label="D10">
+			<item name="lithium chloride" class="Salt" conc="1" units="M" ph=""/>
+			<item name="polyethylene glycol 6000" class="Precipitant" conc="20" units="w/v" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Fundamental Mixtures" conc="0.1" units="M" ph="4"/>
+		</well>
+		<well number="47" label="D11">
+			<item name="magnesium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="polyethylene glycol 8000" class="Precipitant" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="48" label="D12">
+			<item name="sodium chloride" class="Precipitant" conc="1" units="M" ph=""/>
+			<item name="sodium acetate-acetic acid" class="Buffer" conc="0.1" units="M" ph="4.5"/>
+		</well>
+		<well number="49" label="E1">
+			<item name="sodium HEPES" class="Buffer" conc="100" units="mM" ph="7"/>
+			<item name="jeffamine ED-2001" class="" conc="0.5" units="w/v" ph="7"/>
+			<item name="sodium malonate-malonic acid" class="Salt" conc="1.1" units="M" ph="7"/>
+		</well>
+		<well number="50" label="E2">
+			<item name="lithium chloride" class="Salt" conc="1" units="M" ph=""/>
+			<item name="polyethylene glycol 6000" class="Precipitant" conc="20" units="w/v" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Fundamental Mixtures" conc="0.1" units="M" ph="4"/>
+		</well>
+		<well number="51" label="E3">
+			<item name="magnesium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="polyethylene glycol 8000" class="Precipitant" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="52" label="E4">
+			<item name="sodium chloride" class="Precipitant" conc="1" units="M" ph=""/>
+			<item name="sodium acetate-acetic acid" class="Buffer" conc="0.1" units="M" ph="4.5"/>
+		</well>
+		<well number="53" label="E5">
+			<item name="sodium HEPES" class="Buffer" conc="100" units="mM" ph="7"/>
+			<item name="jeffamine ED-2001" class="" conc="0.5" units="w/v" ph="7"/>
+			<item name="sodium malonate-malonic acid" class="Salt" conc="1.1" units="M" ph="7"/>
+		</well>
+		<well number="54" label="E6">
+			<item name="lithium chloride" class="Salt" conc="1" units="M" ph=""/>
+			<item name="polyethylene glycol 6000" class="Precipitant" conc="20" units="w/v" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Fundamental Mixtures" conc="0.1" units="M" ph="4"/>
+		</well>
+		<well number="55" label="E7">
+			<item name="magnesium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="polyethylene glycol 8000" class="Precipitant" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="56" label="E8">
+			<item name="sodium chloride" class="Precipitant" conc="1" units="M" ph=""/>
+			<item name="sodium acetate-acetic acid" class="Buffer" conc="0.1" units="M" ph="4.5"/>
+		</well>
+		<well number="57" label="E9">
+			<item name="sodium HEPES" class="Buffer" conc="100" units="mM" ph="7"/>
+			<item name="jeffamine ED-2001" class="" conc="0.5" units="w/v" ph="7"/>
+			<item name="sodium malonate-malonic acid" class="Salt" conc="1.1" units="M" ph="7"/>
+		</well>
+		<well number="58" label="E10">
+			<item name="lithium chloride" class="Salt" conc="1" units="M" ph=""/>
+			<item name="polyethylene glycol 6000" class="Precipitant" conc="20" units="w/v" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Fundamental Mixtures" conc="0.1" units="M" ph="4"/>
+		</well>
+		<well number="59" label="E11">
+			<item name="magnesium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="polyethylene glycol 8000" class="Precipitant" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="60" label="E12">
+			<item name="sodium chloride" class="Precipitant" conc="1" units="M" ph=""/>
+			<item name="sodium acetate-acetic acid" class="Buffer" conc="0.1" units="M" ph="4.5"/>
+		</well>
+		<well number="61" label="F1">
+			<item name="sodium HEPES" class="Buffer" conc="100" units="mM" ph="7"/>
+			<item name="jeffamine ED-2001" class="" conc="0.5" units="w/v" ph="7"/>
+			<item name="sodium malonate-malonic acid" class="Salt" conc="1.1" units="M" ph="7"/>
+		</well>
+		<well number="62" label="F2">
+			<item name="lithium chloride" class="Salt" conc="1" units="M" ph=""/>
+			<item name="polyethylene glycol 6000" class="Precipitant" conc="20" units="w/v" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Fundamental Mixtures" conc="0.1" units="M" ph="4"/>
+		</well>
+		<well number="63" label="F3">
+			<item name="magnesium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="polyethylene glycol 8000" class="Precipitant" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="64" label="F4">
+			<item name="sodium chloride" class="Precipitant" conc="1" units="M" ph=""/>
+			<item name="sodium acetate-acetic acid" class="Buffer" conc="0.1" units="M" ph="4.5"/>
+		</well>
+		<well number="65" label="F5">
+			<item name="sodium HEPES" class="Buffer" conc="100" units="mM" ph="7"/>
+			<item name="jeffamine ED-2001" class="" conc="0.5" units="w/v" ph="7"/>
+			<item name="sodium malonate-malonic acid" class="Salt" conc="1.1" units="M" ph="7"/>
+		</well>
+		<well number="66" label="F6">
+			<item name="lithium chloride" class="Salt" conc="1" units="M" ph=""/>
+			<item name="polyethylene glycol 6000" class="Precipitant" conc="20" units="w/v" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Fundamental Mixtures" conc="0.1" units="M" ph="4"/>
+		</well>
+		<well number="67" label="F7">
+			<item name="magnesium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="polyethylene glycol 8000" class="Precipitant" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="68" label="F8">
+			<item name="sodium chloride" class="Precipitant" conc="1" units="M" ph=""/>
+			<item name="sodium acetate-acetic acid" class="Buffer" conc="0.1" units="M" ph="4.5"/>
+		</well>
+		<well number="69" label="F9">
+			<item name="sodium HEPES" class="Buffer" conc="100" units="mM" ph="7"/>
+			<item name="jeffamine ED-2001" class="" conc="0.5" units="w/v" ph="7"/>
+			<item name="sodium malonate-malonic acid" class="Salt" conc="1.1" units="M" ph="7"/>
+		</well>
+		<well number="70" label="F10">
+			<item name="lithium chloride" class="Salt" conc="1" units="M" ph=""/>
+			<item name="polyethylene glycol 6000" class="Precipitant" conc="20" units="w/v" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Fundamental Mixtures" conc="0.1" units="M" ph="4"/>
+		</well>
+		<well number="71" label="F11">
+			<item name="magnesium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="polyethylene glycol 8000" class="Precipitant" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="72" label="F12">
+			<item name="sodium chloride" class="Precipitant" conc="1" units="M" ph=""/>
+			<item name="sodium acetate-acetic acid" class="Buffer" conc="0.1" units="M" ph="4.5"/>
+		</well>
+		<well number="73" label="G1">
+			<item name="sodium HEPES" class="Buffer" conc="100" units="mM" ph="7"/>
+			<item name="jeffamine ED-2001" class="" conc="0.5" units="w/v" ph="7"/>
+			<item name="sodium malonate-malonic acid" class="Salt" conc="1.1" units="M" ph="7"/>
+		</well>
+		<well number="74" label="G2">
+			<item name="lithium chloride" class="Salt" conc="1" units="M" ph=""/>
+			<item name="polyethylene glycol 6000" class="Precipitant" conc="20" units="w/v" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Fundamental Mixtures" conc="0.1" units="M" ph="4"/>
+		</well>
+		<well number="75" label="G3">
+			<item name="magnesium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="polyethylene glycol 8000" class="Precipitant" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="76" label="G4">
+			<item name="sodium chloride" class="Precipitant" conc="1" units="M" ph=""/>
+			<item name="sodium acetate-acetic acid" class="Buffer" conc="0.1" units="M" ph="4.5"/>
+		</well>
+		<well number="77" label="G5">
+			<item name="sodium HEPES" class="Buffer" conc="100" units="mM" ph="7"/>
+			<item name="jeffamine ED-2001" class="" conc="0.5" units="w/v" ph="7"/>
+			<item name="sodium malonate-malonic acid" class="Salt" conc="1.1" units="M" ph="7"/>
+		</well>
+		<well number="78" label="G6">
+			<item name="lithium chloride" class="Salt" conc="1" units="M" ph=""/>
+			<item name="polyethylene glycol 6000" class="Precipitant" conc="20" units="w/v" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Fundamental Mixtures" conc="0.1" units="M" ph="4"/>
+		</well>
+		<well number="79" label="G7">
+			<item name="magnesium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="polyethylene glycol 8000" class="Precipitant" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="80" label="G8">
+			<item name="sodium chloride" class="Precipitant" conc="1" units="M" ph=""/>
+			<item name="sodium acetate-acetic acid" class="Buffer" conc="0.1" units="M" ph="4.5"/>
+		</well>
+		<well number="81" label="G9">
+			<item name="sodium HEPES" class="Buffer" conc="100" units="mM" ph="7"/>
+			<item name="jeffamine ED-2001" class="" conc="0.5" units="w/v" ph="7"/>
+			<item name="sodium malonate-malonic acid" class="Salt" conc="1.1" units="M" ph="7"/>
+		</well>
+		<well number="82" label="G10">
+			<item name="lithium chloride" class="Salt" conc="1" units="M" ph=""/>
+			<item name="polyethylene glycol 6000" class="Precipitant" conc="20" units="w/v" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Fundamental Mixtures" conc="0.1" units="M" ph="4"/>
+		</well>
+		<well number="83" label="G11">
+			<item name="magnesium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="polyethylene glycol 8000" class="Precipitant" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="84" label="G12">
+			<item name="sodium chloride" class="Precipitant" conc="1" units="M" ph=""/>
+			<item name="sodium acetate-acetic acid" class="Buffer" conc="0.1" units="M" ph="4.5"/>
+		</well>
+		<well number="85" label="H1">
+			<item name="sodium HEPES" class="Buffer" conc="100" units="mM" ph="7"/>
+			<item name="jeffamine ED-2001" class="" conc="0.5" units="w/v" ph="7"/>
+			<item name="sodium malonate-malonic acid" class="Salt" conc="1.1" units="M" ph="7"/>
+		</well>
+		<well number="86" label="H2">
+			<item name="lithium chloride" class="Salt" conc="1" units="M" ph=""/>
+			<item name="polyethylene glycol 6000" class="Precipitant" conc="20" units="w/v" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Fundamental Mixtures" conc="0.1" units="M" ph="4"/>
+		</well>
+		<well number="87" label="H3">
+			<item name="magnesium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="polyethylene glycol 8000" class="Precipitant" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="88" label="H4">
+			<item name="sodium chloride" class="Precipitant" conc="1" units="M" ph=""/>
+			<item name="sodium acetate-acetic acid" class="Buffer" conc="0.1" units="M" ph="4.5"/>
+		</well>
+		<well number="89" label="H5">
+			<item name="sodium HEPES" class="Buffer" conc="100" units="mM" ph="7"/>
+			<item name="jeffamine ED-2001" class="" conc="0.5" units="w/v" ph="7"/>
+			<item name="sodium malonate-malonic acid" class="Salt" conc="1.1" units="M" ph="7"/>
+		</well>
+		<well number="90" label="H6">
+			<item name="lithium chloride" class="Salt" conc="1" units="M" ph=""/>
+			<item name="polyethylene glycol 6000" class="Precipitant" conc="20" units="w/v" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Fundamental Mixtures" conc="0.1" units="M" ph="4"/>
+		</well>
+		<well number="91" label="H7">
+			<item name="magnesium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="polyethylene glycol 8000" class="Precipitant" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="92" label="H8">
+			<item name="sodium chloride" class="Precipitant" conc="1" units="M" ph=""/>
+			<item name="sodium acetate-acetic acid" class="Buffer" conc="0.1" units="M" ph="4.5"/>
+		</well>
+		<well number="93" label="H9">
+			<item name="sodium HEPES" class="Buffer" conc="100" units="mM" ph="7"/>
+			<item name="jeffamine ED-2001" class="" conc="0.5" units="w/v" ph="7"/>
+			<item name="sodium malonate-malonic acid" class="Salt" conc="1.1" units="M" ph="7"/>
+		</well>
+		<well number="94" label="H10">
+			<item name="lithium chloride" class="Salt" conc="1" units="M" ph=""/>
+			<item name="polyethylene glycol 6000" class="Precipitant" conc="20" units="w/v" ph=""/>
+			<item name="trisodium citrate-citric acid" class="Fundamental Mixtures" conc="0.1" units="M" ph="4"/>
+		</well>
+		<well number="95" label="H11">
+			<item name="magnesium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.1" units="M" ph="8.5"/>
+			<item name="polyethylene glycol 8000" class="Precipitant" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="96" label="H12">
+			<item name="sodium chloride" class="Precipitant" conc="1" units="M" ph=""/>
+			<item name="sodium acetate-acetic acid" class="Buffer" conc="0.1" units="M" ph="4.5"/>
+		</well>
+	</reservoir_design>
+</crystaltrak>

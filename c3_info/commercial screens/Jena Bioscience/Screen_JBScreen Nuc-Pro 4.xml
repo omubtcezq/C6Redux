@@ -1,0 +1,417 @@
+<crystaltrak datatype="screen" version="2.3.43">
+	<chemicals>
+		<chemical name="1,6-hexanediol" units="M" formula="HO(CH2)6OH" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="6" def_stock_units="M" max_stock_conc="82.7" mw="118.18" ions="" CAS="629-11-8" CMC="" SMILES="">
+			<class>Precipitant</class>
+			<class>Organic</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>1 6-Hexanediol</alias>
+			<alias>1,6 hexanediol</alias>
+			<alias>1-6 hexanediol</alias>
+			<alias>1.6 hexandiol</alias>
+			<alias>HDO</alias>
+			<alias>hexamethylene glycol</alias>
+			<alias>hexamethylenediol</alias>
+			<alias>hexanediol</alias>
+		</chemical>
+		<chemical name="2-methyl-2,4-pentanediol" units="v/v" formula="CH3CH(OH)CH2C(OH)(CH3)2" density="0.9254" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="93" mw="188.18" ions="" CAS="107-41-5" CMC="" SMILES="">
+			<class>Organic</class>
+			<class>Additive</class>
+			<alias>(+/-)-2-Methyl-2,4-pentanediol</alias>
+			<alias>2-Methyl-2 4-pentanediol</alias>
+			<alias>2-Methyl-2,4-pentandiol</alias>
+			<alias>2-methyl-2-4-pentanediol</alias>
+			<alias>MPD</alias>
+			<alias>goop</alias>
+		</chemical>
+		<chemical name="2-propanol" units="v/v" formula="CH3CH(OH)CH3" density="0.7855" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="78.5" mw="60.11" ions="" CAS="67-63-0" CMC="" SMILES="">
+			<class>Organic</class>
+			<alias>IPA</alias>
+			<alias>iso-propanol</alias>
+			<alias>isopropanol</alias>
+			<alias>isopropyl alcohol</alias>
+			<alias>propan-2-ol</alias>
+			<alias>propanol</alias>
+		</chemical>
+		<chemical name="ADA" units="M" formula="C6H10N2O5" density="" solubility="19" pka1="6.6" pka2="" pka3="" def_stock_conc="0.5" def_stock_units="M" max_stock_conc="19" mw="190.2" ions="" CAS="26239-55-4" CMC="" SMILES="">
+			<class>Buffer</class>
+			<alias>ADA</alias>
+			<alias>ADA/NaOH</alias>
+			<alias>N-(2-Acetamido)iminodiacetic acid</alias>
+			<alias>N-(Carbamoylmethyl)iminodiacetic acid</alias>
+		</chemical>
+		<chemical name="ammonium acetate" units="M" formula="C2H7NO2" density="" solubility="148" pka1="4.76" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="148" mw="77.08" ions="NH4;CH3CO2" CAS="631-61-8" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Am(Oac)</alias>
+			<alias>AmAc</alias>
+			<alias>NH4 Ac</alias>
+			<alias>NH4 Acetate</alias>
+			<alias>NH4-acetate</alias>
+			<alias>NH4OAc</alias>
+			<alias>am acetate</alias>
+			<alias>am-acetate</alias>
+		</chemical>
+		<chemical name="ammonium chloride" units="M" formula="NH4Cl" density="" solubility="29.7" pka1="" pka2="" pka3="" def_stock_conc="5" def_stock_units="M" max_stock_conc="23.8" mw="53.49" ions="NH4;Cl" CAS="12125-02-9" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>AmCl</alias>
+			<alias>Ammoniumchlorid</alias>
+			<alias>Salmiac</alias>
+			<alias>sal ammoniac</alias>
+			<alias>smelling salts</alias>
+		</chemical>
+		<chemical name="bis-tris" units="M" formula="C8H19NO5" density="" solubility="50" pka1="6.46" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="40" mw="209.2" ions="" CAS="6976-37-0" CMC="" SMILES="">
+			<class>Buffer</class>
+			<class>Ambiguous</class>
+			<alias>Bis-Tris-NaOH</alias>
+			<alias>bis tris</alias>
+			<alias>bis tris methane</alias>
+			<alias>bistris</alias>
+		</chemical>
+		<chemical name="calcium acetate" units="M" formula="Ca(C2H3O2)2" density="" solubility="37.4" pka1="4.76" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="30" mw="158.17" ions="Ca;2CH3CO2" CAS="62-54-4" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Ca(Oac)</alias>
+			<alias>CaAc</alias>
+			<alias>ca acetate</alias>
+			<alias>ca-acetate</alias>
+			<alias>caacet</alias>
+			<alias>calcium ac</alias>
+		</chemical>
+		<chemical name="calcium chloride" units="M" formula="CaCl2" density="" solubility="74.5" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="75.5" mw="110.98" ions="Ca;2Cl" CAS="10043-52-4" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Calcium  Chloride</alias>
+			<alias>Calcium chloride dihydrate</alias>
+			<alias>ca chloride</alias>
+			<alias>ca-chloride</alias>
+			<alias>cacl2</alias>
+		</chemical>
+		<chemical name="cobalt chloride" units="M" formula="CoCl2" density="" solubility="45" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="45" mw="129.84" ions="Co;2Cl" CAS="7646-79-9" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Co-chloride</alias>
+			<alias>Cobalt(II) chloride hexahydrate</alias>
+			<alias>Cobalt(II)-chloride</alias>
+			<alias>cobalt (II) chloride</alias>
+			<alias>cobalt(II) chloride</alias>
+			<alias>cobaltous chloride</alias>
+			<alias>cocl2</alias>
+		</chemical>
+		<chemical name="dioxane" units="v/v" formula="C4H8O2" density="1.034" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="103" mw="88.12" ions="" CAS="123-91-1" CMC="" SMILES="">
+			<class>Organic</class>
+			<alias>1,4 dioxane</alias>
+			<alias>1,4-Dioxane</alias>
+			<alias>1.4-dioxane</alias>
+			<alias>Dioxan</alias>
+			<alias>diethylene oxide</alias>
+		</chemical>
+		<chemical name="ethanol" units="v/v" formula="C2H5OH" density="0.7893" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="78.9" mw="46.07" ions="" CAS="64-17-5" CMC="" SMILES="">
+			<class>Organic</class>
+			<class>Additive</class>
+			<alias>EtOH</alias>
+			<alias>booze</alias>
+			<alias>ethyl alcohol</alias>
+		</chemical>
+		<chemical name="ethylene glycol" units="v/v" formula="HOCH2CH2OH" density="1.109" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="111" mw="62.02" ions="" CAS="107-21-1" CMC="" SMILES="">
+			<class>Organic</class>
+			<class>Cryoprotectant</class>
+			<alias>1,2 ethandiol</alias>
+			<alias>dihydroxyethane</alias>
+			<alias>ethylen glycol</alias>
+			<alias>ethylene glycol</alias>
+			<alias>glycol</alias>
+		</chemical>
+		<chemical name="glycerol" units="v/v" formula="C3H8O3" density="1.26" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="126" mw="92.09" ions="" CAS="56-81-5" CMC="" SMILES="">
+			<class>Organic</class>
+			<class>Additive</class>
+			<alias>1,2,3 propanetriol</alias>
+			<alias>Gycerol</alias>
+			<alias>glycerin</alias>
+			<alias>glyerol</alias>
+		</chemical>
+		<chemical name="hexammine cobalt(III) chloride" units="M" formula="Cl3CoH18N6" density="" solubility="2" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="27" mw="267.5" ions="Co(NH3)6;3Cl" CAS="10534-89-1" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Cobalt hexammine trichloride</alias>
+			<alias>Cobalt(III)-hexamine</alias>
+			<alias>Cobalt(III)hexamin</alias>
+			<alias>Cobalt(III)hexamine</alias>
+			<alias>Cobalthexamine chloride</alias>
+			<alias>Hexaamminecobalt trichloride</alias>
+			<alias>Hexammine cobalt(III) chloride</alias>
+			<alias>Hexamminecobalt(III) chloride</alias>
+			<alias>Kobalt(III)hexamin</alias>
+			<alias>cobalt (III) hexamine</alias>
+			<alias>cobalt (III) hexamine chloride</alias>
+			<alias>cobalt hexamine</alias>
+			<alias>hexaaminecobalt (III) chloride</alias>
+			<alias>hexaammincobalt(III) chloride</alias>
+			<alias>hexamine cobalt (III) chloride</alias>
+			<alias>hexaminecobalt trichloride</alias>
+			<alias>hexammine cobalt (III) chloride</alias>
+		</chemical>
+		<chemical name="imidazole" units="M" formula="C3H4N2" density="" solubility="63.3" pka1="7.05" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="63.3" mw="68.08" ions="" CAS="288-32-4" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Buffer</class>
+			<alias>Glyoxaline</alias>
+			<alias>Imidazole -HCl</alias>
+			<alias>Imidazole- HCl</alias>
+			<alias>Imidazole-HCl</alias>
+			<alias>Imidazole.HCl</alias>
+			<alias>imidazol</alias>
+			<alias>imidazole HCl</alias>
+			<alias>imidazole/HCl</alias>
+		</chemical>
+		<chemical name="magnesium acetate" units="M" formula="Mg(C2H3O2)2" density="" solubility="15" pka1="4.76" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="75" mw="142.4" ions="Mg;2CH3CO2" CAS="142-72-3" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Magnesium acetate (H2O)4</alias>
+			<alias>Mg acetate</alias>
+			<alias>mg-acetate</alias>
+			<alias>mgacet</alias>
+		</chemical>
+		<chemical name="magnesium chloride" units="M" formula="MgCl2" density="" solubility="54.3" pka1="" pka2="" pka3="" def_stock_conc="5" def_stock_units="M" max_stock_conc="54.3" mw="95.22" ions="Mg;2Cl" CAS="7786-30-3" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Magnesium  Chloride</alias>
+			<alias>Magnesium Chloride</alias>
+			<alias>Magnesium chloride hexahydrate</alias>
+			<alias>Mg Chloride</alias>
+			<alias>MgCl2</alias>
+			<alias>mg-chloride</alias>
+		</chemical>
+		<chemical name="magnesium sulfate" units="M" formula="MgSO4" density="" solubility="34.6" pka1="" pka2="" pka3="" def_stock_conc="2.5" def_stock_units="M" max_stock_conc="34.6" mw="120.37" ions="Mg;SO4" CAS="7487-88-9" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Mg sulfate</alias>
+			<alias>magnesium sulfate aq.</alias>
+			<alias>magnesium sulphate</alias>
+			<alias>mg-sulfate</alias>
+			<alias>mgso4</alias>
+		</chemical>
+		<chemical name="MES" units="M" formula="C6H13NO4S" density="" solubility="20" pka1="6.15" pka2="" pka3="" def_stock_conc="0.5" def_stock_units="M" max_stock_conc="20" mw="195.23" ions="" CAS="4432-31-9" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Buffer</class>
+			<class>Ambiguous</class>
+			<class>Additive</class>
+			<alias>2-Morpholinoethanesulfonic acid</alias>
+			<alias>MES monohydrate</alias>
+		</chemical>
+		<chemical name="MOPS" units="M" formula="C7H15NO4H" density="" solubility="21" pka1="7.2" pka2="" pka3="" def_stock_conc="0.5" def_stock_units="M" max_stock_conc="21" mw="209.26" ions="" CAS="1132-61-2" CMC="" SMILES="">
+			<class>Buffer</class>
+		</chemical>
+		<chemical name="polyethylene glycol 3350" units="w/v" formula="HO-(CH2-CH2-O)n-H" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="50" mw="3350" ions="" CAS="25322-68-3" CMC="" SMILES="">
+			<class>Polymer</class>
+			<alias>PEG 3350</alias>
+			<alias>PEG 3350K</alias>
+			<alias>PEG-3350</alias>
+			<alias>PEG3350</alias>
+			<alias>polyethylene glycol 3,350</alias>
+		</chemical>
+		<chemical name="potassium chloride" units="M" formula="KCl" density="" solubility="34.7" pka1="" pka2="" pka3="" def_stock_conc="4" def_stock_units="M" max_stock_conc="34.7" mw="74.56" ions="K;Cl" CAS="7447-40-7" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>k chloride</alias>
+			<alias>k-chloride</alias>
+			<alias>kcl</alias>
+		</chemical>
+		<chemical name="sodium acetate" units="M" formula="NaC2H3O2" density="" solubility="46.5" pka1="4.76" pka2="" pka3="" def_stock_conc="3.5" def_stock_units="M" max_stock_conc="37" mw="82.03" ions="Na;CH3CO2" CAS="127-09-3" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Ambiguous</class>
+			<alias>NaAc/acetic acid</alias>
+			<alias>Sodium  Acetate</alias>
+			<alias>acetate</alias>
+			<alias>na acetate</alias>
+			<alias>na-acetate</alias>
+			<alias>naac</alias>
+			<alias>naoac</alias>
+		</chemical>
+		<chemical name="sodium chloride" units="M" formula="NaCl" density="" solubility="35.7" pka1="" pka2="" pka3="" def_stock_conc="5" def_stock_units="M" max_stock_conc="35.7" mw="58.44" ions="Na;Cl" CAS="7647-14-5" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Na chloride</alias>
+			<alias>Sodium  Chloride</alias>
+			<alias>Sodium Chloride</alias>
+			<alias>na-chloride</alias>
+			<alias>nacl</alias>
+			<alias>salt</alias>
+		</chemical>
+		<chemical name="sodium citrate" units="M" formula="Na3C6H5O7" density="" solubility="63" pka1="3.13" pka2="4.74" pka3="6.4" def_stock_conc="2" def_stock_units="M" max_stock_conc="63" mw="258.06" ions="3Na;C6H5O7" CAS="" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Ambiguous</class>
+			<alias>Citric Acid-Sodium Hydroxide</alias>
+			<alias>citrate</alias>
+			<alias>na-citrate</alias>
+		</chemical>
+		<chemical name="sodium HEPES" units="M" formula="C8H17N2NaO4S" density="" solubility="26.1" pka1="7.55" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="26.1" mw="260.3" ions="" CAS="75277-39-3" CMC="" SMILES="">
+			<class>Buffer</class>
+			<alias>HEPES - Na</alias>
+			<alias>HEPES - Sodium</alias>
+			<alias>HEPES sodium</alias>
+			<alias>HEPES sodium salt</alias>
+			<alias>HEPES-NaOH</alias>
+			<alias>HEPES-na</alias>
+			<alias>HEPES/NaOH</alias>
+			<alias>Na HEPES</alias>
+			<alias>na-HEPES</alias>
+		</chemical>
+		<chemical name="sodium PIPES" units="M" formula="C8H16N2Na2O6S2" density="" solubility="50" pka1="6.8" pka2="" pka3="" def_stock_conc="0.5" def_stock_units="M" max_stock_conc="50" mw="346.33" ions="" CAS="76836-02-7" CMC="" SMILES="">
+			<class>Buffer</class>
+			<alias>1,4-Piperazinediethanesulfonic acid disodium salt</alias>
+			<alias>NaPIPES</alias>
+			<alias>PIPES</alias>
+		</chemical>
+		<chemical name="sodium succinate" units="M" formula="C4H4Na2O4" density="" solubility="34.8" pka1="4.21" pka2="5.61" pka3="" def_stock_conc="1.5" def_stock_units="M" max_stock_conc="34.8" mw="162.05" ions="2Na;C4H4O4" CAS="150-90-3" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Butanedioic acid disodium salt</alias>
+			<alias>Sodium succinate dibasic</alias>
+			<alias>Succinic acid disodium salt</alias>
+			<alias>Succinic acid disodium salt hexahydrate</alias>
+			<alias>na succinate</alias>
+			<alias>na-succinate</alias>
+			<alias>soduim succinate</alias>
+			<alias>succinate</alias>
+		</chemical>
+		<chemical name="tris chloride" units="M" formula="C4H11NO3   HCl" density="" solubility="67" pka1="8.1" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="67" mw="157.6" ions=";Cl" CAS="1185-53-1" CMC="" SMILES="">
+			<class>Buffer</class>
+			<alias>Tris -HCl</alias>
+			<alias>Tris HCl</alias>
+			<alias>Tris base/HCl</alias>
+			<alias>Tris- HCl</alias>
+			<alias>tris</alias>
+			<alias>tris hydrochloride</alias>
+			<alias>tris-hcl</alias>
+			<alias>tris-hydrochloride</alias>
+			<alias>tris.hcl</alias>
+			<alias>trishcl</alias>
+		</chemical>
+	</chemicals>
+	<screen name="JBScreen Nuc-Pro 4" username="Jena Bioscience" design_date="2008-11-12 09:17:51" res_vol="0">
+		<format name="Screen24Well" rows="4" cols="6" subs="0" max_res_vol="" def_res_vol="" max_drop_vol="" def_drop_vol=""/>
+		<comments>This is product no. CS-184</comments>
+		<well number="1" label="A1">
+			<item name="1,6-hexanediol" class="Organic" conc="10" units="w/v" ph=""/>
+			<item name="magnesium chloride" class="Salt" conc="0.02" units="M" ph=""/>
+			<item name="MES" class="Buffer" conc="0.05" units="M" ph="6.5"/>
+		</well>
+		<well number="2" label="A2">
+			<item name="magnesium chloride" class="Salt" conc="0.01" units="M" ph=""/>
+			<item name="sodium HEPES" class="Buffer" conc="0.05" units="M" ph="7"/>
+			<item name="1,6-hexanediol" class="Organic" conc="20" units="w/v" ph=""/>
+			<item name="ammonium chloride" class="Salt" conc="0.05" units="M" ph=""/>
+		</well>
+		<well number="3" label="A3">
+			<item name="tris chloride" class="Buffer" conc="0.05" units="M" ph="8.5"/>
+			<item name="magnesium sulfate" class="Salt" conc="0.075" units="M" ph=""/>
+			<item name="1,6-hexanediol" class="Organic" conc="35" units="w/v" ph=""/>
+		</well>
+		<well number="4" label="A4">
+			<item name="tris chloride" class="Buffer" conc="0.05" units="M" ph="7.5"/>
+			<item name="ammonium acetate" class="Salt" conc="0.05" units="M" ph=""/>
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="10" units="v/v" ph=""/>
+		</well>
+		<well number="5" label="A5">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="10" units="v/v" ph=""/>
+			<item name="potassium chloride" class="Salt" conc="0.08" units="M" ph=""/>
+			<item name="sodium HEPES" class="Buffer" conc="0.05" units="M" ph="7"/>
+			<item name="magnesium sulfate" class="Salt" conc="0.01" units="M" ph=""/>
+		</well>
+		<well number="6" label="A6">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="15" units="v/v" ph=""/>
+			<item name="sodium acetate" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="ADA" class="Buffer" conc="0.05" units="M" ph="6.5"/>
+		</well>
+		<well number="7" label="B1">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="15" units="v/v" ph=""/>
+			<item name="sodium succinate" class="Buffer" conc="0.05" units="M" ph="5.5"/>
+			<item name="magnesium acetate" class="Salt" conc="0.01" units="M" ph=""/>
+		</well>
+		<well number="8" label="B2">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="18" units="v/v" ph=""/>
+			<item name="magnesium chloride" class="Salt" conc="0.01" units="M" ph=""/>
+			<item name="MES" class="Buffer" conc="0.02" units="M" ph="5.8"/>
+		</well>
+		<well number="9" label="B3">
+			<item name="sodium chloride" class="Salt" conc="0.1" units="M" ph=""/>
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="23" units="v/v" ph=""/>
+			<item name="MES" class="Buffer" conc="0.05" units="M" ph="6"/>
+		</well>
+		<well number="10" label="B4">
+			<item name="hexammine cobalt(III) chloride" class="Additive" conc="0.001" units="M" ph=""/>
+			<item name="sodium PIPES" class="Buffer" conc="0.05" units="M" ph="7"/>
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="26" units="v/v" ph=""/>
+			<item name="magnesium chloride" class="Salt" conc="0.065" units="M" ph=""/>
+		</well>
+		<well number="11" label="B5">
+			<item name="MES" class="Buffer" conc="0.02" units="M" ph="5.8"/>
+			<item name="calcium chloride" class="Salt" conc="0.12" units="M" ph=""/>
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="27" units="v/v" ph=""/>
+			<item name="sodium chloride" class="Salt" conc="0.4" units="M" ph=""/>
+		</well>
+		<well number="12" label="B6">
+			<item name="sodium chloride" class="Salt" conc="0.05" units="M" ph=""/>
+			<item name="calcium chloride" class="Salt" conc="0.01" units="M" ph=""/>
+			<item name="bis-tris" class="Buffer" conc="0.02" units="M" ph="6"/>
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="35" units="v/v" ph=""/>
+		</well>
+		<well number="13" label="C1">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="50" units="v/v" ph=""/>
+			<item name="sodium citrate" class="Buffer" conc="0.1" units="M" ph="5.6"/>
+			<item name="magnesium chloride" class="Salt" conc="0.01" units="M" ph=""/>
+		</well>
+		<well number="14" label="C2">
+			<item name="magnesium chloride" class="Salt" conc="0.01" units="M" ph=""/>
+			<item name="2-propanol" class="Organic" conc="5" units="v/v" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.05" units="M" ph="7.5"/>
+		</well>
+		<well number="15" label="C3">
+			<item name="2-propanol" class="Organic" conc="5" units="v/v" ph=""/>
+			<item name="MES" class="Buffer" conc="0.05" units="M" ph="6.5"/>
+			<item name="sodium citrate" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="calcium acetate" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+		<well number="16" label="C4">
+			<item name="magnesium acetate" class="Salt" conc="0.015" units="M" ph=""/>
+			<item name="magnesium chloride" class="Salt" conc="0.015" units="M" ph=""/>
+			<item name="2-propanol" class="Organic" conc="9" units="v/v" ph=""/>
+			<item name="imidazole" class="Buffer" conc="0.05" units="M" ph="7.2"/>
+		</well>
+		<well number="17" label="C5">
+			<item name="2-propanol" class="Organic" conc="10" units="v/v" ph=""/>
+			<item name="MES" class="Buffer" conc="0.05" units="M" ph="6.5"/>
+			<item name="ammonium acetate" class="Salt" conc="0.08" units="M" ph=""/>
+		</well>
+		<well number="18" label="C6">
+			<item name="2-propanol" class="Organic" conc="10" units="v/v" ph=""/>
+			<item name="cobalt chloride" class="Salt" conc="0.002" units="M" ph=""/>
+			<item name="sodium succinate" class="Buffer" conc="0.05" units="M" ph="5.5"/>
+		</well>
+		<well number="19" label="D1">
+			<item name="2-propanol" class="Organic" conc="13" units="v/v" ph=""/>
+			<item name="MOPS" class="Buffer" conc="0.05" units="M" ph="7"/>
+			<item name="potassium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+			<item name="hexammine cobalt(III) chloride" class="Additive" conc="0.006" units="M" ph=""/>
+		</well>
+		<well number="20" label="D2">
+			<item name="MES" class="Buffer" conc="0.05" units="M" ph="6"/>
+			<item name="magnesium chloride" class="Salt" conc="0.02" units="M" ph=""/>
+			<item name="2-propanol" class="Organic" conc="15" units="v/v" ph=""/>
+		</well>
+		<well number="21" label="D3">
+			<item name="dioxane" class="Organic" conc="10" units="v/v" ph=""/>
+			<item name="sodium HEPES" class="Buffer" conc="0.05" units="M" ph="7.5"/>
+		</well>
+		<well number="22" label="D4">
+			<item name="cobalt chloride" class="Salt" conc="0.001" units="M" ph=""/>
+			<item name="ethanol" class="Organic" conc="10" units="v/v" ph=""/>
+			<item name="MES" class="Buffer" conc="0.05" units="M" ph="6.5"/>
+			<item name="magnesium chloride" class="Salt" conc="0.02" units="M" ph=""/>
+		</well>
+		<well number="23" label="D5">
+			<item name="ethylene glycol" class="Organic" conc="20" units="v/v" ph=""/>
+			<item name="magnesium chloride" class="Salt" conc="0.02" units="M" ph=""/>
+			<item name="polyethylene glycol 3350" class="Polymer" conc="5" units="w/v" ph=""/>
+		</well>
+		<well number="24" label="D6">
+			<item name="sodium acetate" class="Buffer" conc="0.1" units="M" ph="4.6"/>
+			<item name="glycerol" class="Organic" conc="15" units="v/v" ph=""/>
+			<item name="sodium chloride" class="Salt" conc="0.2" units="M" ph=""/>
+		</well>
+	</screen>
+</crystaltrak>

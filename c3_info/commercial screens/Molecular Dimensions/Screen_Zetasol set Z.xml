@@ -1,0 +1,116 @@
+<crystaltrak datatype="screen" version="2.3.43">
+	<chemicals>
+		<chemical name="2-methyl-2,4-pentanediol" units="v/v" formula="CH3CH(OH)CH2C(OH)(CH3)2" density="0.9254" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="93" mw="188.18" ions="" CAS="107-41-5" CMC="" SMILES="">
+			<class>Organic</class>
+			<class>Additive</class>
+			<alias>(+/-)-2-Methyl-2,4-pentanediol</alias>
+			<alias>2-Methyl-2 4-pentanediol</alias>
+			<alias>2-Methyl-2,4-pentandiol</alias>
+			<alias>2-methyl-2-4-pentanediol</alias>
+			<alias>MPD</alias>
+			<alias>goop</alias>
+		</chemical>
+		<chemical name="polyethylene glycol 400" units="v/v" formula="HO-(CH2-CH2-O)n-H" density="1.126" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="113" mw="400" ions="" CAS="25322-68-3" CMC="" SMILES="">
+			<class>Polymer</class>
+			<alias>PEG 400</alias>
+			<alias>PEG-400</alias>
+		</chemical>
+		<chemical name="polyethylene glycol 4000" units="w/v" formula="HO-(CH2-CH2-O)n-H" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="50" mw="4000" ions="" CAS="25322-68-3" CMC="" SMILES="">
+			<class>Polymer</class>
+			<alias>PEG 4,000</alias>
+			<alias>PEG 4000</alias>
+			<alias>PEG 4K</alias>
+			<alias>PEG-4000</alias>
+			<alias>PEG4K</alias>
+			<alias>polyethylene glycol 4,000</alias>
+			<alias>polyethylene glycol 4K</alias>
+		</chemical>
+		<chemical name="polyethylene glycol 8000" units="w/v" formula="HO-(CH2-CH2-O)n-H" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="50" mw="8000" ions="" CAS="25322-68-3" CMC="" SMILES="">
+			<class>Polymer</class>
+			<class>Additive</class>
+			<alias>PEG 8,000</alias>
+			<alias>PEG 8000</alias>
+			<alias>PEG 8K</alias>
+			<alias>PEG-8000</alias>
+			<alias>PEG8K</alias>
+			<alias>polyethylene glycol 8,000</alias>
+			<alias>polyethylene glycol 8K</alias>
+		</chemical>
+	</chemicals>
+	<screen name="Zetasol set Z" username="Molecular Dimensions" design_date="2005-09-06 17:31:16" res_vol="0">
+		<format name="Generic 24 Well" rows="4" cols="6" subs="1" max_res_vol="1" def_res_vol="1" max_drop_vol="1" def_drop_vol="1"/>
+		<comments/>
+		<well number="1" label="A1">
+			<item name="polyethylene glycol 400" class="Polymer" conc="4.8" units="v/v" ph=""/>
+		</well>
+		<well number="2" label="A2">
+			<item name="polyethylene glycol 400" class="Polymer" conc="9.6" units="v/v" ph=""/>
+		</well>
+		<well number="3" label="A3">
+			<item name="polyethylene glycol 400" class="Polymer" conc="14.4" units="v/v" ph=""/>
+		</well>
+		<well number="4" label="A4">
+			<item name="polyethylene glycol 400" class="Polymer" conc="19.2" units="v/v" ph=""/>
+		</well>
+		<well number="5" label="A5">
+			<item name="polyethylene glycol 400" class="Polymer" conc="33.6" units="v/v" ph=""/>
+		</well>
+		<well number="6" label="A6">
+			<item name="polyethylene glycol 400" class="Polymer" conc="48" units="v/v" ph=""/>
+		</well>
+		<well number="7" label="B1">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="6" units="w/v" ph=""/>
+		</well>
+		<well number="8" label="B2">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="12" units="w/v" ph=""/>
+		</well>
+		<well number="9" label="B3">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="18" units="w/v" ph=""/>
+		</well>
+		<well number="10" label="B4">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="24" units="w/v" ph=""/>
+		</well>
+		<well number="11" label="B5">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="30" units="w/v" ph=""/>
+		</well>
+		<well number="12" label="B6">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="45" units="w/v" ph=""/>
+		</well>
+		<well number="13" label="C1">
+			<item name="polyethylene glycol 8000" class="Polymer" conc="3.6" units="w/v" ph=""/>
+		</well>
+		<well number="14" label="C2">
+			<item name="polyethylene glycol 8000" class="Polymer" conc="7.2" units="w/v" ph=""/>
+		</well>
+		<well number="15" label="C3">
+			<item name="polyethylene glycol 8000" class="Polymer" conc="10.8" units="w/v" ph=""/>
+		</well>
+		<well number="16" label="C4">
+			<item name="polyethylene glycol 8000" class="Polymer" conc="14.4" units="w/v" ph=""/>
+		</well>
+		<well number="17" label="C5">
+			<item name="polyethylene glycol 8000" class="Polymer" conc="18" units="w/v" ph=""/>
+		</well>
+		<well number="18" label="C6">
+			<item name="polyethylene glycol 8000" class="Polymer" conc="27" units="w/v" ph=""/>
+		</well>
+		<well number="19" label="D1">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="4.8" units="v/v" ph=""/>
+		</well>
+		<well number="20" label="D2">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="9.6" units="v/v" ph=""/>
+		</well>
+		<well number="21" label="D3">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="14.4" units="v/v" ph=""/>
+		</well>
+		<well number="22" label="D4">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="19.2" units="v/v" ph=""/>
+		</well>
+		<well number="23" label="D5">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="33.6" units="v/v" ph=""/>
+		</well>
+		<well number="24" label="D6">
+			<item name="2-methyl-2,4-pentanediol" class="Organic" conc="48" units="v/v" ph=""/>
+		</well>
+	</screen>
+</crystaltrak>

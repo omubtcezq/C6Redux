@@ -1,0 +1,289 @@
+<crystaltrak datatype="screen" version="2.3.43">
+	<chemicals>
+		<chemical name="2-amino-2-methyl-1,3-propanediol" units="M" formula="C4H11NO2" density="" solubility="250" pka1="8.79" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="200" mw="105.1" ions="" CAS="115-69-5" CMC="" SMILES="">
+			<class>Buffer</class>
+			<alias>2-amino 2-methyl 1,3 propanediol</alias>
+			<alias>AMPD</alias>
+			<alias>Aminoglycol</alias>
+			<alias>Aminomethyl propanediol</alias>
+			<alias>Isobutandiol-2-amine</alias>
+			<alias>ammediol</alias>
+		</chemical>
+		<chemical name="bicine" units="M" formula="C6H13NO4" density="" solubility="18" pka1="8.35" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="16.3" mw="163.2" ions="" CAS="150-25-4" CMC="" SMILES="">
+			<class>Buffer</class>
+			<class>Ambiguous</class>
+			<alias>Bicine/NaOH</alias>
+			<alias>N,N-Bis(2-hydroxyethyl)glycine</alias>
+		</chemical>
+		<chemical name="bis-tris propane" units="M" formula="C11H26N2O6" density="" solubility="45" pka1="6.8" pka2="9" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="36" mw="282.33" ions="" CAS="64431-96-5" CMC="" SMILES="">
+			<class>Buffer</class>
+			<class>Ambiguous</class>
+			<alias>BTP</alias>
+			<alias>bis tris propane</alias>
+			<alias>bis-tris-propane</alias>
+			<alias>bistripro</alias>
+			<alias>bistris propane</alias>
+		</chemical>
+		<chemical name="glycine" units="M" formula="NH2CH2COOH" density="" solubility="10" pka1="2.34" pka2="9.6" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="10" mw="75.07" ions="" CAS="56-40-6" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Bullet</class>
+			<class>Buffer</class>
+			<class>Additive</class>
+			<alias>2-aminoacetic acid</alias>
+			<alias>Aminoacetic acid</alias>
+			<alias>Aminoethanoic acid</alias>
+			<alias>Gly</alias>
+			<alias>Glycine/NaOH</alias>
+			<alias>glycine-sodium hydroxide</alias>
+		</chemical>
+		<chemical name="HEPES" units="M" formula="C8H18N2O4S" density="" solubility="40" pka1="7.5" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="40" mw="238.31" ions="" CAS="7365-45-9" CMC="" SMILES="">
+			<class>Buffer</class>
+			<class>Ambiguous</class>
+			<alias>4-(2-Hydroxyethyl)piperazine-1-ethanesulfonic acid</alias>
+			<alias>4-(2-hydroxyethyl)-1-piperazineethanesulfonic acid</alias>
+		</chemical>
+		<chemical name="MOPS" units="M" formula="C7H15NO4H" density="" solubility="21" pka1="7.2" pka2="" pka3="" def_stock_conc="0.5" def_stock_units="M" max_stock_conc="21" mw="209.26" ions="" CAS="1132-61-2" CMC="" SMILES="">
+			<class>Buffer</class>
+		</chemical>
+		<chemical name="polyethylene glycol 4000" units="w/v" formula="HO-(CH2-CH2-O)n-H" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="50" mw="4000" ions="" CAS="25322-68-3" CMC="" SMILES="">
+			<class>Polymer</class>
+			<alias>PEG 4,000</alias>
+			<alias>PEG 4000</alias>
+			<alias>PEG 4K</alias>
+			<alias>PEG-4000</alias>
+			<alias>PEG4K</alias>
+			<alias>polyethylene glycol 4,000</alias>
+			<alias>polyethylene glycol 4K</alias>
+		</chemical>
+		<chemical name="sodium HEPES" units="M" formula="C8H17N2NaO4S" density="" solubility="26.1" pka1="7.55" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="26.1" mw="260.3" ions="" CAS="75277-39-3" CMC="" SMILES="">
+			<class>Buffer</class>
+			<alias>HEPES - Na</alias>
+			<alias>HEPES - Sodium</alias>
+			<alias>HEPES sodium</alias>
+			<alias>HEPES sodium salt</alias>
+			<alias>HEPES-NaOH</alias>
+			<alias>HEPES-na</alias>
+			<alias>HEPES/NaOH</alias>
+			<alias>Na HEPES</alias>
+			<alias>na-HEPES</alias>
+		</chemical>
+		<chemical name="tricine" units="M" formula="C6H13NO5" density="" solubility="18" pka1="8.15" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="18" mw="179.17" ions="" CAS="5704-04-1" CMC="" SMILES="">
+			<class>Buffer</class>
+			<alias>tricine/NaOH</alias>
+		</chemical>
+		<chemical name="tris" units="M" formula="C4H11NO3" density="" solubility="55" pka1="8.1" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="55" mw="121.14" ions="" CAS="77-86-1" CMC="" SMILES="">
+			<class>Buffer</class>
+			<class>Ambiguous</class>
+			<alias>Trizma</alias>
+		</chemical>
+		<chemical name="tris chloride" units="M" formula="C4H11NO3   HCl" density="" solubility="67" pka1="8.1" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="67" mw="157.6" ions=";Cl" CAS="1185-53-1" CMC="" SMILES="">
+			<class>Buffer</class>
+			<alias>Tris -HCl</alias>
+			<alias>Tris HCl</alias>
+			<alias>Tris base/HCl</alias>
+			<alias>Tris- HCl</alias>
+			<alias>tris</alias>
+			<alias>tris hydrochloride</alias>
+			<alias>tris-hcl</alias>
+			<alias>tris-hydrochloride</alias>
+			<alias>tris.hcl</alias>
+			<alias>trishcl</alias>
+		</chemical>
+	</chemicals>
+	<screen name="PEG/pH 2" username="Hampton Research" design_date="2018-10-19 00:00:00" res_vol="0">
+		<format name="Screen48Well" rows="6" cols="8" subs="0" max_res_vol="" def_res_vol="" max_drop_vol="" def_drop_vol=""/>
+		<comments/>
+		<well number="1" label="A1">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.2" units="M" ph="6.4"/>
+		</well>
+		<well number="2" label="A2">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.2" units="M" ph="6.7"/>
+		</well>
+		<well number="3" label="A3">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.2" units="M" ph="7"/>
+		</well>
+		<well number="4" label="A4">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.2" units="M" ph="7.3"/>
+		</well>
+		<well number="5" label="A5">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="MOPS" class="Buffer" conc="0.2" units="M" ph="6.5"/>
+		</well>
+		<well number="6" label="A6">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="MOPS" class="Buffer" conc="0.2" units="M" ph="6.8"/>
+		</well>
+		<well number="7" label="A7">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="MOPS" class="Buffer" conc="0.2" units="M" ph="7.1"/>
+		</well>
+		<well number="8" label="A8">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="MOPS" class="Buffer" conc="0.2" units="M" ph="7.4"/>
+		</well>
+		<well number="9" label="B1">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="MOPS" class="Buffer" conc="0.2" units="M" ph="7.7"/>
+		</well>
+		<well number="10" label="B2">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium HEPES" class="Buffer" conc="0.2" units="M" ph="6.6"/>
+		</well>
+		<well number="11" label="B3">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium HEPES" class="Buffer" conc="0.2" units="M" ph="6.9"/>
+		</well>
+		<well number="12" label="B4">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium HEPES" class="Buffer" conc="0.2" units="M" ph="7.2"/>
+		</well>
+		<well number="13" label="B5">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium HEPES" class="Buffer" conc="0.2" units="M" ph="7.5"/>
+		</well>
+		<well number="14" label="B6">
+			<item name="HEPES" class="Buffer" conc="0.2" units="M" ph="6.8"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="15" label="B7">
+			<item name="HEPES" class="Buffer" conc="0.2" units="M" ph="7.1"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="16" label="B8">
+			<item name="HEPES" class="Buffer" conc="0.2" units="M" ph="7.4"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="17" label="C1">
+			<item name="HEPES" class="Buffer" conc="0.2" units="M" ph="7.7"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="18" label="C2">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.2" units="M" ph="7.2"/>
+		</well>
+		<well number="19" label="C3">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.2" units="M" ph="7.5"/>
+		</well>
+		<well number="20" label="C4">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.2" units="M" ph="7.8"/>
+		</well>
+		<well number="21" label="C5">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="tris chloride" class="Buffer" conc="0.2" units="M" ph="8.1"/>
+		</well>
+		<well number="22" label="C6">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="tris" class="Buffer" conc="0.2" units="M" ph="7.3"/>
+		</well>
+		<well number="23" label="C7">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="tris" class="Buffer" conc="0.2" units="M" ph="7.6"/>
+		</well>
+		<well number="24" label="C8">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="tris" class="Buffer" conc="0.2" units="M" ph="7.9"/>
+		</well>
+		<well number="25" label="D1">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="tris" class="Buffer" conc="0.2" units="M" ph="8.2"/>
+		</well>
+		<well number="26" label="D2">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="tris" class="Buffer" conc="0.2" units="M" ph="8.5"/>
+		</well>
+		<well number="27" label="D3">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="tricine" class="Buffer" conc="0.2" units="M" ph="7.4"/>
+		</well>
+		<well number="28" label="D4">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="tricine" class="Buffer" conc="0.2" units="M" ph="7.7"/>
+		</well>
+		<well number="29" label="D5">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="tricine" class="Buffer" conc="0.2" units="M" ph="8"/>
+		</well>
+		<well number="30" label="D6">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="tricine" class="Buffer" conc="0.2" units="M" ph="8.3"/>
+		</well>
+		<well number="31" label="D7">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="tricine" class="Buffer" conc="0.2" units="M" ph="8.6"/>
+		</well>
+		<well number="32" label="D8">
+			<item name="bicine" class="Buffer" conc="0.2" units="M" ph="7.5"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="33" label="E1">
+			<item name="bicine" class="Buffer" conc="0.2" units="M" ph="7.8"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="34" label="E2">
+			<item name="bicine" class="Buffer" conc="0.2" units="M" ph="8.1"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="35" label="E3">
+			<item name="bicine" class="Buffer" conc="0.2" units="M" ph="8.4"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="36" label="E4">
+			<item name="bicine" class="Buffer" conc="0.2" units="M" ph="8.7"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="37" label="E5">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.2" units="M" ph="8.5"/>
+		</well>
+		<well number="38" label="E6">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.2" units="M" ph="8.8"/>
+		</well>
+		<well number="39" label="E7">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.2" units="M" ph="9.1"/>
+		</well>
+		<well number="40" label="E8">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="bis-tris propane" class="Buffer" conc="0.2" units="M" ph="9.4"/>
+		</well>
+		<well number="41" label="F1">
+			<item name="glycine" class="Buffer" conc="0.2" units="M" ph="8.6"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="42" label="F2">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="glycine" class="Buffer" conc="0.2" units="M" ph="8.9"/>
+		</well>
+		<well number="43" label="F3">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="glycine" class="Buffer" conc="0.2" units="M" ph="9.2"/>
+		</well>
+		<well number="44" label="F4">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="glycine" class="Buffer" conc="0.2" units="M" ph="9.5"/>
+		</well>
+		<well number="45" label="F5">
+			<item name="2-amino-2-methyl-1,3-propanediol" class="Buffer" conc="0.2" units="M" ph="8.7"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="46" label="F6">
+			<item name="2-amino-2-methyl-1,3-propanediol" class="Buffer" conc="0.2" units="M" ph="9"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="47" label="F7">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="2-amino-2-methyl-1,3-propanediol" class="Buffer" conc="0.2" units="M" ph="9.3"/>
+		</well>
+		<well number="48" label="F8">
+			<item name="2-amino-2-methyl-1,3-propanediol" class="Buffer" conc="0.2" units="M" ph="9.6"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+	</screen>
+</crystaltrak>

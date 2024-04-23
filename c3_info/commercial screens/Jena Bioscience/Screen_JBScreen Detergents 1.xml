@@ -1,0 +1,161 @@
+<crystaltrak datatype="screen" version="2.3.43">
+	<chemicals>
+		<chemical name="C12E8" units="M" formula="C28H58O9" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="1.1" def_stock_units="mM" max_stock_conc="" mw="538.8" ions="" CAS="3055-98-9" CMC="" SMILES="">
+			<class>Detergent-Non Ionic</class>
+			<class>Detergent</class>
+			<alias>2-[2-[2-[2-[2-[2-[2-(2-dodecoxyethoxy)ethoxy]ethoxy]ethoxy]ethoxy]ethoxy]et</alias>
+			<alias>Dodecyl octaethylene glycol ether</alias>
+			<alias>Dodecyloctaglycol</alias>
+			<alias>Octaethylene glycol monododecyl ether</alias>
+			<alias>Octaethyleneglycol Mono-n-dodecyl Ether</alias>
+			<alias>Octaethyleneglycol-dodecylmonoether</alias>
+		</chemical>
+		<chemical name="C12E9" units="M" formula="C30H62O10" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="0.5" def_stock_units="mM" max_stock_conc="" mw="582.8" ions="" CAS="3055-99-0" CMC="" SMILES="">
+			<class>Detergent-Non Ionic</class>
+			<class>Detergent</class>
+			<alias>2-[2-[2-[2-[2-[2-[2-[2-(2-dodecoxyethoxy)ethoxy]ethoxy]ethoxy]ethoxy]ethoxy</alias>
+			<alias>3,6,9,12,15,18,21,24,27-Nonaoxanonatriacontan-1-ol</alias>
+			<alias>DODECYL NONA ETHYLENE GLYCOL ETHER</alias>
+			<alias>Genapol X-080</alias>
+			<alias>Nonaethylene glycol monododecyl ether</alias>
+			<alias>Oligoethylene glycol monoalkyl ether</alias>
+			<alias>Polidocanol</alias>
+			<alias>Polyethylene glycol monoalkyl ether</alias>
+			<alias>Polyoxyethylene(9)dodecyl ether</alias>
+			<alias>so-tridecyl alchohol polyglycol ether (8EO)</alias>
+		</chemical>
+		<chemical name="C8E4" units="M" formula="C16H34O5" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="80" def_stock_units="mM" max_stock_conc="" mw="306.44" ions="" CAS="19327-57-9" CMC="" SMILES="">
+			<class>Detergent-Non Ionic</class>
+			<class>Detergent</class>
+			<alias>(Hydroxyethyloxy)tri(Ethyloxy)octane</alias>
+			<alias>3,6,9,12-Tetraoxaeicosan-1-ol</alias>
+			<alias>Octyl tetraethylene glycol ether</alias>
+			<alias>Octyltetraglycol</alias>
+			<alias>Tetraethylene glycol monooctyl ether</alias>
+		</chemical>
+		<chemical name="LDAO" units="w/v" formula="CH3(CH2)11N(O)(CH3)2" density="" solubility="30" pka1="" pka2="" pka3="" def_stock_conc="5" def_stock_units="w/v" max_stock_conc="30" mw="229.4" ions="" CAS="1643-20-5" CMC="" SMILES="">
+			<class>Detergent-Non Ionic</class>
+			<class>Detergent</class>
+			<class>Additive</class>
+			<alias>Lauramine oxide</alias>
+			<alias>Lauryldimethylamine N-oxide</alias>
+			<alias>N,N-dimethyldodecan-1-amine oxide</alias>
+			<alias>N,N-dimethyldodecylamine N-oxide</alias>
+			<alias>dodecyldimethylamine oxide</alias>
+			<alias>n-dodecyl-N,N-dimethylamine-N-oxide</alias>
+		</chemical>
+		<chemical name="MEGA 10" units="M" formula="C17H35NO6" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="70" def_stock_units="mM" max_stock_conc="" mw="349.47" ions="" CAS="85261-20-7" CMC="" SMILES="">
+			<class>Detergent-Non Ionic</class>
+			<class>Detergent</class>
+			<alias>Decanoyl-N-methylglucamide</alias>
+			<alias>MEGA-10</alias>
+			<alias>N-Decanoyl-N-methylglucamine</alias>
+		</chemical>
+		<chemical name="n-decyl-b-D-maltoside" units="M" formula="C22H42O11" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="18" def_stock_units="mM" max_stock_conc="" mw="482.57" ions="" CAS="82494-09-5" CMC="" SMILES="">
+			<class>Detergent-Non Ionic</class>
+			<class>Detergent</class>
+			<alias>DM</alias>
+			<alias>Decyl-b-D-maltopyranoside</alias>
+			<alias>n-Decyl-b-D-maltopyranoside</alias>
+			<alias>n-Decyl-beta-D-maltopyranoside</alias>
+			<alias>n-Decyl-beta-D-maltoside</alias>
+		</chemical>
+		<chemical name="n-dodecyl-b-D-glucopyranoside" units="M" formula="C18H36O6" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="1.9" def_stock_units="mM" max_stock_conc="" mw="348.5" ions="" CAS="59122-55-3" CMC="" SMILES="">
+			<class>Detergent-Non Ionic</class>
+			<class>Detergent</class>
+			<alias>Dodecyl-b-D-glucopyranoside</alias>
+			<alias>Dodecyl-beta-D-glucopyranoside</alias>
+			<alias>n-Dodecyl-b-D-glucoside</alias>
+			<alias>n-Dodecyl-beta-D-glucoside</alias>
+		</chemical>
+		<chemical name="n-dodecyl-b-D-maltoside" units="M" formula="C24H46O11" density="" solubility="20" pka1="" pka2="" pka3="" def_stock_conc="1.7" def_stock_units="mM" max_stock_conc="20" mw="510.62" ions="" CAS="69227-93-6" CMC="" SMILES="">
+			<class>Detergent-Non Ionic</class>
+			<class>Detergent</class>
+			<class>Additive</class>
+			<alias>DDM</alias>
+			<alias>Dodecyl-b-D-maltoside</alias>
+			<alias>Dodecyl-beta-D-maltoside</alias>
+			<alias>Lauryl maltoside</alias>
+			<alias>Lauryl-b-D-maltoside</alias>
+			<alias>n-dodecyl b-D-maltoside</alias>
+			<alias>n-dodecyl-beta-D-maltoside</alias>
+		</chemical>
+		<chemical name="n-nonyl-b-D-glucoside" units="M" formula="C15H30O6" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="65" def_stock_units="mM" max_stock_conc="" mw="306.4" ions="" CAS="69984-73-2" CMC="" SMILES="">
+			<class>Detergent-Non Ionic</class>
+			<class>Detergent</class>
+			<alias>NG</alias>
+			<alias>Nonyl-b-D-glucopyranoside</alias>
+			<alias>n-Nonyl-b-D-glucopyranoside</alias>
+			<alias>n-Nonyl-beta-D-glucopyranoside</alias>
+			<alias>n-Nonyl-beta-D-glucoside</alias>
+			<alias>n-nonyl-b-D-glycopyranoside</alias>
+		</chemical>
+		<chemical name="ZWITTERGENT 3-12" units="M" formula="C17H37NO3S" density="" solubility="30" pka1="" pka2="" pka3="" def_stock_conc="40" def_stock_units="mM" max_stock_conc="" mw="335.5" ions="" CAS="14933-08-5" CMC="" SMILES="">
+			<class>Detergent-Zwitterionic</class>
+			<class>Detergent</class>
+			<alias>3-(Dodecyldimethylammonio)propane-sulfonate</alias>
+			<alias>ANZERGENT 3-12</alias>
+			<alias>Lauryl sultaine</alias>
+			<alias>N-DODECYL-N,N-DIMETHYL-3-AMMONIO-1-PROPANESULFONATE</alias>
+			<alias>SB3-12</alias>
+			<alias>Sulfobetaine 12</alias>
+			<alias>lauryl sulfobetaine</alias>
+		</chemical>
+		<chemical name="ZWITTERGENT 3-14" units="M" formula="C19H41NO3S" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="4" def_stock_units="mM" max_stock_conc="" mw="363.61" ions="" CAS="14933-09-6" CMC="" SMILES="">
+			<class>Detergent-Zwitterionic</class>
+			<class>Detergent</class>
+			<alias>3-(N,N-Dimethylmyristylammonio)propane-sulfonate</alias>
+			<alias>Dimethyl(3-sulphonatopropyl)tetradecylammonium</alias>
+			<alias>N-Tetradecyl-N,N-dimethyl-3-ammonio-1-propanesulfonate</alias>
+			<alias>Sulfobetaine 14</alias>
+			<alias>n-Tetradecyl-N,N-dimethyl-3-ammonio-1-propanesulfonate</alias>
+		</chemical>
+		<chemical name="ZWITTERGENT 3-16" units="M" formula="C21H45NO3S" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="0.6" def_stock_units="mM" max_stock_conc="" mw="391.6" ions="" CAS="2281-11-0" CMC="" SMILES="">
+			<class>Detergent-Zwitterionic</class>
+			<class>Detergent</class>
+			<alias>3-(N,N-Dimethylpalmitylammonio)propane-sulfonate</alias>
+			<alias>Sulfobetaine 16</alias>
+			<alias>n-Hexadecyl-N,N-dimethyl-3-ammonio-1-propanesulfonate</alias>
+		</chemical>
+	</chemicals>
+	<screen name="JBScreen Detergents 1" username="Jena Bioscience" design_date="2008-05-26 17:21:54" res_vol="0">
+		<format name="Screen24Well" rows="4" cols="6" subs="0" max_res_vol="" def_res_vol="" max_drop_vol="" def_drop_vol=""/>
+		<comments>Product code CD-101</comments>
+		<well number="1" label="A1">
+			<item name="ZWITTERGENT 3-16" class="Detergent-Zwitterionic" conc="0.0006" units="M" ph=""/>
+		</well>
+		<well number="2" label="A2">
+			<item name="C12E9" class="Detergent" conc="0.0008" units="M" ph=""/>
+		</well>
+		<well number="3" label="A3">
+			<item name="C12E8" class="Detergent" conc="0.0011" units="M" ph=""/>
+		</well>
+		<well number="4" label="A4">
+			<item name="n-dodecyl-b-D-glucopyranoside" class="Detergent" conc="0.0013" units="M" ph=""/>
+		</well>
+		<well number="5" label="A5">
+			<item name="ZWITTERGENT 3-14" class="Detergent" conc="0.004" units="M" ph=""/>
+		</well>
+		<well number="6" label="A6">
+			<item name="n-dodecyl-b-D-maltoside" class="Detergent" conc="0.006" units="M" ph=""/>
+		</well>
+		<well number="7" label="B1">
+			<item name="n-decyl-b-D-maltoside" class="Detergent" conc="0.018" units="M" ph=""/>
+		</well>
+		<well number="8" label="B2">
+			<item name="LDAO" class="Additive" conc="0.02" units="M" ph=""/>
+		</well>
+		<well number="9" label="B3">
+			<item name="ZWITTERGENT 3-12" class="Detergent" conc="0.04" units="M" ph=""/>
+		</well>
+		<well number="10" label="B4">
+			<item name="n-nonyl-b-D-glucoside" class="Detergent" conc="0.065" units="M" ph=""/>
+		</well>
+		<well number="11" label="B5">
+			<item name="MEGA 10" class="Detergent" conc="0.07" units="M" ph=""/>
+		</well>
+		<well number="12" label="B6">
+			<item name="C8E4" class="Detergent" conc="0.07" units="M" ph=""/>
+		</well>
+	</screen>
+</crystaltrak>

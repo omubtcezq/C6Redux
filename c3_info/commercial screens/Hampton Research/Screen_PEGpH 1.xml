@@ -1,0 +1,293 @@
+<crystaltrak datatype="screen" version="2.3.43">
+	<chemicals>
+		<chemical name="ADA" units="M" formula="C6H10N2O5" density="" solubility="19" pka1="6.6" pka2="" pka3="" def_stock_conc="0.5" def_stock_units="M" max_stock_conc="19" mw="190.2" ions="" CAS="26239-55-4" CMC="" SMILES="">
+			<class>Buffer</class>
+			<alias>ADA</alias>
+			<alias>ADA/NaOH</alias>
+			<alias>N-(2-Acetamido)iminodiacetic acid</alias>
+			<alias>N-(Carbamoylmethyl)iminodiacetic acid</alias>
+		</chemical>
+		<chemical name="bis-tris" units="M" formula="C8H19NO5" density="" solubility="50" pka1="6.46" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="40" mw="209.2" ions="" CAS="6976-37-0" CMC="" SMILES="">
+			<class>Buffer</class>
+			<class>Ambiguous</class>
+			<alias>Bis-Tris-NaOH</alias>
+			<alias>bis tris</alias>
+			<alias>bis tris methane</alias>
+			<alias>bistris</alias>
+		</chemical>
+		<chemical name="citric acid" units="M" formula="C6H8O7" density="" solubility="59" pka1="3.1" pka2="4.8" pka3="6.4" def_stock_conc="1" def_stock_units="M" max_stock_conc="162" mw="192.1" ions="3H;C6H5O7" CAS="77-92-9" CMC="" SMILES="">
+			<class>Salt</class>
+		</chemical>
+		<chemical name="DL-malic acid" units="M" formula="C4H6O5" density="" solubility="41" pka1="3.4" pka2="5.1" pka3="" def_stock_conc="3" def_stock_units="M" max_stock_conc="" mw="134.1" ions="2H;C4H4O5" CAS="6915-15-7" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>2-Hydroxysuccinic acid</alias>
+			<alias>D,L-Malic Acid</alias>
+			<alias>DL Malic acid</alias>
+			<alias>DL- Malic acid</alias>
+			<alias>DL-malic acid</alias>
+			<alias>Hydroxybutanedioic acid</alias>
+		</chemical>
+		<chemical name="imidazole" units="M" formula="C3H4N2" density="" solubility="63.3" pka1="7.05" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="63.3" mw="68.08" ions="" CAS="288-32-4" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Buffer</class>
+			<alias>Glyoxaline</alias>
+			<alias>Imidazole -HCl</alias>
+			<alias>Imidazole- HCl</alias>
+			<alias>Imidazole-HCl</alias>
+			<alias>Imidazole.HCl</alias>
+			<alias>imidazol</alias>
+			<alias>imidazole HCl</alias>
+			<alias>imidazole/HCl</alias>
+		</chemical>
+		<chemical name="MES" units="M" formula="C6H13NO4S" density="" solubility="20" pka1="6.15" pka2="" pka3="" def_stock_conc="0.5" def_stock_units="M" max_stock_conc="20" mw="195.23" ions="" CAS="4432-31-9" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Buffer</class>
+			<class>Ambiguous</class>
+			<class>Additive</class>
+			<alias>2-Morpholinoethanesulfonic acid</alias>
+			<alias>MES monohydrate</alias>
+		</chemical>
+		<chemical name="polyethylene glycol 4000" units="w/v" formula="HO-(CH2-CH2-O)n-H" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="w/v" max_stock_conc="50" mw="4000" ions="" CAS="25322-68-3" CMC="" SMILES="">
+			<class>Polymer</class>
+			<alias>PEG 4,000</alias>
+			<alias>PEG 4000</alias>
+			<alias>PEG 4K</alias>
+			<alias>PEG-4000</alias>
+			<alias>PEG4K</alias>
+			<alias>polyethylene glycol 4,000</alias>
+			<alias>polyethylene glycol 4K</alias>
+		</chemical>
+		<chemical name="sodium acetate" units="M" formula="NaC2H3O2" density="" solubility="46.5" pka1="4.76" pka2="" pka3="" def_stock_conc="3.5" def_stock_units="M" max_stock_conc="37" mw="82.03" ions="Na;CH3CO2" CAS="127-09-3" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Ambiguous</class>
+			<alias>NaAc/acetic acid</alias>
+			<alias>Sodium  Acetate</alias>
+			<alias>acetate</alias>
+			<alias>na acetate</alias>
+			<alias>na-acetate</alias>
+			<alias>naac</alias>
+			<alias>naoac</alias>
+		</chemical>
+		<chemical name="sodium cacodylate" units="M" formula="Na[(CH3)2AsO2]" density="" solubility="148.6" pka1="6.27" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="148.6" mw="159.98" ions="Na;(CH3)2AsO2" CAS="124-65-2" CMC="" SMILES="">
+			<class>Buffer</class>
+			<alias>Na Cacodylate/HCl</alias>
+			<alias>Na-cacodylate</alias>
+			<alias>cacodylate</alias>
+			<alias>na cacodylate</alias>
+			<alias>sodium dimethyl arsonide</alias>
+		</chemical>
+		<chemical name="succinic acid" units="M" formula="C4H6O4" density="" solubility="15" pka1="4.19" pka2="5.57" pka3="" def_stock_conc="1.2" def_stock_units="M" max_stock_conc="" mw="118.1" ions="2H;C4H4O4" CAS="110-15-6" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Butanedioic acid</alias>
+		</chemical>
+		<chemical name="trisodium citrate" units="M" formula="Na3C6H5O7" density="" solubility="63" pka1="3.13" pka2="4.74" pka3="6.4" def_stock_conc="1.6" def_stock_units="M" max_stock_conc="63" mw="258.06" ions="3Na;C6H5O7" CAS="68-04-2" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Sodium citrate tribasic</alias>
+			<alias>Sodium citrate tribasic (H2O)2</alias>
+			<alias>Tri-Na-Citrate</alias>
+			<alias>na3 citrate</alias>
+			<alias>na3-citrate</alias>
+			<alias>na3citrate</alias>
+			<alias>sodium citrate, tribasic</alias>
+			<alias>tri-na citrate</alias>
+			<alias>tri-sodium citrate</alias>
+			<alias>trisodium citrate</alias>
+		</chemical>
+	</chemicals>
+	<screen name="PEG/pH 1" username="Hampton Research" design_date="2018-10-19 00:00:00" res_vol="0">
+		<format name="Screen48Well" rows="6" cols="8" subs="0" max_res_vol="" def_res_vol="" max_drop_vol="" def_drop_vol=""/>
+		<comments/>
+		<well number="1" label="A1">
+			<item name="citric acid" class="Buffer" conc="0.2" units="M" ph="3.5"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="2" label="A2">
+			<item name="citric acid" class="Buffer" conc="0.2" units="M" ph="3.8"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="3" label="A3">
+			<item name="citric acid" class="Buffer" conc="0.2" units="M" ph="4.1"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="4" label="A4">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="citric acid" class="Buffer" conc="0.2" units="M" ph="4.4"/>
+		</well>
+		<well number="5" label="A5">
+			<item name="trisodium citrate" class="Buffer" conc="0.2" units="M" ph="3.6"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="6" label="A6">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="trisodium citrate" class="Buffer" conc="0.2" units="M" ph="3.9"/>
+		</well>
+		<well number="7" label="A7">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="trisodium citrate" class="Buffer" conc="0.2" units="M" ph="4.2"/>
+		</well>
+		<well number="8" label="A8">
+			<item name="trisodium citrate" class="Buffer" conc="0.2" units="M" ph="4.5"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="9" label="B1">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.2" units="M" ph="3.7"/>
+		</well>
+		<well number="10" label="B2">
+			<item name="sodium acetate" class="Buffer" conc="0.2" units="M" ph="4"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="11" label="B3">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.2" units="M" ph="4.3"/>
+		</well>
+		<well number="12" label="B4">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.2" units="M" ph="4.6"/>
+		</well>
+		<well number="13" label="B5">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium acetate" class="Buffer" conc="0.2" units="M" ph="4.9"/>
+		</well>
+		<well number="14" label="B6">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="DL-malic acid" class="Buffer" conc="0.2" units="M" ph="4.7"/>
+		</well>
+		<well number="15" label="B7">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="DL-malic acid" class="Buffer" conc="0.2" units="M" ph="5"/>
+		</well>
+		<well number="16" label="B8">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="DL-malic acid" class="Buffer" conc="0.2" units="M" ph="5.3"/>
+		</well>
+		<well number="17" label="C1">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="DL-malic acid" class="Buffer" conc="0.2" units="M" ph="5.6"/>
+		</well>
+		<well number="18" label="C2">
+			<item name="DL-malic acid" class="Buffer" conc="0.2" units="M" ph="5.9"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="19" label="C3">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="succinic acid" class="Buffer" conc="0.2" units="M" ph="4.8"/>
+		</well>
+		<well number="20" label="C4">
+			<item name="succinic acid" class="Buffer" conc="0.2" units="M" ph="5.1"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="21" label="C5">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="succinic acid" class="Buffer" conc="0.2" units="M" ph="5.4"/>
+		</well>
+		<well number="22" label="C6">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="succinic acid" class="Buffer" conc="0.2" units="M" ph="5.7"/>
+		</well>
+		<well number="23" label="C7">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="succinic acid" class="Buffer" conc="0.2" units="M" ph="6"/>
+		</well>
+		<well number="24" label="C8">
+			<item name="sodium cacodylate" class="Buffer" conc="0.2" units="M" ph="5.2"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="25" label="D1">
+			<item name="sodium cacodylate" class="Buffer" conc="0.2" units="M" ph="5.5"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="26" label="D2">
+			<item name="sodium cacodylate" class="Buffer" conc="0.2" units="M" ph="5.8"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="27" label="D3">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="sodium cacodylate" class="Buffer" conc="0.2" units="M" ph="6.1"/>
+		</well>
+		<well number="28" label="D4">
+			<item name="sodium cacodylate" class="Buffer" conc="0.2" units="M" ph="6.4"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="29" label="D5">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="MES" class="Buffer" conc="0.2" units="M" ph="5.3"/>
+		</well>
+		<well number="30" label="D6">
+			<item name="MES" class="Buffer" conc="0.2" units="M" ph="5.6"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="31" label="D7">
+			<item name="MES" class="Buffer" conc="0.2" units="M" ph="5.9"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="32" label="D8">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="MES" class="Buffer" conc="0.2" units="M" ph="6.2"/>
+		</well>
+		<well number="33" label="E1">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="MES" class="Buffer" conc="0.2" units="M" ph="6.5"/>
+		</well>
+		<well number="34" label="E2">
+			<item name="bis-tris" class="Buffer" conc="0.2" units="M" ph="5.7"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="35" label="E3">
+			<item name="bis-tris" class="Buffer" conc="0.2" units="M" ph="6"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="36" label="E4">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="bis-tris" class="Buffer" conc="0.2" units="M" ph="6.3"/>
+		</well>
+		<well number="37" label="E5">
+			<item name="bis-tris" class="Buffer" conc="0.2" units="M" ph="6.6"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="38" label="E6">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="bis-tris" class="Buffer" conc="0.2" units="M" ph="6.9"/>
+		</well>
+		<well number="39" label="E7">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="ADA" class="Buffer" conc="0.2" units="M" ph="5.8"/>
+		</well>
+		<well number="40" label="E8">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="ADA" class="Buffer" conc="0.2" units="M" ph="6.1"/>
+		</well>
+		<well number="41" label="F1">
+			<item name="ADA" class="Buffer" conc="0.2" units="M" ph="6.4"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="42" label="F2">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="ADA" class="Buffer" conc="0.2" units="M" ph="6.7"/>
+		</well>
+		<well number="43" label="F3">
+			<item name="ADA" class="Buffer" conc="0.2" units="M" ph="7"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="44" label="F4">
+			<item name="imidazole" class="Buffer" conc="0.2" units="M" ph="6.2"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="45" label="F5">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="imidazole" class="Buffer" conc="0.2" units="M" ph="6.5"/>
+		</well>
+		<well number="46" label="F6">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="imidazole" class="Buffer" conc="0.2" units="M" ph="6.8"/>
+		</well>
+		<well number="47" label="F7">
+			<item name="imidazole" class="Buffer" conc="0.2" units="M" ph="7.1"/>
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+		</well>
+		<well number="48" label="F8">
+			<item name="polyethylene glycol 4000" class="Polymer" conc="20" units="w/v" ph=""/>
+			<item name="imidazole" class="Buffer" conc="0.2" units="M" ph="7.4"/>
+		</well>
+	</screen>
+</crystaltrak>

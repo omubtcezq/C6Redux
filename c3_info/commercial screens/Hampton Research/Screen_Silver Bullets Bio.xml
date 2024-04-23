@@ -1,0 +1,2937 @@
+<crystaltrak datatype="screen" version="2.3.43">
+	<chemicals>
+		<chemical name="1,2,3-heptanetriol" units="M" formula="C7H16O3" density="" solubility="15" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="14.8" mw="148.2" ions="" CAS="103404-57-5" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>1,2,3 heptanetriol</alias>
+		</chemical>
+		<chemical name="2'-deoxyadenosine" units="" formula="C10H13N5O3   H2O" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="269.26" ions="" CAS="16373-93-6" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>2'-Deoxyadenosine monohydrate</alias>
+			<alias>2  Deoxyadenosine</alias>
+			<alias>9-(2-Deoxy-beta-D-ribofuranosyl)adenine</alias>
+			<alias>Adenine deoxyriboside</alias>
+		</chemical>
+		<chemical name="2-nitrophenylgalactoside" units="" formula="C13H17NO7" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="299.28" ions="" CAS="369-07-3" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>2-Nitrophenyl b-D-galactopyranoside</alias>
+			<alias>2-Nitrophenyl beta-D-galactopyranoside</alias>
+			<alias>ONPG</alias>
+			<alias>o-Nitrophenyl b-D-galactopyranoside</alias>
+			<alias>o-Nitrophenyl beta-D-galactopyranoside</alias>
+		</chemical>
+		<chemical name="4-aminobenzoic acid" units="w/v" formula="H2NC6H4CO2H" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="0.5" def_stock_units="w/v" max_stock_conc="" mw="137.14" ions="" CAS="150-13-0" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>PABA</alias>
+			<alias>Vitamin Bx</alias>
+			<alias>Vitamin H1</alias>
+		</chemical>
+		<chemical name="4-aminobutanoic acid" units="" formula="C4H9NO2" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="103.12" ions="" CAS="56-12-2" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>4-Aminobutyric acid</alias>
+			<alias>GABA</alias>
+			<alias>gamma-Aminobutyric acid</alias>
+			<alias>piperidic acid</alias>
+		</chemical>
+		<chemical name="5-phospho-D-ribose 1-diphosphate" units="M" formula="C5H8Na5O14P3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="499.98" ions="" CAS="108321-05-7" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>5-Phospho-D-ribose 1-diphosphate pentasodium salt</alias>
+			<alias>5-Phospho-a-D-ribosyl diphosphate</alias>
+			<alias>5-Phospho-alpha-D-ribosyl diphosphate</alias>
+			<alias>5-Phosphoribosyl 1-pyrophosphate pentasodium salt</alias>
+			<alias>P-Rib-PP</alias>
+			<alias>PRPP pentasodium salt</alias>
+			<alias>a-D-Ribosyl diphosphate 5-phosphate pentasodium salt</alias>
+		</chemical>
+		<chemical name="acarbose" units="" formula="C25H43NO18" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="645.6" ions="" CAS="56180-94-0" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>glucobay</alias>
+			<alias>precose</alias>
+		</chemical>
+		<chemical name="acetyl coenzyme A" units="" formula="C23H38N7NaO17P3S" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="832.56" ions="" CAS="102029-73-2" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Acetyl coenzyme A sodium salt</alias>
+			<alias>acetyl CoA</alias>
+		</chemical>
+		<chemical name="acetylcholine" units="" formula="(CH3)3N+CH2CH2OCOCH3Cl-" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="181.66" ions="" CAS="60-31-1" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>ACH chloride</alias>
+			<alias>ACh</alias>
+			<alias>Acetylcholine chloride</alias>
+			<alias>Chloroacetylcholine</alias>
+			<alias>acetylcholine</alias>
+		</chemical>
+		<chemical name="acetylglutamic acid" units="M" formula="C7H11NO5" density="" solubility="3.6" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="3" mw="189.17" ions="" CAS="1188-37-0" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Acetyl glutamic acid</alias>
+			<alias>L-N-Acetylglutamic acid</alias>
+			<alias>N-Acetyl-L-glutamic acid</alias>
+			<alias>N-Acetylglutamate</alias>
+			<alias>N-acetyl-L-glutamate</alias>
+			<alias>N-acetylglutamic acid</alias>
+			<alias>NAcGlu</alias>
+		</chemical>
+		<chemical name="acetylsalicylic acid" units="" formula="2-(CH3CO2)C6H4CO2H" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="180.16" ions="" CAS="50-78-2" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>2-Acetoxybenzoic acid</alias>
+			<alias>ASA</alias>
+			<alias>Aspirin</alias>
+			<alias>O-Acetylsalicylic acid</alias>
+		</chemical>
+		<chemical name="adenosine" units="" formula="C10H13N5O4" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="267.24" ions="" CAS="58-61-7" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Adenine riboside</alias>
+			<alias>Desoxyadenosine</alias>
+			<alias>deoxyadenosine</alias>
+		</chemical>
+		<chemical name="adenosine diphosphate" units="M" formula="C10H13N5Na2O10P2" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="" mw="471.16" ions="" CAS="16178-48-6" CMC="" SMILES="">
+			<class>Ligand</class>
+			<alias>ADP</alias>
+			<alias>Adenosine 5'-diphosphate sodium salt</alias>
+			<alias>Na2ADP</alias>
+			<alias>disodium adenosine diphosphate</alias>
+			<alias>sodium ADP</alias>
+		</chemical>
+		<chemical name="adenosine diphosphateglucose" units="" formula="C16H23N5Na2O15P2" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="633.31" ions="" CAS="102129-65-7" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>ADP-Glucose</alias>
+			<alias>ADP-glc</alias>
+			<alias>ADPG</alias>
+			<alias>Adenosine-5'-diphosphoglucose disodium salt</alias>
+		</chemical>
+		<chemical name="adenosine diphosphoribose" units="" formula="C15H23N5O14P2" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="559.32" ions="" CAS="68414-18-6" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>ADP-Ribose</alias>
+			<alias>Adenosine 5'-diphosphoribose</alias>
+			<alias>Adenosine 5'-diphosphoribose sodium salt</alias>
+		</chemical>
+		<chemical name="adenosine monophosphate" units="M" formula="C10H14N5O7P" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="mM" max_stock_conc="" mw="347.22" ions="" CAS="61-19-8" CMC="" SMILES="">
+			<class>Ligand</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>149022-20-8</alias>
+			<alias>5'-AMP</alias>
+			<alias>5'-Adenylic acid</alias>
+			<alias>A-5'-P</alias>
+			<alias>AMP</alias>
+			<alias>Adenosine 5'-monophosphate sodium salt</alias>
+			<alias>Adenosine monophosphate</alias>
+			<alias>Adenosine-5'-monophosphate</alias>
+			<alias>Ergadenylic Acid</alias>
+			<alias>adenosine monoP</alias>
+			<alias>sodium adenosine monophosphate</alias>
+		</chemical>
+		<chemical name="adenosine triphosphate" units="M" formula="C10H14N5Na2O13P3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="" mw="551.14" ions="" CAS="987-65-5" CMC="" SMILES="">
+			<class>Ligand</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>ATP</alias>
+			<alias>ATP disodium salt</alias>
+			<alias>ATP, sodium salt</alias>
+			<alias>Adenosine 5'-triphosphate disodium salt hydrate</alias>
+			<alias>Na2ATP</alias>
+			<alias>adenosine-5-triphosphate disodium salt</alias>
+			<alias>sodium ATP</alias>
+		</chemical>
+		<chemical name="ala-ala" units="" formula="C6H12N2O3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="160.17" ions="" CAS="1948-31-8" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>(2S)-2-[[(2S)-2-aminopropanoyl]amino]propanoic acid</alias>
+			<alias>L-Alanyl-L-alanine</alias>
+		</chemical>
+		<chemical name="ala-ala-ala" units="" formula="C9H17N3O4" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="231.25" ions="" CAS="5874-90-8" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>L-ALANYL-L-ALANYL-L-ALANINE</alias>
+			<alias>Tri-L-alanine</alias>
+			<alias>alanyl-alanyl-alanine</alias>
+		</chemical>
+		<chemical name="ala-leu" units="" formula="C9H18N2O3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="202.25" ions="" CAS="3303-34-2" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>D-Ala-Leu</alias>
+			<alias>DL-Ala-DL-Leu</alias>
+			<alias>N-(2-Aminopropanoyl)leucine</alias>
+			<alias>dl-Alanyl-dl-leucine</alias>
+			<alias>dl-Alanyl-l-leucine</alias>
+		</chemical>
+		<chemical name="alanine" units="M" formula="C3H7NO2" density="" solubility="15" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="12" mw="89.09" ions="" CAS="56-41-7" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>(L,D)-Alanine</alias>
+			<alias>DL-Alanine</alias>
+			<alias>L-Alanine</alias>
+			<alias>ala</alias>
+		</chemical>
+		<chemical name="alpha-ketoglutarate" units="" formula="C5H6O5" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="146.1" ions="" CAS="305-72-6" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>2-Oxopentanedioic acid</alias>
+			<alias>2-ketoglutarate</alias>
+			<alias>2-ketoglutaric acid</alias>
+			<alias>2-oxoglutarate</alias>
+			<alias>2-oxoglutaric acid</alias>
+			<alias>Oxoglutaric acid</alias>
+			<alias>a-Ketoglutaric acid disodium salt</alias>
+			<alias>alpha-Ketoglutaric acid disodium salt</alias>
+			<alias>alpha-ketoglutaric acid</alias>
+			<alias>ketoglutarate</alias>
+		</chemical>
+		<chemical name="alpha-lipoic acid" units="" formula="C8H14O2S2" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="206.33" ions="" CAS="1077-28-7" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>6,8-Dithiooctanoic acid</alias>
+			<alias>DL-1,2-Dithiolane-3-pentanoic acid</alias>
+			<alias>DL-6,8-Thioctic acid</alias>
+			<alias>DL-a-Lipoic acid</alias>
+			<alias>DL-alpha-Lipoic acid</alias>
+			<alias>Lip(S2)</alias>
+			<alias>Thioctic Acid</alias>
+		</chemical>
+		<chemical name="arginine" units="M" formula="C6H14O2N4" density="" solubility="14.8" pka1="2.18" pka2="9.09" pka3="11.15" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="11" mw="174.2" ions="" CAS="74-79-3" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>(2S)-2-amino-5-(diaminomethylideneamino)pentanoic acid</alias>
+			<alias>DL-arginine</alias>
+			<alias>arg</alias>
+			<alias>l-arginine</alias>
+		</chemical>
+		<chemical name="asparagine" units="M" formula="C4H8N2O3" density="" solubility="3.53" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="2.8" mw="132.12" ions="" CAS="70-47-3" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>2,4-diamino-4-oxobutanoic acid</alias>
+			<alias>L-Asparagine</alias>
+			<alias>L-Asparagine monohydrate</alias>
+			<alias>asn</alias>
+		</chemical>
+		<chemical name="aspartame" units="" formula="C14H18N2O5" density="" solubility="2" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="1.6" mw="294.3" ions="" CAS="22839-47-0" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>3-amino-4-[(1-methoxy-1-oxo-3-phenylpropan-2-yl)amino]-4-oxobutanoic acid</alias>
+			<alias>Asp-phe-ome</alias>
+			<alias>Canderel</alias>
+			<alias>Equal</alias>
+			<alias>Nutrasweet</alias>
+		</chemical>
+		<chemical name="aspartic acid" units="M" formula="C4H7NO4" density="" solubility="0.78" pka1="" pka2="" pka3="" def_stock_conc="0.01" def_stock_units="M" max_stock_conc="0.62" mw="133.1" ions="" CAS="56-84-8" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>2-aminobutanedioic acid</alias>
+			<alias>L-Aspartic acid</alias>
+			<alias>asp</alias>
+		</chemical>
+		<chemical name="batyl alcohol" units="" formula="CH3(CH2)17OCH2CH(OH)CH2OH" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="344.57" ions="" CAS="544-62-7" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>1-O-Octadecyl-rac-glycerol</alias>
+			<alias>Batilol</alias>
+			<alias>DL-3-Octadecyloxy-1,2-propanediol</alias>
+			<alias>DL-Batylalcohol</alias>
+			<alias>Glycerol 1-octadecyl ether</alias>
+			<alias>Stearyl monoglyceride</alias>
+			<alias>rac-Glycerol 1-octadecyl ether</alias>
+		</chemical>
+		<chemical name="benzamidine hydrochloride" units="M" formula="C7H8N2.HCl" density="" solubility="5" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="mg/ml" max_stock_conc="5" mw="156.61" ions="" CAS="1670-14-0" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Benzamidine hydrochloride</alias>
+			<alias>Benzamidinium chloride</alias>
+			<alias>benzamidine</alias>
+			<alias>benzamidine hcl</alias>
+		</chemical>
+		<chemical name="benzidine" units="w/v" formula="C12H12N2" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="0.5" def_stock_units="w/v" max_stock_conc="" mw="184.24" ions="" CAS="92-87-5" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>4-(4-aminophenyl)aniline</alias>
+			<alias>BENZIDINE FREE BASE</alias>
+			<alias>p-Diaminodiphenyl</alias>
+		</chemical>
+		<chemical name="beta-cyclodextrin" units="" formula="C42H70O35" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="1134.98" ions="" CAS="7585-39-9" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Caraway</alias>
+			<alias>Cycloheptaamylose</alias>
+			<alias>Cyclomaltoheptaose</alias>
+			<alias>b-cyclodextrin</alias>
+			<alias>cyclodextrin</alias>
+			<alias> -Cyclodextrin</alias>
+		</chemical>
+		<chemical name="beta-estradiol" units="" formula="C18H24O2" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="272.38" ions="" CAS="50-28-2" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>1,3,5-Estratriene-3,17beta-diol</alias>
+			<alias>1,3,5-Estratriene-3,17 -diol</alias>
+			<alias>17beta-Estradiol</alias>
+			<alias>17 -Estradiol</alias>
+			<alias>3,17beta-Dihydroxy-1,3,5(10)-estratriene</alias>
+			<alias>3,17 -Dihydroxy-1,3,5(10)-estratriene</alias>
+			<alias>Dihydrofolliculin</alias>
+			<alias> -Estradiol</alias>
+		</chemical>
+		<chemical name="betaine" units="M" formula="(CH3)3NCH2COO" density="" solubility="64" pka1="1.84" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="51" mw="117.15" ions="" CAS="107-43-7" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Betaine anhydrous</alias>
+			<alias>Oxyneurine</alias>
+			<alias>Trimethylaminoacetate</alias>
+			<alias>Trimethylaminoacetic acid</alias>
+			<alias>Trimethylglycine</alias>
+			<alias>betain</alias>
+		</chemical>
+		<chemical name="biotin" units="" formula="C10H16N2O3S" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="244.31" ions="" CAS="58-85-5" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Bios H</alias>
+			<alias>Coenzyme R</alias>
+			<alias>D-Biotin</alias>
+			<alias>Vitamin B7</alias>
+			<alias>Vitamin H</alias>
+		</chemical>
+		<chemical name="cadaverine" units="" formula="C5H14N2" density="0.87" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="102.18" ions="" CAS="462-94-2" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>1,5-pentanediamine</alias>
+			<alias>pentamethylenediamine</alias>
+			<alias>pentane-1,5-diamine</alias>
+		</chemical>
+		<chemical name="cadmium chloride" units="M" formula="CdCl2" density="" solubility="140" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="112" mw="183.32" ions="Cd;2Cl" CAS="10108-64-2" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Cadmium chloride hydrate</alias>
+			<alias>Cadmiumchlorid</alias>
+			<alias>Cd-chloride</alias>
+			<alias>cd chloride</alias>
+			<alias>cdcl2</alias>
+		</chemical>
+		<chemical name="caffeine" units="" formula="C8H10N4O2" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="194.19" ions="" CAS="58-08-2" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>1,3,7-trimethylpurine-2,6-dione</alias>
+			<alias>Guaranine</alias>
+			<alias>Methyltheobromine</alias>
+		</chemical>
+		<chemical name="calcium chloride" units="M" formula="CaCl2" density="" solubility="74.5" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="75.5" mw="110.98" ions="Ca;2Cl" CAS="10043-52-4" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Calcium  Chloride</alias>
+			<alias>Calcium chloride dihydrate</alias>
+			<alias>ca chloride</alias>
+			<alias>ca-chloride</alias>
+			<alias>cacl2</alias>
+		</chemical>
+		<chemical name="calcium D-glycerate" units="" formula="C3H6CaO4" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="w/v" max_stock_conc="" mw="146.16" ions="" CAS="14028-62-7" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>D-2,3-Dihydroxypropanoic acid</alias>
+			<alias>D-Glyceric acid calcium salt dihydrate</alias>
+			<alias>D-glyceric acid calcium salt</alias>
+		</chemical>
+		<chemical name="canavanine" units="" formula="C5 H12 N4 O3" density="" solubility="100" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="176.17" ions="" CAS="543-38-4" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>(2S)-2-amino-4-(diaminomethylideneamino)oxy-butanoic acid</alias>
+			<alias>2-Amino-4-(guanidinooxy)butyric acid</alias>
+			<alias>L-Canavanine</alias>
+		</chemical>
+		<chemical name="carnitine hydrochloride" units="" formula="(CH3)3N+CH2CH(OH)CH2CO2H   Cl-" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="197.66" ions="" CAS="6645-46-1" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>L-Carnitine chloride</alias>
+			<alias>L-Carnitine hydrochloride</alias>
+		</chemical>
+		<chemical name="carnosine" units="M" formula="C9H14N4O3" density="" solubility="32" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="25" mw="226.23" ions="" CAS="305-84-0" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>b-Alanyl-L-histidine</alias>
+			<alias>beta-Alanyl-L-histidine</alias>
+			<alias>l-carnosine</alias>
+		</chemical>
+		<chemical name="cholesterol" units="" formula="C27H46O" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="386.65" ions="" CAS="57-88-5" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Cholesterin</alias>
+			<alias>Hydrocerin</alias>
+			<alias>Provitamin D</alias>
+		</chemical>
+		<chemical name="cholic acid" units="w/v" formula="C24H40O5" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="w/v" max_stock_conc="" mw="408.57" ions="" CAS="81-25-4" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Chenodiol</alias>
+			<alias>Cholalic acid</alias>
+			<alias>Cholalin</alias>
+			<alias>Cholanic acid</alias>
+			<alias>Colalin</alias>
+			<alias>cholate</alias>
+		</chemical>
+		<chemical name="choline base solution" units="w/v" formula="(CH3)3N(OH)CH2CH2OH" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="121.18" ions="" CAS="123-41-1" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>(2-Hydroxyethyl)trimethylammonium hydroxide</alias>
+			<alias>Choline solution</alias>
+		</chemical>
+		<chemical name="cis-aconitic acid" units="M" formula="HO2CCH2C(CO2H)=CHCO2H" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="174.11" ions="" CAS="585-84-2" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Achilleaic acid</alias>
+			<alias>Achilleic acid</alias>
+			<alias>Citridinic acid</alias>
+			<alias>Equisetic acid</alias>
+			<alias>Pyrocitric acid</alias>
+			<alias>cis-Propene-1,2,3-tricarboxylic acid</alias>
+			<alias>cis-aconitate</alias>
+		</chemical>
+		<chemical name="citrulline" units="M" formula="C6H13N3O3" density="" solubility="20" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="16" mw="175.19" ions="" CAS="372-75-8" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>2-amino-5-(carbamoylamino)pentanoic acid</alias>
+			<alias>L-Citrulline</alias>
+			<alias>gammaureidonorvaline</alias>
+		</chemical>
+		<chemical name="cobalamin" units="" formula="C63H88CoN14O14P" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="1355.37" ions="" CAS="66-19-9" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>CN-Cbl</alias>
+			<alias>Cyanocob(III)alamin</alias>
+			<alias>Cyanocobalamin</alias>
+			<alias>a-(5,6-Dimethylbenzimidazolyl)cyanocobamide</alias>
+			<alias>alpha-(5,6-Dimethylbenzimidazolyl)cyanocobamide</alias>
+			<alias>vitamin B-12</alias>
+			<alias>vitamin B12</alias>
+		</chemical>
+		<chemical name="cobalt chloride" units="M" formula="CoCl2" density="" solubility="45" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="45" mw="129.84" ions="Co;2Cl" CAS="7646-79-9" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Co-chloride</alias>
+			<alias>Cobalt(II) chloride hexahydrate</alias>
+			<alias>Cobalt(II)-chloride</alias>
+			<alias>cobalt (II) chloride</alias>
+			<alias>cobalt(II) chloride</alias>
+			<alias>cobaltous chloride</alias>
+			<alias>cocl2</alias>
+		</chemical>
+		<chemical name="coenzyme B12" units="" formula="C72H100CoN18O17P" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="1579.58" ions="" CAS="13870-90-1" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>5'-Deoxyadenosylcobalamine</alias>
+			<alias>Adenosyl cobalamine</alias>
+			<alias>Cobamamide</alias>
+			<alias>Coenzyme- B12</alias>
+			<alias>DMBC coenzyme</alias>
+		</chemical>
+		<chemical name="copper(II) chloride" units="M" formula="CuCl2" density="" solubility="76" pka1="" pka2="" pka3="" def_stock_conc="2" def_stock_units="M" max_stock_conc="76" mw="134.45" ions="Cu;2Cl" CAS="7447-39-4" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Copper(II) chloride dihydrate</alias>
+			<alias>copper (II) chloride</alias>
+			<alias>cupric chloride</alias>
+		</chemical>
+		<chemical name="coproporphyrin I dihydrochloride" units="" formula="C36H38N4O8   2HCl" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="727.63" ions="" CAS="69477-27-6" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>3,8,13,18-Tetramethyl-21H,23H-porphine-2,7,12,17-tetrapropionic acid dihydrochloride</alias>
+		</chemical>
+		<chemical name="cortisone" units="" formula="C21H28O5" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="360.44" ions="" CAS="53-06-5" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>11-Dehydro-17-hydroxycorticosterone</alias>
+			<alias>17-Hydroxy-11-dehydrocorticosterone</alias>
+			<alias>17alpha-Hydroxy-11-dehydrocorticosterone</alias>
+			<alias>Kendall s Compound E</alias>
+			<alias>Reichstein s Substance Fa</alias>
+		</chemical>
+		<chemical name="creatine" units="M" formula="C4H9N3O2" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="131.13" ions="" CAS="6020-87-7" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>(alpha-Methylguanido)acetic acid</alias>
+			<alias>Creatine monohydrate</alias>
+			<alias>Methylguanidoacetic acid</alias>
+			<alias>N-amidinosarcosine</alias>
+			<alias>N-carbamimidoyl-N-methylglycine</alias>
+			<alias>N-methyl-N-guanylglycine</alias>
+			<alias>Pyrolysate</alias>
+			<alias>methylglycocyamine</alias>
+		</chemical>
+		<chemical name="cyclic adenosine monophosphate" units="" formula="C10H11N5O6PNa" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="369.2" ions="" CAS="37839-81-9" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>3',5'-Cyclic AMP sodium salt</alias>
+			<alias>Adenosine 3',5'-cyclic monophosphate monohydrate sodium salt</alias>
+			<alias>Adenosine 3',5'-cyclic monophosphate sodium salt monohydrate</alias>
+			<alias>Adenosine 3 ,5 -cyclic monophosphate sodium salt</alias>
+			<alias>cAMP</alias>
+			<alias>cAMP-Na</alias>
+			<alias>sodium cyclic adenosine monophosphate</alias>
+		</chemical>
+		<chemical name="cyclic guanosine monophosphate" units="" formula="C10H11N5NaO7P" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="367.19" ions="" CAS="40732-48-7" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>3',5'-Cyclic GMP monosodium salt</alias>
+			<alias>3',5'-cGMP-Na</alias>
+			<alias>Guanosine 3',5'-cyclic monophosphate sodium salt</alias>
+			<alias>Guanosine 3',5'-cyclophosphate monosodium salt</alias>
+			<alias>cGMP</alias>
+			<alias>cyclic GMP</alias>
+		</chemical>
+		<chemical name="cystamine dihydrochloride" units="" formula="C4H14Cl2N2S2" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="225.2" ions="" CAS="56-17-7" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Bis(2-aminoethyl) disulfide dihydrochloride</alias>
+			<alias>Cystamine hydrochloride</alias>
+		</chemical>
+		<chemical name="cystathionine" units="w/v" formula="C7H14N2O4S" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="0.5" def_stock_units="w/v" max_stock_conc="" mw="222.26" ions="" CAS="535-34-2" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>2-amino-4-(2-amino-3-hydroxy-3-oxopropyl)sulfanylbutanoic acid</alias>
+			<alias>DL,DL-allo-Cystathionine</alias>
+			<alias>DL-Cystathionine</alias>
+			<alias>S-(2-Amino-2-carboxyethyl)homocysteine</alias>
+		</chemical>
+		<chemical name="cytidine" units="w/v" formula="C9H13N3O5" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="w/v" max_stock_conc="" mw="243.09" ions="" CAS="65-46-3" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Cytosine riboside</alias>
+			<alias>Posilent</alias>
+		</chemical>
+		<chemical name="cytidine diphosphate" units="" formula="C9H15N3NaO11P2" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="426.17" ions="" CAS="34393-59-4" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>CDP</alias>
+			<alias>CDP - Na</alias>
+			<alias>Cytidine 5'-diphosphate sodium salt hydrate</alias>
+		</chemical>
+		<chemical name="cytidine monophosphate" units="" formula="C9H12N3O8PNa2" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="367.16" ions="" CAS="6757-06-8" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>5'-cytidylic acid</alias>
+			<alias>C-5'-P</alias>
+			<alias>CMP</alias>
+			<alias>Cytidine 5'-monophosphate disodium salt</alias>
+			<alias>cytidylate</alias>
+		</chemical>
+		<chemical name="cytidine triphosphate" units="" formula="C9H14N3Na2O14P3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="527.12" ions="" CAS="36051-68-0" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>CTP</alias>
+			<alias>Cytidine 5'-triphosphate disodium salt</alias>
+			<alias>Cytidine 5 -triphosphate disodium salt</alias>
+		</chemical>
+		<chemical name="cytidine-5'-diphosphocholine" units="" formula="C14H25N4NaO11P2   2H2O" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="546.34" ions="" CAS="33818-15-4" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>CDP-choline-Na</alias>
+			<alias>CDP-coline</alias>
+			<alias>Citicoline sodium</alias>
+			<alias>Cytidine 5'-diphosphocholine sodium salt dihydrate</alias>
+			<alias>P'-[2-(Trimethylammonio) ethyl] ester cytidine 5'-(tri hydro gen di phosphate) inner salt monosodium</alias>
+		</chemical>
+		<chemical name="cytosine" units="" formula="C4H5N3O" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="111.1" ions="" CAS="71-30-7" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>4-amino-3H-pyrimidin-2-one</alias>
+		</chemical>
+		<chemical name="D-cellobiose" units="" formula="C12 H22 O11" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="342.3" ions="" CAS="528-50-7" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Cellobiose</alias>
+			<alias>D-(+)-Cellobiose</alias>
+			<alias>D-Glucosyl-beta-(1-4)-D-glucose</alias>
+		</chemical>
+		<chemical name="deoxyadenosine monophosphate" units="" formula="C10H14N5O6P" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="331.22" ions="" CAS="653-63-4" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>2'-Deoxyadenosine 5'-monophosphate</alias>
+			<alias>2'-Deoxyadenylic acid</alias>
+			<alias>dAMP</alias>
+		</chemical>
+		<chemical name="deoxyadenosine triphosphate" units="" formula="C10H14N5Na2O12P3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="535.15" ions="" CAS="1927-33-7" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>2'-Datp</alias>
+			<alias>2'-Deoxyadenosine 5'-triphosphate disodium salt</alias>
+			<alias>2'-deoxyadenosine triphosphate</alias>
+			<alias>2 -Deoxyadenosine 5 -triphosphate disodium salt</alias>
+			<alias>Deoxyadenosine 5'-triphosphate</alias>
+			<alias>Deoxyadenosine triphosphate</alias>
+			<alias>dATP</alias>
+			<alias>deoxy-ATP</alias>
+		</chemical>
+		<chemical name="deoxycytidine monophosphate" units="" formula="C9H12N3O7PNa2" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="351.16" ions="" CAS="13085-50-2" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>2'-Deoxycytidine 5'-monophosphate sodium salt</alias>
+			<alias>Deoxycytidine Monophosphate</alias>
+			<alias>Deoxycytidylic acid</alias>
+			<alias>dCMP</alias>
+		</chemical>
+		<chemical name="deoxycytidine triphosphate" units="" formula="C9H14N3Na2O13P3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="511.2" ions="" CAS="102783-51-7" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>2'-Deoxycytidine 5'-triphosphate disodium salt</alias>
+			<alias>dCTP</alias>
+			<alias>dCTP-Na2</alias>
+		</chemical>
+		<chemical name="deoxyguanosine" units="" formula="C10H13N5O4   H2O" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="285.26" ions="" CAS="961-07-9" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>2'-Deoxyguanosine  hydrate</alias>
+			<alias>2'-Deoxyguanosine hydrate</alias>
+			<alias>2'-Deoxyguanosine monohydrate</alias>
+			<alias>2'-deoxyguanosine</alias>
+			<alias>9-(2-Deoxy-beta-D-ribofuranosyl)guanine</alias>
+			<alias>Guanine deoxy nucleoside</alias>
+			<alias>Guanine deoxyriboside</alias>
+			<alias>Guanine-2'-deoxyriboside</alias>
+		</chemical>
+		<chemical name="deoxyguanosine monophosphate" units="" formula="C10H15N5NaO8P" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="387.22" ions="" CAS="902-04-5" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>2'-Deoxyguanosine 5'-monophosphate hydrate sodium salt</alias>
+			<alias>2'-Deoxyguanosine 5'-monophosphate sodium salt hydrate</alias>
+			<alias>2'-deoxyguanosine 5'-phosphate</alias>
+			<alias>5'-Deoxyguanylic acid</alias>
+			<alias>dGMP</alias>
+			<alias>deoxyguanylate</alias>
+		</chemical>
+		<chemical name="D-fucose" units="" formula="C6H12O5" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="164.16" ions="" CAS="3615-37-0" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>6-Deoxy-D-galactose</alias>
+			<alias>D-(+)-Fucose</alias>
+			<alias>Rhodeose</alias>
+		</chemical>
+		<chemical name="D-glucosamine hydrochloride" units="" formula="C6H13NO5   HCl" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="215.63" ions="" CAS="66-84-2" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>2-Amino-2-deoxy-D-glucose hydrochloride</alias>
+			<alias>Chitosamine hydrochloride</alias>
+			<alias>D-(+)-Glucosamine hydrochloride</alias>
+			<alias>Glucosamine hydrochloride</alias>
+		</chemical>
+		<chemical name="D-glucosaminic acid" units="w/v" formula="C6H13NO6" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="195.17" ions="" CAS="3646-68-2" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>2-Amino-2-deoxy-D-gluconic acid</alias>
+			<alias>D-Glucosamic acid</alias>
+			<alias>D-Glucosaminate</alias>
+			<alias>Glucosaminate</alias>
+			<alias>glucosaminic acid</alias>
+		</chemical>
+		<chemical name="didehydroepiandrosterone" units="" formula="C19H28O2" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="288.42" ions="" CAS="53-43-0" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>3beta-Hydroxy-5-androsten-17-one</alias>
+			<alias>5-Androsten-3beta-ol-17-one</alias>
+			<alias>DHEA</alias>
+			<alias>Dehydroepiandrosterone</alias>
+			<alias>Dehydroisoandrosterone</alias>
+			<alias>Prasterone</alias>
+			<alias>trans-dehydroandrosterone</alias>
+		</chemical>
+		<chemical name="disodium argininosuccinate" units="w/v" formula="C10H16N4Na2O6" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="334.24" ions="" CAS="918149-29-8" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Argininosuccinic acid disodium salt hydrate</alias>
+			<alias>argininosuccinic acid disodium salt</alias>
+		</chemical>
+		<chemical name="disodium D-3-phosphoglycerate" units="" formula="C3H5Na2O7P" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="230.02" ions="" CAS="80731-10-8" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>(-)-Disodium D-3-phosphoglycerate</alias>
+			<alias>3-Phospho-D-glycerate</alias>
+			<alias>D-(-)-3-Phosphoglyceric acid disodium salt</alias>
+			<alias>D-3-Phosphoglyceric acid disodium salt</alias>
+			<alias>D-Glycerate 3-phosphate</alias>
+			<alias>D-glycerate 3-phosphate disodium salt</alias>
+			<alias>disodium D-glycerate 3-phosphate</alias>
+		</chemical>
+		<chemical name="disodium glycerol-2-phosphate" units="M" formula="" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="216.04" ions="" CAS="819-83-0" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Disodium beta-Glycerophosphate tetrahydrate</alias>
+			<alias>Disodium beta-glycerol phosphate</alias>
+			<alias>Glycerol phosphate disodium salt</alias>
+			<alias>Glycerophosphate disodium salt hydrate</alias>
+			<alias>glycerol phosphate disodium</alias>
+			<alias>glycerol-2-phosphate disodium salt</alias>
+		</chemical>
+		<chemical name="disodium hydrogen phosphate" units="M" formula="Na2HPO4" density="" solubility="79.8" pka1="2.1" pka2="7.2" pka3="12.3" def_stock_conc="0.5" def_stock_units="M" max_stock_conc="79.8" mw="141.95" ions="H,2Na;PO4" CAS="7558-79-4" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Buffer</class>
+			<alias>Na2HPO4/phosphoric acid</alias>
+			<alias>Sodium phosphate dibasic dihydrate</alias>
+			<alias>di-sodium phosphate</alias>
+			<alias>disodium hydrogen phosphate</alias>
+			<alias>na2hpo4</alias>
+			<alias>na2po4</alias>
+			<alias>sodium phosphate (dibasic)</alias>
+			<alias>sodium phosphate dibasic</alias>
+		</chemical>
+		<chemical name="disodium phosphocreatine" units="" formula="C4H8N3Na2O5P" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="255.08" ions="" CAS="67-07-2" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Creatine phosphate disodium salt</alias>
+			<alias>Creatine phosphate disodium salt tetrahydrate</alias>
+			<alias>Disodium creatine phosphate</alias>
+			<alias>Sodium creatine phosphate dibasic</alias>
+			<alias>sodium creatine phosphate</alias>
+		</chemical>
+		<chemical name="DL-xylose" units="" formula="C5H10O5" density="" solubility="10" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="150.13" ions="" CAS="25990-60-7" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>D,L-xylose</alias>
+		</chemical>
+		<chemical name="D-maltotriose" units="" formula="C18H32O16" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="504.44" ions="" CAS="207511-08-8" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>D-(+)-Maltotriose</alias>
+			<alias>Maltotriose</alias>
+			<alias>Maltotriose hydrate</alias>
+		</chemical>
+		<chemical name="D-mannosamine hydrochloride" units="w/v" formula="C6H13NO5   HCl" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="215.63" ions="" CAS="5505-63-5" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>(3S,4R,5S,6R)-3-amino-6-(hydroxymethyl)oxane-2,4,5-triol hydrochloride</alias>
+			<alias>2-Amino-2-deoxy-D-mannose hydrochloride</alias>
+		</chemical>
+		<chemical name="D-ribose" units="" formula="C5H10O5" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="150.13" ions="" CAS="50-69-1" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>D-(-)-Ribose</alias>
+		</chemical>
+		<chemical name="ellipticine" units="w/v" formula="C17H14N2" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="w/v" max_stock_conc="" mw="246.31" ions="" CAS="519-23-3" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Elliptisine</alias>
+		</chemical>
+		<chemical name="epinephrine" units="" formula="(HO)2C6H3CH(CH2NHCH3)OH" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="183.2" ions="" CAS="329-65-7" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>DL-Adrenalin</alias>
+			<alias>DL-Epinephrine</alias>
+			<alias>Eppy</alias>
+			<alias>adrenaline</alias>
+		</chemical>
+		<chemical name="ethanolamine" units="M" formula="C2H7NO" density="1.01" solubility="" pka1="" pka2="" pka3="" def_stock_conc="2" def_stock_units="M" max_stock_conc="" mw="61.08" ions="" CAS="141-43-5" CMC="" SMILES="">
+			<class>Additive</class>
+			<alias>2-Hydroxyethylamine</alias>
+			<alias>2-aminoethanol</alias>
+			<alias>Aminoethanol</alias>
+			<alias>Ethylolamine</alias>
+			<alias>Glycinol</alias>
+			<alias>MEA</alias>
+			<alias>Olamine</alias>
+			<alias>beta-Aminoethanol</alias>
+			<alias>colamine</alias>
+			<alias>monoethanolamine</alias>
+		</chemical>
+		<chemical name="ethidium bromide" units="" formula="C21H20BrN3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="394.31" ions="" CAS="1239-45-8" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>3,8-Diamino-5-ethyl-6-phenylphenanthridinium bromide</alias>
+			<alias>EtBr</alias>
+			<alias>Homidium bromide</alias>
+		</chemical>
+		<chemical name="flavin adenine dinucleotide" units="M" formula="C27H31N9Na2O15P2" density="" solubility="0.1" pka1="" pka2="" pka3="" def_stock_conc="10" def_stock_units="mM" max_stock_conc="0.1" mw="829.52" ions="" CAS="84366-81-4" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>FAD</alias>
+			<alias>FAD disodium salt</alias>
+			<alias>FAD-Na2</alias>
+			<alias>Flavin adenine dinucleotide disodium salt hydrate</alias>
+			<alias>Riboflavin 5'-adenosine diphosphate disodium salt</alias>
+		</chemical>
+		<chemical name="flavin mononucleotide" units="" formula="C17H22N4NaO10P" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="496.34" ions="" CAS="6184-17-4" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>FMN-Na</alias>
+			<alias>Riboflavin 5'-monophosphate sodium salt dihydrate</alias>
+			<alias>Riboflavin 5'-phosphate sodium salt</alias>
+		</chemical>
+		<chemical name="folic acid" units="" formula="C19H19N7O6" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="441.4" ions="" CAS="59-30-3" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Folate</alias>
+			<alias>Folcysteine</alias>
+			<alias>PteGlu</alias>
+			<alias>Pteroyl-L-glutamic acid</alias>
+			<alias>Pteroylglutamic acid</alias>
+			<alias>Vitamin Bc</alias>
+			<alias>Vitamin M</alias>
+		</chemical>
+		<chemical name="fructose-1,6-diphosphate" units="w/v" formula="C6H11Na3O12P2   8H2O" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="550.18" ions="" CAS="38099-82-0" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>D-Fructose 1,6-diphosphate</alias>
+			<alias>D-Fructose 1,6-diphosphate trisodium salt</alias>
+			<alias>D-Fructose 1,6-diphosphate trisodium salt octahydrate</alias>
+			<alias>FDP-Na3H</alias>
+		</chemical>
+		<chemical name="fumaric acid" units="M" formula="C4H4O4" density="" solubility="0.63" pka1="3.03" pka2="4.44" pka3="" def_stock_conc="0.01" def_stock_units="M" max_stock_conc="" mw="116.07" ions="" CAS="110-17-8" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>(E)-Butenedioic acid</alias>
+			<alias>2-Butenedioic acid</alias>
+			<alias>Allomaleic acid</alias>
+			<alias>Boletic acid</alias>
+			<alias>Lichenic acid</alias>
+			<alias>trans-1,2-Ethylenedicarboxylic acid</alias>
+		</chemical>
+		<chemical name="galactosamine hydrochloride" units="" formula="C6H13NO5   HCl" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="215.63" ions="" CAS="1772-03-8" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>D-(+)-Galactosamine hydrochloride</alias>
+			<alias>D-Chondrosamine hydrochloride</alias>
+			<alias>D-Galactosamine hydrochloride</alias>
+		</chemical>
+		<chemical name="galactose" units="M" formula="C6H12O6" density="" solubility="68" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="180.16" ions="" CAS="59-23-4" CMC="" SMILES="">
+			<class>Organic</class>
+			<class>Additive</class>
+			<alias>D galactose</alias>
+			<alias>D-()-Galactose</alias>
+			<alias>D-(+)-Galactose</alias>
+			<alias>D-galactose</alias>
+		</chemical>
+		<chemical name="gentamicin sulfate" units="" formula="C21H45N5O11S" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="575.67" ions="" CAS="1405-41-0" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Gentamicin sulfate salt hydrate</alias>
+		</chemical>
+		<chemical name="gibberellin" units="w/v" formula="C19H22O6" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="w/v" max_stock_conc="" mw="346.37" ions="" CAS="77-06-5" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>GA3</alias>
+			<alias>Gibberellin A3</alias>
+			<alias>gibberellic acid</alias>
+		</chemical>
+		<chemical name="glucose" units="M" formula="C6H12O6" density="" solubility="91" pka1="" pka2="" pka3="" def_stock_conc="2" def_stock_units="M" max_stock_conc="91" mw="180.16" ions="" CAS="50-99-7" CMC="" SMILES="">
+			<class>Cryoprotectant</class>
+			<class>Additive</class>
+			<alias>D(+)-glucose</alias>
+			<alias>D-(+)-glucose</alias>
+			<alias>D-Glucose</alias>
+			<alias>corn sugar</alias>
+			<alias>dextrose</alias>
+			<alias>grape sugar</alias>
+		</chemical>
+		<chemical name="glucose-1-phosphate" units="" formula="C6H13O9P" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="260.14" ions="" CAS="56401-20-8" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Cori ester</alias>
+			<alias>Glucose monophosphate</alias>
+			<alias>a-D-Glucopyranose 1-phosphate</alias>
+			<alias>a-D-Glucose 1-phosphate disodium salt</alias>
+			<alias>a-D-Glucose 1-phosphate disodium salt hydrate</alias>
+			<alias>alpha-D-Glucopyranose 1-phosphate</alias>
+			<alias>alpha-D-Glucose 1-phosphate disodium salt</alias>
+			<alias>alpha-D-Glucose 1-phosphate disodium salt hydrate</alias>
+			<alias>alpha-D-glucose-1-P</alias>
+			<alias>alpha-D-glucose-1-phosphate</alias>
+			<alias>alpha-glucose-1-phosphate</alias>
+			<alias>glucose-1P</alias>
+		</chemical>
+		<chemical name="glucose-6-phosphate" units="M" formula="C6H12NaO9P" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="282.12" ions="" CAS="54010-71-8" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>(3,4,5,6-tetrahydroxyoxan-2-yl)methyl dihydrogen phosphate</alias>
+			<alias>D-Glucose 6-phosphate</alias>
+			<alias>D-Glucose 6-phosphate sodium salt</alias>
+			<alias>D-glucose-6-P</alias>
+			<alias>D-hexose 6-phosphate</alias>
+			<alias>glucose-6-P</alias>
+		</chemical>
+		<chemical name="glutamic acid" units="M" formula="C5H9NO4" density="" solubility="0.864" pka1="" pka2="" pka3="" def_stock_conc="0.01" def_stock_units="M" max_stock_conc="0.7" mw="147.13" ions="" CAS="56-86-0" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>2-aminopentanedioic acid</alias>
+			<alias>DL-Glutamic acid</alias>
+			<alias>L-Glutamic acid</alias>
+			<alias>glu</alias>
+		</chemical>
+		<chemical name="glutamine" units="M" formula="C5H10N2O3" density="" solubility="2.5" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="2" mw="146.14" ions="" CAS="56-85-9" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>(2S)-2,5-diamino-5-oxopentanoic acid</alias>
+			<alias>L-Glutamine</alias>
+			<alias>gln</alias>
+		</chemical>
+		<chemical name="glutaric acid" units="" formula="HOOC(CH2)3COOH" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="132.11" ions="" CAS="110-94-1" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>1,3-Propanedicarboxylic acid</alias>
+			<alias>1,5-pentanedioic acid</alias>
+			<alias>pentanedioic acid</alias>
+		</chemical>
+		<chemical name="glutathione, reduced" units="M" formula="C10H17N3O6S" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="mM" max_stock_conc="" mw="307.32" ions="" CAS="70-18-1" CMC="" SMILES="">
+			<class>Additive</class>
+			<alias>DL-Glutathione reduced</alias>
+			<alias>GSH</alias>
+			<alias>Glutathione</alias>
+			<alias>Glutathione reduced</alias>
+			<alias>L-Glutathione reduced</alias>
+		</chemical>
+		<chemical name="glyceraldehyde" units="" formula="C3H6O3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="90.08" ions="" CAS="56-82-6" CMC="" SMILES="">
+			<class>Organic</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>2,3-Dihydroxypropanal</alias>
+			<alias>2,3-dihydroxypropanal</alias>
+			<alias>Aldotriose</alias>
+			<alias>DL-Glyceraldehyde</alias>
+			<alias>Glyceric aldehyde</alias>
+			<alias>Glycerinaldehyde</alias>
+		</chemical>
+		<chemical name="glycine" units="M" formula="NH2CH2COOH" density="" solubility="10" pka1="2.34" pka2="9.6" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="10" mw="75.07" ions="" CAS="56-40-6" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Bullet</class>
+			<class>Buffer</class>
+			<class>Additive</class>
+			<alias>2-aminoacetic acid</alias>
+			<alias>Aminoacetic acid</alias>
+			<alias>Aminoethanoic acid</alias>
+			<alias>Gly</alias>
+			<alias>Glycine/NaOH</alias>
+			<alias>glycine-sodium hydroxide</alias>
+		</chemical>
+		<chemical name="gly-gly-gly" units="M" formula="C6H11N3O4" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="0.3" def_stock_units="M" max_stock_conc="6" mw="189.17" ions="" CAS="556-33-2" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Gly-Gly-Gly</alias>
+			<alias>Triglycine</alias>
+			<alias>glycyl-glycyl-glycine</alias>
+		</chemical>
+		<chemical name="gly-gly-gly-gly" units="w/v" formula="NH2CH2CO(NHCH2CO)3OH" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="0.5" def_stock_units="w/v" max_stock_conc="" mw="246.22" ions="" CAS="637-84-3" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Gly-Gly-Gly-Gly</alias>
+			<alias>Tetraglycine</alias>
+			<alias>Triglycyl-glycine</alias>
+			<alias>glycyl-glycyl-glycyl-glycine</alias>
+		</chemical>
+		<chemical name="gly-gly-gly-gly-gly" units="w/v" formula="NH2CH2CO(NHCH2CO)3NHCH2COOH" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="0.5" def_stock_units="w/v" max_stock_conc="" mw="303.27" ions="" CAS="7093-67-6" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Gly-Gly-Gly-Gly-Gly</alias>
+			<alias>Pentaglycine</alias>
+			<alias>glycyl-glycyl-glycyl-glycyl-glycine</alias>
+		</chemical>
+		<chemical name="guanidine hydrochloride" units="M" formula="CH5N3  HCl" density="" solubility="215" pka1="" pka2="" pka3="" def_stock_conc="6" def_stock_units="M" max_stock_conc="215" mw="95.53" ions="" CAS="50-01-1" CMC="" SMILES="">
+			<class>Organic</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Aminoformamidine hydrochloride</alias>
+			<alias>GdnHCl</alias>
+			<alias>Guanidinium Chloride</alias>
+			<alias>Guanidium chloride</alias>
+			<alias>guanidine HCl</alias>
+		</chemical>
+		<chemical name="guanine" units="w/v" formula="C5H5N5O" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="151.13" ions="" CAS="73-40-5" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>2-Amino-6-hydroxypurine</alias>
+		</chemical>
+		<chemical name="guanosine" units="" formula="C10H13N5O5" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="283.24" ions="" CAS="118-00-3" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>9-(beta-D-Ribofuranosyl)guanine</alias>
+			<alias>Guanine-9-beta-D-ribofuranoside</alias>
+		</chemical>
+		<chemical name="guanosine diphosphate" units="" formula="C10H15N5O11P2" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="443.2" ions="" CAS="43139-22-6" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Guanosine 5'-diphosphate sodium salt</alias>
+		</chemical>
+		<chemical name="guanosine triphosphate" units="M" formula="C10H14N5O14P3 . 2Na" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="mM" max_stock_conc="" mw="567.1" ions="" CAS="56001-37-7" CMC="" SMILES="">
+			<class>Ligand</class>
+			<alias>GTP</alias>
+			<alias>GTP 2Na</alias>
+			<alias>Guanosine 5' Triphosphate</alias>
+			<alias>Guanosine 5'-triphosphate sodium salt</alias>
+			<alias>Guanosine 5'-triphosphate sodium salt hydrate</alias>
+			<alias>Guanosine 5-Triphosphate disodium slat</alias>
+		</chemical>
+		<chemical name="hemin" units="" formula="C34H32ClFeN4O4" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="651.94" ions="" CAS="16009-13-5" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Chloro(protoporphyrinato)iron(III)</alias>
+			<alias>Chlorohemin</alias>
+			<alias>Chloroprotoporphyrin IX iron(III)</alias>
+			<alias>Ferriprotoporphyrin IX chloride</alias>
+			<alias>Hemin(chloride)</alias>
+		</chemical>
+		<chemical name="HEPES" units="M" formula="C8H18N2O4S" density="" solubility="40" pka1="7.5" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="40" mw="238.31" ions="" CAS="7365-45-9" CMC="" SMILES="">
+			<class>Buffer</class>
+			<class>Ambiguous</class>
+			<alias>4-(2-Hydroxyethyl)piperazine-1-ethanesulfonic acid</alias>
+			<alias>4-(2-hydroxyethyl)-1-piperazineethanesulfonic acid</alias>
+		</chemical>
+		<chemical name="histamine" units="" formula="C5H9N3   2HCl" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="184.07" ions="" CAS="56-92-8" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>2-(4-Imidazolyl)ethylamine dihydrochloride</alias>
+			<alias>Histamine dihydrochloride</alias>
+		</chemical>
+		<chemical name="histidine" units="M" formula="C6H9N3O2" density="" solubility="4.3" pka1="2.3" pka2="6" pka3="9.6" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="6" mw="155.15" ions="" CAS="71-00-1" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Buffer</class>
+			<class>Additive</class>
+			<alias>(S)-2-Amino-3-(4-imidazolyl)propionic acid</alias>
+			<alias>DL-Histidine monohydrochloride</alias>
+			<alias>DL-histadine</alias>
+			<alias>L-Histidine</alias>
+			<alias>his</alias>
+			<alias>histadine</alias>
+		</chemical>
+		<chemical name="homoserine" units="" formula="C4H9NO3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="119.12" ions="" CAS="672-15-1" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>2-amino-4-hydroxybutanoic acid</alias>
+			<alias>L-homoserine</alias>
+		</chemical>
+		<chemical name="hydrocortisone" units="" formula="C21H30O5" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="362.46" ions="" CAS="50-23-7" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>17-Hydroxycorticosterone</alias>
+			<alias>Cortisol</alias>
+			<alias>Dihydrocostisone</alias>
+			<alias>Kendall s compound F</alias>
+			<alias>Reichstein s substance M</alias>
+		</chemical>
+		<chemical name="hydroxyproline" units="M" formula="C5H9NO3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="131.13" ions="" CAS="51-35-4" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>(2S,4R)-4-Hydroxypyrrolidine-2-carboxylic acid</alias>
+			<alias>4-Hydroxy-L-proline</alias>
+			<alias>Hyp</alias>
+			<alias>L-Hydroxyproline</alias>
+			<alias>trans-4-Hydroxy-L-proline</alias>
+		</chemical>
+		<chemical name="inosine" units="" formula="C10H12N4O5" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="268.23" ions="" CAS="58-63-9" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Hypoxanthine 9-beta-D-ribofuranoside</alias>
+		</chemical>
+		<chemical name="inosine-5'-monophosphate" units="" formula="C10H11N4O8PNa2" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="392.17" ions="" CAS="352195-40-5" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>5'-Inosinic acid hydrate disodium salt</alias>
+			<alias>I-5'-P</alias>
+			<alias>IMP</alias>
+			<alias>Inosine 5'-monophosphate disodium salt</alias>
+			<alias>Inosinic Acid</alias>
+		</chemical>
+		<chemical name="inosine-5'-triphosphate" units="" formula="C10H12Na3N4O14P3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="574.11" ions="" CAS="35908-31-7" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>ITP</alias>
+			<alias>Inosine 5'-triphosphate trisodium salt</alias>
+			<alias>Inosine 5 -triphosphate trisodium salt</alias>
+		</chemical>
+		<chemical name="inositol" units="M" formula="C6H12O6" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="180.16" ions="" CAS="87-89-8" CMC="" SMILES="">
+			<class>Organic</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>i-inositol</alias>
+			<alias>meso-inositol</alias>
+			<alias>myo-inositol</alias>
+			<alias>scyllite</alias>
+		</chemical>
+		<chemical name="IPTG" units="w/v" formula="C9H18O5S" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="10" def_stock_units="w/v" max_stock_conc="" mw="238.3" ions="" CAS="367-93-1" CMC="" SMILES="">
+			<class>Detergent-Non Ionic</class>
+			<class>Detergent</class>
+			<class>Additive</class>
+			<alias>(3R,4R,6S)-2-(hydroxymethyl)-6-propan-2-ylsulfanyloxane-3,4,5-triol</alias>
+			<alias>1-Methylethyl-1-thio-b-D-galactopyranoside</alias>
+			<alias>Isopropyl 1-thio-b-D-galactopyranoside</alias>
+			<alias>Isopropyl 1-thio-beta-D-galactopyranoside</alias>
+			<alias>Isopropyl beta-D-1-thiogalactopyranoside</alias>
+			<alias>Isopropyl beta-D-thiogalactoside</alias>
+			<alias>Isopropyl-b-D-thiogalactopyranoside</alias>
+		</chemical>
+		<chemical name="isoleucine" units="M" formula="C6H13NO2" density="" solubility="4.03" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="3.2" mw="131.17" ions="" CAS="73-32-5" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Ile</alias>
+			<alias>L-Isoleucine</alias>
+			<alias>iso-leucine</alias>
+		</chemical>
+		<chemical name="isomaltose" units="w/v" formula="C12H22O11" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="342.3" ions="" CAS="499-40-1" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>6-O-alpha-D-Glucopyranosyl-D-glucose</alias>
+			<alias>Brachiose</alias>
+		</chemical>
+		<chemical name="kanamycin monosulfate" units="w/v" formula="C18H38N4O15S" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="10" def_stock_units="mg/ml" max_stock_conc="1" mw="582.58" ions="" CAS="25389-94-0" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>kanamycin sulfate</alias>
+		</chemical>
+		<chemical name="lactic acid" units="" formula="C3H6O3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="90.08" ions="" CAS="79-33-4" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>(S)-2-Hydroxypropionic acid</alias>
+			<alias>(S)-Lactic acid</alias>
+			<alias>L-(+)-Lactic acid</alias>
+			<alias>L-Lactic acid</alias>
+			<alias>Sarcolactic acid</alias>
+		</chemical>
+		<chemical name="lactose" units="M" formula="C12H22O11" density="" solubility="21.6" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="342.3" ions="" CAS="63-42-3" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Aletobiose</alias>
+			<alias>D-Lactose</alias>
+			<alias>D-Lactose monohydrate</alias>
+			<alias>Galactinum</alias>
+			<alias>Lactin</alias>
+			<alias>Lactobiose</alias>
+			<alias>Milk sugar</alias>
+			<alias>Tablettose</alias>
+			<alias>beta-D-Lactose</alias>
+			<alias>beta-Lactose</alias>
+		</chemical>
+		<chemical name="L-arabinose" units="w/v" formula="C5H10O5" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="150.13" ions="" CAS="5328-37-0" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>L-(+)-Arabinose</alias>
+			<alias>L-ARABINOPYRANOSE</alias>
+		</chemical>
+		<chemical name="L-ascorbic acid" units="w/v" formula="C6H8O6" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="176.12" ions="" CAS="50-81-7" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Antiscorbutic factor</alias>
+			<alias>L-Threoascorbic acid</alias>
+			<alias>Vitamin C</alias>
+			<alias>ascorbic acid</alias>
+		</chemical>
+		<chemical name="leucine" units="M" formula="C6H13NO2" density="" solubility="2.37" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="1.89" mw="131.17" ions="" CAS="61-90-5" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>2-amino-4-methylpentanoic acid</alias>
+			<alias>L-Leucine</alias>
+			<alias>Leu</alias>
+		</chemical>
+		<chemical name="leu-gly-gly" units="" formula="C10H19N3O4" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="245.28" ions="" CAS="1187-50-4" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>2-[[2-[[(2S)-2-amino-4-methylpentanoyl]amino]acetyl]amino]acetic acid</alias>
+			<alias>L-Leucyl-glycyl-glycine</alias>
+			<alias>leucyl-glycyl-glycine</alias>
+		</chemical>
+		<chemical name="leu-leu" units="" formula="C12H24N2O3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="244.33" ions="" CAS="3303-31-9" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>l-Leucyl-l-leucine</alias>
+			<alias>leucylleucine</alias>
+		</chemical>
+		<chemical name="leupeptin hydrochloride" units="" formula="C20H38N6O4   HCl" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="463.01" ions="" CAS="24125-16-4" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Acetyl-Leu-Leu-Arg-al hydrochloride</alias>
+		</chemical>
+		<chemical name="lysine" units="M" formula="C6H14N2O2" density="" solubility="60" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="40" mw="146.19" ions="" CAS="56-87-1" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>(L,D)-Lysine-HCl</alias>
+			<alias>2,6-diaminohexanoic acid</alias>
+			<alias>DL-Lysine monohydrochloride</alias>
+			<alias>L-(+)-Lysine</alias>
+			<alias>l-lysine</alias>
+			<alias>lys</alias>
+		</chemical>
+		<chemical name="magnesium chloride" units="M" formula="MgCl2" density="" solubility="54.3" pka1="" pka2="" pka3="" def_stock_conc="5" def_stock_units="M" max_stock_conc="54.3" mw="95.22" ions="Mg;2Cl" CAS="7786-30-3" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Magnesium  Chloride</alias>
+			<alias>Magnesium Chloride</alias>
+			<alias>Magnesium chloride hexahydrate</alias>
+			<alias>Mg Chloride</alias>
+			<alias>MgCl2</alias>
+			<alias>mg-chloride</alias>
+		</chemical>
+		<chemical name="maleic acid" units="M" formula="C4 H4 O4" density="" solubility="" pka1="1.83" pka2="6.07" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="" mw="116.07" ions="" CAS="110-16-7" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>but-2-enedioic acid</alias>
+			<alias>cis-Butenedioic acid</alias>
+		</chemical>
+		<chemical name="maltose" units="M" formula="C12H22O11" density="" solubility="20" pka1="" pka2="" pka3="" def_stock_conc="0.5" def_stock_units="M" max_stock_conc="20" mw="342.26" ions="" CAS="6363-53-7" CMC="" SMILES="">
+			<class>Organic</class>
+			<class>Cryoprotectant</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>(2R,3S,4S,5R)-2-(hydroxymethyl)-6-[(2R,3S,4R,5R,6R)-4,5,6-trihydroxy-2-(hyd</alias>
+			<alias>D-(+)-Maltose</alias>
+			<alias>D-(+)-Maltose monohydrate</alias>
+			<alias>Maltobiose</alias>
+		</chemical>
+		<chemical name="manganese(II) chloride" units="M" formula="MnCl2" density="" solubility="151" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="151" mw="124.84" ions="Mn;2Cl" CAS="7773-01-5" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Manganese chloride</alias>
+			<alias>Manganese(II) chloride tetrahydrate</alias>
+			<alias>mangan (II) chloride</alias>
+			<alias>mncl2</alias>
+		</chemical>
+		<chemical name="mannose" units="M" formula="C6H12O6" density="" solubility="100" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="80" mw="180.16" ions="" CAS="147-74-0" CMC="" SMILES="">
+			<class>Organic</class>
+			<alias>(+)-Mannose</alias>
+			<alias>Carubinose</alias>
+			<alias>D(+)-Mannose</alias>
+			<alias>D-(+)-Mannose</alias>
+			<alias>D-Mannopyranose</alias>
+			<alias>D-Mannose</alias>
+			<alias>Seminose</alias>
+		</chemical>
+		<chemical name="melezitose" units="" formula="C18H32O16" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="504.44" ions="" CAS="207511-10-2" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>D-(+)-Melezitose</alias>
+			<alias>D-(+)-Melezitose hydrate</alias>
+			<alias>Melicitose</alias>
+		</chemical>
+		<chemical name="melibiose" units="M" formula="C12H24O11" density="" solubility="52" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="40" mw="342.3" ions="" CAS="585-99-9" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>(2S,3R,4S,5S,6R)-6-[[(2S,3R,4S,5R,6R)-3,4,5-trihydroxy-6-(hydroxymethyl)oxa</alias>
+			<alias>Alpha-d-melibiose monohydrate</alias>
+			<alias>D-(+)-Melibiose</alias>
+			<alias>D-(+)-Melibiose  monohydrate</alias>
+			<alias>D-(+)-Melibiose monohydrate</alias>
+		</chemical>
+		<chemical name="met-ala-ser" units="" formula="C11H21N3O5S" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="307.37" ions="" CAS="17351-33-6" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+		</chemical>
+		<chemical name="met-gly" units="" formula="C7H14N2O3S" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="206.26" ions="" CAS="14486-03-4" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>methionylglycine</alias>
+		</chemical>
+		<chemical name="methionine" units="" formula="C5H11NO2S" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="149.21" ions="" CAS="63-68-3" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>(2S)-2-amino-4-methylsulfanylbutanoic acid</alias>
+			<alias>L-Methionine</alias>
+		</chemical>
+		<chemical name="molybdenum(III) chloride" units="M" formula="MoCl3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="10" def_stock_units="mM" max_stock_conc="" mw="202.3" ions="" CAS="13478-18-7" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>molybdenum (III) chloride</alias>
+		</chemical>
+		<chemical name="myo-inositol-2-monophosphate bis(cyclohexylammonium) salt" units="" formula="C6H13O9P   2C6H13N" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="458.48" ions="" CAS="103529-92-6" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+		</chemical>
+		<chemical name="N-(N-((phenylmethoxy)carbonyl)-L-valyl)-L-phenylalanine" units="" formula="C22H26N2O5" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="398.45" ions="" CAS="19542-51-9" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Z-val-phe</alias>
+		</chemical>
+		<chemical name="N-acetyl-D-galactosamine" units="" formula="C8H15NO6" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="221.21" ions="" CAS="1811-31-0" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>2-Acetamido-2-deoxy-D-galactose</alias>
+			<alias>D-GalNAc</alias>
+			<alias>N-Acetylchondrosamine</alias>
+		</chemical>
+		<chemical name="N-acetyl-D-mannosamine" units="" formula="C8H15NO6" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="221.21" ions="" CAS="7772-94-3" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>N-acetylmannosamine</alias>
+		</chemical>
+		<chemical name="N-acetylglucosamine" units="M" formula="C8H15NO6" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="221.21" ions="" CAS="7512-17-6" CMC="" SMILES="">
+			<class>Organic</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>GlcNAc</alias>
+			<alias>N-Acetyl-D-Glucosamine</alias>
+			<alias>NAG</alias>
+		</chemical>
+		<chemical name="N-acetylmuramic acid" units="" formula="C11H19NO8" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="293.27" ions="" CAS="10597-89-4" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>(R)-2-(Acetylamino)-3-O-(1-carboxyethyl)-2-deoxy-D-glucose</alias>
+			<alias>2-Acetamido-2-deoxy-3-O-(D-1-carboxyethyl)-D-glucopyranose</alias>
+			<alias>MurNAc</alias>
+			<alias>N-Acetyl-D-muramoate</alias>
+			<alias>NAMA</alias>
+		</chemical>
+		<chemical name="N-acetylneuraminic acid" units="" formula="C11H19NO9" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="309.27" ions="" CAS="131-48-6" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>5-Acetamido-3,5-dideoxy-D-glycero-D-galactononulosonic acid</alias>
+			<alias>Aceneuramic acid</alias>
+			<alias>BETA-SIALIC ACID</alias>
+			<alias>Lactaminic acid</alias>
+			<alias>NAN</alias>
+			<alias>NANA</alias>
+			<alias>Sialic acid</alias>
+		</chemical>
+		<chemical name="nalidixic acid" units="" formula="C12H12N2O3" density="" solubility="0.23" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="232.24" ions="" CAS="389-08-2" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>1,4-Dihydro-1-ethyl-7-methyl-1,8-naphthyridin-4-one-3-carboxylic acid</alias>
+			<alias>1-Ethyl-1,4-dihydro-7-methyl-4-oxo-1,8-naphthyridine-3-carboxylic acid</alias>
+		</chemical>
+		<chemical name="N-alpha-benzoyl-L-arginine ethyl ester hydrochloride" units="w/v" formula="C15H22N4O3   HCl" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="342.15" ions="" CAS="2645-08-1" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>BAEE</alias>
+			<alias>Na-Benzoyl-L-arginine ethyl ester hydrochloride</alias>
+			<alias>Nalpha-Benzoyl-L-arginine ethyl ester hydrochloride</alias>
+		</chemical>
+		<chemical name="nickel(II) chloride" units="M" formula="NiCl2" density="" solubility="64.2" pka1="" pka2="" pka3="" def_stock_conc="4" def_stock_units="M" max_stock_conc="64.2" mw="129.62" ions="Ni;2Cl" CAS="7718-54-9" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Ni(II)-chloride</alias>
+			<alias>Nickel(II)  Chloride</alias>
+			<alias>Nickel(II) chloride hexahydrate</alias>
+			<alias>ni chloride</alias>
+			<alias>ni-chloride</alias>
+			<alias>nickel (II) chloride</alias>
+			<alias>nickel chloride</alias>
+			<alias>nickel(II) chloride</alias>
+			<alias>nicl2</alias>
+		</chemical>
+		<chemical name="nicotinamide" units="w/v" formula="C6H6N2O" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="0.5" def_stock_units="w/v" max_stock_conc="" mw="122.12" ions="" CAS="98-92-0" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>3-pyridinecarboxamide</alias>
+			<alias>Niacinamide</alias>
+			<alias>Nicotinic acid amide</alias>
+			<alias>Vitamin PP</alias>
+			<alias>pyridine-3-carboxamide</alias>
+		</chemical>
+		<chemical name="nicotinamide adenine dinucleotide" units="w/v" formula="C21H27N7O14P2" density="" solubility="1" pka1="" pka2="" pka3="" def_stock_conc="10" def_stock_units="mg/ml" max_stock_conc="1" mw="663.44" ions="" CAS="53-84-9" CMC="" SMILES="">
+			<class>Ligand</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>BETA-NICOTINAMIDE ADENINE DINUCLEOTIDE</alias>
+			<alias>Coenzyme I</alias>
+			<alias>NAD</alias>
+			<alias>b-Nicotinamide adenine dinucleotide</alias>
+			<alias>beta-Nicotinamide adenine dinucleotide hydrate</alias>
+			<alias>nicotinamide adenine dinucleotide</alias>
+		</chemical>
+		<chemical name="nicotinamide adenine dinucleotide phosphate" units="M" formula="C21H27N7NaO17P3" density="" solubility="5" pka1="" pka2="" pka3="" def_stock_conc="50" def_stock_units="mM" max_stock_conc="5" mw="765.39" ions="" CAS="1184-16-3" CMC="" SMILES="">
+			<class>Ligand</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Coenzyme II sodium salt</alias>
+			<alias>NADP</alias>
+			<alias>NADP disodium salt</alias>
+			<alias>NaNADP</alias>
+			<alias>TPN</alias>
+			<alias>TPN-Na</alias>
+			<alias>Triphosphopyridine nucleotide sodium salt</alias>
+			<alias>beta-NADP-Na</alias>
+			<alias>beta-Nicotinamide adenine dinucleotide phosphate sodium salt</alias>
+			<alias>beta-Nicotinamide adenine dinucleotide phosphate sodium salt hydrate</alias>
+			<alias>beta-Nicotinamide adenine dinucleotide phosphate tetrasodium salt</alias>
+			<alias> -NADP-Na</alias>
+			<alias> -Nicotinamide adenine dinucleotide phosphate sodium salt hydrate</alias>
+		</chemical>
+		<chemical name="nicotinamide adenine dinucleotide, reduced" units="" formula="C21H27N7O14P2K2" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="741.62" ions="" CAS="104809-32-7" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>NAD (reduced)</alias>
+			<alias>NADH</alias>
+			<alias>b-Nicotinamide adenine dinucleotide, reduced dipotassium salt</alias>
+			<alias>beta-Nicotinamide adenine dinucleotide, reduced dipotassium salt</alias>
+			<alias> -Nicotinamide adenine dinucleotide, reduced dipotassium salt</alias>
+		</chemical>
+		<chemical name="nicotinic acid" units="" formula="C6H5NO2" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="123.11" ions="" CAS="59-67-6" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>3-Picolinic acid</alias>
+			<alias>Niacin</alias>
+			<alias>Pyridine-3-carboxylic acid</alias>
+			<alias>Vitamin B3</alias>
+		</chemical>
+		<chemical name="N-p-tosyl-L-phenylalanine chloromethyl ketone" units="" formula="C17H18ClNO3S" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="351.85" ions="" CAS="402-71-1" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>(S)-1-Chloro-3-tosylamido-4-phenyl-2-butanone</alias>
+			<alias>(S)-1-Chloro-4-phenyl-3-tosylamido-2-butanone</alias>
+			<alias>TPCK</alias>
+			<alias>Tosyl-L-phenylalanyl-chloromethane</alias>
+		</chemical>
+		<chemical name="ornithine hydrochloride" units="M" formula="C5H12N2O2   HCl" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="168.62" ions="" CAS="3184-13-2" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>DL-Ornithine monohydrochloride</alias>
+			<alias>DL-ornithine, hcl</alias>
+			<alias>L-Ornithine hydrochloride</alias>
+		</chemical>
+		<chemical name="ouabain" units="" formula="C29H44O12" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="584.28" ions="" CAS="630-60-4" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Acocantherine</alias>
+			<alias>Astrobain</alias>
+			<alias>G Strophanthin</alias>
+			<alias>G-Strophanthin</alias>
+		</chemical>
+		<chemical name="oxalacetic acid" units="M" formula="C4H4O5" density="" solubility="10" pka1="2.22" pka2="3.89" pka3="13.03" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="" mw="132.07" ions="" CAS="328-42-7" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>OAA</alias>
+			<alias>Oxaloacetic acid</alias>
+			<alias>Oxobutanedioic acid</alias>
+			<alias>Oxosuccinic acid</alias>
+		</chemical>
+		<chemical name="oxalic acid" units="" formula="C2H2O4" density="" solubility="14.3" pka1="1.25" pka2="4.27" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="90.03" ions="" CAS="144-62-7" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>ethanedioic acid</alias>
+		</chemical>
+		<chemical name="oxamic acid" units="" formula="C2H3NO3" density="" solubility="" pka1="2.4" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="89.05" ions="" CAS="471-47-6" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Oxalic monoamide</alias>
+			<alias>amino(oxo)acetic acid</alias>
+		</chemical>
+		<chemical name="pantothenic acid" units="" formula="C18H32CaN2O10" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="476.53" ions="" CAS="137-08-6" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>(R)-(+)-N-(2,4-Dihydroxy-3,3-dimethyl-1-oxobutyl)-beta-alanine hemicalcium salt</alias>
+			<alias>Calcium D-pantothenate</alias>
+			<alias>D-Pantothenic acid</alias>
+			<alias>D-panthenol</alias>
+			<alias>D-pantothenic acid hemicalcium salt</alias>
+			<alias>DL-panthenol</alias>
+			<alias>Vitamin B5</alias>
+			<alias>panthenol</alias>
+		</chemical>
+		<chemical name="p-coumaric acid" units="w/v" formula="C9H8O3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="164.16" ions="" CAS="501-98-4" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>(E)-3-(4-hydroxyphenyl)prop-2-enoic acid</alias>
+			<alias>4-Coumaric acid</alias>
+			<alias>4-Hydroxycinnamic acid</alias>
+			<alias>Hydroxycinnamic acid</alias>
+			<alias>Naringeninic acid</alias>
+			<alias>p-Cumaric acid</alias>
+			<alias>p-Hydroxycinnamic acid</alias>
+		</chemical>
+		<chemical name="penicillin G" units="" formula="C16H17N2NaO4S" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="356.37" ions="" CAS="69-57-8" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>American penicillin</alias>
+			<alias>Benzylpenicillin</alias>
+			<alias>Benzylpenicillin sodium salt</alias>
+			<alias>Novocillin</alias>
+			<alias>Penicillin G sodium salt</alias>
+			<alias>Veticillin</alias>
+		</chemical>
+		<chemical name="pepstatin" units="M" formula="C34H63N5O9" density="" solubility="0.068" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="mM" max_stock_conc="0.068" mw="685.9" ions="" CAS="26305-03-3" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Pepstatin A</alias>
+		</chemical>
+		<chemical name="phenol" units="M" formula="C6H5OH" density="1.07" solubility="8" pka1="10" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="8" mw="94.11" ions="" CAS="108-95-2" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Benzenol</alias>
+			<alias>Hydroxybenzene</alias>
+			<alias>Oxybenzene</alias>
+			<alias>Phenic acid</alias>
+			<alias>Phenylic acid</alias>
+			<alias>carbolic acid</alias>
+		</chemical>
+		<chemical name="phenylalanine" units="M" formula="C9H11NO2" density="" solubility="2.74" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="2.19" mw="165.19" ions="" CAS="63-91-2" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>2-amino-3-phenylpropanoic acid</alias>
+			<alias>L-Phenylalanine</alias>
+			<alias>endophenyl</alias>
+		</chemical>
+		<chemical name="phosphatidylcholine" units="" formula="C42H82NO8P" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="760.08" ions="" CAS="8002-43-5" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>1-Palmitoyl-2-oleoyl-L-alpha-lecithin</alias>
+			<alias>1-palmitoyl-2-oleoylphosphatidylcholine</alias>
+			<alias>L-a-Phosphatidylcholine</alias>
+			<alias>L-alpha-Phosphatidylcholine</alias>
+			<alias>POPC</alias>
+			<alias>Palmitoyloleoylphosphatidylcholine</alias>
+		</chemical>
+		<chemical name="phosphoenolpyruvate" units="" formula="C3H4NaO6P   H2O" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="208.04" ions="" CAS="53823-68-0" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>2-(Phosphonooxy)-2-propenoic acid monopotassium salt</alias>
+			<alias>Mono-sodium phosphoenolpyruvate</alias>
+			<alias>Phospho(enol)pyruvic acid monosodium salt hydrate</alias>
+			<alias>mono-Sodium phosphoenolpyruvate monohydrate</alias>
+		</chemical>
+		<chemical name="phosphonotyrosine" units="w/v" formula="C9H12NO6P" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="261.17" ions="" CAS="21820-51-9" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>(2S)-2-amino-3-(4-phosphonooxyphenyl)propanoic acid</alias>
+			<alias>L-Phosphotyrosine</alias>
+			<alias>O-Phospho-L-tyrosine</alias>
+			<alias>O-Phosphotyrosine</alias>
+		</chemical>
+		<chemical name="phosphoserine" units="w/v" formula="(HO)2P(O)OCH2CH(NH2)CO2H" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="185.07" ions="" CAS="407-41-0" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>3-phosphoserine</alias>
+			<alias>L-O-Phosphoserine</alias>
+			<alias>O-Phospho-L-serine</alias>
+		</chemical>
+		<chemical name="phosphothreonine" units="" formula="C4H10NO6P" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="199.1" ions="" CAS="27530-80-9" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>DL-2-Amino-3-hydroxybutanoic acid 3-phosphate</alias>
+			<alias>DL-Threonine phosphate</alias>
+			<alias>O-Phospho-DL-threonine</alias>
+			<alias>O-phosphonothreonine</alias>
+			<alias>Threoninium dihydrogen phosphate</alias>
+			<alias>dl-O-Phosphothreonine</alias>
+		</chemical>
+		<chemical name="phytic acid" units="" formula="C6H18O24P6" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="660.08" ions="" CAS="83-86-3" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>IP6</alias>
+			<alias>Phytic acid sodium salt</alias>
+			<alias>Phytic acid sodium salt hydrate</alias>
+			<alias>inositol hexakisphosphate</alias>
+			<alias>phytate</alias>
+		</chemical>
+		<chemical name="proline" units="M" formula="C5H9O2N" density="" solubility="162" pka1="1.99" pka2="10.6" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="129" mw="115.13" ions="" CAS="147-85-3" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>(2S)-pyrrolidine-2-carboxylic acid</alias>
+			<alias>Carboxypyrrolidine</alias>
+			<alias>L-Proline</alias>
+			<alias>Pyrrolidine-2-carboxylic acid</alias>
+			<alias>pro</alias>
+		</chemical>
+		<chemical name="protamine sulfate" units="" formula="" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="" ions="" CAS="53597-25-4" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Protamine sulfate salt</alias>
+			<alias>Salmine</alias>
+		</chemical>
+		<chemical name="Protoporphyrin IX" units="" formula="C34H32N4Na2O4" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="606.62" ions="" CAS="50865-01-5" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Depocolin-S</alias>
+			<alias>Ooporphyrin disodium salt</alias>
+			<alias>Protoporphyrin IX disodium salt</alias>
+			<alias>Protoporphyrin disodium salt</alias>
+		</chemical>
+		<chemical name="putrescine" units="" formula="C4 H12 N2" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="88.15" ions="" CAS="110-60-1" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>1,4-Diaminobutane</alias>
+			<alias>Tetramethylenediamine</alias>
+			<alias>butane-1,4-diamine</alias>
+		</chemical>
+		<chemical name="pyridoxal hydrochloride" units="" formula="C8H9NO3   HCl" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="203.62" ions="" CAS="62-22-5" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>3-Hydroxy-5-(hydroxymethyl)-2-methyl-4-pyridinecarboxaldehyde hydrochloride</alias>
+			<alias>PL HCl</alias>
+			<alias>Vitamin B6 hydrochloride</alias>
+			<alias>pyridoxine hydrochloride</alias>
+		</chemical>
+		<chemical name="pyridoxal-5-phosphate" units="" formula="C8H10NO6P   H2O" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="265.16" ions="" CAS="41468-25-1" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>3-Hydroxy-2-methyl-5-([phosphonooxy]methyl)-4-pyridinecarboxaldehyde</alias>
+			<alias>Codecarboxylase</alias>
+			<alias>Hipyridoxin</alias>
+			<alias>PLP</alias>
+			<alias>Phosphopyridoxal monohydrate</alias>
+			<alias>Pyridoxal 5'-phosphate</alias>
+			<alias>Pyridoxal 5'-phosphate monohydrate</alias>
+			<alias>Pyridoxal 5-phosphate monohydrate</alias>
+			<alias>Pyridoxal phosphate hydrate</alias>
+			<alias>Pyridoxyl phosphate monohydrate</alias>
+			<alias>pyridoxal 5-phosphate</alias>
+		</chemical>
+		<chemical name="pyridoxamine dihydrochloride" units="" formula="C8H12N2O2   2HCl" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="241.11" ions="" CAS="524-36-7" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>4-(Aminomethyl)-5-hydroxy-6-methyl-3-pyridinemethanol dihydrochloride</alias>
+			<alias>Pyridoxylamine dihydrochloride</alias>
+		</chemical>
+		<chemical name="pyridoxine" units="M" formula="C8H11NO3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="169.18" ions="" CAS="65-23-6" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>3-[(2,4-dihydroxy-3,3-dimethylbutanoyl)amino]propanoic acid</alias>
+			<alias>Pyridoxol</alias>
+			<alias>Vitamin B6</alias>
+			<alias>Vitamin- B6</alias>
+			<alias>pyrodoxine HCl</alias>
+			<alias>pyrodoxine hydrochloride</alias>
+		</chemical>
+		<chemical name="pyruvic acid" units="" formula="CH3COCOOH" density="1.26" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="88.06" ions="" CAS="127-17-3" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>2-Oxopropionic acid</alias>
+			<alias>alpha-Ketopropionic acid</alias>
+		</chemical>
+		<chemical name="quinine" units="w/v" formula="C20H24N2O2" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="w/v" max_stock_conc="" mw="324.42" ions="" CAS="130-95-0" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>6-Methoxycinchonine</alias>
+			<alias>Chinine</alias>
+			<alias>quinidine</alias>
+		</chemical>
+		<chemical name="quinolinic acid" units="" formula="C7H5NO4" density="" solubility="0.55" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="167.12" ions="" CAS="89-00-9" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>2,3-Pyridinedicarboxylic acid</alias>
+			<alias>2,3-pyridinedicarboxylic acid</alias>
+		</chemical>
+		<chemical name="raffinose" units="M" formula="C18H32O16" density="" solubility="40" pka1="" pka2="" pka3="" def_stock_conc="0.5" def_stock_units="M" max_stock_conc="32" mw="594.51" ions="" CAS="17629-30-0" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>2-[3,4-dihydroxy-2,5-bis(hydroxymethyl)oxolan-2-yl]oxy-6-[[3,4,5-trihydroxy</alias>
+			<alias>D-(+)-Raffinose pentahydrate</alias>
+			<alias>d-(+)-Raffinose</alias>
+		</chemical>
+		<chemical name="rhenium oxide" units="" formula="ReO2" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="218.21" ions="Re;2O" CAS="12036-09-8" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Rhenium (IV) oxide</alias>
+			<alias>Rhenium(IV) oxide</alias>
+		</chemical>
+		<chemical name="riboflavin" units="" formula="C17H20N4O6" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="376.36" ions="" CAS="83-88-5" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>()-Riboflavin</alias>
+			<alias>(-)-Riboflavin</alias>
+			<alias>Lactoflavin</alias>
+			<alias>Vitamin B2</alias>
+			<alias>Vitamin G</alias>
+		</chemical>
+		<chemical name="S-adenosylmethionine" units="" formula="C15H23ClN6O5S" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="434.9" ions="" CAS="24346-00-7" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Active methionine</alias>
+			<alias>AdoMet</alias>
+			<alias>S-(5'-Adenosyl)-L-methionine chloride</alias>
+			<alias>SAM chloride</alias>
+		</chemical>
+		<chemical name="salicylic acid" units="w/v" formula="C7H6O3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="0.5" def_stock_units="w/v" max_stock_conc="" mw="138.12" ions="" CAS="69-72-7" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>2-carboxyphenol</alias>
+			<alias>2-hydroxybenzoic acid</alias>
+			<alias>o-Hydroxybenzoic acid</alias>
+			<alias>o-carboxyphenol</alias>
+		</chemical>
+		<chemical name="sarcosine" units="M" formula="C3H7NO2" density="" solubility="10" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="10" mw="89.09" ions="" CAS="107-97-1" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Methylglycine</alias>
+			<alias>N-Methylaminoacetic acid</alias>
+			<alias>N-Methylglycine</alias>
+		</chemical>
+		<chemical name="serine" units="M" formula="C3H7NO3" density="" solubility="5.02" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="4" mw="105.09" ions="" CAS="56-45-1" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>(2S)-2-amino-3-hydroxypropanoic acid</alias>
+			<alias>(L,D)-Serine</alias>
+			<alias>DL-Serine</alias>
+			<alias>L-Serine</alias>
+			<alias>ser</alias>
+		</chemical>
+		<chemical name="shikimic acid" units="" formula="C7H10O5" density="" solubility="18" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="16" mw="174.15" ions="" CAS="138-59-0" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>(3R,4S,5R)-(-)-3,4,5-Trihydroxy-1-cyclohexenecarboxylic acid</alias>
+			<alias>L-Shikimic acid</alias>
+			<alias>shikimate</alias>
+		</chemical>
+		<chemical name="sodium bromide" units="M" formula="NaBr" density="" solubility="73.3" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="116" mw="102.89" ions="Na;Br" CAS="7647-15-6" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>nabr</alias>
+		</chemical>
+		<chemical name="sodium carbonate" units="M" formula="Na2CO3" density="" solubility="21.5" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="" mw="105.99" ions="" CAS="497-19-8" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Soda ash</alias>
+		</chemical>
+		<chemical name="sodium D-glucosamine-6-phosphate" units="" formula="C6H14NNaO8P" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="282.14" ions="" CAS="70442-23-8" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>D-glucosamine 6-phosphate sodium salt</alias>
+		</chemical>
+		<chemical name="sodium fluoride" units="M" formula="NaF" density="" solubility="4.22" pka1="" pka2="" pka3="" def_stock_conc="0.8" def_stock_units="M" max_stock_conc="4.2" mw="41.99" ions="Na;F" CAS="7681-49-4" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>na fluoride</alias>
+			<alias>naf</alias>
+		</chemical>
+		<chemical name="sodium gluconate" units="" formula="C6H11NaO7" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="218.14" ions="" CAS="527-07-1" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>D-Gluconate sodium salt</alias>
+			<alias>D-Gluconic acid sodium salt</alias>
+			<alias>Gluconic acid sodium salt</alias>
+			<alias>Monosodium D-gluconate</alias>
+			<alias>Monosodium gluconate</alias>
+			<alias>Sodium D-gluconate</alias>
+		</chemical>
+		<chemical name="sodium glyoxylate" units="w/v" formula="C2HNaO3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="w/v" max_stock_conc="" mw="95.98" ions="" CAS="2707-75-4" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Glyoxylic acid monohydrate sodium salt</alias>
+			<alias>Oxoethanoic acid sodium salt</alias>
+			<alias>Sodium glyoxylate monohydrate</alias>
+		</chemical>
+		<chemical name="sodium L-malate" units="M" formula="C4H4O5Na2" density="" solubility="" pka1="3.4" pka2="5.1" pka3="" def_stock_conc="" def_stock_units="M" max_stock_conc="" mw="178.05" ions="" CAS="68303-40-2" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>L-(-)-Malic acid disodium salt</alias>
+			<alias>L-(-)-Malic acid sodium salt</alias>
+			<alias>L-malic acid sodium salt</alias>
+		</chemical>
+		<chemical name="sodium nitrate" units="M" formula="NaNO3" density="" solubility="92.1" pka1="" pka2="" pka3="" def_stock_conc="7" def_stock_units="M" max_stock_conc="92.1" mw="84.99" ions="Na;NO3" CAS="7631-99-4" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Chile salpeter</alias>
+			<alias>nano3</alias>
+		</chemical>
+		<chemical name="sodium phenyl phosphate" units="" formula="C6H5PO4Na2" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="254.09" ions="" CAS="66778-08-3" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Disodium phenyl phosphate</alias>
+			<alias>Phenyl phosphate disodium salt</alias>
+			<alias>Sodium phenyl phosphate dibasic</alias>
+			<alias>Sodium phenyl phosphate dibasic dihydrate</alias>
+			<alias>Sodium phenyl phosphate dihydrate dibasic</alias>
+		</chemical>
+		<chemical name="sodium pyrophosphate" units="M" formula="Na4P2O7   10H2O" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="" mw="446.06" ions="" CAS="13472-36-1" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Pyrophosphate</alias>
+			<alias>Pyrophosphate inorganic</alias>
+			<alias>Sodium diphosphate tetrabasic</alias>
+			<alias>Sodium pyrophosphate tetrabasic</alias>
+			<alias>Sodium pyrophosphate tetrabasic decahydrate</alias>
+			<alias>Tetrasodium pyrophosphate</alias>
+		</chemical>
+		<chemical name="sodium pyruvate" units="" formula="CH3COCOONa" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="110.04" ions="" CAS="113-24-6" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>2-Oxopropanoic acid sodium salt</alias>
+			<alias>Pyruvic acid, sodium salt</alias>
+			<alias>Sodium alpha-ketopropionate</alias>
+			<alias>alpha-Ketopropionic acid sodium salt</alias>
+			<alias>sodium 2-oxopropanoate</alias>
+		</chemical>
+		<chemical name="sodium succinate" units="M" formula="C4H4Na2O4" density="" solubility="34.8" pka1="4.21" pka2="5.61" pka3="" def_stock_conc="1.5" def_stock_units="M" max_stock_conc="34.8" mw="162.05" ions="2Na;C4H4O4" CAS="150-90-3" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Butanedioic acid disodium salt</alias>
+			<alias>Sodium succinate dibasic</alias>
+			<alias>Succinic acid disodium salt</alias>
+			<alias>Succinic acid disodium salt hexahydrate</alias>
+			<alias>na succinate</alias>
+			<alias>na-succinate</alias>
+			<alias>soduim succinate</alias>
+			<alias>succinate</alias>
+		</chemical>
+		<chemical name="sodium tetraborate" units="M" formula="Na2B4O7" density="" solubility="2.56" pka1="9.14" pka2="12.74" pka3="13.8" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="2.2" mw="201.22" ions="2Na;B4O7" CAS="1330-43-4" CMC="" SMILES="">
+			<class>Salt</class>
+			<class>Bullet</class>
+			<class>Buffer</class>
+			<class>Additive</class>
+			<alias>Sodium tetraborate decahydrate</alias>
+			<alias>na borate</alias>
+			<alias>sodium borate</alias>
+		</chemical>
+		<chemical name="sorbitol" units="w/v" formula="C6H14O6" density="" solubility="235" pka1="" pka2="" pka3="" def_stock_conc="30" def_stock_units="w/v" max_stock_conc="" mw="182.17" ions="" CAS="50-70-4" CMC="" SMILES="">
+			<class>Organic</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>D-Glucitol</alias>
+			<alias>D-Sorbitol</alias>
+		</chemical>
+		<chemical name="spermidine" units="M" formula="C7H19N3" density="0.925" solubility="15" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="15" mw="145.25" ions="" CAS="124-20-9" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>1,5,10-triazadecane</alias>
+			<alias>N-(3-aminopropyl)butane-1,4-diamine</alias>
+		</chemical>
+		<chemical name="spermine" units="M" formula="NH2(CH2)3NH(CH2)4NH(CH2)3NH2" density="0.937" solubility="5" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="" mw="202.34" ions="" CAS="71-44-3" CMC="" SMILES="">
+			<class>Organic</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>N,N'-bis(3-aminopropyl) butane-1,4-diamine</alias>
+			<alias>gerontine</alias>
+			<alias>musculamine</alias>
+			<alias>neuridine</alias>
+		</chemical>
+		<chemical name="stachyose" units="M" formula="C24H50O25" density="" solubility="42" pka1="" pka2="" pka3="" def_stock_conc="0.5" def_stock_units="M" max_stock_conc="" mw="666.58" ions="" CAS="10094-58-3" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Lupeose</alias>
+			<alias>Stachyose hydrate</alias>
+		</chemical>
+		<chemical name="sucrose" units="M" formula="C12H22O11" density="" solubility="67" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="67" mw="342.3" ions="" CAS="57-50-1" CMC="" SMILES="">
+			<class>Organic</class>
+			<class>Cryoprotectant</class>
+			<class>Additive</class>
+			<alias>D(+)-sucrose</alias>
+			<alias>D(+)sucrose</alias>
+			<alias>D-(+)-sucrose</alias>
+			<alias>sugar</alias>
+		</chemical>
+		<chemical name="sulfanilamide" units="w/v" formula="C6H8N2O2S" density="" solubility="0.75" pka1="" pka2="" pka3="" def_stock_conc="0.5" def_stock_units="w/v" max_stock_conc="" mw="172.2" ions="" CAS="63-74-1" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>4-aminobenzenesulfonamide</alias>
+			<alias>Bacteramid</alias>
+			<alias>Sulfamine</alias>
+			<alias>Sulfonylamide</alias>
+			<alias>Sulphanilamide</alias>
+		</chemical>
+		<chemical name="tacsimate" units="v/v" formula="" density="1.25" solubility="" pka1="" pka2="" pka3="" def_stock_conc="100" def_stock_units="v/v" max_stock_conc="" mw="118.97" ions="" CAS="" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>Microlytic Mix</alias>
+			<alias>T-mate</alias>
+		</chemical>
+		<chemical name="tannic acid" units="w/v" formula="C76H52O46" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="10" def_stock_units="mg/ml" max_stock_conc="1" mw="1701.22" ions="" CAS="1401-55-4" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+		</chemical>
+		<chemical name="taurine" units="M" formula="C2H7NO3S" density="" solubility="7" pka1="1.5" pka2="8.74" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="7" mw="125.14" ions="" CAS="107-35-7" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>2-aminoethanesulfonic acid</alias>
+			<alias>ethylaminesulphonic acid</alias>
+		</chemical>
+		<chemical name="tetracycline" units="" formula="C22H24N2O8   HCl" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="480.9" ions="" CAS="64-75-5" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Epitetracycline hydrochloride</alias>
+			<alias>tetracycline hydrochloride</alias>
+		</chemical>
+		<chemical name="tetrahydrofolic acid" units="" formula="C19H23N7O6" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="445.43" ions="" CAS="135-16-0" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>5,6,7,8-Tetrahydropteroyl-L-glutamic acid</alias>
+			<alias>5,6,7,8-tetrahydrofolic acid</alias>
+			<alias>folate-H4</alias>
+			<alias>tetra-H-folate</alias>
+			<alias>tetrahydrofolate</alias>
+			<alias>th-folate</alias>
+		</chemical>
+		<chemical name="tetralithium adenosine 5'-(beta,gamma-imido)triphosphate" units="" formula="C10H13Li4N6O12P3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="529.93" ions="" CAS="72957-42-7" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>AMP-PNP</alias>
+			<alias>ATP[b,g-NH], b,g-Imidoadenosine 5'-triphosphate tetralithium salt</alias>
+			<alias>ATP[beta,gamma-NH]</alias>
+			<alias>ATP[beta,gamma-NH], beta,gamma-Imidoadenosine 5'-triphosphate tetralithium salt</alias>
+			<alias>Adenosine 5'-(b,g-imido)triphosphate tetralithium salt hydrate</alias>
+			<alias>Adenosine 5'-(beta,gamma-imido)triphosphate tetralithium salt hydrate</alias>
+			<alias>Adenosine 5 -(b,g-imido) triphosphate tetralithium salt hydrate</alias>
+			<alias>Adenylyl Imidodiphosphate</alias>
+			<alias>Adenylyl imidodiphosphate tetralithium salt</alias>
+			<alias>App(NH)p</alias>
+		</chemical>
+		<chemical name="theophylline" units="" formula="C7H8N4O2" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="180.16" ions="" CAS="58-55-9" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>1,3-Dimethylxanthine</alias>
+			<alias>1,3-dimethyl-7H-purine-2,6-dione</alias>
+			<alias>2,6-Dihydroxy-1,3-dimethylpurine</alias>
+			<alias>Elixophyllin</alias>
+		</chemical>
+		<chemical name="thiamine hydrochloride" units="w/v" formula="C12H17ClN4OS   HCl" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="337.27" ions="" CAS="67-03-8" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Aneurine hydrochloride</alias>
+			<alias>Thiadoxine</alias>
+			<alias>Thiaminal</alias>
+			<alias>Vitamin B1 hydrochloride</alias>
+		</chemical>
+		<chemical name="thiamine monophosphate" units="w/v" formula="C12H18ClN4O4PS" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="380.79" ions="" CAS="273724-21-3" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Thiamine dihydrogen phosphate ester</alias>
+			<alias>Thiamine monophosphate chloride dihydrate</alias>
+			<alias>monophosphothiamine</alias>
+			<alias>thiamine monophosphate chloride</alias>
+			<alias>vitamin B1 monophosphate</alias>
+		</chemical>
+		<chemical name="thiamine pyrophosphate" units="w/v" formula="C12H19ClN4O7P2S" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="460.77" ions="" CAS="154-87-0" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Aneurinepyrophosphoric acid</alias>
+			<alias>Cocarboxylase</alias>
+			<alias>Thiamine pyrophosphate chloride</alias>
+		</chemical>
+		<chemical name="thionicotinamide adenine dinucleotide" units="" formula="C21H27N7O13SP2" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="679.49" ions="" CAS="4090-29-3" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>Thionicotinamide-DPN</alias>
+		</chemical>
+		<chemical name="threonine" units="M" formula="C4H9NO3" density="" solubility="10" pka1="" pka2="" pka3="" def_stock_conc="0.5" def_stock_units="M" max_stock_conc="8" mw="119.12" ions="" CAS="72-19-5" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>(2S,3R)-2-amino-3-hydroxybutanoic acid</alias>
+			<alias>DL-threonine</alias>
+			<alias>L-(-)-Threonine</alias>
+			<alias>thr</alias>
+		</chemical>
+		<chemical name="thymidine" units="" formula="C10H14N2O5" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="242.23" ions="" CAS="50-89-5" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>1-(2-Deoxy-beta-D-ribofuranosyl)-5-methyluracil</alias>
+			<alias>1-(2-Deoxy-beta-D-ribofuranosyl)thymine</alias>
+			<alias>Thymine deoxyriboside</alias>
+		</chemical>
+		<chemical name="thymidine monophosphate" units="" formula="C10H13N2Na2O8P   xH2O" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="366.17" ions="" CAS="33430-62-5" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>5'-Thymidylic acid disodium salt</alias>
+			<alias>Deoxy TMP</alias>
+			<alias>TMP</alias>
+			<alias>Thymidine 5'-monophosphate disodium salt hydrate</alias>
+			<alias>Thymidine 5'-phosphate</alias>
+			<alias>Thymidine 5 -monophosphate disodium salt hydrate</alias>
+			<alias>Thymidine phosphate</alias>
+			<alias>Thymidylate</alias>
+			<alias>dTMP</alias>
+			<alias>thymidine monophosphate</alias>
+		</chemical>
+		<chemical name="thymidine triphosphate" units="" formula="C10H16N2O14P3Na" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="504.15" ions="" CAS="18423-43-3" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>TTP</alias>
+			<alias>Thymidine 5'-triphosphate sodium salt</alias>
+			<alias>Thymidine 5 -triphosphate sodium salt</alias>
+			<alias>dTTP</alias>
+			<alias>thymidine 5'-triphosphate</alias>
+		</chemical>
+		<chemical name="thymine" units="" formula="C5H6N2O2" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="126.11" ions="" CAS="65-71-4" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>2,4-Dihydroxy-5-methylpyrimidine</alias>
+			<alias>5-Methyluracil</alias>
+		</chemical>
+		<chemical name="thyroxine" units="" formula="C15H11I4NO4" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="776.87" ions="" CAS="51-48-9" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>3,3',5,5?-Tetraiodo-L-thyronine</alias>
+			<alias>3-[4-(4-Hydroxy-3,5-diiodophenoxy)-3,5-diiodophenyl]-L-alanine</alias>
+			<alias>L-Thyroxine</alias>
+			<alias>Levothyroxin</alias>
+			<alias>T4</alias>
+			<alias>Thyratabs</alias>
+			<alias>Thyreoideum</alias>
+			<alias>Thyroxinal</alias>
+			<alias>Thyroxine iodine</alias>
+			<alias>levothyroxine</alias>
+			<alias>synthroid</alias>
+			<alias>thyroxin</alias>
+		</chemical>
+		<chemical name="trans-cinnamic acid" units="w/v" formula="C9H8O2" density="" solubility="0.04" pka1="" pka2="" pka3="" def_stock_conc="0.5" def_stock_units="w/v" max_stock_conc="" mw="148.16" ions="" CAS="140-10-3" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>(E)-3-phenylprop-2-enoic acid</alias>
+			<alias>Benzenepropenoic acid</alias>
+			<alias>Cinnamylic acid</alias>
+			<alias>Phenylacrylic acid</alias>
+		</chemical>
+		<chemical name="trehalose" units="M" formula="C12H22O11" density="" solubility="68.9" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="55" mw="342.3" ions="" CAS="6138-23-4" CMC="" SMILES="">
+			<class>Organic</class>
+			<class>Cryoprotectant</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>D trehalose</alias>
+			<alias>D-(+)-Trehalose</alias>
+			<alias>D-(+)-Trehalose dihydrate</alias>
+			<alias>D-trehalose</alias>
+			<alias>Ergot sugar</alias>
+			<alias>Mycose</alias>
+			<alias>alpha-Trehalose</alias>
+		</chemical>
+		<chemical name="tris" units="M" formula="C4H11NO3" density="" solubility="55" pka1="8.1" pka2="" pka3="" def_stock_conc="1" def_stock_units="M" max_stock_conc="55" mw="121.14" ions="" CAS="77-86-1" CMC="" SMILES="">
+			<class>Buffer</class>
+			<class>Ambiguous</class>
+			<alias>Trizma</alias>
+		</chemical>
+		<chemical name="trisodium 6-phosphogluconate" units="w/v" formula="C6H10Na3O10P" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="w/v" max_stock_conc="" mw="342.08" ions="" CAS="53411-70-4" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>6-phosphogluconic acid trisodium salt</alias>
+			<alias>D-Gluconate 6-phosphate trisodium salt</alias>
+		</chemical>
+		<chemical name="trisodium DL-isocitrate" units="" formula="C6H5O7Na3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="258.07" ions="" CAS="1637-73-6" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>DL-isocitric acid trisodium salt</alias>
+			<alias>threo-DsLs-Isocitric acid trisodium salt</alias>
+		</chemical>
+		<chemical name="trp-gly hydrochloride" units="" formula="C13H15N3O3   HCl" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="297.74" ions="" CAS="63193-13-5" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+		</chemical>
+		<chemical name="tryptone" units="w/v" formula="" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="10" def_stock_units="w/v" max_stock_conc="10" mw="" ions="" CAS="" CMC="" SMILES="">
+			<class>Fundamental Mixtures</class>
+			<class>Bullet</class>
+			<class>Additive</class>
+		</chemical>
+		<chemical name="tryptophan" units="M" formula="C11H12N2O2" density="" solubility="1.06" pka1="" pka2="" pka3="" def_stock_conc="0.01" def_stock_units="M" max_stock_conc="0.85" mw="204.23" ions="" CAS="73-22-3" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>2-amino-3-(1H-indol-3-yl)propanoic acid</alias>
+			<alias>L-Tryptophan</alias>
+			<alias>Trp</alias>
+			<alias>Tryptophane</alias>
+			<alias>trofan</alias>
+		</chemical>
+		<chemical name="tyr-leu" units="" formula="C15H22N2O4" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="294.35" ions="" CAS="17355-10-1" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>tyrosylleucine</alias>
+		</chemical>
+		<chemical name="tyrosine" units="M" formula="C9H11NO3" density="" solubility="0.038" pka1="" pka2="" pka3="" def_stock_conc="1" def_stock_units="mM" max_stock_conc="0.03" mw="181.19" ions="" CAS="60-18-4" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>2-amino-3-(4-hydroxyphenyl)propanoic acid</alias>
+			<alias>L-Tyrosine</alias>
+			<alias>p-Tyrosine</alias>
+			<alias>tyr</alias>
+		</chemical>
+		<chemical name="tyr-phe" units="" formula="C18H20N2O4" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="328.36" ions="" CAS="17355-11-2" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+		</chemical>
+		<chemical name="UMP" units="" formula="C9H11N2Na2O9P" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="368.15" ions="" CAS="3387-36-8" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>5'-UMP-Na2</alias>
+			<alias>5'-Uridine monophosphate</alias>
+			<alias>Sodium UMP</alias>
+			<alias>Sodium uridine-5'-phosphate</alias>
+			<alias>U 5'-P</alias>
+			<alias>UMP sodium salt</alias>
+			<alias>Uridine 5'-monophosphate disodium salt</alias>
+			<alias>Uridine 5'-monophosphate disodium salt hydrate</alias>
+			<alias>Uridylic acid disodium salt</alias>
+		</chemical>
+		<chemical name="urea" units="M" formula="CH4N2O" density="" solubility="30" pka1="" pka2="" pka3="" def_stock_conc="0.1" def_stock_units="M" max_stock_conc="30" mw="60.06" ions="" CAS="57-13-6" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>carbamide</alias>
+		</chemical>
+		<chemical name="uridine" units="" formula="C9H12N2O6" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="244.2" ions="" CAS="58-96-8" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>1-beta-D-Ribofuranosyluracil</alias>
+			<alias>Uracil riboside</alias>
+			<alias>Uracil-1-beta-D-ribofuranoside</alias>
+		</chemical>
+		<chemical name="uridine diphosphate" units="" formula="C9H14N2O12P2" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="404.16" ions="" CAS="21931-53-3" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>UDP</alias>
+			<alias>Uridine 5' diphosphate</alias>
+			<alias>Uridine 5'-diphosphate sodium salt</alias>
+		</chemical>
+		<chemical name="uridine diphosphate-N-acetylglucosamine" units="" formula="C17H25N3O17P2Na2" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="651.32" ions="" CAS="91183-98-1" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>UDP-GlcNAc</alias>
+			<alias>UDP-N-acetylglucosamine</alias>
+			<alias>UDPAG</alias>
+			<alias>Uridine 5'-diphospho-N-acetylglucosamine sodium salt</alias>
+		</chemical>
+		<chemical name="uridine triphosphate" units="" formula="C9H12N2Na3O15P3" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="550.09" ions="" CAS="19817-92-6" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>URIDINE TRIPHOSPHATE TRISODIUM</alias>
+			<alias>UTP</alias>
+			<alias>UTP Na3</alias>
+			<alias>Uridine 5'-(disodium dihydrogen triphosphate)</alias>
+			<alias>Uridine 5'-triphosphate trisodium salt</alias>
+			<alias>Uridine 5'-triphosphate trisodium salt hydrate</alias>
+		</chemical>
+		<chemical name="valine" units="M" formula="C5H11NO2" density="" solubility="8.85" pka1="" pka2="" pka3="" def_stock_conc="0.5" def_stock_units="M" max_stock_conc="7" mw="117.15" ions="" CAS="72-18-4" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>(2S)-2-amino-3-methylbutanoic acid</alias>
+			<alias>L-Valine</alias>
+			<alias>val</alias>
+		</chemical>
+		<chemical name="val-ser" units="" formula="C8H16N2O4" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="204.22" ions="" CAS="13588-94-8" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+		</chemical>
+		<chemical name="vanillin" units="" formula="4-(HO)C6H3-3-(OCH3)CHO" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="152.15" ions="" CAS="121-33-5" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>4-Hydroxy-3-methoxybenzaldehyde</alias>
+			<alias>Vanilla</alias>
+			<alias>Vanillaldehyde</alias>
+			<alias>Vanillic aldehyde</alias>
+			<alias>p-Vanillin</alias>
+		</chemical>
+		<chemical name="xanthine" units="" formula="C5H4N4O2" density="" solubility="" pka1="" pka2="" pka3="" def_stock_conc="" def_stock_units="" max_stock_conc="" mw="152.11" ions="" CAS="69-89-6" CMC="" SMILES="">
+			<class>Bullet</class>
+			<class>Additive</class>
+			<alias>2,6-dioxopurine</alias>
+			<alias>Isoxanthine</alias>
+			<alias>Pseudoxanthine</alias>
+			<alias>Purine-2,6-diol</alias>
+			<alias>Xanthic oxide</alias>
+			<alias>Xanthin</alias>
+		</chemical>
+		<chemical name="zinc chloride" units="M" formula="ZnCl2" density="" solubility="432" pka1="" pka2="" pka3="" def_stock_conc="2" def_stock_units="M" max_stock_conc="432" mw="136.28" ions="Zn;2Cl" CAS="7646-85-7" CMC="" SMILES="">
+			<class>Salt</class>
+			<alias>zn chloride</alias>
+		</chemical>
+	</chemicals>
+	<screen name="Silver Bullets Bio" username="Hampton Research" design_date="2008-10-21 00:00:00" res_vol="0">
+		<format name="Generic 96 Well" rows="8" cols="12" subs="1" max_res_vol="1" def_res_vol="1" max_drop_vol="1" def_drop_vol="1"/>
+		<comments>Additive Screen (requires base condition): Hampton Research's Silver Bullet BIO Screen (this is not easy to optimize from).</comments>
+		<well number="1" label="A1">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="urea" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="arginine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="citrulline" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="ornithine hydrochloride" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="oxalic acid" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="kanamycin monosulfate" class="Additive" conc="0.16" units="w/v" ph=""/>
+		</well>
+		<well number="2" label="A2">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="p-coumaric acid" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="carnitine hydrochloride" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="caffeine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="aspartame" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="tannic acid" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="hydroxyproline" class="Additive" conc="0.16" units="w/v" ph=""/>
+		</well>
+		<well number="3" label="A3">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="betaine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="trans-cinnamic acid" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="phosphonotyrosine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="D-maltotriose" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="disodium glycerol-2-phosphate" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="cytidine" class="Additive" conc="0.16" units="w/v" ph=""/>
+		</well>
+		<well number="4" label="A4">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="phosphoserine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="taurine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="canavanine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="quinine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="sodium glyoxylate" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="cholic acid" class="Additive" conc="0.16" units="w/v" ph=""/>
+		</well>
+		<well number="5" label="A5">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="sodium succinate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="phenol" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="trans-cinnamic acid" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="ellipticine" class="Additive" conc="0.08" units="w/v" ph=""/>
+			<item name="gibberellin" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="6" label="A6">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="sulfanilamide" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="D-cellobiose" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="calcium D-glycerate" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="trisodium 6-phosphogluconate" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="N-alpha-benzoyl-L-arginine ethyl ester hydrochloride" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="galactosamine hydrochloride" class="Additive" conc="0.16" units="w/v" ph=""/>
+		</well>
+		<well number="7" label="A7">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="benzamidine hydrochloride" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="sarcosine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="acarbose" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="ethidium bromide" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="cholesterol" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="homoserine" class="Additive" conc="0.16" units="w/v" ph=""/>
+		</well>
+		<well number="8" label="A8">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="salicylic acid" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="maltose" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="melibiose" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="acarbose" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="sodium gluconate" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="9" label="A9">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="sorbitol" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="trehalose" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="putrescine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="ouabain" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="phosphatidylcholine" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="10" label="A10">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="sucrose" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="arginine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="glutamic acid" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="cadaverine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="oxalic acid" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="tetrahydrofolic acid" class="Additive" conc="0.16" units="w/v" ph=""/>
+		</well>
+		<well number="11" label="A11">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="benzamidine hydrochloride" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="fructose-1,6-diphosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="protamine sulfate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="oxamic acid" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="ouabain" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="12" label="A12">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="benzidine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="sulfanilamide" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="carnitine hydrochloride" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="cytosine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="deoxyadenosine triphosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="13" label="B1">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="4-aminobenzoic acid" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="phosphoserine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="deoxyguanosine monophosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="N-acetyl-D-galactosamine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="uridine" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="14" label="B2">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="sorbitol" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="salicylic acid" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="raffinose" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="canavanine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="thymidine triphosphate" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="deoxyguanosine" class="Additive" conc="0.16" units="w/v" ph=""/>
+		</well>
+		<well number="15" label="B3">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="cystathionine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="trans-cinnamic acid" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="stachyose" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="cystamine dihydrochloride" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="cytidine triphosphate" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="inosine-5'-monophosphate" class="Additive" conc="0.16" units="w/v" ph=""/>
+		</well>
+		<well number="16" label="B4">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="p-coumaric acid" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="melibiose" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="cystamine dihydrochloride" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="quinine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="uridine diphosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="17" label="B5">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="phosphonotyrosine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="caffeine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="gibberellin" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="inosine-5'-monophosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="nicotinic acid" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="18" label="B6">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="aspartame" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="melezitose" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="cadaverine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="cyclic adenosine monophosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="guanosine" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="19" label="B7">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="sarcosine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="4-aminobenzoic acid" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="acarbose" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="cyclic adenosine monophosphate" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="thymidine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="inosine" class="Additive" conc="0.16" units="w/v" ph=""/>
+		</well>
+		<well number="20" label="B8">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="glucose" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="trehalose" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="protamine sulfate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="ellipticine" class="Additive" conc="0.08" units="w/v" ph=""/>
+			<item name="trisodium 6-phosphogluconate" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="21" label="B9">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="betaine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="arginine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="D-cellobiose" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="penicillin G" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="pyridoxamine dihydrochloride" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="22" label="B10">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="tyrosine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="nicotinic acid" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="adenosine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="xanthine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="lactic acid" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="23" label="B11">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="fumaric acid" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="2'-deoxyadenosine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="N-acetylneuraminic acid" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="N-p-tosyl-L-phenylalanine chloromethyl ketone" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="glucose-1-phosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="24" label="B12">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="thymidine triphosphate" class="Additive" conc="0.25" units="w/v" ph=""/>
+			<item name="alpha-ketoglutarate" class="Additive" conc="0.25" units="w/v" ph=""/>
+			<item name="2-nitrophenylgalactoside" class="Additive" conc="0.25" units="w/v" ph=""/>
+			<item name="cis-aconitic acid" class="Additive" conc="0.25" units="w/v" ph=""/>
+		</well>
+		<well number="25" label="C1">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="oxalacetic acid" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="IPTG" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="ethanolamine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="deoxyguanosine monophosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="theophylline" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="26" label="C2">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="nicotinamide" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="glucose-6-phosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="deoxyadenosine triphosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="acetylsalicylic acid" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="choline base solution" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="27" label="C3">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="glutaric acid" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="uridine diphosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="carnosine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="thyroxine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="sodium phenyl phosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="28" label="C4">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="pepstatin" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="cytosine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="cobalamin" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="shikimic acid" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="acetylglutamic acid" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="29" label="C5">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="phenylalanine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="deoxycytidine triphosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="hydrocortisone" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="hemin" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="phosphothreonine" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="30" label="C6">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="cortisone" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="epinephrine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="Protoporphyrin IX" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="pyridoxine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="thymidine monophosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="31" label="C7">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="pepstatin" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="adenosine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="sodium phenyl phosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="epinephrine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="inosine-5'-triphosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="32" label="C8">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="flavin adenine dinucleotide" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="2'-deoxyadenosine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="phosphothreonine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="DL-xylose" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="nalidixic acid" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="33" label="C9">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="adenosine diphosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="tyrosine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="glucose-6-phosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="guanosine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="quinolinic acid" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="34" label="C10">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="deoxyguanosine" class="Additive" conc="0.25" units="w/v" ph=""/>
+			<item name="alpha-ketoglutarate" class="Additive" conc="0.25" units="w/v" ph=""/>
+			<item name="cortisone" class="Additive" conc="0.25" units="w/v" ph=""/>
+			<item name="pyruvic acid" class="Additive" conc="0.25" units="w/v" ph=""/>
+		</well>
+		<well number="35" label="C11">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="thymidine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="xanthine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="shikimic acid" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="didehydroepiandrosterone" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="histamine" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="36" label="C12">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="uridine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="N-acetylneuraminic acid" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="2-nitrophenylgalactoside" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="hydrocortisone" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="phosphoenolpyruvate" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="37" label="D1">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="cytosine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="carnosine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="hemin" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="pyridoxine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="cytidine-5'-diphosphocholine" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="38" label="D2">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="cytosine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="IPTG" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="glucose-1-phosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="didehydroepiandrosterone" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="D-ribose" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="39" label="D3">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="ethanolamine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="theophylline" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="choline base solution" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="thiamine pyrophosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="D-glucosaminic acid" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="40" label="D4">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="ethanolamine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="acetylsalicylic acid" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="cobalamin" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="quinolinic acid" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="thiamine hydrochloride" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="41" label="D5">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="aspartic acid" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="phytic acid" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="lactic acid" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="thyroxine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="pyridoxine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="L-ascorbic acid" class="Additive" conc="0.16" units="w/v" ph=""/>
+		</well>
+		<well number="42" label="D6">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="arginine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="histidine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="lysine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="aspartic acid" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="glutamic acid" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="thiamine pyrophosphate" class="Additive" conc="0.16" units="w/v" ph=""/>
+		</well>
+		<well number="43" label="D7">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="proline" class="Additive" conc="0.125" units="w/v" ph=""/>
+			<item name="isoleucine" class="Additive" conc="0.125" units="w/v" ph=""/>
+			<item name="leucine" class="Additive" conc="0.125" units="w/v" ph=""/>
+			<item name="phenylalanine" class="Additive" conc="0.125" units="w/v" ph=""/>
+			<item name="tryptophan" class="Additive" conc="0.125" units="w/v" ph=""/>
+			<item name="methionine" class="Additive" conc="0.125" units="w/v" ph=""/>
+			<item name="alanine" class="Additive" conc="0.125" units="w/v" ph=""/>
+			<item name="valine" class="Additive" conc="0.125" units="w/v" ph=""/>
+		</well>
+		<well number="44" label="D8">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="glycine" class="Additive" conc="0.14" units="w/v" ph=""/>
+			<item name="tyrosine" class="Additive" conc="0.14" units="w/v" ph=""/>
+			<item name="threonine" class="Additive" conc="0.14" units="w/v" ph=""/>
+			<item name="asparagine" class="Additive" conc="0.14" units="w/v" ph=""/>
+			<item name="glutamine" class="Additive" conc="0.14" units="w/v" ph=""/>
+			<item name="serine" class="Additive" conc="0.14" units="w/v" ph=""/>
+			<item name="maleic acid" class="Additive" conc="0.14" units="w/v" ph=""/>
+		</well>
+		<well number="45" label="D9">
+			<item name="disodium hydrogen phosphate" class="Additive" conc="0.14" units="w/v" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="sodium fluoride" class="Additive" conc="0.14" units="w/v" ph=""/>
+			<item name="sodium nitrate" class="Additive" conc="0.14" units="w/v" ph=""/>
+			<item name="sodium bromide" class="Additive" conc="0.14" units="w/v" ph=""/>
+			<item name="sodium tetraborate" class="Additive" conc="0.14" units="w/v" ph=""/>
+			<item name="rhenium oxide" class="Additive" conc="0.14" units="w/v" ph=""/>
+			<item name="sodium carbonate" class="Additive" conc="0.14" units="w/v" ph=""/>
+		</well>
+		<well number="46" label="D10">
+			<item name="cadmium chloride" class="Additive" conc="0.002" units="M" ph=""/>
+			<item name="calcium chloride" class="Additive" conc="0.002" units="M" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="magnesium chloride" class="Additive" conc="0.002" units="M" ph=""/>
+			<item name="manganese(II) chloride" class="Additive" conc="0.002" units="M" ph=""/>
+			<item name="zinc chloride" class="Additive" conc="0.002" units="M" ph=""/>
+		</well>
+		<well number="47" label="D11">
+			<item name="cobalt chloride" class="Additive" conc="0.002" units="M" ph=""/>
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="nickel(II) chloride" class="Additive" conc="0.002" units="M" ph=""/>
+			<item name="copper(II) chloride" class="Additive" conc="0.002" units="M" ph=""/>
+			<item name="molybdenum(III) chloride" class="Additive" conc="0.002" units="M" ph=""/>
+		</well>
+		<well number="48" label="D12">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="hydroxyproline" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="cytidine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="homoserine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="inosine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="disodium argininosuccinate" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="guanine" class="Additive" conc="0.16" units="w/v" ph=""/>
+		</well>
+		<well number="49" label="E1">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="1,2,3-heptanetriol" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="cholic acid" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="acetylsalicylic acid" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="thiamine monophosphate" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="vanillin" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="N-acetyl-D-mannosamine" class="Additive" conc="0.16" units="w/v" ph=""/>
+		</well>
+		<well number="50" label="E2">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="tris" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="Protoporphyrin IX" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="tetralithium adenosine 5'-(beta,gamma-imido)triphosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="coproporphyrin I dihydrochloride" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="glyceraldehyde" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="51" label="E3">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="mannose" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="galactosamine hydrochloride" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="sodium gluconate" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="D-glucosaminic acid" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="D-glucosamine hydrochloride" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="D-mannosamine hydrochloride" class="Additive" conc="0.16" units="w/v" ph=""/>
+		</well>
+		<well number="52" label="E4">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="tryptone" class="Additive" conc="1" units="w/v" ph=""/>
+			<item name="sodium D-glucosamine-6-phosphate" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="isomaltose" class="Additive" conc="0.16" units="w/v" ph=""/>
+		</well>
+		<well number="53" label="E5">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="guanine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="vanillin" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="coproporphyrin I dihydrochloride" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="D-mannosamine hydrochloride" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="D-fucose" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="54" label="E6">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="proline" class="Additive" conc="0.05" units="w/v" ph=""/>
+			<item name="glycine" class="Additive" conc="0.05" units="w/v" ph=""/>
+			<item name="arginine" class="Additive" conc="0.05" units="w/v" ph=""/>
+			<item name="histidine" class="Additive" conc="0.05" units="w/v" ph=""/>
+			<item name="isoleucine" class="Additive" conc="0.05" units="w/v" ph=""/>
+			<item name="leucine" class="Additive" conc="0.05" units="w/v" ph=""/>
+			<item name="phenylalanine" class="Additive" conc="0.05" units="w/v" ph=""/>
+			<item name="tryptophan" class="Additive" conc="0.05" units="w/v" ph=""/>
+			<item name="tyrosine" class="Additive" conc="0.05" units="w/v" ph=""/>
+			<item name="citrulline" class="Additive" conc="0.05" units="w/v" ph=""/>
+			<item name="methionine" class="Additive" conc="0.05" units="w/v" ph=""/>
+			<item name="threonine" class="Additive" conc="0.05" units="w/v" ph=""/>
+			<item name="lysine" class="Additive" conc="0.05" units="w/v" ph=""/>
+			<item name="alanine" class="Additive" conc="0.05" units="w/v" ph=""/>
+			<item name="asparagine" class="Additive" conc="0.05" units="w/v" ph=""/>
+			<item name="aspartic acid" class="Additive" conc="0.05" units="w/v" ph=""/>
+			<item name="glutamic acid" class="Additive" conc="0.05" units="w/v" ph=""/>
+			<item name="glutamine" class="Additive" conc="0.05" units="w/v" ph=""/>
+			<item name="serine" class="Additive" conc="0.05" units="w/v" ph=""/>
+			<item name="valine" class="Additive" conc="0.05" units="w/v" ph=""/>
+		</well>
+		<well number="55" label="E7">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="glucose-6-phosphate" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="mannose" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="glyceraldehyde" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="isomaltose" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="D-fucose" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="L-arabinose" class="Additive" conc="0.16" units="w/v" ph=""/>
+		</well>
+		<well number="56" label="E8">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="tris" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="N-acetylglucosamine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="N-acetylneuraminic acid" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="N-acetyl-D-mannosamine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="L-arabinose" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="N-acetylmuramic acid" class="Additive" conc="0.16" units="w/v" ph=""/>
+		</well>
+		<well number="57" label="E9">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="tyr-phe" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="leu-leu" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="ala-leu" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="val-ser" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="trp-gly hydrochloride" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="met-gly" class="Additive" conc="0.16" units="w/v" ph=""/>
+		</well>
+		<well number="58" label="E10">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="gly-gly-gly" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="ala-ala" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="tyr-phe" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="trp-gly hydrochloride" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="tyr-leu" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="N-(N-((phenylmethoxy)carbonyl)-L-valyl)-L-phenylalanine" class="Additive" conc="0.16" units="w/v" ph=""/>
+		</well>
+		<well number="59" label="E11">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="gly-gly-gly" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="leu-gly-gly" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="leu-leu" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="trp-gly hydrochloride" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="met-ala-ser" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="ala-ala-ala" class="Additive" conc="0.16" units="w/v" ph=""/>
+		</well>
+		<well number="60" label="E12">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="gly-gly-gly-gly" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="gly-gly-gly-gly-gly" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="leu-gly-gly" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="ala-leu" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="tyr-leu" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="met-ala-ser" class="Additive" conc="0.16" units="w/v" ph=""/>
+		</well>
+		<well number="61" label="F1">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="adenosine triphosphate" class="Additive" conc="0.25" units="w/v" ph=""/>
+			<item name="nicotinamide adenine dinucleotide phosphate" class="Additive" conc="0.25" units="w/v" ph=""/>
+			<item name="N-acetyl-D-galactosamine" class="Additive" conc="0.25" units="w/v" ph=""/>
+			<item name="gentamicin sulfate" class="Additive" conc="0.25" units="w/v" ph=""/>
+		</well>
+		<well number="62" label="F2">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="tryptone" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="citrulline" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="lactose" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="inosine-5'-monophosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="deoxycytidine monophosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="63" label="F3">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="sodium pyrophosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="phytic acid" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="cyclic adenosine monophosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="D-ribose" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="acetyl coenzyme A" class="Additive" conc="0.04" units="w/v" ph=""/>
+		</well>
+		<well number="64" label="F4">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="stachyose" class="Additive" conc="0.25" units="w/v" ph=""/>
+			<item name="disodium glycerol-2-phosphate" class="Additive" conc="0.25" units="w/v" ph=""/>
+			<item name="cytidine-5'-diphosphocholine" class="Additive" conc="0.25" units="w/v" ph=""/>
+			<item name="S-adenosylmethionine" class="Additive" conc="0.25" units="w/v" ph=""/>
+		</well>
+		<well number="65" label="F5">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="melezitose" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="phosphoenolpyruvate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="biotin" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="sodium pyruvate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="coenzyme B12" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="66" label="F6">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="flavin adenine dinucleotide" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="spermine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="tyrosine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="disodium D-3-phosphoglycerate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="adenosine diphosphateglucose" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="67" label="F7">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="beta-cyclodextrin" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="sodium pyrophosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="inositol" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="calcium D-glycerate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="thymine" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="68" label="F8">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="nicotinamide adenine dinucleotide" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="spermidine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="fructose-1,6-diphosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="histamine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="adenosine diphosphoribose" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="69" label="F9">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="beta-cyclodextrin" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="epinephrine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="pyruvic acid" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="pyridoxal-5-phosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="myo-inositol-2-monophosphate bis(cyclohexylammonium) salt" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="70" label="F10">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="adenosine diphosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="adenosine monophosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="UMP" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="cytidine diphosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="cytidine monophosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="71" label="F11">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="nalidixic acid" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="pyridoxal hydrochloride" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="deoxyadenosine monophosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="guanosine diphosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="uridine diphosphate-N-acetylglucosamine" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="72" label="F12">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="guanosine triphosphate" class="Additive" conc="0.25" units="w/v" ph=""/>
+			<item name="tryptophan" class="Additive" conc="0.25" units="w/v" ph=""/>
+			<item name="thymidine monophosphate" class="Additive" conc="0.25" units="w/v" ph=""/>
+			<item name="inosine-5'-triphosphate" class="Additive" conc="0.25" units="w/v" ph=""/>
+		</well>
+		<well number="73" label="G1">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="adenosine triphosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="galactose" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="deoxyguanosine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="deoxycytidine monophosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="beta-estradiol" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="74" label="G2">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="tacsimate" class="Additive" conc="10" units="v/v" ph="7"/>
+		</well>
+		<well number="75" label="G3">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="glutathione, reduced" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="4-aminobutanoic acid" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="alpha-lipoic acid" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="creatine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="pantothenic acid" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="76" label="G4">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="nicotinamide" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="glutaric acid" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="acetylglutamic acid" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="pyridoxal hydrochloride" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="batyl alcohol" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="77" label="G5">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="maleic acid" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="pyridoxamine dihydrochloride" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="uridine diphosphate-N-acetylglucosamine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="flavin mononucleotide" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="acetylcholine" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="78" label="G6">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="fumaric acid" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="oxalacetic acid" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="cis-aconitic acid" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="sodium pyruvate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="trisodium DL-isocitrate" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="79" label="G7">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="nicotinamide adenine dinucleotide phosphate" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="glucose" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="tetrahydrofolic acid" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="L-ascorbic acid" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="pantothenic acid" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="folic acid" class="Additive" conc="0.16" units="w/v" ph=""/>
+		</well>
+		<well number="80" label="G8">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="raffinose" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="4-aminobutanoic acid" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="phosphatidylcholine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="disodium D-3-phosphoglycerate" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="riboflavin" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="thionicotinamide adenine dinucleotide" class="Additive" conc="0.16" units="w/v" ph=""/>
+		</well>
+		<well number="81" label="G9">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="oxamic acid" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="cholesterol" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="deoxyguanosine monophosphate" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="sodium D-glucosamine-6-phosphate" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="thymine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="cyclic guanosine monophosphate" class="Additive" conc="0.16" units="w/v" ph=""/>
+		</well>
+		<well number="82" label="G10">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="sodium succinate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="N-alpha-benzoyl-L-arginine ethyl ester hydrochloride" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="thiamine monophosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="disodium phosphocreatine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="tetracycline" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="83" label="G11">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="D-maltotriose" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="kanamycin monosulfate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="sodium glyoxylate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="uridine triphosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="leupeptin hydrochloride" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="84" label="G12">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="4-aminobutanoic acid" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="maleic acid" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="N-acetylglucosamine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="acetylcholine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="sodium L-malate" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="5-phospho-D-ribose 1-diphosphate" class="Additive" conc="0.16" units="w/v" ph=""/>
+		</well>
+		<well number="85" label="H1">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="proline" class="Additive" conc="0.05" units="w/v" ph=""/>
+			<item name="glycine" class="Additive" conc="0.05" units="w/v" ph=""/>
+			<item name="arginine" class="Additive" conc="0.05" units="w/v" ph=""/>
+			<item name="histidine" class="Additive" conc="0.05" units="w/v" ph=""/>
+			<item name="isoleucine" class="Additive" conc="0.05" units="w/v" ph=""/>
+			<item name="leucine" class="Additive" conc="0.05" units="w/v" ph=""/>
+			<item name="phenylalanine" class="Additive" conc="0.05" units="w/v" ph=""/>
+			<item name="tryptophan" class="Additive" conc="0.05" units="w/v" ph=""/>
+			<item name="tyrosine" class="Additive" conc="0.05" units="w/v" ph=""/>
+			<item name="methionine" class="Additive" conc="0.05" units="w/v" ph=""/>
+			<item name="threonine" class="Additive" conc="0.05" units="w/v" ph=""/>
+			<item name="lysine" class="Additive" conc="0.05" units="w/v" ph=""/>
+			<item name="alanine" class="Additive" conc="0.05" units="w/v" ph=""/>
+			<item name="asparagine" class="Additive" conc="0.05" units="w/v" ph=""/>
+			<item name="aspartic acid" class="Additive" conc="0.05" units="w/v" ph=""/>
+			<item name="glutamic acid" class="Additive" conc="0.05" units="w/v" ph=""/>
+			<item name="glutamine" class="Additive" conc="0.05" units="w/v" ph=""/>
+			<item name="serine" class="Additive" conc="0.05" units="w/v" ph=""/>
+			<item name="valine" class="Additive" conc="0.05" units="w/v" ph=""/>
+		</well>
+		<well number="86" label="H2">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="gly-gly-gly-gly-gly" class="Additive" conc="0.14" units="w/v" ph=""/>
+			<item name="leu-gly-gly" class="Additive" conc="0.14" units="w/v" ph=""/>
+			<item name="ala-leu" class="Additive" conc="0.14" units="w/v" ph=""/>
+			<item name="val-ser" class="Additive" conc="0.14" units="w/v" ph=""/>
+			<item name="N-(N-((phenylmethoxy)carbonyl)-L-valyl)-L-phenylalanine" class="Additive" conc="0.14" units="w/v" ph=""/>
+			<item name="met-ala-ser" class="Additive" conc="0.14" units="w/v" ph=""/>
+			<item name="ala-ala-ala" class="Additive" conc="0.14" units="w/v" ph=""/>
+		</well>
+		<well number="87" label="H3">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="adenosine triphosphate" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="spermine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="thymine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="pyridoxal-5-phosphate" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="creatine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="sodium L-malate" class="Additive" conc="0.16" units="w/v" ph=""/>
+		</well>
+		<well number="88" label="H4">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="adenosine triphosphate" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="ornithine hydrochloride" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="adenosine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="acetylsalicylic acid" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="alpha-lipoic acid" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="flavin mononucleotide" class="Additive" conc="0.16" units="w/v" ph=""/>
+		</well>
+		<well number="89" label="H5">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="nicotinamide adenine dinucleotide phosphate" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="guanosine triphosphate" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="N-acetylglucosamine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="uridine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="pantothenic acid" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="disodium phosphocreatine" class="Additive" conc="0.16" units="w/v" ph=""/>
+		</well>
+		<well number="90" label="H6">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="nicotinamide adenine dinucleotide" class="Additive" conc="0.14" units="w/v" ph=""/>
+			<item name="galactose" class="Additive" conc="0.14" units="w/v" ph=""/>
+			<item name="fructose-1,6-diphosphate" class="Additive" conc="0.14" units="w/v" ph=""/>
+			<item name="guanosine" class="Additive" conc="0.14" units="w/v" ph=""/>
+			<item name="thymidine" class="Additive" conc="0.14" units="w/v" ph=""/>
+			<item name="thiamine monophosphate" class="Additive" conc="0.14" units="w/v" ph=""/>
+			<item name="biotin" class="Additive" conc="0.14" units="w/v" ph=""/>
+		</well>
+		<well number="91" label="H7">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="benzamidine hydrochloride" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="4-aminobenzoic acid" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="cytosine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="deoxyguanosine monophosphate" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="thymidine triphosphate" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="nicotinamide adenine dinucleotide, reduced" class="Additive" conc="0.16" units="w/v" ph=""/>
+		</well>
+		<well number="92" label="H8">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="guanidine hydrochloride" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="caffeine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="aspartame" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="cystamine dihydrochloride" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="cytidine monophosphate" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="nicotinamide adenine dinucleotide, reduced" class="Additive" conc="0.16" units="w/v" ph=""/>
+		</well>
+		<well number="93" label="H9">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="adenosine monophosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="tyrosine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="N-acetylneuraminic acid" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="thyroxine" class="Additive" conc="0.2" units="w/v" ph=""/>
+			<item name="uridine triphosphate" class="Additive" conc="0.2" units="w/v" ph=""/>
+		</well>
+		<well number="94" label="H10">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="spermidine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="glucose-6-phosphate" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="phosphonotyrosine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="cytidine triphosphate" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="pyridoxamine dihydrochloride" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="guanosine diphosphate" class="Additive" conc="0.16" units="w/v" ph=""/>
+		</well>
+		<well number="95" label="H11">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="nicotinamide adenine dinucleotide phosphate" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="carnitine hydrochloride" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="deoxyadenosine triphosphate" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="glucose-1-phosphate" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="choline base solution" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="riboflavin" class="Additive" conc="0.16" units="w/v" ph=""/>
+		</well>
+		<well number="96" label="H12">
+			<item name="HEPES" class="Buffer" conc="0.02" units="M" ph="6.8"/>
+			<item name="sorbitol" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="benzidine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="phosphoserine" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="maltose" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="sodium phenyl phosphate" class="Additive" conc="0.16" units="w/v" ph=""/>
+			<item name="UMP" class="Additive" conc="0.16" units="w/v" ph=""/>
+		</well>
+	</screen>
+</crystaltrak>
