@@ -1,5 +1,5 @@
 (function() {
-    $.getJSON('http://127.0.0.1:8000/api/screens', function(data) {
+    $.getJSON('http://3.26.163.221:8000/api/screens', function(data) {
         table = $('#screen_table');
         $.each(data, function(i,s){
             table.

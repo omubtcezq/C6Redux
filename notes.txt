@@ -55,3 +55,30 @@ Added to https://github.com/omubtcezq/C6Redux
 
 start mysql server
 start uvicorn server in root git repo
+
+
+
+
+# =========================================================================== #
+# ================================ # Linux # ================================ #
+# =========================================================================== #
+
+pip install fastapi (the web framework) [https://fastapi.tiangolo.com/]
+pip install uvicorn (the server)
+pip install python-multipart (for files)
+pip install sqlmodel (installs sqlalchem and pydantic - db support) [https://sqlmodel.tiangolo.com]
+
+git clone https://github.com/omubtcezq/C6Redux.git C6Redux
+
+sudo apt install mysql-server
+sudo mysql
+mysql> use mysql;
+mysql> SELECT user,authentication_string,plugin,host FROM mysql.user;
+mysql> ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY 'rooty tooty unknown word';
+mysql> FLUSH PRIVILEGES;
+mysql> exit;
+
+sudo apt install pkg-config (might not be needed if below is used)
+sudo apt install python3-dev default-libmysqlclient-dev
+
+pip install mysqlclient
