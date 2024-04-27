@@ -1,4 +1,4 @@
-insert into Screen (name, username, format_name, format_rows, format_cols, format_subs, comments) values
+insert into screen (name, username, format_name, format_rows, format_cols, format_subs, comments) values
 ("c3_1", "c3@csiro.au", "Screen96Well", 8, 12, 0, "Peggy: Low MW, diverse buffers, pH range and salts."),
 ("c3_2", "c3@csiro.au", "Screen96Well", 8, 12, 0, "Peggy: Low-Mid MW, diverse buffers, pH range and salts."),
 ("c3_3", "c3@csiro.au", "Screen96Well", 8, 12, 0, "Peggy: 3350 and 4000, diverse buffers, pH range and salts."),

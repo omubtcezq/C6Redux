@@ -1,4 +1,4 @@
-create table Screen (
+create table screen (
 	id int not null auto_increment,
 	name varchar(64),
 	username varchar(64),

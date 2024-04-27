@@ -1,1 +1,1 @@
-drop table Screen;
+drop table screen;
