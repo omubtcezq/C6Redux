@@ -50,7 +50,7 @@ create table chemical_class_link (
 	FOREIGN KEY(chemical_id)
 		REFERENCES chemical(id)
 		ON DELETE CASCADE,
-	FOREIGN KEY(class_id),
+	FOREIGN KEY(class_id)
 		REFERENCES class(id)
 		ON DELETE CASCADE
 );
@@ -60,7 +60,7 @@ create table factor (
 	chemical_id int,
 	concentration decimal(6,2),
 	unit varchar(8),
-	ph decimal(6,2)
+	ph decimal(6,2),
 
 	PRIMARY KEY(id),
 	INDEX(id),
@@ -88,10 +88,10 @@ create table stock (
 	id int not null auto_increment,
 	factor_id int,
 	name varchar(64),
-	is_polar tinyint(1),
+	is_polar tinyint,
 	volatility int,
 	density decimal(6,2),
-	available tinyint(1),
+	available tinyint,
 	creator varchar(64),
 	creation_date datetime,
 	lifetime_in_days int,
@@ -109,7 +109,9 @@ create table stock (
 
 create table hazard (
 	id int not null auto_increment,
-	name varchar(64)
+	name varchar(64),
+	
+	primary KEY(id)
 );
 
 create table stock_hazard_link (
@@ -123,7 +125,7 @@ create table stock_hazard_link (
 	FOREIGN KEY(stock_id)
 		REFERENCES stock(id)
 		ON DELETE CASCADE,
-	FOREIGN KEY(hazard_id),
+	FOREIGN KEY(hazard_id)
 		REFERENCES hazard(id)
 		ON DELETE CASCADE
 );
@@ -133,20 +135,20 @@ create table screen (
 	name varchar(64),
 	creator varchar(64),
 	creation_date datetime,
-	format varchar(64),
-	rows int,
-	cols int,
+	format_name varchar(64),
+	format_rows int,
+	format_cols int,
 	comments varchar(1024),
 	
 	PRIMARY KEY(id),
 	INDEX(id)
 );
 
-create table condition (
+create table wellcondition (
 	id int not null auto_increment,
 	screen_id int not null,
 	position_number int,
-	label varchar(8)
+	label varchar(8),
 
 	PRIMARY KEY(id),
 	INDEX(id),
@@ -156,26 +158,26 @@ create table condition (
 		ON DELETE CASCADE
 );
 
-create table condition_factor_link (
-	condition_id int not null,
+create table wellcondition_factor_link (
+	wellcondition_id int not null,
 	factor_id int not null,
 	class_id int,
 
-	PRIMARY KEY(condition_id, factor_id, class_id),
-	INDEX(condition_id, factor_id, class_id),
-	INDEX(condition_id),
+	PRIMARY KEY(wellcondition_id, factor_id, class_id),
+	INDEX(wellcondition_id, factor_id, class_id),
+	INDEX(wellcondition_id),
 	INDEX(factor_id),
 	INDEX(class_id),
-	FOREIGN KEY(condition_id)
-		REFERENCES condition(id)
+	FOREIGN KEY(wellcondition_id)
+		REFERENCES wellcondition(id)
 		ON DELETE CASCADE,
 	FOREIGN KEY(factor_id)
-		REFERENCES factor(id),
+		REFERENCES factor(id)
 		ON DELETE CASCADE
 		ON UPDATE RESTRICT,
 	FOREIGN KEY(class_id)
 		REFERENCES class(id)
-		ON DELETE SET NULL
+		ON DELETE RESTRICT
 );
 
 create table frequentblock (

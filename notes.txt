@@ -78,6 +78,9 @@ mysql> ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY 'r
 mysql> FLUSH PRIVILEGES;
 mysql> exit;
 
+**should add creation of mysql user than can only modify c6reduxdb db**
+**should add creation of db and db init here**
+
 sudo apt install pkg-config (might not be needed if below is used)
 sudo apt install python3-dev default-libmysqlclient-dev
 
