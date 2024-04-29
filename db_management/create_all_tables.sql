@@ -33,7 +33,7 @@ create table alias (
 
 create table class (
 	id int not null auto_increment,
-	name varchar(64)
+	name varchar(64),
 
 	PRIMARY KEY(id),
 	INDEX(id)
