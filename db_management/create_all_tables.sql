@@ -3,16 +3,16 @@ create table chemical (
 	name varchar(64),
 	unit varchar(8),
 	formula varchar(128),
-	density decimal(6,2),
-	solubility decimal(6,2),
-	pka1 decimal(6,2),
-	pka2 decimal(6,2),
-	pka3 decimal(6,2),
+	density decimal(10,2),
+	solubility decimal(10,2),
+	pka1 decimal(10,2),
+	pka2 decimal(10,2),
+	pka3 decimal(10,2),
 	molecular_weight decimal(10,2),
 	ions varchar(64),
 	chemical_abstracts_db_id varchar(32),
-	critical_micelle_concentration decimal(6,2),
-	SMILES varchar(128),
+	critical_micelle_concentration decimal(10,2),
+	smiles varchar(128),
 
 	PRIMARY KEY(id),
 	INDEX(id)
@@ -58,9 +58,9 @@ create table chemical_class_link (
 create table factor (
 	id int not null auto_increment,
 	chemical_id int,
-	concentration decimal(6,2),
+	concentration decimal(10,2),
 	unit varchar(8),
-	ph decimal(6,2),
+	ph decimal(10,2),
 
 	PRIMARY KEY(id),
 	INDEX(id),
@@ -72,9 +72,9 @@ create table factor (
 
 create table frequentstock (
 	chemical_id int not null,
-	concentration decimal(6,2),
+	concentration decimal(10,2),
 	unit varchar(8),
-	precipitation_concentration decimal(6,2),
+	precipitation_concentration decimal(10,2),
 
 	PRIMARY KEY(chemical_id, concentration, unit, precipitation_concentration),
 	INDEX(chemical_id, concentration, unit, precipitation_concentration),
@@ -90,7 +90,7 @@ create table stock (
 	name varchar(64),
 	is_polar tinyint,
 	volatility int,
-	density decimal(6,2),
+	density decimal(10,2),
 	available tinyint,
 	creator varchar(64),
 	creation_date datetime,
@@ -182,8 +182,8 @@ create table wellcondition_factor_link (
 
 create table frequentblock (
 	screen_id int not null,
-	reservoir_volume decimal(6,2),
-	solution_volume decimal(6,2),
+	reservoir_volume decimal(10,2),
+	solution_volume decimal(10,2),
 
 	PRIMARY KEY(screen_id, reservoir_volume, solution_volume),
 	INDEX(screen_id, reservoir_volume, solution_volume),
