@@ -1,3 +1,19 @@
+drop table if exists frequentblock;
+drop table if exists wellconditionsimilarity;
+drop table if exists wellcondition_factor_link;
+drop table if exists wellcondition;
+drop table if exists screen;
+drop table if exists stock_hazard_link;
+drop table if exists hazard;
+drop table if exists stock;
+drop table if exists frequentstock;
+drop table if exists factor;
+drop table if exists chemical_class_link;
+drop table if exists class;
+drop table if exists substitute;
+drop table if exists alias;
+drop table if exists chemical;
+
 create table chemical (
 	id int not null auto_increment,
 	name varchar(64),
@@ -31,6 +47,23 @@ create table alias (
 		ON DELETE CASCADE
 );
 
+create table substitute (
+	id int not null auto_increment,
+	chemical1_id int not null,
+	chemical2_id int not null,
+
+	PRIMARY KEY(id),
+	INDEX(id),
+	INDEX(chemical1_id),
+	INDEX(chemical2_id),
+	FOREIGN KEY(chemical1_id)
+		REFERENCES chemical(id)
+		ON DELETE CASCADE,
+	FOREIGN KEY(chemical2_id)
+		REFERENCES chemical(id)
+		ON DELETE CASCADE
+);
+
 create table class (
 	id int not null auto_increment,
 	name varchar(64),
@@ -56,8 +89,8 @@ create table chemical_class_link (
 );
 
 create table factor (
-	id int not null auto_increment,
-	chemical_id int,
+	id int not null,
+	chemical_id int not null,
 	concentration decimal(10,2),
 	unit varchar(8),
 	ph decimal(10,2),
@@ -67,7 +100,7 @@ create table factor (
 	INDEX(chemical_id),
 	FOREIGN KEY(chemical_id)
 		REFERENCES chemical(id)
-		ON DELETE SET NULL
+		ON DELETE CASCADE
 );
 
 create table frequentstock (
@@ -88,7 +121,8 @@ create table stock (
 	id int not null auto_increment,
 	factor_id int,
 	name varchar(64),
-	is_polar tinyint,
+	polar tinyint,
+	viscosity int,
 	volatility int,
 	density decimal(10,2),
 	available tinyint,
@@ -103,7 +137,7 @@ create table stock (
 	INDEX(factor_id),
 	FOREIGN KEY(factor_id)
 		REFERENCES factor(id)
-		ON DELETE SET NULL
+		ON DELETE CASCADE
 		ON UPDATE RESTRICT
 );
 
@@ -149,6 +183,7 @@ create table wellcondition (
 	screen_id int not null,
 	position_number int,
 	label varchar(8),
+	computed_similarities tinyint,
 
 	PRIMARY KEY(id),
 	INDEX(id),
@@ -160,7 +195,7 @@ create table wellcondition (
 
 create table wellcondition_factor_link (
 	wellcondition_id int not null,
-	factor_id int not null,
+	factor_id int,
 	class_id int,
 
 	PRIMARY KEY(wellcondition_id, factor_id, class_id),
@@ -177,7 +212,25 @@ create table wellcondition_factor_link (
 		ON UPDATE RESTRICT,
 	FOREIGN KEY(class_id)
 		REFERENCES class(id)
-		ON DELETE RESTRICT
+		ON DELETE CASCADE
+);
+
+create table wellconditionsimilarity (
+	id int not null auto_increment,
+	wellcondition1_id int not null,
+	wellcondition2_id int not null,
+	similarity decimal(10,2),
+
+	PRIMARY KEY(id),
+	INDEX(id),
+	INDEX(wellcondition1_id),
+	INDEX(wellcondition2_id),
+	FOREIGN KEY(wellcondition1_id)
+		REFERENCES wellcondition(id)
+		ON DELETE CASCADE,
+	FOREIGN KEY(wellcondition2_id)
+		REFERENCES wellcondition(id)
+		ON DELETE CASCADE
 );
 
 create table frequentblock (

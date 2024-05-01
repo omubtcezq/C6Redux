@@ -85,3 +85,5 @@ sudo apt install pkg-config (might not be needed if below is used)
 sudo apt install python3-dev default-libmysqlclient-dev
 
 pip install mysqlclient
+
+
