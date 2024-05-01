@@ -130,7 +130,7 @@ def create_sql_from_screens(screen_folder_fpaths, output_fpath, append=False):
     frequentblock_value_strs = []
     wellcondition_value_strs = []
     wellcondition_factor_link_value_strs = []
-    hazard_value_strs = []
+    factor_value_strs = []
 
     # Keeping track of seen elements in many-many relations
     seen_factors = []
@@ -145,32 +145,46 @@ def create_sql_from_screens(screen_folder_fpaths, output_fpath, append=False):
                 tree = et.parse(fpath)
                 root = tree.getroot()
                 screen = root[1]
-                s_name = None
-                for wellcondition in screen:
-                    wc_name = input_str_to_sql_str(wellcondition.attrib['name'], str)
+                s_name = input_str_to_sql_str(screen.attrib['name'], str)
+                s_creator = input_str_to_sql_str(screen.attrib['username'], str)
+                s_creation_date = input_str_to_sql_str(screen.attrib['design_date'], str) # TODO check this
+                s_format_name = input_str_to_sql_str(screen[0].attrib['name'], str)
+                s_format_rows = input_str_to_sql_str(screen[0].attrib['rows'], int)
+                s_format_cols = input_str_to_sql_str(screen[0].attrib['rows'], int)
+                s_comments = input_str_to_sql_str(screen[1].text, str)
+                fb_reservoir_volume = input_str_to_sql_str(screen.attrib['max_res_vol'], float)
+                fb_solution_volume = input_str_to_sql_str(screen.attrib['def_res_vol'], float)
 
-    # insert_sql = 'insert into Screens values\n'
+                # Insertion value for screen table
+                value_str = '(%s, %s, %s, %s, %s, %s, %s)' %\
+                                (s_name, s_creator, s_creation_date, s_format_name, s_format_rows, s_format_cols, s_comments)
+                screen_value_strs.append(value_str)
 
-    # for f in os.listdir('../c3_info/C3_screens'):
-        # if f.startswith('Design'):
-        #     tree = et.parse('../c3_info/C3_screens/'+f)
-        #     root = tree.getroot()
-        #     rd = root[1]
-        #     name = rd.attrib['name']
-        #     username = rd.attrib['username']
-        #     format_name = rd[0].attrib['name']
-        #     format_rows = int(rd[0].attrib['rows'])
-        #     format_cols = int(rd[0].attrib['cols'])
-        #     format_subs = int(rd[0].attrib['subs'])
-        #     comments = rd[1].text
+                if fb_reservoir_volume != 'NULL' and fb_solution_volume != 'NULL':
+                    # Insertion value for frequentblock table
+                    value_str = '(%s, %s)' % (fb_reservoir_volume, fb_solution_volume)
+                    frequentblock_value_strs.append(value_str)
 
-        #     insert_sql += '("%s", "%s", "%s", %d, %d, %d, "%s"),\n' % (name, username, format_name, format_rows, format_cols, format_subs, comments)
+                for wellcondition in screen[3:]:
+                    wc_position_number = input_str_to_sql_str(wellcondition.attrib['number'], str)
+                    wc_label = input_str_to_sql_str(wellcondition.attrib['label'], str)
 
-    # insert_sql = insert_sql [:-2] + ';'
+                    # Insertion value for wellcondition table
 
-    # f = open('populate_all_tables.sql', 'w')
-    # f.write(insert_sql)
-    # f.close()
+
+                    for factor in wellcondition:
+                        c_name = input_str_to_sql_str(factor.attrib['name'], str)
+                        f_concentration = input_str_to_sql_str(factor.attrib['conc'], str)
+                        f_unit = input_str_to_sql_str(factor.attrib['units'], str)
+                        f_ph = input_str_to_sql_str(factor.attrib['ph'], str)
+                        wcf_class = input_str_to_sql_str(factor.attrib['class'], str) # TODO existing classes needed globally
+
+                    
+
+                    # Insertion value for factor table
+
+                    # Insertion value for wellcondition factor link table
+
 
 #==============================================================================#
 # Stocks
