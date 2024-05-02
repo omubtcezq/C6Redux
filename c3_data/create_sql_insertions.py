@@ -17,20 +17,22 @@ value_strs = {'chem': [],
               'alias': [],
               'class': [],
               'chem_class_link': [],
-              'stock': [],
               'factor': [],
+              'stock': [],
               'hazard': [],
               'stock_hazard_link': [],
               'screen': [],
               'frequentblock': [],
               'wellcondition': [],
+              'well': [],
               'wellcondition_factor_link': []}
 
 # Keeping track of insertions to avoid duplicates
 seen_insertions = {'class': [],
                    'factor': [],
                    'hazard': [],
-                   'chemical': []}
+                   'wellcondition': [],
+                   'chemical_alias_dict': {}}
 
 # Sql to execute
 sql_statements = {'chem': None,
@@ -38,13 +40,14 @@ sql_statements = {'chem': None,
                   'alias': None,
                   'class': None,
                   'chem_class_link': None,
-                  'stock': None,
                   'factor': None,
+                  'stock': None,
                   'hazard': None,
                   'stock_hazard_link': None,
                   'screen': None,
                   'frequentblock': None,
                   'wellcondition': None,
+                  'well': None,
                   'wellcondition_factor_link': None}
 
 #==============================================================================#
@@ -104,7 +107,7 @@ for chem in root[0]:
     value_str = '(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)' %\
         (c_name, c_unit, c_formula, c_density, c_solubility, c_pka1, c_pka2, c_pka3, c_molec_weight, c_ions, c_cas, c_cmc, c_smiles)
     value_strs['chem'].append(value_str)
-    seen_insertions['chemical'].append(c_name)
+    seen_insertions['chemical_alias_dict'][c_name] = []
 
     # Insertion value for frequentstock table
     if fs_concentration != 'NULL' or fs_unit != 'NULL' or fs_prepip_conc != 'NULL':
@@ -119,6 +122,7 @@ for chem in root[0]:
             value_str = '(%s, (SELECT id FROM chemical WHERE name = %s))' %\
                             (a_name, c_name)
             value_strs['alias'].append(value_str)
+            seen_insertions['chemical_alias_dict'][c_name].append(a_name)
 
         elif child.tag == 'class':
             cl_name = input_str_to_sql_str(child.text, str)
@@ -205,13 +209,27 @@ for folder in SCREEN_FOLDER_PATHS:
                 wc_position_number = input_str_to_sql_str(wellcondition.attrib['number'], str)
                 wc_label = input_str_to_sql_str(wellcondition.attrib['label'], str)
 
+                # Use the following https://stackoverflow.com/questions/3837990/last-insert-id-mysql
                 # Insertion value for wellcondition table
-                value_str = '((SELECT id FROM screen WHERE name = %s), %s, %s, 0)' %\
-                            (s_name, wc_position_number, wc_label)
+                value_str = '(0)'
                 value_strs['wellcondition'].append(value_str)
+
+                # Insertion value for well table % TODO NOT COMPLETED
+                value_str = '((SELECT id FROM screen WHERE name = %s), (SELECT if FROM wellcondition WHERE %s), %s, %s, 0)' %\
+                            (s_name, None, wc_position_number, wc_label)
+                value_strs['well'].append(value_str)
 
                 for factor in wellcondition:
                     c_name = input_str_to_sql_str(factor.attrib['name'], str)
+                    if c_name not in seen_insertions['chemical_alias_dict'].keys():
+                        for chem, aliases in seen_insertions['chemical_alias_dict'].items():
+                            if c_name.lower() == chem.lower():
+                                c_name = chem
+                            elif c_name.lower() in [x.lower() for x in aliases]:
+                                c_name = chem
+                            else:
+                                print('Error!: Chemical', c_name, 'not in chemical table')
+
                     f_concentration = input_str_to_sql_str(factor.attrib['conc'], str)
                     f_unit = input_str_to_sql_str(factor.attrib['units'], str)
                     f_ph = input_str_to_sql_str(factor.attrib['ph'], str)
@@ -230,16 +248,13 @@ for folder in SCREEN_FOLDER_PATHS:
                         value_strs['factor'].append(value_str)
                         seen_insertions['factor'].append((c_name, f_concentration, f_unit, f_ph))
 
-                        # TODO sql will error if any of these warnings show
-                        if c_name not in seen_insertions['chemical']:
-                            print('Screen chemical not in chemical table!:', c_name, 'from', s_name)
-
                     # Insertion value for wellcondition factor link table
                     value_str = ('(SELECT wellcondition.id FROM wellcondition INNER JOIN screen ON wellcondition.screen_id = screen.id WHERE screen.name = %s AND wellcondition.position_number = %s),\
                                   (SELECT id FROM factor INNER JOIN chemical ON factor.chemical_id = chemical.id WHERE (chemical.name, factor.concentration, factor.unit, factor.ph) = (%s, %s, %s, %s)),\
                                   (SELECT id FROM class WHERE name = %s)') %\
                                 (s_name, wc_position_number, c_name, f_concentration, f_unit, f_ph, wcf_class)
                     value_strs['wellcondition_factor_link'].append(value_str)
+                
 
 # Creation of full sql statements from value lists
 sql_statements['chem'] = create_sql_query('INSERT INTO chemical (name, unit, formula, density, solubility, pka1, pka2, pka3, molecular_weight, ions, chemical_abstracts_db_id, critical_micelle_concentration, smiles) VALUES', value_strs['chem'])
@@ -247,27 +262,29 @@ sql_statements['frequentstock'] = create_sql_query('INSERT INTO frequentstock (c
 sql_statements['alias'] = create_sql_query('INSERT INTO alias (name, chemical_id) VALUES', value_strs['alias'])
 sql_statements['class'] = create_sql_query('INSERT INTO class (name) VALUES', value_strs['class'])
 sql_statements['chem_class_link'] = create_sql_query('INSERT INTO chemical_class_link (chemical_id, class_id) VALUES', value_strs['chem_class_link'])
+sql_statements['factor'] = create_sql_query('INSERT INTO factor (chemical_id, concentration, unit, ph) VALUES', value_strs['factor'])
 
 sql_statements['hazard'] = create_sql_query('INSERT INTO hazard (name) VALUES', value_strs['hazard'])
 
 sql_statements['screen'] = create_sql_query('INSERT INTO screen (name, creator, creation_date, format_name, format_rows, format_cols, comments) VALUES', value_strs['screen'])
 sql_statements['frequentblock'] = create_sql_query('INSERT INTO frequentblock (screen_id, reservoir_volume, solution_volume) VALUES', value_strs['frequentblock'])
 sql_statements['wellcondition'] = create_sql_query('INSERT INTO wellcondition (screen_id, position_number, label, computed_similarities) VALUES', value_strs['wellcondition'])
-sql_statements['factor'] = create_sql_query('INSERT INTO factor (chemical_id, concentration, unit, ph) VALUES', value_strs['factor'])
+sql_statements['well'] = None
 sql_statements['wellcondition_factor_link'] = create_sql_query('INSERT INTO wellcondition_factor_link (wellcondition_id, factor_id, class_id) VALUES', value_strs['wellcondition_factor_link'])
 
+# Make these insert 10 rows at a time only
 # Write sql statements to output file (order important)
-# write_to_output(sql_statements['chem'], append=False)
-# write_to_output(sql_statements['frequentstock'], append=True)
-# write_to_output(sql_statements['alias'], append=True)
-# write_to_output(sql_statements['class'], append=True)
-# write_to_output(sql_statements['chem_class_link'], append=True)
+write_to_output(sql_statements['chem'], append=False)
+write_to_output(sql_statements['frequentstock'], append=True)
+write_to_output(sql_statements['alias'], append=True)
+write_to_output(sql_statements['class'], append=True)
+write_to_output(sql_statements['chem_class_link'], append=True)
 
-# write_to_output(sql_statements['hazard'], append=True)
+write_to_output(sql_statements['hazard'], append=True)
 
 #write_to_output(sql_statements['screen'], append=True)
 #write_to_output(sql_statements['frequentblock'], append=True)
 #write_to_output(sql_statements['wellcondition'], append=True)
-write_to_output(sql_statements['factor'], append=False)
+#write_to_output(sql_statements['factor'], append=False)
 #write_to_output(sql_statements['wellcondition_factor_link'], append=True)
 
