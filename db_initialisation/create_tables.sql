@@ -19,15 +19,15 @@ create table chemical (
 	name varchar(64),
 	unit varchar(8),
 	formula varchar(128),
-	density decimal(10,2),
-	solubility decimal(10,2),
-	pka1 decimal(10,2),
-	pka2 decimal(10,2),
-	pka3 decimal(10,2),
-	molecular_weight decimal(10,2),
+	density double,
+	solubility double,
+	pka1 double,
+	pka2 double,
+	pka3 double,
+	molecular_weight double,
 	ions varchar(64),
 	chemical_abstracts_db_id varchar(32),
-	critical_micelle_concentration decimal(10,2),
+	critical_micelle_concentration double,
 	smiles varchar(128),
 
 	PRIMARY KEY(id),
@@ -36,7 +36,7 @@ create table chemical (
 
 create table alias (
 	id int not null auto_increment,
-	name varchar(64),
+	name varchar(128),
 	chemical_id int not null,
 
 	PRIMARY KEY(id),
@@ -89,11 +89,11 @@ create table chemical_class_link (
 );
 
 create table factor (
-	id int not null,
+	id int not null auto_increment,
 	chemical_id int not null,
-	concentration decimal(10,2),
+	concentration double,
 	unit varchar(8),
-	ph decimal(10,2),
+	ph double,
 
 	PRIMARY KEY(id),
 	INDEX(id),
@@ -105,12 +105,11 @@ create table factor (
 
 create table frequentstock (
 	chemical_id int not null,
-	concentration decimal(10,2),
+	concentration double,
 	unit varchar(8),
-	precipitation_concentration decimal(10,2),
+	precipitation_concentration double,
 
-	PRIMARY KEY(chemical_id, concentration, unit, precipitation_concentration),
-	INDEX(chemical_id, concentration, unit, precipitation_concentration),
+	PRIMARY KEY(chemical_id),
 	INDEX(chemical_id),
 	FOREIGN KEY(chemical_id)
 		REFERENCES chemical(id)
@@ -124,7 +123,7 @@ create table stock (
 	polar tinyint,
 	viscosity int,
 	volatility int,
-	density decimal(10,2),
+	density double,
 	available tinyint,
 	creator varchar(64),
 	creation_date datetime,
@@ -219,7 +218,7 @@ create table wellconditionsimilarity (
 	id int not null auto_increment,
 	wellcondition1_id int not null,
 	wellcondition2_id int not null,
-	similarity decimal(10,2),
+	similarity double,
 
 	PRIMARY KEY(id),
 	INDEX(id),
@@ -235,11 +234,10 @@ create table wellconditionsimilarity (
 
 create table frequentblock (
 	screen_id int not null,
-	reservoir_volume decimal(10,2),
-	solution_volume decimal(10,2),
+	reservoir_volume double,
+	solution_volume double,
 
-	PRIMARY KEY(screen_id, reservoir_volume, solution_volume),
-	INDEX(screen_id, reservoir_volume, solution_volume),
+	PRIMARY KEY(screen_id),
 	INDEX(screen_id),
 	FOREIGN KEY(screen_id)
 		REFERENCES screen(id)
