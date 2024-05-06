@@ -15,14 +15,12 @@
                     append($('<td>').text(s.format_cols)).
                     append($('<td>').text(s.comments)));
             if (fb != null) {
-                frequentblock_table.
-                    append($('<tr>').attr('id',i).
-                        append($('<td>').text(fb.reservoir_volume)).
+                screen_table.
+                    append($('<td>').text(fb.reservoir_volume).
                         append($('<td>').text(fb.solution_volume)));
             } else {
                 frequentblock_table.
-                    append($('<tr>').attr('id',i).
-                        append($('<td>').text("")).
+                    append($('<td>').text("").
                         append($('<td>').text("")));
             }
         });
