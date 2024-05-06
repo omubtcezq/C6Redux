@@ -170,7 +170,7 @@ for row in wb['STOCKS_300'].iter_rows(min_row=2, max_row=498):
         for l in chem_f.readlines():
             l = l.strip()
             if len(l)>2 and l[0] == '(' and l[1:].startswith(str(c3_chem_id)):
-                c_name = input_str_to_sql_str(l.split(',')[1].strip("'"), str)
+                c_name = input_str_to_sql_str(l[l.index(",'")+2:l.index("',")].strip("'"), str)
                 chem_found = True
                 break
 
