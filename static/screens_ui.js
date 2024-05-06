@@ -3,8 +3,8 @@
         screen_table = $('#screen_table');
         frequentblock_table = $('#frequentblock_table');
         $.each(data, function(i,d){
-            s = d[0]
-            fb = d[1]
+            s = d["screen"]
+            fb = d["frequentblock"]
             screen_table.
                 append($('<tr>').attr('id',i).
                     append($('<td>').text(s.name)).
