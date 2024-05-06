@@ -15,12 +15,12 @@
                     append($('<td>').text(s.comments)));
             if (fb != null) {
                 $('#'+i).
-                    append($('<td>').text(fb.reservoir_volume).
-                        append($('<td>').text(fb.solution_volume)));
+                    append($('<td>').text(fb.reservoir_volume)).
+                    append($('<td>').text(fb.solution_volume));
             } else {
                 $('#'+i).
-                    append($('<td>').text("").
-                        append($('<td>').text("")));
+                    append($('<td>').text("")).
+                    append($('<td>').text(""));
             }
         });
     });
