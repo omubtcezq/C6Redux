@@ -2,6 +2,10 @@ table, th, td {
   border: 1px solid black;
 }
 
-.side-table {
+.inline-tables {
+  display: inline-table;
+}
+
+.tablebox {
   display: inline-table;
 }
