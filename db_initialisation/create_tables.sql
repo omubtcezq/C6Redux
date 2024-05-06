@@ -10,6 +10,7 @@ drop table if exists stock;
 drop table if exists factor;
 drop table if exists chemical_class_link;
 drop table if exists class;
+drop table if exists chemical_substitute_link;
 drop table if exists substitute;
 drop table if exists alias;
 drop table if exists frequentstock;
@@ -63,18 +64,25 @@ create table alias (
 
 create table substitute (
 	id int not null auto_increment,
-	chemical1_id int not null,
-	chemical2_id int not null,
+	name varchar(128),
 
 	PRIMARY KEY(id),
-	INDEX(id),
-	INDEX(chemical1_id),
-	INDEX(chemical2_id),
-	FOREIGN KEY(chemical1_id)
+	INDEX(id)
+);
+
+create table chemical_substitute_link (
+	chemical_id int not null,
+	substitute_id int not null,
+
+	PRIMARY KEY(chemical_id, substitute_id),
+	INDEX(chemical_id, substitute_id),
+	INDEX(chemical_id),
+	INDEX(substitute_id),
+	FOREIGN KEY(chemical_id)
 		REFERENCES chemical(id)
 		ON DELETE CASCADE,
-	FOREIGN KEY(chemical2_id)
-		REFERENCES chemical(id)
+	FOREIGN KEY(substitute_id)
+		REFERENCES substitute(id)
 		ON DELETE CASCADE
 );
 
@@ -119,7 +127,7 @@ create table factor (
 
 create table stock (
 	id int not null auto_increment,
-	factor_id int,
+	factor_id int not null,
 	name varchar(64),
 	polar tinyint,
 	viscosity int,
@@ -127,10 +135,8 @@ create table stock (
 	density double,
 	available tinyint,
 	creator varchar(64),
-	creation_date datetime,
-	lifetime_in_days int,
 	location varchar(64),
-	comments varchar(256),
+	comments varchar(1024),
 
 	PRIMARY KEY(id),
 	INDEX(id),
@@ -218,12 +224,13 @@ create table well (
 );
 
 create table wellcondition_factor_link (
+	id int not null auto_increment,
 	wellcondition_id int not null,
 	factor_id int not null,
-	class_id int not null,
+	class_id int,
 
-	PRIMARY KEY(wellcondition_id, factor_id, class_id),
-	INDEX(wellcondition_id, factor_id, class_id),
+	PRIMARY KEY(id),
+	INDEX(id),
 	INDEX(wellcondition_id),
 	INDEX(factor_id),
 	INDEX(class_id),

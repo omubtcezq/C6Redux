@@ -56,7 +56,8 @@ Added to https://github.com/omubtcezq/C6Redux
 start mysql server
 start uvicorn server in root git repo
 
-
+=== windows db sql file cmd
+"C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql" --user=root --password="rooty tooty unknown word" c6reduxdb < "C:\Users\i_am_\Documents\GIT_REPOS\C6Redux\db_initialisation\populate_tables.sql"
 
 
 # =========================================================================== #
