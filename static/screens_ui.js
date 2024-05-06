@@ -1,7 +1,6 @@
 (function() {
     $.getJSON('http://13.236.58.27:8000/api/screens', function(data) {
         screen_table = $('#screen_table');
-        frequentblock_table = $('#frequentblock_table');
         $.each(data, function(i,d){
             s = d["screen"]
             fb = d["frequentblock"]
@@ -15,11 +14,11 @@
                     append($('<td>').text(s.format_cols)).
                     append($('<td>').text(s.comments)));
             if (fb != null) {
-                screen_table.
+                $('#'+i).
                     append($('<td>').text(fb.reservoir_volume).
                         append($('<td>').text(fb.solution_volume)));
             } else {
-                frequentblock_table.
+                $('#'+i).
                     append($('<td>').text("").
                         append($('<td>').text("")));
             }

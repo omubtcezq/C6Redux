@@ -248,7 +248,7 @@ for folder in SCREEN_FOLDER_PATHS:
             s_creation_date = input_str_to_sql_str(screen.attrib['design_date'], str) # xml correctly formats
             s_format_name = input_str_to_sql_str(screen[0].attrib['name'], str)
             s_format_rows = input_str_to_sql_str(screen[0].attrib['rows'], int)
-            s_format_cols = input_str_to_sql_str(screen[0].attrib['rows'], int)
+            s_format_cols = input_str_to_sql_str(screen[0].attrib['cols'], int)
             fb_reservoir_volume = input_str_to_sql_str(screen[0].attrib['max_res_vol'], float)
             fb_solution_volume = input_str_to_sql_str(screen[0].attrib['def_res_vol'], float)
             s_comments = input_str_to_sql_str(screen[1].text, str)
