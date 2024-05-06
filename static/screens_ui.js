@@ -8,10 +8,11 @@
             screen_table.
                 append($('<tr>').attr('id',i).
                     append($('<td>').text(s.name)).
-                    append($('<td>').text(s.username)).
+                    append($('<td>').text(s.creator)).
+                    append($('<td>').text(s.creation_date)).
+                    append($('<td>').text(s.format_name)).
                     append($('<td>').text(s.format_rows)).
                     append($('<td>').text(s.format_cols)).
-                    append($('<td>').text(s.format_subs)).
                     append($('<td>').text(s.comments)));
             if (fb != null) {
                 screen_table.
