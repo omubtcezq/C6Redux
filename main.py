@@ -1,14 +1,14 @@
+"""
+
+"""
+
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-import api
+import api.c6redux_api
 
-from fastapi.middleware.cors import CORSMiddleware
-
-# Whole app serves static html/css/js as well as the api
-app = FastAPI(title="whole app")
-api_app = FastAPI(title="api")
-api_app.include_router(api.router)
+# Whole app serves static html/css/js front end as well as the api it queries
+app = FastAPI(title="C6Redux")
 
 # Api is mounted on /api, the rest is static
-app.mount("/api", api_app)
+app.mount("/api", api.c6redux_api.app)
 app.mount("/", StaticFiles(directory="static", html=True), name="static")
