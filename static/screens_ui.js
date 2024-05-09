@@ -1,5 +1,9 @@
 (function() {
-    $.getJSON('http://13.236.58.27:8000/api/screens', function(data) {
+    API_IP = '13.236.58.27'
+    API_PORT = '8000'
+    API_URL = 'http://'+API_IP+':'+API_PORT+'/api'
+
+    $.getJSON(API_URL+'/screens', function(data) {
         screen_table = $('#screen_table');
         $.each(data, function(i,d){
             s = d["screen"]
