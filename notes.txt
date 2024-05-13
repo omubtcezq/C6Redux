@@ -29,7 +29,7 @@ pip install uvicorn (the server)
 pip install python-multipart (for files)
 pip install sqlmodel (installs sqlalchem and pydantic - db support) [https://sqlmodel.tiangolo.com]
 pip install mysqlclient==1.4.6 (so the above works with mysql - version required for some 32/64 bit incompatibilities)
-
+pip install email-validator (automatically used in fastapi)
 
 === Front end UI
 
