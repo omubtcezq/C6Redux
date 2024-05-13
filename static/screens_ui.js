@@ -5,9 +5,7 @@
 
     $.getJSON(API_URL+'/screens', function(data) {
         screen_table = $('#screen_table');
-        $.each(data, function(i,d){
-            s = d["screen"]
-            fb = d["frequentblock"]
+        $.each(data, function(i,s){
             screen_table.
                 append($('<tr>').attr('id',i).
                     append($('<td>').text(s.name)).
@@ -17,10 +15,10 @@
                     append($('<td>').text(s.format_rows)).
                     append($('<td>').text(s.format_cols)).
                     append($('<td>').text(s.comments)));
-            if (fb != null) {
+            if (s.frequentblock != null) {
                 $('#'+i).
-                    append($('<td>').text(fb.reservoir_volume)).
-                    append($('<td>').text(fb.solution_volume));
+                    append($('<td>').text(s.frequentblock.reservoir_volume)).
+                    append($('<td>').text(s.frequentblock.solution_volume));
             } else {
                 $('#'+i).
                     append($('<td>').text("")).
