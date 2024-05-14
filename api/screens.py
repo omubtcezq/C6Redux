@@ -37,7 +37,7 @@ class WellConditionLogicExp(BaseModel):
 class ScreenQuery(BaseModel):
     name: str | None = None
     only_available: bool = False
-    conds: WellConditionLogicExp | WellConditionArg
+    conds: WellConditionLogicExp | WellConditionArg | None = None
 
 def parseQuery(query: ScreenQuery):
     params = []
