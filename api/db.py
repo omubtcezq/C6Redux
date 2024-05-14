@@ -44,9 +44,10 @@ class Chemical_Class_Link(SQLModel, table=True):
 
 # ================================= Chemical ================================= #
 
-class Chemical(SQLModel, table=True):
-    id: int = Field(default=None, primary_key=True)
+class ChemicalBase(SQLModel):
     name: str
+
+class ChemicalBaseLarge(ChemicalBase):
     unit: str | None = Field(default=None)
     formula: str | None = Field(default=None)
     density: float | None = Field(default=None)
@@ -59,65 +60,121 @@ class Chemical(SQLModel, table=True):
     chemical_abstracts_db_id: str | None = Field(default=None)
     critical_micelle_concentration: float | None = Field(default=None)
     smiles: str | None = Field(default=None)
+
+class Chemical(ChemicalBaseLarge, table=True):
+    id: int = Field(default=None, primary_key=True)
     frequentstock: Union["FrequentStock", None] = Relationship(back_populates="chemical")
     aliases: list["Alias"] = Relationship(back_populates="chemical")
     substitutes: list["Substitute"] = Relationship(back_populates="chemicals", link_model=Chemical_Substitute_Link)
     classes: list["Class"] = Relationship(back_populates="chemicals", link_model=Chemical_Class_Link)
     factors: list["Factor"] = Relationship(back_populates="chemical")
 
+# Read when screen or stock is read
+class ChemicalRead(ChemicalBase):
+    id: int
+
+# Read when chemical is read
+class ChemicalContentsRead(ChemicalBaseLarge):
+    id: int
+    frequentstock: "FreqentStockRead | None" = None
+    aliases: list["AliasRead"]
+    substitutes: list["SubstituteRead"]
+    classes: list["ClassRead"]
+
 # ============================== FrequentStock =============================== #
 
-class FrequentStock(SQLModel, table=True):
+class FrequentStockBase(SQLModel):
     chemical_id: int = Field(foreign_key="chemical.id", primary_key=True)
     concentration: float | None = Field(default=None)
     unit: str | None = Field(default=None)
     precipitation_concentration: float | None = Field(default=None)
+
+class FrequentStock(FrequentStockBase, table=True):
     chemical: Chemical = Relationship(back_populates="frequentstock")
+
+# Read when chemical is read
+class FreqentStockRead(FrequentStockBase):
+    pass
 
 # ================================== Alias =================================== #
 
-class Alias(SQLModel, table=True):
-    id: int | None = Field(default=None, primary_key=True)
+class AliasBase(SQLModel):
     name: str
     chemical_id: int = Field(foreign_key="chemical.id")
+
+class Alias(AliasBase, table=True):
+    id: int | None = Field(default=None, primary_key=True)
     chemical: Chemical = Relationship(back_populates="aliases")
+
+# Read when chemical is read
+class AliasRead(AliasBase):
+    id: int
 
 # ================================ Substitute ================================ #
 
-class Substitute(SQLModel, table=True):
-    id: int | None = Field(default=None, primary_key=True)
+class SubstituteBase(SQLModel):
     name: str
+
+class Substitute(SubstituteBase, table=True):
+    id: int | None = Field(default=None, primary_key=True)
     chemicals: list[Chemical] = Relationship(back_populates="substitutes", link_model=Chemical_Substitute_Link)
+
+# Read when substitute is read
+class SubstituteRead(SubstituteBase):
+    id: int
 
 # ======================== WellCondition Factor Link ========================= #
 
-class WellCondition_Factor_Link(SQLModel, table=True):
-    id: int | None = Field(default=None, primary_key=True)
+class WellCondition_Factor_LinkBase(SQLModel):
     wellcondition_id: int = Field(foreign_key="wellcondition.id")
     factor_id: int = Field(foreign_key="factor.id")
     class_id: int | None = Field(foreign_key="class.id")
 
+class WellCondition_Factor_Link(WellCondition_Factor_LinkBase, table=True):
+    id: int | None = Field(default=None, primary_key=True)
+    wellcondition: "WellCondition" = Relationship(back_populates="factor_links")
+    factor: "Factor" = Relationship(back_populates="wellcondition_links")
+    classvar: "Class" = Relationship(back_populates="factor_links")
+
+# Read when screen is read
+class WellCondition_Factor_LinkRead(WellCondition_Factor_LinkBase):
+    id: int
+    factor: "FactorRead"
+    classvar: "ClassRead | None"
+
+
 # ================================== Class =================================== #
 
-class Class(SQLModel, table=True):
-    id: int | None = Field(default=None, primary_key=True)
+class ClassBase(SQLModel):
     name: str
+
+class Class(ClassBase, table=True):
+    id: int | None = Field(default=None, primary_key=True)
     chemicals: list[Chemical] = Relationship(back_populates="classes", link_model=Chemical_Class_Link)
-    wellconditions: list["WellCondition"] = Relationship(back_populates="classes", link_model=WellCondition_Factor_Link)
-    factors: list["Factor"] = Relationship(back_populates="classes", link_model=WellCondition_Factor_Link)
+    factor_links: list["WellCondition_Factor_Link"] = Relationship(back_populates="classvar")
+
+# Read when screen is read
+class ClassRead(ClassBase):
+    id: int
 
 # ================================== Factor ================================== #
 
-class Factor(SQLModel, table=True):
-    id: int | None = Field(default=None, primary_key=True)
+class FactorBase(SQLModel):
     chemical_id: int = Field(foreign_key="chemical.id")
     concentration: float
     unit: str
     ph: float | None = Field(default=None)
+
+class Factor(FactorBase, table=True):
+    id: int | None = Field(default=None, primary_key=True)
     chemical: Chemical = Relationship(back_populates="factors")
     stocks: list["Stock"] = Relationship(back_populates="factor")
-    wellconditions: list["WellCondition"] = Relationship(back_populates="factors", link_model=WellCondition_Factor_Link)
-    classes: list[Class] = Relationship(back_populates="factors", link_model=WellCondition_Factor_Link)
+    wellcondition_links: list["WellCondition_Factor_Link"] = Relationship(back_populates="factor")
+
+# Read when screen or stock is read
+class FactorRead(FactorBase):
+    id: int
+    chemical: ChemicalRead
 
 # ============================ Stock Hazard Link ============================= #
 
@@ -127,8 +184,7 @@ class Stock_Hazard_Link(SQLModel, table=True):
 
 # ================================== Stock =================================== #
 
-class Stock(SQLModel, table=True):
-    id: int | None = Field(default=None, primary_key=True)
+class StockBase(SQLModel):
     factor_id: int = Field(foreign_key="factor.id")
     name: str
     polar: int | None = Field(default=None)
@@ -139,15 +195,30 @@ class Stock(SQLModel, table=True):
     creator: str
     location: str | None = Field(default=None)
     comments: str | None = Field(default=None)
+
+class Stock(StockBase, table=True):
+    id: int | None = Field(default=None, primary_key=True)
     factor: Factor = Relationship(back_populates="stocks")
     hazards: list["Hazard"] = Relationship(back_populates="stocks", link_model=Stock_Hazard_Link)
 
+# Read when stocks read
+class StockRead(StockBase):
+    id: int
+    factor: FactorRead
+    hazards: list["HazardRead"]
+
 # ================================== Hazard ================================== #
 
-class Hazard(SQLModel, table=True):
-    id: int | None = Field(default=None, primary_key=True)
+class HazardBase(SQLModel):
     name: str
+
+class Hazard(HazardBase, table=True):
+    id: int | None = Field(default=None, primary_key=True)
     stocks: list[Stock] = Relationship(back_populates="hazards", link_model=Stock_Hazard_Link)
+
+# Read when stocks read
+class HazardRead(HazardBase):
+    id: int
 
 # ================================== Screen ================================== #
 
@@ -168,9 +239,14 @@ class Screen(ScreenBase, table=True):
 class ScreenNew(ScreenBase):
     pass
 
+# Read when screen list is read
 class ScreenRead(ScreenBase):
     id: int
     frequentblock: "FrequentBlockRead | None" = None
+
+# Read when screen is read
+class ScreenContentsRead(ScreenRead):
+    wells: list["WellRead"]
 
 # ============================== FrequentBlock =============================== #
 
@@ -182,28 +258,42 @@ class FrequentBlockBase(SQLModel):
 class FrequentBlock(FrequentBlockBase, table=True):
     screen: Screen = Relationship(back_populates="frequentblock")
 
+# Read when screen list or screen read
 class FrequentBlockRead(FrequentBlockBase):
     pass
 
 # ============================== WellCondition =============================== #
 
-class WellCondition(SQLModel, table=True):
-    id: int | None = Field(default=None, primary_key=True)
+class WellConditionBase(SQLModel):
     computed_similarities: int
+
+class WellCondition(WellConditionBase, table=True):
+    id: int | None = Field(default=None, primary_key=True)
     well: "Well" = Relationship(back_populates="wellcondition")
-    factors: list[Factor] = Relationship(back_populates="wellconditions", link_model=WellCondition_Factor_Link)
-    classes: list[Class] = Relationship(back_populates="wellconditions", link_model=WellCondition_Factor_Link)
+    factor_links: list[WellCondition_Factor_Link] = Relationship(back_populates="wellcondition")
+
+# Read when screen read
+class WellConditionRead(WellConditionBase):
+    id: int
+    factor_links: list[WellCondition_Factor_LinkRead]
 
 # =================================== Well =================================== #
 
-class Well(SQLModel, table=True):
-    id: int | None = Field(default=None, primary_key=True)
+class WellBase(SQLModel):
     screen_id: int = Field(foreign_key="screen.id")
     wellcondition_id: int = Field(foreign_key="wellcondition.id")
     position_number: int
     label: str
+
+class Well(WellBase, table=True):
+    id: int | None = Field(default=None, primary_key=True)
     screen: Screen = Relationship(back_populates="wells")
     wellcondition: WellCondition = Relationship(back_populates="well")
+
+# Read when screen read
+class WellRead(WellBase):
+    id: int
+    wellcondition: WellConditionRead
 
 # ========================= WellConditionSimilarity ========================== #
 

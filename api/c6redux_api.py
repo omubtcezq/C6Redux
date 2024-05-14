@@ -4,8 +4,8 @@
 
 from fastapi import FastAPI
 import api.screens as screens
-# import stocks
-# import chemicals
+import api.stocks as stocks
+import api.chemicals as chemicals
 
 description = """
 C6 Redux API markdown goes here
@@ -21,5 +21,5 @@ app = FastAPI(title="C6Redux_API",
                   "email": "no.email@yet.com",
               })
 app.include_router(screens.router)
-# app.include_router(stocks.router)
-# app.include_router(chemicals.router)
+app.include_router(stocks.router)
+app.include_router(chemicals.router)

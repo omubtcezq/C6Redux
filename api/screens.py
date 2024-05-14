@@ -52,60 +52,60 @@ async def get_screens(*, session: Session=Depends(db.get_session)):
 
 @router.post("/", 
              summary="Get a list of screens filtered by query",
-             response_description="List of queried screens")
+             response_description="List of queried screens",
+             response_model=list[db.ScreenRead])
 async def get_screens_query(*, session: Session=Depends(db.get_session), query: ConditionLogicExp, only_available: bool = False, include_similar: bool = False):
     """
     Get a list of screens filtered by query parameters
     """
     statement = select(db.Screen)
     screens = session.exec(statement).all()
-    ret = []
-    for s in screens:
-        ret.append({"screen":s, "frequentblock":s.frequentblock})
-    return ret
+    return screens
 
-
-@router.get("/export", 
-            summary="Download a list of all screens",
-            response_description="File containing list of all screens")
-async def get_screens_export() -> str:
-    """
-    Produce and download an exported file of a list of all screens
-    """
-    return "Not yet implemented"
+# @router.get("/export", 
+#             summary="Download a list of all screens",
+#             response_description="File containing list of all screens")
+# async def get_screens_export() -> str:
+#     """
+#     Produce and download an exported file of a list of all screens
+#     """
+#     return "Not yet implemented"
 
 @router.get("/contents", 
              summary="Get the contents of a screen",
-             response_description="Screen details and list of conditions")
-async def get_screen_contents(*, session: Session=Depends(db.get_session), id: int) -> str:
+             response_description="Screen details and list of conditions",
+             response_model=db.ScreenContentsRead)
+async def get_screen_contents(*, session: Session=Depends(db.get_session), id: int):
     """
     Get the details and list of conditions of a screen given it's database id
     """
-    return "Not yet implemented"
+    statement = select(db.Screen).where(db.Screen.id == id)
+    screen = session.exec(statement).first()
+    return screen
 
-@router.get("/recipe", 
-             summary="Download the recipes to make a screen",
-             response_description="File containing recipes for a screen")
-async def get_screen_recipes(*, session: Session=Depends(db.get_session), id: int) -> str:
-    """
-    Produce and download a file of recipes required to make all conditions in a screen given it's database id
-    """
-    return "Not yet implemented"
+# @router.get("/recipe", 
+#              summary="Download the recipes to make a screen",
+#              response_description="File containing recipes for a screen")
+# async def get_screen_recipes(*, session: Session=Depends(db.get_session), id: int):
+#     """
+#     Produce and download a file of recipes required to make all conditions in a screen given it's database id
+#     """
+#     return "Not yet implemented"
 
-@router.get("/report", 
-             summary="Download a report of requested conditions",
-             response_description="File containing details of requested conditions")
-async def get_conditions_report(*, session: Session=Depends(db.get_session), cond_id: list[int]) -> str:
-    """
-    Produce and download a file containing details of conditions given their database id's
-    """
-    return "Not yet implemented"
+# @router.get("/report", 
+#              summary="Download a report of requested conditions",
+#              response_description="File containing details of requested conditions")
+# async def get_conditions_report(*, session: Session=Depends(db.get_session), cond_id: list[int]):
+#     """
+#     Produce and download a file containing details of conditions given their database id's
+#     """
+#     return "Not yet implemented"
 
-@router.get("/generate", 
-             summary="Create a screen design based on chosen conditions",
-             response_description="Unsaved screen based on chosen conditions")
-async def generate_screen(*, session: Session=Depends(db.get_session), cond_id: list[int]) -> str:
-    """
-    Generate a new screen design around the supplied conditions without saving it to the database
-    """
-    return "Not yet implemented"
+# @router.get("/generate", 
+#              summary="Create a screen design based on chosen conditions",
+#              response_description="Unsaved screen based on chosen conditions")
+# async def generate_screen(*, session: Session=Depends(db.get_session), cond_id: list[int]):
+#     """
+#     Generate a new screen design around the supplied conditions without saving it to the database
+#     """
+#     return "Not yet implemented"
