@@ -6,7 +6,6 @@ from sqlmodel import Session, select
 from fastapi import APIRouter, Depends
 import api.db as db
 
-
 router = APIRouter(
     prefix="/stocks",
     tags=["Stock Operations"]

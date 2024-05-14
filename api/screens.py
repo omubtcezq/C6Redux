@@ -2,15 +2,15 @@
 
 """
 
-from sqlmodel import Session, select
+from sqlmodel import Session, select, or_
 from fastapi import APIRouter, Depends
 from enum import Enum
 from pydantic import BaseModel
 import api.db as db
 
-class QueryOp(str, Enum):
-    and_op = "and"
-    or_op = "or"
+class LogicExpOp(str, Enum):
+    and_ = "and"
+    or_ = "or"
 
 class ChemicalArg(BaseModel):
     id: int | None
@@ -20,18 +20,89 @@ class ChemicalArg(BaseModel):
     ph: float | None
 
 class ChemicalLogicExp(BaseModel):
-    op: QueryOp
-    args: list["ChemicalLogicExp | ChemicalArg"]
+    op: LogicExpOp
+    arg_left: "ChemicalLogicExp | ChemicalArg"
+    arg_right: "ChemicalLogicExp | ChemicalArg"
 
-class ConditionArg(BaseModel):
-    id: int | None
-    ref: str | None
-    chems: ChemicalLogicExp
+class WellConditionArg(BaseModel):
+    id: int | None = None
+    include_similar: bool = False
+    chems: ChemicalLogicExp | ChemicalArg | None = None
 
-class ConditionLogicExp(BaseModel):
-    op: QueryOp
-    args: list["ConditionLogicExp | ConditionArg"]
+class WellConditionLogicExp(BaseModel):
+    op: LogicExpOp
+    arg_left: "WellConditionLogicExp | WellConditionArg"
+    arg_right: "WellConditionLogicExp | WellConditionArg"
 
+class ScreenQuery(BaseModel):
+    name: str | None = None
+    only_available: bool = False
+    conds: WellConditionLogicExp | WellConditionArg
+
+def parseQuery(query: ScreenQuery):
+    params = []
+    parseWellConditionLogicExp(query.conds, params)
+
+def parseWellConditionLogicExp(condexp: WellConditionLogicExp, clauses):
+    sub_clauses = []
+    for arg in [condexp.arg_left, condexp.arg_right]:
+        if type(arg) == WellConditionLogicExp:
+            parseWellConditionLogicExp(arg, sub_clauses)
+        else:
+            parseWellConditionArg(arg, sub_clauses)
+    if condexp.op == LogicExpOp.or_:
+        clauses.append(or_(sub_clauses))
+    else:
+        clauses += sub_clauses
+    return clauses
+
+def parseWellConditionArg(cond: WellConditionArg, clauses):
+    if cond.id != None:
+        clauses.append(db.WellCondition.id == cond.id) # match all screens where
+    elif cond.chems != None:
+        sub_clauses = []
+        if type(cond.chems) == ChemicalLogicExp:
+            parseChemicalLogicExp(cond.chems, sub_clauses)
+        else:
+            parseChemicalArg(cond.chems, sub_clauses)
+        clauses.append(sub_clauses)
+    return clauses
+
+def parseChemicalLogicExp(chemexp: ChemicalLogicExp, params):
+    if chemexp.op == LogicExpOp.and_:
+        if type(chemexp.arg_left) == ChemicalLogicExp:
+            parseChemicalLogicExp(chemexp.arg_left, params)
+        else:
+            parseChemicalArg(chemexp.arg_left, params)
+    else:
+        lparams=[]
+        if type(chemexp.arg_left) == ChemicalLogicExp:
+            parseChemicalLogicExp(chemexp.arg_left, lparams)
+        else:
+            parseChemicalArg(chemexp.arg_left, lparams)
+        rparams = []
+        if type(chemexp.arg_right) == ChemicalLogicExp:
+            parseChemicalLogicExp(chemexp.arg_right, rparams)
+        else:
+            parseChemicalArg(chemexp.arg_right, rparams)
+        params.append(or_(lparams, rparams))
+    return params
+
+def parseChemicalArg(chem: ChemicalArg, params):
+    if chem.id != None:
+        params.append(db.Chemical.id == chem.id)
+    elif chem.name != None:
+        params.append(db.Chemical.name == chem.name)
+    if chem.conc != None and chem.units != None:
+        params.append(db.Chemical.conc == chem.conc)
+        params.append(db.Chemical.units == chem.units)
+    if chem.ph != None:
+        params.append(db.Chemical.ph == chem.ph)
+    return params
+
+# ============================================================================ #
+# API operations
+# ============================================================================ #
 
 router = APIRouter(
     prefix="/screens",
@@ -54,11 +125,12 @@ async def get_screens(*, session: Session=Depends(db.get_session)):
              summary="Get a list of screens filtered by query",
              response_description="List of queried screens",
              response_model=list[db.ScreenRead])
-async def get_screens_query(*, session: Session=Depends(db.get_session), query: ConditionLogicExp, only_available: bool = False, include_similar: bool = False):
+async def get_screens_query(*, session: Session=Depends(db.get_session), query: ScreenQuery):
     """
     Get a list of screens filtered by query parameters
     """
     statement = select(db.Screen)
+    # Parse Query here
     screens = session.exec(statement).all()
     return screens
 
@@ -79,8 +151,7 @@ async def get_screen_contents(*, session: Session=Depends(db.get_session), id: i
     """
     Get the details and list of conditions of a screen given it's database id
     """
-    statement = select(db.Screen).where(db.Screen.id == id)
-    screen = session.exec(statement).first()
+    screen = session.get(db.Screen, id)
     return screen
 
 # @router.get("/recipe", 
