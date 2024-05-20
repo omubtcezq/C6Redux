@@ -3,14 +3,29 @@
 <head>
 	<link rel="shortcut icon" href="#" />
 	<link rel="stylesheet" href="screens_style.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  	<script src="https://code.jquery.com/ui/1.13.3/jquery-ui.min.js"></script>
 	<script src="screens_ui.js"></script>
 </head>
 <body>
 
 <h1>Screens</h1>
-
-<p>All screens in the DB can be seen below</p>
+<button id="all_screens">View All Screens</button>
+<button id="query_screens">Query Screens</button>
+<div id="query_container">
+	<div class="section-title query-title">Query</div>
+	<div class="logic-div">
+		<div class="section-title binop-title">OR</div>
+		<div class="logic-div">
+			<div class="section-title binop-title">AND</div>
+			<div class="condition-div"></div>
+			<div class="condition-div"></div>
+		</div>
+		<div class="condition-div"></div>
+	</div>
+</div>
+<p>Results:</p>
 	<table id="screen_table">
 		<tr id="screen_table_header">
 			<th>Name</th>
@@ -20,8 +35,6 @@
 			<th>Format Rows</th>
 			<th>Format Cols</th>
 			<th>Comments</th>
-			<th>Reservoir Volume</th>
-			<th>Solution Volume</th>
 		</tr>
 	</table>
 </body>
