@@ -70,7 +70,11 @@ class Chemical(ChemicalBaseLarge, table=True):
     factors: list["Factor"] = Relationship(back_populates="chemical")
 
 # Read when screen or stock is read
-class ChemicalRead(ChemicalBase):
+class ChemicalReadLite(ChemicalBase):
+    id: int
+
+# Read when chemical list is read
+class ChemicalRead(ChemicalBaseLarge):
     id: int
 
 # Read when chemical is read
@@ -174,7 +178,7 @@ class Factor(FactorBase, table=True):
 # Read when screen or stock is read
 class FactorRead(FactorBase):
     id: int
-    chemical: ChemicalRead
+    chemical: ChemicalReadLite
 
 # ============================ Stock Hazard Link ============================= #
 
@@ -205,6 +209,9 @@ class Stock(StockBase, table=True):
 class StockRead(StockBase):
     id: int
     factor: FactorRead
+
+# Read when one stocks read
+class StockContentsRead(StockRead):
     hazards: list["HazardRead"]
 
 # ================================== Hazard ================================== #
@@ -242,7 +249,6 @@ class ScreenNew(ScreenBase):
 # Read when screen list is read
 class ScreenRead(ScreenBase):
     id: int
-    frequentblock: "FrequentBlockRead | None" = None
 
 # Read when screen is read
 class ScreenContentsRead(ScreenRead):

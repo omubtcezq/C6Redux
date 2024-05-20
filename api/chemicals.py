@@ -14,7 +14,7 @@ router = APIRouter(
 @router.get("/", 
             summary="Get a list of all chemicals",
             response_description="List of all chemicals",
-            response_model=list[db.ChemicalContentsRead])
+            response_model=list[db.ChemicalRead])
 async def get_screens(*, session: Session=Depends(db.get_session)):
     """
     Get a list of all chemicals including frequent slock information

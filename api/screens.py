@@ -2,7 +2,7 @@
 
 """
 
-from sqlmodel import Session, select, or_, and_, case, col, func
+from sqlmodel import Session, select, or_, and_, not_, case, col, func
 from fastapi import APIRouter, Depends
 from enum import Enum
 from pydantic import BaseModel, ConfigDict
@@ -13,37 +13,53 @@ import api.db as db
 # Screen search query type model
 # ============================================================================ #
 
-class LogicExpOp(str, Enum):
+class BinOp(str, Enum):
     and_ = "and"
     or_ = "or"
 
-class ChemicalArg(BaseModel):
+class ChemicalPred(BaseModel):
+    universal_quantification: bool = False
+    name_search: str | None
     id: int | None
     conc: float | None
     units: str | None
     ph: float | None
-    # To help with mathcing, don't allow extra params that might make another class match
+
+    # To help with matching, don't allow extra params that might make another class match
     model_config = ConfigDict(extra='forbid')
     # Check some form of chemical identification is provided
     @model_validator(mode='after')
     def check_id_or_conc_or_ph(self):
-        if self.id == None and self.conc == None and self.ph == None:
-            raise ValueError("Must specify chemical with at least one of id, concentration and unit, or ph!")
+        if self.id != None and self.name_search != None:
+            raise ValueError("Cannot specify chemical with both id and name search!")
+        if self.id == None and self.name_search == None and self.conc == None and self.ph == None:
+            raise ValueError("Must specify chemical with at least one of id, name, concentration and unit, or ph!")
         if not((self.conc == None and self.units == None) or (self.conc != None and self.units != None)):
             raise ValueError("Chemical concentration and units must be either both or neither present!")
         return self
 
-class ChemicalLogicExp(BaseModel):
-    op: LogicExpOp
-    arg_left: "ChemicalLogicExp | ChemicalArg"
-    arg_right: "ChemicalLogicExp | ChemicalArg"
+class ChemicalBinOp(BaseModel):
+    op: BinOp
+    arg_left: "ChemicalClause"
+    arg_right: "ChemicalClause"
+
+    # Help with matching
     model_config = ConfigDict(extra='forbid')
 
-class WellConditionArg(BaseModel):
+class ChemicalClause(BaseModel):
+    negate: bool = False
+    arg: ChemicalBinOp | ChemicalPred
+
+    # Help with matching
+    model_config = ConfigDict(extra='forbid')
+
+class WellConditionPred(BaseModel):
+    #include_similar: bool = False # TODO implement
+    universal_quantification: bool = False
     id: int | None = None
-    include_similar: bool = False
-    chems: ChemicalLogicExp | ChemicalArg | None = None
-    # To help with mathcing, don't allow extra params that might make another class match
+    chems: ChemicalClause | None = None
+
+    # To help with matching, don't allow extra params that might make another class match
     model_config = ConfigDict(extra='forbid')
     # Check that chemical information isn't provided if condition id is
     @model_validator(mode='after')
@@ -52,59 +68,83 @@ class WellConditionArg(BaseModel):
             raise ValueError("Must specify condition exclusively by either an id or by chemicals!")
         return self
 
-class WellConditionLogicExp(BaseModel):
-    op: LogicExpOp
-    arg_left: "WellConditionLogicExp | WellConditionArg"
-    arg_right: "WellConditionLogicExp | WellConditionArg"
+class WellConditionBinOp(BaseModel):
+    op: BinOp
+    arg_left: "WellConditionClause"
+    arg_right: "WellConditionClause"
+
+    # Help with matching
+    model_config = ConfigDict(extra='forbid')
+
+class WellConditionClause(BaseModel):
+    negate: bool = False
+    arg: WellConditionBinOp | WellConditionPred
+
+    # Help with matching
     model_config = ConfigDict(extra='forbid')
 
 class ScreenQuery(BaseModel):
-    name: str | None = None
-    only_available: bool = False
-    conds: WellConditionLogicExp | WellConditionArg | None = None
-    # To help with mathcing, don't allow extra params that might make another class match
+    #only_available: bool = False # TODO implement
+    name_search: str | None = None
+    conds: WellConditionClause | None = None
+
+    # To help with matching, don't allow extra params that might make another class match
     model_config = ConfigDict(extra='forbid')
     # Check that some form of screen identification is provided for query
     @model_validator(mode='after')
     def check_name_or_conditions(self):
-        if self.name == None and self.conds == None:
+        if self.name_search == None and self.conds == None:
             raise ValueError("Must specify screens by at least a name or by conditions!")
         return self
 
 # Rebuild the classes with self reference (not sure if this is makes a difference)
-ChemicalLogicExp.model_rebuild()
-WellConditionLogicExp.model_rebuild()
+ChemicalBinOp.model_rebuild()
+WellConditionBinOp.model_rebuild()
 
 # ============================================================================ #
 # Screen search query parser
 # ============================================================================ #
 
 def parseQuery(query: ScreenQuery):
+    clauses = []
+    if query.name_search != None:
+        clauses.append(col(db.Screen.name).contains(query.name_search))
     # Create clause tree for conditions
-    if type(query.conds) == WellConditionLogicExp:
-        clauses = parseWellConditionLogicExp(query.conds)
-    else:
-        clauses = parseWellConditionArg(query.conds)
-    # Final statement groups by screen
-    screens = select(db.Screen).join(db.Well).join(db.WellCondition).where(clauses).group_by(db.Screen)
+    if query.conds != None:
+        if type(query.conds.arg) == WellConditionBinOp:
+            cond_clause = parseWellConditionBinOp(query.conds.arg)
+        else:
+            cond_clause = parseWellConditionPred(query.conds.arg)
+        # Handle negation
+        if query.conds.negate:
+            cond_clause = not_(cond_clause)
+        clauses.append(cond_clause)
+
+    # Screen grouped and filtered by conditions that meet query clauses
+    screens = select(db.Screen).join(db.Well).join(db.WellCondition).group_by(db.Screen).having(*clauses).order_by(db.Screen.name)
     return screens
 
-def parseWellConditionLogicExp(condexp: WellConditionLogicExp):
+
+def parseWellConditionBinOp(condexp: WellConditionBinOp):
     # Look at both sides of operator and add sub-clauses to list
     sub_clauses = []
-    for arg in [condexp.arg_left, condexp.arg_right]:
-        if type(arg) == WellConditionLogicExp:
-            sub_clauses.append(parseWellConditionLogicExp(arg))
+    for logic in [condexp.arg_left, condexp.arg_right]:
+        if type(logic.arg) == WellConditionBinOp:
+            sub_clause = parseWellConditionBinOp(logic.arg)
         else:
-            sub_clauses.append(parseWellConditionArg(arg))
+            sub_clause = parseWellConditionPred(logic.arg)
+        # Handle negation
+        if logic.negate:
+            sub_clause = not_(sub_clause)
+        sub_clauses.append(sub_clause)
     # Combine sub-clauses with operator
-    if condexp.op == LogicExpOp.or_:
+    if condexp.op == BinOp.or_:
         clause = or_(*sub_clauses)
     else:
         clause = and_(*sub_clauses)
     return clause
 
-def parseWellConditionArg(cond: WellConditionArg):
+def parseWellConditionPred(cond: WellConditionPred):
     # Selecting a specific well condition id
     conditions = select(db.WellCondition.id)
     # Either captured by an id
@@ -112,43 +152,68 @@ def parseWellConditionArg(cond: WellConditionArg):
         conditions = conditions.where(db.WellCondition.id == cond.id)
     # Or by chemical information
     elif cond.chems != None:
-        if type(cond.chems) == ChemicalLogicExp:
-            clauses = parseChemicalLogicExp(cond.chems)
+        if type(cond.chems.arg) == ChemicalBinOp:
+            chem_clause = parseChemicalBinOp(cond.chems.arg)
         else:
-            clauses = parseChemicalArg(cond.chems)
+            chem_clause = parseChemicalPred(cond.chems.arg)
+        # Handle negation
+        if cond.chems.negate:
+            chem_clause = not_(chem_clause)
         # Possible conditions are grouped and filtered by HAVING clause on chemical information
-        conditions = conditions.join(db.WellCondition_Factor_Link).join(db.Factor).join(db.Chemical).group_by(db.WellCondition.id).having(clauses)
-    # Condition expression is checking if the condition is in the produced list
-    condition_sub_clause = col(db.WellCondition.id).in_(conditions)
-    return condition_sub_clause
+        conditions = conditions.join(db.WellCondition_Factor_Link).join(db.Factor).join(db.Chemical).group_by(db.WellCondition.id).having(chem_clause)
 
-def parseChemicalLogicExp(chemexp: ChemicalLogicExp):
+    # Expression for the number of conditions which meet criteria
+    conditions_matched = func.sum(case((col(db.WellCondition.id).in_(conditions), 1), else_=0))
+    # Either check if all condition met criteria (universal)
+    if cond.universal_quantification:
+        condition_clause = conditions_matched == func.count(db.WellCondition.id)
+    # Or if any did (existential)
+    else:
+        condition_clause = conditions_matched > 0
+    return condition_clause
+
+def parseChemicalBinOp(chemexp: ChemicalBinOp):
     # Look at both sides of the operator and add sub-clauses to list
     sub_clauses = []
-    for arg in [chemexp.arg_left, chemexp.arg_right]:
-        if type(arg) == ChemicalLogicExp:
-            sub_clauses.append(parseChemicalLogicExp(arg))
+    for logic in [chemexp.arg_left, chemexp.arg_right]:
+        if type(logic.arg) == ChemicalBinOp:
+            sub_clause = parseChemicalBinOp(logic.arg)
         else:
-            sub_clauses.append(parseChemicalArg(arg))
+            sub_clause = parseChemicalPred(logic.arg)
+        # Handle negation
+        if logic.negate:
+            sub_clause = not_(sub_clause)
+        sub_clauses.append(sub_clause)
     # Combine sub-clauses with operator
-    if chemexp.op == LogicExpOp.or_:
+    if chemexp.op == BinOp.or_:
         clause = or_(*sub_clauses)
     else:
         clause = and_(*sub_clauses)
     return clause
 
-def parseChemicalArg(chem: ChemicalArg):
-    # Selecting a chemical by id, conc/units or ph (or any combination of them)
-    match_conditions = True
+def parseChemicalPred(chem: ChemicalPred):
+    # Selecting a chemical by id, name search, conc/units or ph (or any combination of them except id AND name search)
+    clause = True
+    # Identify chemical
     if chem.id != None:
-        match_conditions = match_conditions and db.Chemical.id == chem.id
+        clause = clause and db.Chemical.id == chem.id
+    else:
+        clause = clause and col(db.Chemical.id).contains(chem.name_search)
+    # Specify concentration
     if chem.conc != None and chem.units != None:
-        match_conditions = match_conditions and db.Chemical.conc == chem.conc and db.Chemical.units == chem.units
+        clause = clause and db.Chemical.conc == chem.conc and db.Chemical.units == chem.units
+    # Specify ph
     if chem.ph != None:
-        match_conditions = match_conditions and db.Chemical.ph == chem.ph
-    # Chemical expression is true if the selected chemical is present in any factor for a condition (used after GROUP BY)
-    literal = func.max(case((match_conditions, 1), else_=0))==1
-    return literal
+        clause = clause and db.Chemical.ph == chem.ph
+    # Expression for number of chemicals matched in a single condition
+    chemicals_matched = func.sum(case((clause, 1), else_=0))
+    # Either check if all chemicals met criteria (universal)
+    if chem.universal_quantification:
+        chem_clause = chemicals_matched == func.count(db.Chemical.id)
+    # Or if any did (existential)
+    else:
+        chem_clause = chemicals_matched > 0
+    return chem_clause
 
 # ============================================================================ #
 # API operations
