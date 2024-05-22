@@ -10,14 +10,21 @@ table, th, td {
   display: inline-table;
 }
 
-#query_container {
-  visibility: hidden;
+
+
+.query-container {
   margin: auto;
   text-align: center;
-  width: 50%;
+  width: 75%;
   border: 2px solid black;
   border-radius: 5px;
-  padding: 5px;
+}
+.query-body {
+  margin: 3px;
+}
+
+.query-body-top,.query-body-bottom {
+  padding: 3px;
 }
 
 .section-title {
@@ -37,6 +44,7 @@ table, th, td {
 
 .query-title {
   background-color: rgb(255, 200, 180);
+  margin-bottom: 3px;
 }
 
 .logic-div {
@@ -44,15 +52,20 @@ table, th, td {
   border: 2px solid rgb(141, 255, 141);
   border-radius: 5px;
   font-size: 0;
-  padding: 3px;
-  margin: 3px;
+  margin-left: 3px;
+  margin-right: 3px;
+  margin-bottom: 3px;
+  vertical-align: top;
 }
 
-.condition-div {
+.condition-div, .chemical-div {
   display: inline-block;
   border: 2px solid rgb(48, 138, 255);
   border-radius: 5px;
-  width: 120px;
-  height: 100px;
+  font-size: 16px;
+  padding: 3px;
 }
 
+.details {
+  text-align: left;
+}
