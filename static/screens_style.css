@@ -1,5 +1,6 @@
 table, th, td {
   border: 1px solid black;
+  margin: auto;
 }
 
 .inline-tables {
@@ -10,20 +11,34 @@ table, th, td {
   display: inline-table;
 }
 
+body {
+  text-align: center;
+}
+
+button {
+  cursor: pointer;
+}
 
 
-.query-container {
+#query-container {
   margin: auto;
   text-align: center;
   width: 75%;
   border: 2px solid black;
   border-radius: 5px;
 }
-.query-body {
+
+
+#query-head {
+  background-color: rgb(255, 200, 180);
+  margin-bottom: 3px;
+}
+
+#query-body {
   margin: 3px;
 }
 
-.query-body-top,.query-body-bottom {
+#query-body-top, #query-body-bottom {
   padding: 3px;
 }
 
@@ -34,22 +49,25 @@ table, th, td {
   padding: 5px;
 }
 
-.binop-title {
-  background-color: rgb(248, 248, 186);
-}
 
+
+.and-title {
+  background-color: rgb(188, 255, 194);
+}
+.or-title {
+  background-color: rgb(255, 158, 158);
+}
 .not-title {
-  background-color: rgb(212, 255, 255);
+  background-color: rgb(140, 176, 255);
 }
 
-.query-title {
-  background-color: rgb(255, 200, 180);
-  margin-bottom: 3px;
-}
+
+
+
 
 .logic-div {
   display: inline-block;
-  border: 2px solid rgb(141, 255, 141);
+  border: 2px solid rgb(255, 206, 99);
   border-radius: 5px;
   font-size: 0;
   margin-left: 3px;
@@ -60,10 +78,23 @@ table, th, td {
 
 .condition-div, .chemical-div {
   display: inline-block;
-  border: 2px solid rgb(48, 138, 255);
+  border: 2px solid rgb(127, 48, 255);
   border-radius: 5px;
   font-size: 16px;
   padding: 3px;
+  cursor: pointer;
+}
+
+.chemical-div {
+  background-color: rgb(255, 255, 255);
+}
+
+.selected-condition {
+  background-color: rgb(250, 255, 178);
+}
+
+.selected-chemical {
+  background-color: rgb(213, 255, 178);
 }
 
 .details {

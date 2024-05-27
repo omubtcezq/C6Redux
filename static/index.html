@@ -11,108 +11,14 @@
 <body>
 
 <h1>Screens</h1>
-<button id="all_screens">View All Screens</button>
-<button id="query_screens">Query Screens</button>
-<div class="query-container">
-  <div class="section-title query-title">Query</div>
-  <div class="query-body">
-    <div class="query-body-top">
-      <p>Screen Name Search:</p>
-      <input id="screen-name-input2" name="screen-name-search" value="">
-      <p>Well Search:</p>
-      <button id="button-search-by-conditio2">Search By Conditions</button>
-      <button id="button-condition-and2">AND</button>
-      <button id="button-condition-or2">OR</button>
-      <button id="button-condition-not2">NOT (selection)</button>
-    </div>
-    <div class="logic-div">
-      <div class="section-title not-title">NOT</div>
-      <div class="logic-div">
-        <div class="section-title binop-title">OR</div>
-        <div class="logic-div">
-          <div class="section-title binop-title">AND</div>
-          <div class="logic-div">
-            <div class="section-title not-title">NOT</div>
-            <div class="condition-div">
-              Match
-              <input type="radio" name="condition-quant"><label>Some</label>
-              <input type="radio"><label>All</label>
-              Conditions</br>
-              <select id="asdf" name="cars" size="1">
-                <option value="volvo">By Reference</option>
-                <option value="saab">By Chemical</option>
-              </select></br>
-              <div class="details">
-                <fieldset>
-                  <legend>Contition matches</legend>
-                  <label>Screen name</label>
-                  <select id="dfsd" name="cars" size="1">
-                    <option value="volvo">By Reference</option>
-                    <option value="saab">By Chemical</option>
-                  </select></br>
-                  <label>Location</label>
-                  <select id="ddd" name="cars" size="1">
-                    <option value="volvo">By Reference</option>
-                    <option value="saab">By Chemical</option>
-                  </select>
-                </fieldset>
-              </div>
-            </div>
-          </div>
-          <div class="condition-div">
-            Match
-            <input type="radio" name="condition-quant"><label>Some</label>
-            <input type="radio"><label>All</label>
-            Conditions</br>
-            <select id="fgfg" name="cars" size="1">
-              <option value="volvo">By Reference</option>
-              <option value="saab">By Chemical</option>
-            </select></br>
-            <fieldset>
-              <legend>Condition Contains</legend>
-              <div>
-                <button id="button-condition-and3">AND</button>
-                <button id="button-condition-or3">OR</button>
-                <button id="button-condition-not3">NOT (selection)</button>
-              </div>
-              <div class="logic-div">
-                <div class="section-title binop-title">NOT</div>
-                <div class="chemical-div">
-                  <div class="details">
-                    <label>Chemical</label>
-                    <select id="hgfd" name="cars" size="1">
-                      <option value="volvo">By Reference</option>
-                      <option value="saab">By Chemical</option>
-                    </select></br>
-                    <label>Name Search</label>
-                    <input placeholder="Any"></br>
-                    <label>Concentration</label>
-                    <input placeholder="Any">
-                    <select id="fffff" name="cars" size="1">
-                      <option value="volvo">By Reference</option>
-                      <option value="saab">By Chemical</option>
-                    </select></br>
-                    <label>pH</label>
-                    <input placeholder="Any"></br>
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-          </div>
-        </div>
-        <div class="condition-div"></div>
-      </div>
-    </div>
-    <div class="query-body-bottom">
-      <button id="button-query">Search</button>
-    </div>
-  </div>
-</div>
-
-<div class="query-container">
-  <div class="section-title query-title">Query</div>
-  <div class="query-body">
-    <div class="query-body-top">
+<p>
+  <button id="all-screens">View All Screens</button>
+  <button id="query-screens">Query Screens</button>
+</p>
+<div id="query-container" style="display: none;">
+  <div id="query-head" class="section-title">Query Builder</div>
+  <div id="query-body">
+    <div id="query-body-top">
       <p>
         Screen Name Search:</br>
         <input id="screen-name-search" name="screen-name-search" placeholder="Search all screens">
@@ -127,8 +33,8 @@
         <button id="button-cancel-search-by-condition" style="display: none;">Cancel</button>
       </p>
     </div>
-    <div class="query-body-middle"></div>
-    <div class="query-body-bottom">
+    <div id="query-body-middle"></div>
+    <div id="query-body-bottom">
       <p>
         <button id="button-query">Search</button>
       </p>
@@ -136,8 +42,8 @@
   </div>
 </div>
 <p>Results:</p>
-  <table id="screen_table">
-    <tr id="screen_table_header">
+  <table id="screen-table">
+    <tr id="screen-table-header">
       <th>Name</th>
       <th>Creator</th>
       <th>Creation Date</th>
