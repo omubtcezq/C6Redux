@@ -14,6 +14,7 @@ $('#all-screens').click(function(){
         $.each(data, function(i,s){
             screen_table.
                 append($('<tr>').attr('id',i).
+                    append($('<td>').text(s.id)).
                     append($('<td>').text(s.name)).
                     append($('<td>').text(s.creator)).
                     append($('<td>').text(s.creation_date)).
@@ -56,7 +57,7 @@ $('#button-search-by-condition').click(function() {
 
     // Create condition search tree
     let cond_div = create_condition_div();
-    cond_div.addClass('selected-condition');
+    cond_div.click();
     init_query_condition(cond_div);
     $('#query-body-middle').append(
         create_logic_div().append(cond_div)
@@ -118,7 +119,34 @@ function create_condition_div() {
     // Create radio check for ALL or SOME quantifier
     let condition_div = $('<div>').attr('class', 'condition-div').
     attr('id', 'condition-div'+CONDITION_ID_COUNTER).
-    append('Match ').
+    append(
+        $('<div>').attr('class', 'section-title').text('CONDITION')
+    ).
+    // Create dropdown for reference or chemical condition specification
+    append(
+        $('<select>').attr('id', 'condition-ref'+CONDITION_ID_COUNTER).
+        attr('name', 'condition-ref'+CONDITION_ID_COUNTER).
+        append(
+            $('<option>').attr('value', 'chem').
+            attr('selected', 'selected').
+            text('Identified by chemical')
+        ).
+        append(
+            $('<option>').attr('value', 'ref').
+            text('Identified by reference')
+        // Create field for specifing condition on change
+        ).change(function() {
+            cond = $(this).parent();
+            cond_id = get_condition_div_id(cond);
+            cond.children().last().remove();
+            if ($(this).val() == 'chem'){
+                cond.append(create_condition_chem_field(cond_id));
+            } else if ($(this).val() == 'ref'){
+                cond.append(create_condition_ref_field(cond_id));
+            }
+        })
+    ).
+    append($('</br>')).
     append(
         $('<input>').attr('type', 'radio').
         attr('name', 'condition-quant'+CONDITION_ID_COUNTER).
@@ -140,33 +168,10 @@ function create_condition_div() {
         $('<label>').attr('for', 'condition-quant-a'+CONDITION_ID_COUNTER).
         text('All')
     ).
-    append(' Conditions').
+    append(' conditions in the screen').
     append($('</br>')).
-    // Create dropdown for reference or chemical condition specification
-    append(
-        $('<select>').attr('id', 'condition-ref'+CONDITION_ID_COUNTER).
-        attr('name', 'condition-ref'+CONDITION_ID_COUNTER).
-        append(
-            $('<option>').attr('value', 'chem').
-            attr('selected', 'selected').
-            text('By Chemical')
-        ).
-        append(
-            $('<option>').attr('value', 'ref').
-            text('By Reference')
-        // Create field for specifing condition on change
-        ).change(function() {
-            cond = $(this).parent();
-            cond_id = get_condition_div_id(cond);
-            cond.children().last().remove();
-            if ($(this).val() == 'chem'){
-                cond.append(create_condition_chem_field(cond_id));
-            } else if ($(this).val() == 'ref'){
-                cond.append(create_condition_ref_field(cond_id));
-            }
-        })
     // Make condition selectable
-    ).click(function () {
+    click(function () {
         $('.condition-div').removeClass('selected-condition');
         $(this).addClass('selected-condition');
         SELECTED_CONDITION = $(this);
@@ -183,8 +188,9 @@ function create_condition_div() {
 function create_condition_chem_field(condition_id){
     // Create border and logical operators
     let condition_field = $('<fieldset>').attr('id', 'condition-fieldset'+condition_id).
+    attr('class', 'condition-chem-field').
     append(
-        $('<legend>').text('Condition contains')
+        $('<legend>').text('meet the following')
     ).
     append(
         $('<div>').append(
@@ -217,8 +223,11 @@ function create_condition_chem_field(condition_id){
         )
     );
     // Initialise with a chemical
-    let chem_div = create_chemical_div()
-    chem_div.addClass('selected-chemical');
+    let chem_div = create_chemical_div();
+    // Select if no global chemical selected
+    if ($('.selected-chemical').length == 0){
+        chem_div.click();
+    }
     condition_field.append(
         $('<div>').attr('id', 'chemical-query'+condition_id).
         append(
@@ -230,39 +239,57 @@ function create_condition_chem_field(condition_id){
 
 // Create field where condition is specified with reference information
 function create_condition_ref_field(condition_id){
-        // Create border and logical operators
-        let condition_field = $('<fieldset>').attr('id', 'condition-fieldset'+condition_id).
+    // Create border and logical operators
+    let condition_field = $('<fieldset>').attr('id', 'condition-fieldset'+condition_id).
+    append(
+        $('<legend>').text('equal the one in')
+    ).
+    append(
+        $('<table>').attr('class', 'input-table').
         append(
-            $('<legend>').text('Condition matches')
-        ).
-        append(
-            $('<label>').attr('for', 'screen-id'+condition_id).
-                text('Screen Name')
-        ).
-        append(
-            $('<select>').attr('id', 'screen-id'+condition_id).
-            attr('name', 'screen-id'+condition_id).
+            $('<tr>').
             append(
-                $('<option>').attr('value', 'temp').
-                attr('selected', 'selected').
-                text('TODO')
+                $('<td>').append(
+                    $('<label>').attr('for', 'screen-id'+condition_id).
+                    text('Screen Name')
+                )
+            ).
+            append(
+                $('<td>').append(
+                    $('<select>').attr('id', 'screen-id'+condition_id).
+                    attr('class', 'input-wide').
+                    attr('name', 'screen-id'+condition_id).
+                    append(
+                        $('<option>').attr('value', 'temp').
+                        attr('selected', 'selected').
+                        text('TODO')
+                    )
+                )
             )
         ).
-        append($('</br>')).
         append(
-            $('<label>').attr('for', 'wellcondition-id'+condition_id).
-                text('Location')
-        ).
-        append(
-            $('<select>').attr('id', 'wellcondition-id'+condition_id).
-            attr('name', 'wellcondition-id'+condition_id).
+            $('<tr>').
             append(
-                $('<option>').attr('value', 'temp').
-                attr('selected', 'selected').
-                text('TODO')
+                $('<td>').append(
+                    $('<label>').attr('for', 'wellcondition-id'+condition_id).
+                        text('Location')
+                )
+            ).
+            append(
+                $('<td>').append(
+                    $('<select>').attr('id', 'wellcondition-id'+condition_id).
+                    attr('class', 'input-wide').
+                    attr('name', 'wellcondition-id'+condition_id).
+                    append(
+                        $('<option>').attr('value', 'temp').
+                        attr('selected', 'selected').
+                        text('TODO')
+                    )
+                )
             )
-        );
-        return condition_field;
+        )
+    );
+    return condition_field;
 }
 
 // Create div for specifiying a chemical
@@ -270,7 +297,9 @@ function create_chemical_div(){
     // Chemical id from drop down
     let chemical_div = $('<div>').attr('class', 'chemical-div').
     attr('id', 'chemical-div'+CHEMICAL_ID_COUNTER).
-    append('Match ').
+    append(
+        $('<div>').attr('class', 'section-title').text('CHEMICAL')
+    ).
     append(
         $('<input>').attr('type', 'radio').
         attr('name', 'chemical-quant'+CHEMICAL_ID_COUNTER).
@@ -292,60 +321,86 @@ function create_chemical_div(){
         $('<label>').attr('for', 'chemical-quant-a'+CONDITION_ID_COUNTER).
         text('All')
     ).
-    append(' Chemicals').
-    append($('</br>')).
+    append(' chemicals in the condition meet').
     append(
-        $('<label>').attr('for', 'chemical-id'+CHEMICAL_ID_COUNTER).
-        text('Chemical')
-    ).
-    append(
-        $('<select>').attr('id', 'chemical-id'+CHEMICAL_ID_COUNTER).
-        attr('name', 'chemical-id'+CHEMICAL_ID_COUNTER).
+        $('<table>').attr('class', 'input-table').
         append(
-            $('<option>').attr('value', 'temp').
-            attr('selected', 'selected').
-            text('TODO')
+            $('<tr>').append(
+                $('<td>').append(
+                    $('<label>').attr('for', 'chemical-id'+CHEMICAL_ID_COUNTER).
+                    text('Chemical')
+                )
+            ).
+            append(
+                $('<td>').append(
+                    $('<select>').attr('id', 'chemical-id'+CHEMICAL_ID_COUNTER).
+                    attr('class', 'input-wide').
+                    attr('name', 'chemical-id'+CHEMICAL_ID_COUNTER).
+                    append(
+                        $('<option>').attr('value', 'temp').
+                        attr('selected', 'selected').
+                        text('TODO')
+                    )
+                )
+            )
+        ).
+        // Name search
+        append(
+            $('<tr>').append(
+                $('<td>').append(
+                    $('<label>').attr('for', 'chemical-name-search'+CHEMICAL_ID_COUNTER).
+                    text('Chemical Name Search')
+                )
+            ).
+            append(
+                $('<td>').append(
+                    $('<input>').attr('id', 'chemical-name-search'+CHEMICAL_ID_COUNTER).
+                    attr('class', 'input-wide').
+                    attr('name', 'chemical-name-search'+CHEMICAL_ID_COUNTER)
+                )
+            )
+        ).
+        // Concentration search
+        append(
+            $('<tr>').append(
+                $('<td>').append(
+                    $('<label>').attr('for', 'chemical-conc'+CHEMICAL_ID_COUNTER).
+                    text('Conc.')
+                )
+            ).
+            append(
+                $('<td>').append(
+                    $('<input>').attr('id', 'chemical-conc'+CHEMICAL_ID_COUNTER).
+                    attr('name', 'chemical-conc'+CHEMICAL_ID_COUNTER)
+                ).append(
+                    $('<select>').attr('id', 'chemical-units'+CHEMICAL_ID_COUNTER).
+                    attr('name', 'chemical-units'+CHEMICAL_ID_COUNTER).
+                    append(
+                        $('<option>').attr('value', 'temp').
+                        attr('selected', 'selected').
+                        text('TODO')
+                    )
+                )
+            )
+        ).
+        // pH Search
+        append(
+            $('<tr>').append(
+                $('<td>').append(
+                    $('<label>').attr('for', 'chemical-ph'+CHEMICAL_ID_COUNTER).
+                    text('pH')
+                )
+            ).
+            append(
+                $('<td>').append(
+                    $('<input>').attr('id', 'chemical-ph'+CHEMICAL_ID_COUNTER).
+                    attr('class', 'input-wide').
+                    attr('name', 'chemical-ph'+CHEMICAL_ID_COUNTER)
+                )
+            )
         )
     ).
-    append($('</br>')).
-    // Name search
-    append(
-        $('<label>').attr('for', 'chemical-name-search'+CHEMICAL_ID_COUNTER).
-        text('Name Search')
-    ).
-    append(
-        $('<input>').attr('id', 'chemical-name-search'+CHEMICAL_ID_COUNTER).
-        attr('name', 'chemical-name-search'+CHEMICAL_ID_COUNTER)
-    ).
-    append($('</br>')).
-    // Concentration search
-    append(
-        $('<label>').attr('for', 'chemical-conc'+CHEMICAL_ID_COUNTER).
-        text('Conc.')
-    ).
-    append(
-        $('<input>').attr('id', 'chemical-conc'+CHEMICAL_ID_COUNTER).
-        attr('name', 'chemical-conc'+CHEMICAL_ID_COUNTER)
-    ).
-    append(
-        $('<select>').attr('id', 'chemical-units'+CHEMICAL_ID_COUNTER).
-        attr('name', 'chemical-units'+CHEMICAL_ID_COUNTER).
-        append(
-            $('<option>').attr('value', 'temp').
-            attr('selected', 'selected').
-            text('TODO')
-        )
-    ).
-    append($('</br>')).
-    // pH Search
-    append(
-        $('<label>').attr('for', 'chemical-ph'+CHEMICAL_ID_COUNTER).
-        text('pH')
-    ).
-    append(
-        $('<input>').attr('id', 'chemical-ph'+CHEMICAL_ID_COUNTER).
-        attr('name', 'chemical-ph'+CHEMICAL_ID_COUNTER)
-    ).click(function () {
+    click(function () {
         $('.chemical-div').removeClass('selected-chemical');
         $(this).addClass('selected-chemical');
         SELECTED_CHEMICAL = $(this);
