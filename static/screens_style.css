@@ -1,17 +1,17 @@
 body {
   text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 button {
   cursor: pointer;
 }
-
 #screen-table, 
 #screen-table > thead > tr > th, 
 #screen-table > tbody > tr > td {
   border: 1px solid black;
   margin: auto;
-  text-align: left;
+  text-align: center;
 }
 
 .screen-contents-table, 
@@ -20,6 +20,10 @@ button {
   border: 1px solid black;
   margin: auto;
   text-align: left;
+}
+
+.viewed-screen {
+  background-color: rgb(203, 255, 255);
 }
 
 #query-container {
@@ -46,8 +50,6 @@ button {
 
 .section-title {
   text-align: center;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: medium;
   padding: 5px;
 }
 .and-title, .or-title {

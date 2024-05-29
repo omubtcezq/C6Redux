@@ -27,8 +27,10 @@ $('#all-screens').click(function(){
                 append($('<td>').text(s.comments)).
                 // Include button to view the screen calling function defined above
                 append(
-                    $('<td>').append(
-                        $('<button>').text('View').
+                    $('<td>').attr('class', 'button-cell').
+                    append(
+                        $('<button>').attr('id', 'view-screen-button'+s.id).
+                        text('View').
                         click(function () {
                             // Load screen contents given id and the screen row
                             load_screen_contents(s.id, $(this).parent().parent());
@@ -45,6 +47,8 @@ function load_screen_contents(screen_id, row){
     // If screen already viewed, remove it
     if (row.next().attr('id') == 'screen-contents-'+screen_id){
         row.next().remove();
+        $('#view-screen-button'+screen_id).text('View');
+        row.removeClass('viewed-screen');
     // If not, get screen contents and display them
     } else {
         $.getJSON(API_URL+'/screens/contents?id='+screen_id, function(contents_data) {
@@ -86,6 +90,7 @@ function load_screen_contents(screen_id, row){
             row.after(
                 $('<tr>').
                 attr('id', 'screen-contents-'+screen_id).
+                attr('class', 'viewed-screen').
                 append(
                     $('<td>').attr('colspan', '9')
                     .append(
@@ -108,6 +113,8 @@ function load_screen_contents(screen_id, row){
                     )
                 )
             )
+            row.addClass('viewed-screen');
+            $('#view-screen-button'+screen_id).text('Hide');
         })
     }
 }
