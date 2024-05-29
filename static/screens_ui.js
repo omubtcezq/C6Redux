@@ -569,17 +569,27 @@ function remove_query_condition(cond){
     if ((tree_parent_obj.left.op == 'none' || tree_parent_obj.left.op == 'not') &&
         tree_parent_obj.left.condition.is(cond)){
         
-        tree_parent_obj.op = tree_parent_obj.left.op;
-        tree_parent_obj.condition = tree_parent_obj.left.condition;
-        delete tree_parent_obj.left;
-        delete tree_parent_obj.right;
+        tree_parent_obj.op = tree_parent_obj.right.op;
+        if (tree_parent_obj.right.condition){
+            tree_parent_obj.condition = tree_parent_obj.right.condition;
+            delete tree_parent_obj.left;
+            delete tree_parent_obj.right;
+        } else {
+            tree_parent_obj.left = tree_parent_obj.right.left;
+            tree_parent_obj.right = tree_parent_obj.right.right;
+        }
     } else if ((tree_parent_obj.right.op == 'none' || tree_parent_obj.right.op == 'not') &&
                tree_parent_obj.right.condition.is(cond)){
         
-        tree_parent_obj.op = tree_parent_obj.right.op;
-        tree_parent_obj.condition = tree_parent_obj.right.condition;
-        delete tree_parent_obj.left;
-        delete tree_parent_obj.right;
+        tree_parent_obj.op = tree_parent_obj.left.op;
+        if (tree_parent_obj.left.condition){
+            tree_parent_obj.condition = tree_parent_obj.left.condition;
+            delete tree_parent_obj.left;
+            delete tree_parent_obj.right;
+        } else {
+            tree_parent_obj.left = tree_parent_obj.left.left;
+            tree_parent_obj.right = tree_parent_obj.left.right;
+        }
     } else {
         throw new Error('Error! Could not find condition in query tree for removal.')
     }
