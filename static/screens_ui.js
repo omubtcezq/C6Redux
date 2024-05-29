@@ -1,6 +1,7 @@
 (function() {
 // Connection parameters
 API_IP = '13.236.58.27'
+//API_IP = 'localhost'
 API_PORT = '8000'
 API_URL = 'http://'+API_IP+':'+API_PORT+'/api'
 
@@ -10,21 +11,107 @@ $(document).ready(function() {
 // Load all screens button
 $('#all-screens').click(function(){
     $.getJSON(API_URL+'/screens', function(data) {
-        screen_table = $('#screen-table');
+        screen_table_body = $('#screen-table > tbody');
         $.each(data, function(i,s){
-            screen_table.
-                append($('<tr>').attr('id',i).
-                    append($('<td>').text(s.id)).
-                    append($('<td>').text(s.name)).
-                    append($('<td>').text(s.creator)).
-                    append($('<td>').text(s.creation_date)).
-                    append($('<td>').text(s.format_name)).
-                    append($('<td>').text(s.format_rows)).
-                    append($('<td>').text(s.format_cols)).
-                    append($('<td>').text(s.comments)));
+            
+            // Add all screen components to row
+            screen_table_body.append(
+                $('<tr>').attr('id','screen-'+s.id).
+                append($('<td>').text(s.id)).
+                append($('<td>').text(s.name)).
+                append($('<td>').text(s.creator)).
+                append($('<td>').text(s.creation_date)).
+                append($('<td>').text(s.format_name)).
+                append($('<td>').text(s.format_rows)).
+                append($('<td>').text(s.format_cols)).
+                append($('<td>').text(s.comments)).
+                // Include button to view the screen calling function defined above
+                append(
+                    $('<td>').append(
+                        $('<button>').text('View').
+                        click(function () {
+                            // Load screen contents given id and the screen row
+                            load_screen_contents(s.id, $(this).parent().parent());
+                        })
+                    )
+                )
+            );
         });
     });
 })
+
+// Load screen contents button function
+function load_screen_contents(screen_id, row){
+    // If screen already viewed, remove it
+    if (row.next().attr('id') == 'screen-contents-'+screen_id){
+        row.next().remove();
+    // If not, get screen contents and display them
+    } else {
+        $.getJSON(API_URL+'/screens/contents?id='+screen_id, function(contents_data) {
+            // Create body to append rows to
+            let screen_contents_table = $('<tbody>')
+            // Loop wells
+            $.each(contents_data.wells, function(i, w){
+                // First row should include cell for well label
+                let first = true;
+                contents_row = $('<tr>');
+                factors = w.wellcondition.factor_links.length;
+                contents_row.append(
+                    $('<td>').attr('rowspan', factors).
+                    text(w.label)
+                );
+                // Loop factors
+                $.each(w.wellcondition.factor_links, function(i, fl){
+                    // If not first row of well create a new one
+                    if (!first){
+                        contents_row = $('<tr>');
+                    }
+                    else {
+                        first = false;
+                    }
+                    // What to display for each factor
+                    contents_row.
+                    append($('<td>').text(fl.factor.chemical.name)).
+                    append($('<td>').text(fl.factor.concentration)).
+                    append($('<td>').text(fl.factor.unit)).
+                    append($('<td>').text(fl.factor.ph)).
+                    append($('<td>').text(fl.classvar ? fl.classvar.name : null))
+                    
+                    // Add row to contents table
+                    screen_contents_table.append(contents_row);
+                })
+                
+            })
+            // Create row in original table below screen row and add new contents table there
+            row.after(
+                $('<tr>').
+                attr('id', 'screen-contents-'+screen_id).
+                append(
+                    $('<td>').attr('colspan', '9')
+                    .append(
+                        // Contents table
+                        $('<table>').attr('class', 'screen-contents-table').
+                        append(
+                            $('<thead>').append(
+                                $('<tr>').append($('<th>').text('Well')).
+                                append($('<th>').text('Chemical')).
+                                append($('<th>').text('Concentration')).
+                                append($('<th>').text('Units')).
+                                append($('<th>').text('pH')).
+                                append($('<th>').text('Class'))
+                            )
+                        ).
+                        // Add the body created above
+                        append(
+                            screen_contents_table
+                        )
+                    )
+                )
+            )
+        })
+    }
+}
+
 
 $('#query-screens').click(function(){
     if ($('#query-container').css("display") != 'block'){
@@ -41,6 +128,14 @@ let SELECTED_CHEMICAL = null;
 
 let CONDITION_ID_COUNTER = 0;
 let CHEMICAL_ID_COUNTER = 0;
+
+let ALL_UNITS = [
+    'M',
+    'v/v',
+    'w/v',
+    'mM',
+    'mg/ml'
+]
 
 //============================================================================//
 // Query buttons
@@ -256,14 +351,10 @@ function create_condition_ref_field(condition_id){
             ).
             append(
                 $('<td>').append(
-                    $('<select>').attr('id', 'screen-id'+condition_id).
+                    $('<input>').attr('id', 'screen-id'+condition_id).
                     attr('class', 'input-wide').
                     attr('name', 'screen-id'+condition_id).
-                    append(
-                        $('<option>').attr('value', 'temp').
-                        attr('selected', 'selected').
-                        text('TODO')
-                    )
+                    attr('placeholder', 'Search all screens')
                 )
             )
         ).
@@ -280,6 +371,7 @@ function create_condition_ref_field(condition_id){
                     $('<select>').attr('id', 'wellcondition-id'+condition_id).
                     attr('class', 'input-wide').
                     attr('name', 'wellcondition-id'+condition_id).
+                    attr('disabled', 'disabled').
                     append(
                         $('<option>').attr('value', 'temp').
                         attr('selected', 'selected').
@@ -321,9 +413,10 @@ function create_chemical_div(){
         $('<label>').attr('for', 'chemical-quant-a'+CONDITION_ID_COUNTER).
         text('All')
     ).
-    append(' chemicals in the condition meet').
+    append(' chemicals in the condition are').
     append(
         $('<table>').attr('class', 'input-table').
+        // Name search
         append(
             $('<tr>').append(
                 $('<td>').append(
@@ -333,30 +426,10 @@ function create_chemical_div(){
             ).
             append(
                 $('<td>').append(
-                    $('<select>').attr('id', 'chemical-id'+CHEMICAL_ID_COUNTER).
+                    $('<input>').attr('id', 'chemical-id'+CHEMICAL_ID_COUNTER).
                     attr('class', 'input-wide').
                     attr('name', 'chemical-id'+CHEMICAL_ID_COUNTER).
-                    append(
-                        $('<option>').attr('value', 'temp').
-                        attr('selected', 'selected').
-                        text('TODO')
-                    )
-                )
-            )
-        ).
-        // Name search
-        append(
-            $('<tr>').append(
-                $('<td>').append(
-                    $('<label>').attr('for', 'chemical-name-search'+CHEMICAL_ID_COUNTER).
-                    text('Chemical Name Search')
-                )
-            ).
-            append(
-                $('<td>').append(
-                    $('<input>').attr('id', 'chemical-name-search'+CHEMICAL_ID_COUNTER).
-                    attr('class', 'input-wide').
-                    attr('name', 'chemical-name-search'+CHEMICAL_ID_COUNTER)
+                    attr('placeholder', 'Search all chemicals')
                 )
             )
         ).
@@ -365,20 +438,30 @@ function create_chemical_div(){
             $('<tr>').append(
                 $('<td>').append(
                     $('<label>').attr('for', 'chemical-conc'+CHEMICAL_ID_COUNTER).
-                    text('Conc.')
+                    text('Concentration')
                 )
             ).
             append(
                 $('<td>').append(
                     $('<input>').attr('id', 'chemical-conc'+CHEMICAL_ID_COUNTER).
-                    attr('name', 'chemical-conc'+CHEMICAL_ID_COUNTER)
+                    attr('class', 'input-conc').
+                    attr('name', 'chemical-conc'+CHEMICAL_ID_COUNTER).
+                    attr('type', 'number').
+                    attr('min', '0').
+                    attr('placeholder', 'Range: [0, inf)')
                 ).append(
                     $('<select>').attr('id', 'chemical-units'+CHEMICAL_ID_COUNTER).
+                    attr('class', 'input-units').
                     attr('name', 'chemical-units'+CHEMICAL_ID_COUNTER).
                     append(
-                        $('<option>').attr('value', 'temp').
-                        attr('selected', 'selected').
-                        text('TODO')
+                        ALL_UNITS.map(function(u){
+                            let o = $('<option>').attr('value', u).
+                                    text(u);
+                            return o;
+                        })
+                        // $('<option>').attr('value', 'temp').
+                        // attr('selected', 'selected').
+                        // text('TODO')
                     )
                 )
             )
@@ -395,7 +478,11 @@ function create_chemical_div(){
                 $('<td>').append(
                     $('<input>').attr('id', 'chemical-ph'+CHEMICAL_ID_COUNTER).
                     attr('class', 'input-wide').
-                    attr('name', 'chemical-ph'+CHEMICAL_ID_COUNTER)
+                    attr('name', 'chemical-ph'+CHEMICAL_ID_COUNTER).
+                    attr('type', 'number').
+                    attr('min', '0').
+                    attr('max', '0').
+                    attr('placeholder', 'Range: [0, 14]')
                 )
             )
         )
