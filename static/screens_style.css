@@ -5,7 +5,9 @@ body {
 
 button {
   cursor: pointer;
+  margin: 3px;
 }
+
 #screen-table, 
 #screen-table > thead > tr > th, 
 #screen-table > tbody > tr > td {
@@ -105,15 +107,19 @@ button {
   border: 0;
   margin: auto;
 }
+.input-table > tr > td > label {
+  margin: 3px;
+}
 .input-wide {
   box-sizing: border-box;
   width: 100%;
 }
 .input-conc {
   box-sizing: border-box;
-  width: 60%;
+  width: 69%;
+  margin-right: 1%;
 }
 .input-units {
   box-sizing: border-box;
-  width: 40%;
+  width: 30%;
 }

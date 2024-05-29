@@ -151,11 +151,60 @@ let ALL_UNITS = [
 // Search by conditions, enable logical operators and initialise with one condition
 $('#button-search-by-condition').click(function() {
     $(this).css("display", "none");
-    $('#button-condition-and').css("display", "inline-block");
-    $('#button-condition-or').css("display", "inline-block");
-    $('#button-condition-not').css("display", "inline-block");
-    $('#button-condition-remove').css("display", "inline-block");
-    $('#button-cancel-search-by-condition').css("display", "inline-block");
+    $(this).after(
+        $('<button>').attr('id', 'button-cancel-search-by-condition')
+        .css("display", "inline-block")
+        .text('Cancel')
+    ).
+    after(
+        $('<button>').attr('id', 'button-condition-remove')
+        .css("display", "inline-block")
+        .text('Remove (selection')
+    ).
+    after(
+        $('<button>').attr('id', 'button-condition-not')
+        .css("display", "inline-block")
+        .text('NOT (selection')
+    ).
+    after(
+        $('<button>').attr('id', 'button-condition-or')
+        .css("display", "inline-block")
+        .text('OR')
+    ).
+    after(
+        $('<button>').attr('id', 'button-condition-and')
+        .css("display", "inline-block")
+        .text('AND')
+    )
+    
+    // Add click handlers to created buttons
+    $('#button-condition-and').click(function() {
+        binop_condition('and');
+    });
+    $('#button-condition-or').click(function() {
+        binop_condition('or');
+    });
+    $('#button-condition-not').click(function() {
+        not_condition();
+    });
+    $('#button-condition-remove').click(function() {
+        remove_condition();
+    });
+
+    
+    // Cancel search by conditions, hide operators and remove any query
+    $('#button-cancel-search-by-condition').click(function() {
+        $('#button-search-by-condition').css("display", "inline-block");
+        $('#button-condition-and').remove();
+        $('#button-condition-or').remove();
+        $('#button-condition-not').remove();
+        $('#button-condition-remove').remove();
+        $(this).remove();
+
+        // Destroy condition search tree
+        empty_query_condition();
+        $('#query-body-middle').empty();
+    })
 
     // Create condition search tree
     let cond_div = create_condition_div();
@@ -166,35 +215,7 @@ $('#button-search-by-condition').click(function() {
     );
 })
 
-// Cancel search by conditions, hide operators and remove any query
-$('#button-cancel-search-by-condition').click(function() {
-    $('#button-search-by-condition').css("display", "inline-block");
-    $('#button-condition-and').css("display", "none")
-    $('#button-condition-or').css("display", "none")
-    $('#button-condition-not').css("display", "none");
-    $('#button-condition-remove').css("display", "none");
-    $(this).css("display", "none");
 
-    // Destroy condition search tree
-    empty_query_condition();
-    $('#query-body-middle').empty();
-})
-
-$('#button-condition-and').click(function() {
-    binop_condition('and');
-});
-
-$('#button-condition-or').click(function() {
-    binop_condition('or');
-});
-
-$('#button-condition-not').click(function() {
-    not_condition();
-});
-
-$('#button-condition-remove').click(function() {
-    remove_condition();
-});
 
 //============================================================================//
 // Creation of condition and chemical html components
