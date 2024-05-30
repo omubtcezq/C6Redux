@@ -21,7 +21,8 @@ def read_connection_string():
     return "%s://%s:%s@%s:%s/%s" % (prefix, username, password, ip, port, database_name)
 
 # Create engine object for subsequent queries
-engine = create_engine(read_connection_string(), echo=True)
+# MySQL recycles pool every 8h leading to error if not done here as well. Recycle and check before connection
+engine = create_engine(read_connection_string(), echo=True, pool_recycle=3600*2, pool_pre_ping=True)
 
 # Get a db session to use with fastapi dependencies
 def get_session():
