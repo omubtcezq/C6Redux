@@ -1,17 +1,57 @@
 (function() {
 // Connection parameters
-API_IP = '13.236.58.27'
-//API_IP = 'localhost'
+//API_IP = '13.236.58.27'
+API_IP = 'localhost'
 API_PORT = '8000'
 API_URL = 'http://'+API_IP+':'+API_PORT+'/api'
 
 // Load rest once document is ready
 $(document).ready(function() {
 
+/*
+ 
+  ######   ##        #######  ########     ###    ##        ######  
+ ##    ##  ##       ##     ## ##     ##   ## ##   ##       ##    ## 
+ ##        ##       ##     ## ##     ##  ##   ##  ##       ##       
+ ##   #### ##       ##     ## ########  ##     ## ##        ######  
+ ##    ##  ##       ##     ## ##     ## ######### ##             ## 
+ ##    ##  ##       ##     ## ##     ## ##     ## ##       ##    ## 
+  ######   ########  #######  ########  ##     ## ########  ######  
+ 
+*/
+
+let QUERY_TREE = null;
+let SELECTED_CONDITION = null;
+let SELECTED_CHEMICAL = null;
+
+let CONDITION_ID_COUNTER = 0;
+let CHEMICAL_ID_COUNTER = 0;
+
+let ALL_UNITS = [
+    'M',
+    'v/v',
+    'w/v',
+    'mM',
+    'mg/ml'
+]
+
+/*
+ 
+ ########  #######  ########     ########  ##     ## ######## ########  #######  ##    ##  ######  
+    ##    ##     ## ##     ##    ##     ## ##     ##    ##       ##    ##     ## ###   ## ##    ## 
+    ##    ##     ## ##     ##    ##     ## ##     ##    ##       ##    ##     ## ####  ## ##       
+    ##    ##     ## ########     ########  ##     ##    ##       ##    ##     ## ## ## ##  ######  
+    ##    ##     ## ##           ##     ## ##     ##    ##       ##    ##     ## ##  ####       ## 
+    ##    ##     ## ##           ##     ## ##     ##    ##       ##    ##     ## ##   ### ##    ## 
+    ##     #######  ##           ########   #######     ##       ##     #######  ##    ##  ######  
+ 
+*/
+
 // Load all screens button
 $('#all-screens').click(function(){
+    screen_table_body = $('#screen-table > tbody');
+    screen_table_body.empty();
     $.getJSON(API_URL+'/screens', function(data) {
-        screen_table_body = $('#screen-table > tbody');
         $.each(data, function(i,s){
             
             // Add all screen components to row
@@ -128,25 +168,18 @@ $('#query-screens').click(function(){
     }
 })
 
-
-let QUERY_TREE = null;
-let SELECTED_CONDITION = null;
-let SELECTED_CHEMICAL = null;
-
-let CONDITION_ID_COUNTER = 0;
-let CHEMICAL_ID_COUNTER = 0;
-
-let ALL_UNITS = [
-    'M',
-    'v/v',
-    'w/v',
-    'mM',
-    'mg/ml'
-]
-
-//============================================================================//
-// Query buttons
-//============================================================================//
+/*
+ 
+   #####  ####### #     # ######      #####  #     # ####### ######  #     # 
+  #     # #     # ##    # #     #    #     # #     # #       #     #  #   #  
+  #       #     # # #   # #     #    #     # #     # #       #     #   # #   
+  #       #     # #  #  # #     #    #     # #     # #####   ######     #    
+  #       #     # #   # # #     #    #   # # #     # #       #   #      #    
+  #     # #     # #    ## #     #    #    #  #     # #       #    #     #    
+   #####  ####### #     # ######      #### #  #####  ####### #     #    #    
+                                                                             
+ 
+*/
 
 // Search by conditions, enable logical operators and initialise with one condition
 $('#button-search-by-condition').click(function() {
@@ -202,24 +235,80 @@ $('#button-search-by-condition').click(function() {
         $(this).remove();
 
         // Destroy condition search tree
-        empty_query_condition();
+        query_empty();
         $('#query-body-middle').empty();
     })
 
     // Create condition search tree
     let cond_div = create_condition_div();
+    let chem_div = get_first_chemical_div_from_condition_div(cond_div)
     cond_div.click();
-    init_query_condition(cond_div);
+    query_init(cond_div, chem_div);
     $('#query-body-middle').append(
         create_logic_div().append(cond_div)
     );
 })
 
 
+/*
+ 
+ ########  #### ##     ##    ##    ##    ###    ##     ## 
+ ##     ##  ##  ##     ##    ###   ##   ## ##   ##     ## 
+ ##     ##  ##  ##     ##    ####  ##  ##   ##  ##     ## 
+ ##     ##  ##  ##     ##    ## ## ## ##     ## ##     ## 
+ ##     ##  ##   ##   ##     ##  #### #########  ##   ##  
+ ##     ##  ##    ## ##      ##   ### ##     ##   ## ##   
+ ########  ####    ###       ##    ## ##     ##    ###    
+ 
+*/
 
+// Get the condition element id from jquery object
+function get_condition_div_id(cond_div){
+    return parseInt(cond_div.attr('id').slice(13));
+}
+
+// Get the parent condition element id from chemical jquery object
+function get_condition_div_id_from_chemical_div(chem_div){
+    let cond_div = chem_div.closest('.condition-div');
+    return get_condition_div_id(cond_div);
+}
+
+// Get the parent condition jquery object from a chemical jquery object
+function get_condition_div_from_chemical_div(chem_div){
+    return chem_div.closest('.condition-div');
+}
+
+// Get the first child chemical jquery object from a condition jquery object
+function get_first_chemical_div_from_condition_div(cond_div){
+    return cond_div.find('.chemical-div').first();
+}
+
+/*
+ 
+  #######  ##     ## ######## ########  ##    ##    ########  #### ##     ##  ######  
+ ##     ## ##     ## ##       ##     ##  ##  ##     ##     ##  ##  ##     ## ##    ## 
+ ##     ## ##     ## ##       ##     ##   ####      ##     ##  ##  ##     ## ##       
+ ##     ## ##     ## ######   ########     ##       ##     ##  ##  ##     ##  ######  
+ ##  ## ## ##     ## ##       ##   ##      ##       ##     ##  ##   ##   ##        ## 
+ ##    ##  ##     ## ##       ##    ##     ##       ##     ##  ##    ## ##   ##    ## 
+  ##### ##  #######  ######## ##     ##    ##       ########  ####    ###     ######  
+ 
+*/
 //============================================================================//
 // Creation of condition and chemical html components
 //============================================================================//
+/*
+ 
+  #       #######  #####  ###  #####  
+  #       #     # #     #  #  #     # 
+  #       #     # #        #  #       
+  #       #     # #  ####  #  #       
+  #       #     # #     #  #  #       
+  #       #     # #     #  #  #     # 
+  ####### #######  #####  ###  #####  
+                                      
+ 
+*/
 
 // Create a logic div for conditions and chemicals
 function create_logic_div() {
@@ -227,15 +316,18 @@ function create_logic_div() {
     return ldiv
 }
 
-// Get the condition element id from jquery object
-function get_condition_div_id(cond){
-    return parseInt(cond.attr('id').slice(13));
-}
-
-function get_condition_id_of_chemical(chem){
-    cond = chem.closest('.condition-div');
-    return get_condition_div_id(cond);
-}
+/*
+ 
+   #####  ####### #     # ######  
+  #     # #     # ##    # #     # 
+  #       #     # # #   # #     # 
+  #       #     # #  #  # #     # 
+  #       #     # #   # # #     # 
+  #     # #     # #    ## #     # 
+   #####  ####### #     # ######  
+                                  
+ 
+*/
 
 // Create a div for specifiying a condition
 function create_condition_div() {
@@ -264,8 +356,10 @@ function create_condition_div() {
             cond.children().last().remove();
             if ($(this).val() == 'chem'){
                 cond.append(create_condition_chem_field(cond_id));
+                query_init_chemical(cond, get_first_chemical_div_from_condition_div(cond));
             } else if ($(this).val() == 'ref'){
                 cond.append(create_condition_ref_field(cond_id));
+                query_init_reference(cond);
             }
         })
     ).
@@ -306,6 +400,19 @@ function create_condition_div() {
     CONDITION_ID_COUNTER += 1;
     return condition_div;
 }
+
+/*
+ 
+   #####  ####### #     # ######     ####### ### ####### #       ######  
+  #     # #     # ##    # #     #    #        #  #       #       #     # 
+  #       #     # # #   # #     #    #        #  #       #       #     # 
+  #       #     # #  #  # #     #    #####    #  #####   #       #     # 
+  #       #     # #   # # #     #    #        #  #       #       #     # 
+  #     # #     # #    ## #     #    #        #  #       #       #     # 
+   #####  ####### #     # ######     #       ### ####### ####### ######  
+                                                                         
+ 
+*/
 
 // Create field where condition is specified with chemical information
 function create_condition_chem_field(condition_id){
@@ -412,6 +519,19 @@ function create_condition_ref_field(condition_id){
     return condition_field;
 }
 
+/*
+ 
+   #####  #     # ####### #     # 
+  #     # #     # #       ##   ## 
+  #       #     # #       # # # # 
+  #       ####### #####   #  #  # 
+  #       #     # #       #     # 
+  #     # #     # #       #     # 
+   #####  #     # ####### #     # 
+                                  
+ 
+*/
+
 // Create div for specifiying a chemical
 function create_chemical_div(){
     // Chemical id from drop down
@@ -438,7 +558,7 @@ function create_chemical_div(){
         attr('value', 'a')
     ).
     append(
-        $('<label>').attr('for', 'chemical-quant-a'+CONDITION_ID_COUNTER).
+        $('<label>').attr('for', 'chemical-quant-a'+CHEMICAL_ID_COUNTER).
         text('All')
     ).
     append(' chemicals in the condition are').
@@ -531,158 +651,53 @@ function create_chemical_div(){
     return chemical_div;
 }
 
+/*
+ 
+ ########  #### ##     ##    ##        #######   ######   ####  ######  
+ ##     ##  ##  ##     ##    ##       ##     ## ##    ##   ##  ##    ## 
+ ##     ##  ##  ##     ##    ##       ##     ## ##         ##  ##       
+ ##     ##  ##  ##     ##    ##       ##     ## ##   ####  ##  ##       
+ ##     ##  ##   ##   ##     ##       ##     ## ##    ##   ##  ##       
+ ##     ##  ##    ## ##      ##       ##     ## ##    ##   ##  ##    ## 
+ ########  ####    ###       ########  #######   ######   ####  ######  
+ 
+*/
 //============================================================================//
-// Query tree functions
+// Div Logic functions
 //============================================================================//
-
-// Create query tree
-function init_query_condition(cond){
-    QUERY_TREE = {
-        'op': 'none', 
-        'condition' : cond
-    };
-    console.log('QT: ', QUERY_TREE);
-}
-
-// Destroy query tree
-function empty_query_condition(){
-    QUERY_TREE = null;
-    console.log('QT: ', QUERY_TREE);
-}
-
-// Add condition to query tree
-function binop_query_condition(cond, new_cond, binop){
-    tree_obj = get_query_obj_cond(cond, QUERY_TREE);
-    if (tree_obj == null){
-        throw new Error('Error! Could not find condition in query tree for operation.');
-    }
-    tree_obj.left = {
-        'op': tree_obj.op,
-        'condition': tree_obj.condition
-    };
-    tree_obj.op = binop;
-    tree_obj.right = {
-        'op': 'none',
-        'condition': new_cond
-    };
-    delete tree_obj.condition;
-    console.log('QT: ', QUERY_TREE);
-}
-
-// Negate condition in query tree
-function set_not_query_condition(cond, not){
-    tree_obj = get_query_obj_cond(cond, QUERY_TREE);
-    if (tree_obj == null){
-        throw new Error('Error! Could not find condition in query tree for negation.');
-    }
-    if (not) {
-        tree_obj.op = 'not';
-    } else {
-        tree_obj.op = 'none';
-    }
-    console.log('QT: ', QUERY_TREE);
-}
-
-// Remove condition from query tree
-function remove_query_condition(cond){
-    tree_cond_obj = get_query_obj_cond(cond, QUERY_TREE);
-    tree_parent_obj = get_query_obj_cond_parent(cond, QUERY_TREE);
-    if ((tree_parent_obj.left.op == 'none' || tree_parent_obj.left.op == 'not') &&
-        tree_parent_obj.left.condition.is(cond)){
-        
-        tree_parent_obj.op = tree_parent_obj.right.op;
-        if (tree_parent_obj.right.condition){
-            tree_parent_obj.condition = tree_parent_obj.right.condition;
-            delete tree_parent_obj.left;
-            delete tree_parent_obj.right;
-        } else {
-            tree_parent_obj.left = tree_parent_obj.right.left;
-            tree_parent_obj.right = tree_parent_obj.right.right;
-        }
-    } else if ((tree_parent_obj.right.op == 'none' || tree_parent_obj.right.op == 'not') &&
-               tree_parent_obj.right.condition.is(cond)){
-        
-        tree_parent_obj.op = tree_parent_obj.left.op;
-        if (tree_parent_obj.left.condition){
-            tree_parent_obj.condition = tree_parent_obj.left.condition;
-            delete tree_parent_obj.left;
-            delete tree_parent_obj.right;
-        } else {
-            tree_parent_obj.left = tree_parent_obj.left.left;
-            tree_parent_obj.right = tree_parent_obj.left.right;
-        }
-    } else {
-        throw new Error('Error! Could not find condition in query tree for removal.')
-    }
-    console.log('QT: ', QUERY_TREE);
-}
-
-// Get the node of the query tree with the specified condition
-function get_query_obj_cond(cond, tree){
-    if (tree.op == 'none' || tree.op == 'not'){
-        if (tree.condition.is(cond)){
-            return tree;
-        } else {
-            return null;
-        }
-    } else {
-        let left = get_query_obj_cond(cond, tree.left);
-        if (left != null) {
-            return left;
-        } else {
-            return get_query_obj_cond(cond, tree.right);
-        }
-    }
-}
-
-// Get the binary operator node of query tree above the specified condition
-function get_query_obj_cond_parent(cond, tree){
-    if (tree.op == 'and' || tree.op == 'or'){
-        if (tree.left.op == 'none' || tree.left.op == 'not'){
-            if (tree.left.condition.is(cond)){
-                return tree;
-            }
-        }
-        if (tree.right.op == 'none' || tree.right.op == 'not'){
-            if (tree.right.condition.is(cond)){
-                return tree;
-            }
-        }
-        let left = get_query_obj_cond_parent(cond, tree.left);
-        if (left != null) {
-            return left;
-        } else {
-            return get_query_obj_cond_parent(cond, tree.right);
-        }
-    } else {
-        return null;
-    }
-}
-
-//============================================================================//
-// Condition Logic functions
-//============================================================================//
+/*
+ 
+   #####  ####### #     # ######  
+  #     # #     # ##    # #     # 
+  #       #     # # #   # #     # 
+  #       #     # #  #  # #     # 
+  #       #     # #   # # #     # 
+  #     # #     # #    ## #     # 
+   #####  ####### #     # ######  
+                                  
+ 
+*/
 
 // Function to get jquery object of currently selected condition
 function get_selected_condition(){
-    let cond = $('.selected-condition');
-    if (cond.length == 0){
+    let cond_div = $('.selected-condition');
+    if (cond_div.length == 0){
         console.log('No condition selected.');
         return null;
-    } else if (cond.length > 1){
+    } else if (cond_div.length > 1){
         throw new Error('Error! Multiple conditions marked as selected.');
     }
-    return cond;
+    return cond_div;
 }
 
 // Handling of AND and OR operators
 function binop_condition(binop){
-    let cond = get_selected_condition();
-    if (cond == null){
+    let cond_div = get_selected_condition();
+    if (cond_div == null){
         return;
     }
     // Get the parent logic div and the top level logic div
-    let cond_logic = cond.parent();
+    let cond_logic = cond_div.parent();
     let logic_parent = cond_logic.parent();
     // Flag if left or right condition is selected to make new layout consistent
     if (logic_parent.children().last().is(cond_logic)){
@@ -693,7 +708,8 @@ function binop_condition(binop){
     // Create new logiv div with selected and new conditions
     let op_logic = create_logic_div();
     let new_cond_logic = create_logic_div();
-    let new_cond = create_condition_div();
+    let new_cond_div = create_condition_div();
+    let new_chem_div = get_first_chemical_div_from_condition_div(new_cond_div);
     let binop_str = null;
     let binop_cls = null;
     if (binop == 'and'){
@@ -712,7 +728,7 @@ function binop_condition(binop){
         cond_logic
     ).
     append(
-        new_cond_logic.append(new_cond)
+        new_cond_logic.append(new_cond_div)
     );
     // Insert according to which side was selected ot being with
     if (insert_right){
@@ -721,17 +737,17 @@ function binop_condition(binop){
         op_logic.insertBefore(logic_parent.children().last());
     }
     // Update query tree object
-    binop_query_condition(cond, new_cond, binop);
+    query_binop_condition(cond_div, new_cond_div, new_chem_div, binop);
 }
 
 // Handling of NOT operator
 function not_condition(){
-    let cond = get_selected_condition();
-    if (cond == null){
+    let cond_div = get_selected_condition();
+    if (cond_div == null){
         return;
     }
     // Get logic container and check if it has 1 or 2 children
-    let cond_logic = cond.parent();
+    let cond_logic = cond_div.parent();
     // One child means to add negation
     if (cond_logic.children().length == 1){
         cond_logic.prepend(
@@ -739,12 +755,12 @@ function not_condition(){
             text('NOT')
         );
         // Update query tree object
-        set_not_query_condition(cond, true);
+        query_set_not_condition(cond_div, true);
     // Two means to remove negation
     } else if (cond_logic.children().length == 2){
         cond_logic.children().first().remove();
         // Update query tree object
-        set_not_query_condition(cond, false);
+        query_set_not_condition(cond_div, false);
     // More is an error
     } else {
         throw new Error('Error! Multiple conditions in lowest level logic div.')
@@ -753,12 +769,12 @@ function not_condition(){
 
 // Handling of remove operator
 function remove_condition(){
-    let cond = get_selected_condition();
-    if (cond == null){
+    let cond_div = get_selected_condition();
+    if (cond_div == null){
         return;
     }
     // Get operator logic div
-    let cond_logic = cond.parent();
+    let cond_logic = cond_div.parent();
     let op_logic = cond_logic.parent();
     // Don't allow removal of last condition
     if (op_logic.is($('#query-body-middle'))){
@@ -774,39 +790,49 @@ function remove_condition(){
     // Replace whole operator logic div with one the siubling one
     op_logic.replaceWith(keep_cond_logic);
     // Update query tree object
-    remove_query_condition(cond);
+    query_remove_condition(cond_div);
 }
 
-//============================================================================//
-// Chemical logic functions
-//============================================================================//
+/*
+ 
+   #####  #     # ####### #     # 
+  #     # #     # #       ##   ## 
+  #       #     # #       # # # # 
+  #       ####### #####   #  #  # 
+  #       #     # #       #     # 
+  #     # #     # #       #     # 
+   #####  #     # ####### #     # 
+                                  
+ 
+*/
 
 // Function to get jquery object of currently selected condition
 function get_selected_chemical(){
-    let chem = $('.selected-chemical');
-    if (chem.length == 0){
+    let chem_div = $('.selected-chemical');
+    if (chem_div.length == 0){
         console.log('No chemical selected.');
         return null;
-    } else if (chem.length > 1){
+    } else if (chem_div.length > 1){
         throw new Error('Error! Multiple chemicals marked as selected.');
     }
-    return chem;
+    return chem_div;
 }
 
 // Handling of AND and OR operators
 function binop_chemical(binop, button_cond_id){
-    let chem = get_selected_chemical();
-    if (chem == null){
+    let chem_div = get_selected_chemical();
+    if (chem_div == null){
         return;
     }
-    cond_id = get_condition_id_of_chemical(chem);
+    let cond_div = get_condition_div_from_chemical_div(chem_div);
+    let cond_id = get_condition_div_id_from_chemical_div(chem_div);
     if (cond_id != button_cond_id){
         console.log('No chemical selected for this condition (binop action).');
         return;
     }
 
     // Get the parent logic div and the top level logic div
-    let chem_logic = chem.parent();
+    let chem_logic = chem_div.parent();
     let logic_parent = chem_logic.parent();
     // Flag if left or right chemical is selected to make new layout consistent
     if (logic_parent.children().last().is(chem_logic)){
@@ -817,7 +843,7 @@ function binop_chemical(binop, button_cond_id){
     // Create new logiv div with selected and new chemicals
     let op_logic = create_logic_div();
     let new_chem_logic = create_logic_div();
-    let new_chem = create_chemical_div();
+    let new_chem_div = create_chemical_div();
     let binop_str = null;
     let binop_cls = null;
     if (binop == 'and'){
@@ -836,7 +862,7 @@ function binop_chemical(binop, button_cond_id){
         chem_logic
     ).
     append(
-        new_chem_logic.append(new_chem)
+        new_chem_logic.append(new_chem_div)
     );
     // Insert according to which side was selected ot being with
     if (insert_right){
@@ -845,22 +871,23 @@ function binop_chemical(binop, button_cond_id){
         op_logic.insertBefore(logic_parent.children().last());
     }
     // Update query tree object
-    //binop_query_chemical(chem, new_chem, binop);
+    query_binop_chemical(cond_div, chem_div, new_chem_div, binop);
 }
 
 // Handling of NOT operator
 function not_chemical(button_cond_id){
-    let chem = get_selected_chemical();
-    if (chem == null){
+    let chem_div = get_selected_chemical();
+    if (chem_div == null){
         return;
     }
-    cond_id = get_condition_id_of_chemical(chem);
+    let cond_div = get_condition_div_from_chemical_div(chem_div);
+    let cond_id = get_condition_div_id_from_chemical_div(chem_div);
     if (cond_id != button_cond_id){
-        console.log('No chemical selected for this condition (binop action).');
+        console.log('No chemical selected for this condition (not action).');
         return;
     }
     // Get logic container and check if it has 1 or 2 children
-    let chem_logic = chem.parent();
+    let chem_logic = chem_div.parent();
     // One child means to add negation
     if (chem_logic.children().length == 1){
         chem_logic.prepend(
@@ -868,12 +895,12 @@ function not_chemical(button_cond_id){
             text('NOT')
         );
         // Update query tree object
-        //set_not_query_chemical(chem, true);
+        query_set_not_chemical(cond_div, chem_div, true);
     // Two means to remove negation
     } else if (chem_logic.children().length == 2){
         chem_logic.children().first().remove();
         // Update query tree object
-        //set_not_query_chemical(chem, false);
+        query_set_not_chemical(cond_div, chem_div, false);
     // More is an error
     } else {
         throw new Error('Error! Multiple chemicals in lowest level logic div.')
@@ -882,17 +909,18 @@ function not_chemical(button_cond_id){
 
 // Handling of remove operator
 function remove_chemical(button_cond_id){
-    let chem = get_selected_chemical();
-    if (chem == null){
+    let chem_div = get_selected_chemical();
+    if (chem_div == null){
         return;
     }
-    cond_id = get_condition_id_of_chemical(chem);
+    let cond_div = get_condition_div_from_chemical_div(chem_div);
+    let cond_id = get_condition_div_id_from_chemical_div(chem_div);
     if (cond_id != button_cond_id){
-        console.log('No chemical selected for this condition (binop action).');
+        console.log('No chemical selected for this condition (remove action).');
         return;
     }
     // Get operator logic div
-    let chem_logic = chem.parent();
+    let chem_logic = chem_div.parent();
     let op_logic = chem_logic.parent();
     // Don't allow removal of last chemical
     if (op_logic.is($('#chemical-query'+button_cond_id))){
@@ -905,10 +933,364 @@ function remove_chemical(button_cond_id){
     } else {
         keep_chem_logic = op_logic.children().last();
     }
-    // Replace whole operator logic div with one the siubling one
+    // Replace whole operator logic div with the sibling one
     op_logic.replaceWith(keep_chem_logic);
     // Update query tree object
-    //remove_query_chemical(chem);
+    query_remove_chemical(cond_div, chem_div);
+}
+
+/*
+ 
+  #######  ##     ## ######## ########  ##    ##    ##        #######   ######   ####  ######  
+ ##     ## ##     ## ##       ##     ##  ##  ##     ##       ##     ## ##    ##   ##  ##    ## 
+ ##     ## ##     ## ##       ##     ##   ####      ##       ##     ## ##         ##  ##       
+ ##     ## ##     ## ######   ########     ##       ##       ##     ## ##   ####  ##  ##       
+ ##  ## ## ##     ## ##       ##   ##      ##       ##       ##     ## ##    ##   ##  ##       
+ ##    ##  ##     ## ##       ##    ##     ##       ##       ##     ## ##    ##   ##  ##    ## 
+  ##### ##  #######  ######## ##     ##    ##       ########  #######   ######   ####  ######  
+ 
+*/
+//============================================================================//
+// Query tree functions
+//============================================================================//
+/*
+ 
+  ### #     # ### ####### 
+   #  ##    #  #     #    
+   #  # #   #  #     #    
+   #  #  #  #  #     #    
+   #  #   # #  #     #    
+   #  #    ##  #     #    
+  ### #     # ###    #    
+                          
+ 
+*/
+// Create query tree
+function query_init(cond_div, chem_div){
+    QUERY_TREE = {
+        'op': 'none', 
+        'condition': cond_div,
+        'chem_tree': {
+            'op': 'none',
+            'chemical': chem_div
+        }
+    };
+    console.log('QT: ', QUERY_TREE);
+}
+
+// Destroy query tree
+function query_empty(){
+    QUERY_TREE = null;
+    console.log('QT: ', QUERY_TREE);
+}
+
+/*
+ 
+   #####  ####### #     # ######  
+  #     # #     # ##    # #     # 
+  #       #     # # #   # #     # 
+  #       #     # #  #  # #     # 
+  #       #     # #   # # #     # 
+  #     # #     # #    ## #     # 
+   #####  ####### #     # ######  
+                                  
+ 
+*/
+
+// Add condition to query tree
+function query_binop_condition(cond_div, new_cond_div, new_chem_div, binop){
+    let cond_node = query_get_cond_node(cond_div, QUERY_TREE);
+    if (cond_node == null){
+        throw new Error('Error! Could not find condition in query tree for operation.');
+    }
+    cond_node.right = {
+        'op': 'none',
+        'condition': new_cond_div,
+        'chem_tree': {
+            'op': 'none',
+            'chemical': new_chem_div
+        }
+    };
+    cond_node.left = {
+        'op': cond_node.op,
+        'condition': cond_node.condition
+    };
+    if (cond_node.chem_tree){
+        cond_node.left.chem_tree = cond_node.chem_tree;
+        delete cond_node.chem_tree;
+    } else {
+        cond_node.left.ref = cond_node.ref;
+        delete cond_node.ref;
+    }
+    cond_node.op = binop;
+    delete cond_node.condition;
+    console.log('QT: ', QUERY_TREE);
+}
+
+// Negate condition in query tree
+function query_set_not_condition(cond_div, not){
+    let cond_node = query_get_cond_node(cond_div, QUERY_TREE);
+    if (cond_node == null){
+        throw new Error('Error! Could not find condition in query tree for negation.');
+    }
+    if (not) {
+        cond_node.op = 'not';
+    } else {
+        cond_node.op = 'none';
+    }
+    console.log('QT: ', QUERY_TREE);
+}
+
+// Remove condition from query tree
+function query_remove_condition(cond_div){
+    let cond_parent_node = query_get_cond_parent_node(cond_div, QUERY_TREE);
+    if ((cond_parent_node.left.op == 'none' || cond_parent_node.left.op == 'not') &&
+        cond_parent_node.left.condition.is(cond_div)){
+        
+        cond_parent_node.op = cond_parent_node.right.op;
+        if (cond_parent_node.right.condition){
+            cond_parent_node.condition = cond_parent_node.right.condition;
+            if (cond_parent_node.right.chem_tree){
+                cond_parent_node.chem_tree = cond_parent_node.right.chem_tree;
+            } else {
+                cond_parent_node.ref = cond_parent_node.right.ref;
+            }
+            delete cond_parent_node.left;
+            delete cond_parent_node.right;
+        } else {
+            cond_parent_node.left = cond_parent_node.right.left;
+            cond_parent_node.right = cond_parent_node.right.right;
+        }
+    } else if ((cond_parent_node.right.op == 'none' || cond_parent_node.right.op == 'not') &&
+               cond_parent_node.right.condition.is(cond_div)){
+        
+        cond_parent_node.op = cond_parent_node.left.op;
+        if (cond_parent_node.left.condition){
+            cond_parent_node.condition = cond_parent_node.left.condition;
+            if (cond_parent_node.left.chem_tree){
+                cond_parent_node.chem_tree = cond_parent_node.left.chem_tree;
+            } else {
+                cond_parent_node.ref = cond_parent_node.left.ref;
+            }
+            delete cond_parent_node.left;
+            delete cond_parent_node.right;
+        } else {
+            cond_parent_node.left = cond_parent_node.left.left;
+            cond_parent_node.right = cond_parent_node.left.right;
+        }
+    } else {
+        throw new Error('Error! Could not find condition in query tree for removal.')
+    }
+    console.log('QT: ', QUERY_TREE);
+}
+
+// Get the node of the query tree with the specified condition
+function query_get_cond_node(cond_div, tree){
+    if (tree.op == 'none' || tree.op == 'not'){
+        if (tree.condition.is(cond_div)){
+            return tree;
+        } else {
+            return null;
+        }
+    } else {
+        let left = query_get_cond_node(cond_div, tree.left);
+        if (left != null) {
+            return left;
+        } else {
+            return query_get_cond_node(cond_div, tree.right);
+        }
+    }
+}
+
+// Get the binary operator node of query tree above the specified condition
+function query_get_cond_parent_node(cond, tree){
+    if (tree.op == 'and' || tree.op == 'or'){
+        if (tree.left.op == 'none' || tree.left.op == 'not'){
+            if (tree.left.condition.is(cond)){
+                return tree;
+            }
+        }
+        if (tree.right.op == 'none' || tree.right.op == 'not'){
+            if (tree.right.condition.is(cond)){
+                return tree;
+            }
+        }
+        let left = query_get_cond_parent_node(cond, tree.left);
+        if (left != null) {
+            return left;
+        } else {
+            return query_get_cond_parent_node(cond, tree.right);
+        }
+    } else {
+        return null;
+    }
+}
+
+// Create reference query in condition node
+function query_init_reference(cond_div){
+    let cond_node = query_get_cond_node(cond_div, QUERY_TREE);
+    if (cond_node == null){
+        throw new Error('Error! Could not find condition in query tree for adding reference.');
+    }
+    delete cond_node.chem_tree;
+    cond_node.ref = {
+        'screen_id': null,
+        'location': null
+    }
+    console.log('QT: ', QUERY_TREE);
+}
+
+// Create chemical query subtree
+function query_init_chemical(cond_div, chem_div){
+    let cond_node = query_get_cond_node(cond_div, QUERY_TREE);
+    if (cond_node == null){
+        throw new Error('Error! Could not find condition in query tree for adding chemical.');
+    }
+    delete cond_node.ref;
+    cond_node.chem_tree = {
+        'op': 'none', 
+        'chemical' : chem_div
+    };
+    console.log('QT: ', QUERY_TREE);
+}
+
+/*
+ 
+   #####  #     # ####### #     # 
+  #     # #     # #       ##   ## 
+  #       #     # #       # # # # 
+  #       ####### #####   #  #  # 
+  #       #     # #       #     # 
+  #     # #     # #       #     # 
+   #####  #     # ####### #     # 
+                                  
+ 
+*/
+
+// Add condition to query tree
+function query_binop_chemical(cond_div, chem_div, new_chem_div, binop){
+    let cond_node = query_get_cond_node(cond_div, QUERY_TREE);
+    if (cond_node == null){
+        throw new Error('Error! Could not find condition in query tree for chemical operation.');
+    }
+    let chem_node = query_get_chem_node(chem_div, cond_node.chem_tree);
+    if (chem_node == null){
+        throw new Error('Error! Could not find chemical in query tree for operation.');
+    }
+    chem_node.left = {
+        'op': chem_node.op,
+        'chemical': chem_node.chemical
+    };
+    chem_node.op = binop;
+    chem_node.right = {
+        'op': 'none',
+        'chemical': new_chem_div
+    };
+    delete chem_node.chemical;
+    console.log('QT: ', QUERY_TREE);
+}
+
+// Negate condition in query tree
+function query_set_not_chemical(cond_div, chem_div, not){
+    let cond_node = query_get_cond_node(cond_div, QUERY_TREE);
+    if (cond_node == null){
+        throw new Error('Error! Could not find condition in query tree for chemical negation.');
+    }
+    let chem_node = query_get_chem_node(chem_div, cond_node.chem_tree);
+    if (chem_node == null){
+        throw new Error('Error! Could not find chemical in query tree for negation.');
+    }
+    if (not) {
+        chem_node.op = 'not';
+    } else {
+        chem_node.op = 'none';
+    }
+    console.log('QT: ', QUERY_TREE);
+}
+
+// Remove chemical from query tree
+function query_remove_chemical(cond_div, chem_div){
+    let cond_node = query_get_cond_node(cond_div, QUERY_TREE);
+    if (cond_node == null){
+        throw new Error('Error! Could not find condition in query tree for chemical removal.');
+    }
+    let chem_parent_node = query_get_chem_parent_node(chem_div, cond_node.chem_tree);
+
+    if ((chem_parent_node.left.op == 'none' || chem_parent_node.left.op == 'not') &&
+        chem_parent_node.left.chemical.is(chem_div)){
+        
+        chem_parent_node.op = chem_parent_node.right.op;
+        if (chem_parent_node.right.chemical){
+            chem_parent_node.chemical = chem_parent_node.right.chemical;
+            delete chem_parent_node.left;
+            delete chem_parent_node.right;
+        } else {
+            chem_parent_node.left = chem_parent_node.right.left;
+            chem_parent_node.right = chem_parent_node.right.right;
+        }
+    } else if ((chem_parent_node.right.op == 'none' || chem_parent_node.right.op == 'not') &&
+               chem_parent_node.right.chemical.is(chem_div)){
+        
+        chem_parent_node.op = chem_parent_node.left.op;
+        if (chem_parent_node.left.chemical){
+            chem_parent_node.chemical = chem_parent_node.left.chemical;
+            delete chem_parent_node.left;
+            delete chem_parent_node.right;
+        } else {
+            chem_parent_node.left = chem_parent_node.left.left;
+            chem_parent_node.right = chem_parent_node.left.right;
+        }
+    } else {
+        throw new Error('Error! Could not find chemical in query tree for removal.')
+    }
+    console.log('QT: ', QUERY_TREE);
+}
+
+// Get the node of the query tree with the specified condition
+function query_get_chem_node(chem_div, tree){
+    if (tree.op == 'none' || tree.op == 'not'){
+        if (tree.chemical.is(chem_div)){
+            return tree;
+        } else {
+            return null;
+        }
+    } else {
+        let left = query_get_chem_node(chem_div, tree.left);
+        if (left != null) {
+            return left;
+        } else {
+            return query_get_chem_node(chem_div, tree.right);
+        }
+    }
+}
+
+// Get the binary operator node of query tree above the specified condition
+function query_get_chem_parent_node(chem_div, tree){
+    if (tree.op == 'and' || tree.op == 'or'){
+        if (tree.left.op == 'none' || tree.left.op == 'not'){
+            if (tree.left.chemical.is(chem_div)){
+                return tree;
+            }
+        }
+        if (tree.right.op == 'none' || tree.right.op == 'not'){
+            if (tree.right.chemical.is(chem_div)){
+                return tree;
+            }
+        }
+        let left = query_get_chem_parent_node(chem_div, tree.left);
+        if (left != null) {
+            return left;
+        } else {
+            return query_get_chem_parent_node(chem_div, tree.right);
+        }
+    } else {
+        return null;
+    }
+}
+
+// Parse query into API json
+function parse_query(){
+
 }
 
 
