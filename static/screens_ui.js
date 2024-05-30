@@ -1,7 +1,7 @@
 (function() {
 // Connection parameters
-//API_IP = '13.236.58.27'
-API_IP = 'localhost'
+API_IP = '13.236.58.27'
+//API_IP = 'localhost'
 API_PORT = '8000'
 API_URL = 'http://'+API_IP+':'+API_PORT+'/api'
 
