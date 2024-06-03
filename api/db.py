@@ -70,9 +70,13 @@ class Chemical(ChemicalBaseLarge, table=True):
     classes: list["Class"] = Relationship(back_populates="chemicals", link_model=Chemical_Class_Link)
     factors: list["Factor"] = Relationship(back_populates="chemical")
 
-# Read when screen or stock is read
+# Read when screen or stock read
 class ChemicalReadLite(ChemicalBase):
     id: int
+
+# Read when chemical names read
+class ChemicalReadLiteAlias(ChemicalReadLite):
+    aliases: list["AliasRead"]
 
 # Read when chemical list is read
 class ChemicalRead(ChemicalBaseLarge):
@@ -232,6 +236,8 @@ class HazardRead(HazardBase):
 
 class ScreenBase(SQLModel):
     name: str
+
+class ScreenBaseLarge(ScreenBase):
     creator: str
     creation_date: datetime | None
     format_name: str | None = Field(default=None)
@@ -239,7 +245,7 @@ class ScreenBase(SQLModel):
     format_cols: int | None = Field(default=None)
     comments: str | None = Field(default=None)
 
-class Screen(ScreenBase, table=True):
+class Screen(ScreenBaseLarge, table=True):
     id: int | None = Field(default=None, primary_key=True)
     frequentblock: Union["FrequentBlock", None] = Relationship(back_populates="screen")
     wells: list["Well"] = Relationship(back_populates="screen")
@@ -247,12 +253,16 @@ class Screen(ScreenBase, table=True):
 class ScreenNew(ScreenBase):
     pass
 
+# Read when screen names read
+class ScreenReadLite(ScreenBase):
+    id: int
+
 # Read when screen list is read
-class ScreenRead(ScreenBase):
+class ScreenRead(ScreenBaseLarge):
     id: int
 
 # Read when screen is read
-class ScreenContentsRead(ScreenRead):
+class ScreenContentsRead(ScreenBaseLarge):
     wells: list["WellRead"]
 
 # ============================== FrequentBlock =============================== #

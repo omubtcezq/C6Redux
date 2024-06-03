@@ -224,6 +224,18 @@ router = APIRouter(
     tags=["Screen Operations"]
 )
 
+@router.get("/names", 
+            summary="Get a list of all screen name",
+            response_description="List of all screen names",
+            response_model=list[db.ScreenReadLite])
+async def get_screen_names(*, session: Session=Depends(db.get_session)):
+    """
+    Get a list of all screen names
+    """
+    statement = select(db.Screen)
+    screens = session.exec(statement).all()
+    return screens
+
 @router.get("/", 
             summary="Get a list of all screens",
             response_description="List of all screens",

@@ -20,12 +20,12 @@ $(document).ready(function() {
  
 */
 
-let QUERY_TREE = null;
-let SELECTED_CONDITION = null;
-let SELECTED_CHEMICAL = null;
-
 let CONDITION_ID_COUNTER = 0;
 let CHEMICAL_ID_COUNTER = 0;
+
+let SCREEN_QUERY = null;
+let SCREEN_NAMES = null;
+let CHEMICAL_NAMES = null;
 
 let ALL_UNITS = [
     'M',
@@ -159,7 +159,7 @@ function load_screen_contents(screen_id, row){
     }
 }
 
-
+// Button to toggle screen query container
 $('#query-screens').click(function(){
     if ($('#query-container').css("display") != 'block'){
         $('#query-container').css("display", "block");
@@ -167,6 +167,59 @@ $('#query-screens').click(function(){
         $('#query-container').css("display", "none");
     }
 })
+
+// Screen name search, populate remote list only once
+$('#screen-name-search').autocomplete({
+    source: function (request, response){
+        if (SCREEN_NAMES == null){
+            $.getJSON(API_URL+'/screens/names', function(screen_names){
+                SCREEN_NAMES = screen_names;
+                response(search_screen_names(request.term, SCREEN_NAMES));
+            })
+        } else {
+            response(search_screen_names(request.term, SCREEN_NAMES));
+        }
+    },
+    minLength: 2
+})
+
+// Sub function for screen name string matching
+function search_screen_names(term, screen_names){
+    let out = [];
+    $.each(screen_names, function(i, s){
+        if (s.name.toLowerCase().includes(term.toLowerCase())){
+            out.push({
+                'value': s.name,
+                'label': s.name
+            });
+        }
+    });
+    return out;
+}
+
+// Sub function for chemical name string matching
+function search_chemical_names(term, chemical_names){
+    let out = [];
+    $.each(chemical_names, function(i, c){
+        if (c.name.toLowerCase().includes(term.toLowerCase())){
+            out.push({
+                'value': c.name,
+                'label': c.name
+            });
+        } else {
+            for (i in c.aliases){
+                if (c.aliases[i].name.toLowerCase().includes(term.toLowerCase())){
+                    out.push({
+                        'value': c.name,
+                        'label': c.name + " (alias: " + c.aliases[i].name + ")"
+                    });
+                    break;
+                }
+            }
+        }
+    });
+    return out;
+}
 
 /*
  
@@ -356,10 +409,10 @@ function create_condition_div() {
             cond.children().last().remove();
             if ($(this).val() == 'chem'){
                 cond.append(create_condition_chem_field(cond_id));
-                query_init_chemical(cond, get_first_chemical_div_from_condition_div(cond));
+                query_by_chemical_condition(cond, get_first_chemical_div_from_condition_div(cond));
             } else if ($(this).val() == 'ref'){
                 cond.append(create_condition_ref_field(cond_id));
-                query_init_reference(cond);
+                query_by_reference_condition(cond);
             }
         })
     ).
@@ -391,7 +444,6 @@ function create_condition_div() {
     click(function () {
         $('.condition-div').removeClass('selected-condition');
         $(this).addClass('selected-condition');
-        SELECTED_CONDITION = $(this);
     });
     // Init condition as being specified by chemical
     let condition_field = create_condition_chem_field(CONDITION_ID_COUNTER);
@@ -577,7 +629,20 @@ function create_chemical_div(){
                     $('<input>').attr('id', 'chemical-id'+CHEMICAL_ID_COUNTER).
                     attr('class', 'input-wide').
                     attr('name', 'chemical-id'+CHEMICAL_ID_COUNTER).
-                    attr('placeholder', 'Search all chemicals')
+                    attr('placeholder', 'Partial or full name')
+                    .autocomplete({
+                        source: function (request, response){
+                            if (CHEMICAL_NAMES == null){
+                                $.getJSON(API_URL+'/chemicals/names', function(chemical_names){
+                                    CHEMICAL_NAMES = chemical_names;
+                                    response(search_chemical_names(request.term, CHEMICAL_NAMES));
+                                })
+                            } else {
+                                response(search_chemical_names(request.term, CHEMICAL_NAMES));
+                            }
+                        },
+                        minLength: 2
+                    })
                 )
             )
         ).
@@ -607,9 +672,6 @@ function create_chemical_div(){
                                     text(u);
                             return o;
                         })
-                        // $('<option>').attr('value', 'temp').
-                        // attr('selected', 'selected').
-                        // text('TODO')
                     )
                 )
             )
@@ -638,13 +700,11 @@ function create_chemical_div(){
     click(function () {
         $('.chemical-div').removeClass('selected-chemical');
         $(this).addClass('selected-chemical');
-        SELECTED_CHEMICAL = $(this);
     });
 
     chemical_div.click(function () {
         $('.chemical-div').removeClass('selected-chemical');
         $(this).addClass('selected-chemical');
-        SELECTED_CHEMICAL = $(this);
     });
 
     CHEMICAL_ID_COUNTER += 1;
@@ -967,21 +1027,38 @@ function remove_chemical(button_cond_id){
 */
 // Create query tree
 function query_init(cond_div, chem_div){
-    QUERY_TREE = {
-        'op': 'none', 
-        'condition': cond_div,
-        'chem_tree': {
-            'op': 'none',
-            'chemical': chem_div
+    SCREEN_QUERY = {
+        'name_search': null,
+        'conds': {
+            'negate': false,
+            'arg': {
+                'universal_quantification': false,
+                'id': null,
+                'chems': {
+                    'negate': false,
+                    'arg': {
+                        'universal_quantification': false,
+                        'name_search': null,
+                        'id': null,
+                        'conc': null,
+                        'units': null,
+                        'ph': null,
+                        // Additional details stored for easy parsing until query
+                        'q_chemical_div': chem_div
+                    }
+                },
+                // Additional details stored for easy parsing until query
+                'q_condition_div': cond_div
+            }
         }
     };
-    console.log('QT: ', QUERY_TREE);
+    console.log('QT: ', SCREEN_QUERY);
 }
 
 // Destroy query tree
 function query_empty(){
-    QUERY_TREE = null;
-    console.log('QT: ', QUERY_TREE);
+    SCREEN_QUERY = null;
+    console.log('QT: ', SCREEN_QUERY);
 }
 
 /*
@@ -999,159 +1076,142 @@ function query_empty(){
 
 // Add condition to query tree
 function query_binop_condition(cond_div, new_cond_div, new_chem_div, binop){
-    let cond_node = query_get_cond_node(cond_div, QUERY_TREE);
-    if (cond_node == null){
+    let cond_clause = query_get_cond_clause(cond_div, SCREEN_QUERY.conds);
+    if (cond_clause == null){
         throw new Error('Error! Could not find condition in query tree for operation.');
     }
-    cond_node.right = {
-        'op': 'none',
-        'condition': new_cond_div,
-        'chem_tree': {
-            'op': 'none',
-            'chemical': new_chem_div
+    let right = {
+        'negate': false,
+        'arg': {
+            'universal_quantification': false,
+            'id': null,
+            'chems': {
+                'negate': false,
+                'arg': {
+                    'universal_quantification': false,
+                    'name_search': null,
+                    'id': null,
+                    'conc': null,
+                    'units': null,
+                    'ph': null,
+                    // Additional details stored for easy parsing until query
+                    'q_chemical_div': new_chem_div
+                }
+            },
+            // Additional details stored for easy parsing until query
+            'q_condition_div': new_cond_div
         }
     };
-    cond_node.left = {
-        'op': cond_node.op,
-        'condition': cond_node.condition
+    let left = {
+        'negate': cond_clause.negate,
+        'arg': cond_clause.arg
     };
-    if (cond_node.chem_tree){
-        cond_node.left.chem_tree = cond_node.chem_tree;
-        delete cond_node.chem_tree;
-    } else {
-        cond_node.left.ref = cond_node.ref;
-        delete cond_node.ref;
-    }
-    cond_node.op = binop;
-    delete cond_node.condition;
-    console.log('QT: ', QUERY_TREE);
+    cond_clause.negate = false;
+    cond_clause.arg = {
+        'op': binop,
+        'arg_left': left,
+        'arg_right': right
+    };
+    console.log('QT: ', SCREEN_QUERY);
 }
 
 // Negate condition in query tree
 function query_set_not_condition(cond_div, not){
-    let cond_node = query_get_cond_node(cond_div, QUERY_TREE);
-    if (cond_node == null){
+    let cond_clause = query_get_cond_clause(cond_div, SCREEN_QUERY.conds);
+    if (cond_clause == null){
         throw new Error('Error! Could not find condition in query tree for negation.');
     }
-    if (not) {
-        cond_node.op = 'not';
-    } else {
-        cond_node.op = 'none';
-    }
-    console.log('QT: ', QUERY_TREE);
+    cond_clause.negate = not;
+    console.log('QT: ', SCREEN_QUERY);
 }
 
 // Remove condition from query tree
 function query_remove_condition(cond_div){
-    let cond_parent_node = query_get_cond_parent_node(cond_div, QUERY_TREE);
-    if ((cond_parent_node.left.op == 'none' || cond_parent_node.left.op == 'not') &&
-        cond_parent_node.left.condition.is(cond_div)){
-        
-        cond_parent_node.op = cond_parent_node.right.op;
-        if (cond_parent_node.right.condition){
-            cond_parent_node.condition = cond_parent_node.right.condition;
-            if (cond_parent_node.right.chem_tree){
-                cond_parent_node.chem_tree = cond_parent_node.right.chem_tree;
-            } else {
-                cond_parent_node.ref = cond_parent_node.right.ref;
-            }
-            delete cond_parent_node.left;
-            delete cond_parent_node.right;
-        } else {
-            cond_parent_node.left = cond_parent_node.right.left;
-            cond_parent_node.right = cond_parent_node.right.right;
-        }
-    } else if ((cond_parent_node.right.op == 'none' || cond_parent_node.right.op == 'not') &&
-               cond_parent_node.right.condition.is(cond_div)){
-        
-        cond_parent_node.op = cond_parent_node.left.op;
-        if (cond_parent_node.left.condition){
-            cond_parent_node.condition = cond_parent_node.left.condition;
-            if (cond_parent_node.left.chem_tree){
-                cond_parent_node.chem_tree = cond_parent_node.left.chem_tree;
-            } else {
-                cond_parent_node.ref = cond_parent_node.left.ref;
-            }
-            delete cond_parent_node.left;
-            delete cond_parent_node.right;
-        } else {
-            cond_parent_node.left = cond_parent_node.left.left;
-            cond_parent_node.right = cond_parent_node.left.right;
-        }
-    } else {
-        throw new Error('Error! Could not find condition in query tree for removal.')
+    let cond_parent_clause = query_get_cond_parent_clause(cond_div, SCREEN_QUERY.conds);
+    if (cond_parent_clause == null){
+        throw new Error('Error! Could not find condition in query tree for removal.');
     }
+    // Either remove left argument
+    if (!cond_parent_clause.arg.arg_left.arg.op && cond_parent_clause.arg.arg_left.arg.q_condition_div.is(cond_div)){
+        cond_parent_clause.negate = cond_parent_clause.arg.arg_right.negate;
+        cond_parent_clause.arg = cond_parent_clause.arg.arg_right.arg;
+    // Or right argument
+    } else if (!cond_parent_clause.arg.arg_right.arg.op && cond_parent_clause.arg.arg_right.arg.q_condition_div.is(cond_div)){
+        cond_parent_clause.negate = cond_parent_clause.arg.arg_left.negate;
+        cond_parent_clause.arg = cond_parent_clause.arg.arg_left.arg;
+    
+    }
+    console.log('QT: ', SCREEN_QUERY);
+}
+
+// Specify condition by reference
+function query_by_reference_condition(cond_div){
+    let cond_clause = query_get_cond_clause(cond_div, SCREEN_QUERY.conds);
+    if (cond_clause == null){
+        throw new Error('Error! Could not find condition in query tree for adding reference.');
+    }
+    cond_clause.arg.chems = null;
     console.log('QT: ', QUERY_TREE);
 }
 
-// Get the node of the query tree with the specified condition
-function query_get_cond_node(cond_div, tree){
-    if (tree.op == 'none' || tree.op == 'not'){
-        if (tree.condition.is(cond_div)){
+// Specify condition by chemicals
+function query_by_chemical_condition(cond_div, chem_div){
+    let cond_clause = query_get_cond_clause(cond_div, SCREEN_QUERY.conds);
+    if (cond_clause == null){
+        throw new Error('Error! Could not find condition in query tree for adding chemical.');
+    }
+    cond.clause.arg.chems = {
+        'negate': false,
+        'arg': {
+            'universal_quantification': false,
+            'name_search': null,
+            'id': null,
+            'conc': null,
+            'units': null,
+            'ph': null,
+            // Additional details stored for easy parsing until query
+            'q_chemical_div': chem_div
+        }
+    };
+    console.log('QT: ', QUERY_TREE);
+}
+
+// Get the clause of the condition in the query tree
+function query_get_cond_clause(cond_div, tree){
+    if (!tree.arg.op){
+        if (tree.arg.q_condition_div.is(cond_div)){
             return tree;
         } else {
             return null;
         }
     } else {
-        let left = query_get_cond_node(cond_div, tree.left);
-        if (left != null) {
+        let left = query_get_cond_clause(cond_div, tree.arg.arg_left);
+        if (left != null){
             return left;
         } else {
-            return query_get_cond_node(cond_div, tree.right);
+            return query_get_cond_clause(cond_div, tree.arg.arg_right);
         }
     }
 }
 
-// Get the binary operator node of query tree above the specified condition
-function query_get_cond_parent_node(cond, tree){
-    if (tree.op == 'and' || tree.op == 'or'){
-        if (tree.left.op == 'none' || tree.left.op == 'not'){
-            if (tree.left.condition.is(cond)){
-                return tree;
-            }
-        }
-        if (tree.right.op == 'none' || tree.right.op == 'not'){
-            if (tree.right.condition.is(cond)){
-                return tree;
-            }
-        }
-        let left = query_get_cond_parent_node(cond, tree.left);
-        if (left != null) {
-            return left;
+// Get the clause with the binary operator above the specified condition
+function query_get_cond_parent_clause(cond_div, tree){
+    if (tree.arg.op){
+        if (!tree.arg.arg_left.arg.op && tree.arg.arg_left.arg.q_condition_div.is(cond_div)){
+            return tree;
+        } else if (!tree.arg.arg_right.arg.op && tree.arg.arg_right.arg.q_condition_div.is(cond_div)){
+            return tree;
         } else {
-            return query_get_cond_parent_node(cond, tree.right);
+            let left = query_get_cond_parent_clause(cond_div, tree.arg.arg_left);
+            if (left != null){
+                return left;
+            } else {
+                return query_get_cond_parent_clause(cond_div, tree.arg.arg_right);
+            }
         }
     } else {
         return null;
     }
-}
-
-// Create reference query in condition node
-function query_init_reference(cond_div){
-    let cond_node = query_get_cond_node(cond_div, QUERY_TREE);
-    if (cond_node == null){
-        throw new Error('Error! Could not find condition in query tree for adding reference.');
-    }
-    delete cond_node.chem_tree;
-    cond_node.ref = {
-        'screen_id': null,
-        'location': null
-    }
-    console.log('QT: ', QUERY_TREE);
-}
-
-// Create chemical query subtree
-function query_init_chemical(cond_div, chem_div){
-    let cond_node = query_get_cond_node(cond_div, QUERY_TREE);
-    if (cond_node == null){
-        throw new Error('Error! Could not find condition in query tree for adding chemical.');
-    }
-    delete cond_node.ref;
-    cond_node.chem_tree = {
-        'op': 'none', 
-        'chemical' : chem_div
-    };
-    console.log('QT: ', QUERY_TREE);
 }
 
 /*
@@ -1167,128 +1227,136 @@ function query_init_chemical(cond_div, chem_div){
  
 */
 
-// Add condition to query tree
+// Add chemical to query tree within condition
 function query_binop_chemical(cond_div, chem_div, new_chem_div, binop){
-    let cond_node = query_get_cond_node(cond_div, QUERY_TREE);
-    if (cond_node == null){
+    let cond_clause = query_get_cond_clause(cond_div, SCREEN_QUERY.conds);
+    if (cond_clause == null){
         throw new Error('Error! Could not find condition in query tree for chemical operation.');
     }
-    let chem_node = query_get_chem_node(chem_div, cond_node.chem_tree);
-    if (chem_node == null){
+    let chem_clause = query_get_chem_clause(chem_div, cond_clause.arg.chems);
+    if (chem_clause == null){
         throw new Error('Error! Could not find chemical in query tree for operation.');
     }
-    chem_node.left = {
-        'op': chem_node.op,
-        'chemical': chem_node.chemical
+    let right = {
+        'negate': false,
+        'arg': {
+            'universal_quantification': false,
+            'name_search': null,
+            'id': null,
+            'conc': null,
+            'units': null,
+            'ph': null,
+            // Additional details stored for easy parsing until query
+            'q_chemical_div': new_chem_div
+        }
     };
-    chem_node.op = binop;
-    chem_node.right = {
-        'op': 'none',
-        'chemical': new_chem_div
+    let left = {
+        'negate': chem_clause.negate,
+        'arg': chem_clause.arg
+    }
+    chem_clause.negate = false;
+    chem_clause.arg = {
+        'op': binop,
+        'arg_left': left,
+        'arg_right': right
     };
-    delete chem_node.chemical;
-    console.log('QT: ', QUERY_TREE);
+    console.log('QT: ', SCREEN_QUERY);
 }
 
-// Negate condition in query tree
+// Negate chemical in query tree within condition
 function query_set_not_chemical(cond_div, chem_div, not){
-    let cond_node = query_get_cond_node(cond_div, QUERY_TREE);
-    if (cond_node == null){
-        throw new Error('Error! Could not find condition in query tree for chemical negation.');
+    let cond_clause = query_get_cond_clause(cond_div, SCREEN_QUERY.conds);
+    if (cond_clause == null){
+        throw new Error('Error! Could not find condition in query tree for chemical operation.');
     }
-    let chem_node = query_get_chem_node(chem_div, cond_node.chem_tree);
-    if (chem_node == null){
-        throw new Error('Error! Could not find chemical in query tree for negation.');
+    let chem_clause = query_get_chem_clause(chem_div, cond_clause.arg.chems);
+    if (chem_clause == null){
+        throw new Error('Error! Could not find chemical in query tree for operation.');
     }
-    if (not) {
-        chem_node.op = 'not';
-    } else {
-        chem_node.op = 'none';
-    }
-    console.log('QT: ', QUERY_TREE);
+    chem_clause.negate = not;
+    console.log('QT: ', SCREEN_QUERY);
 }
 
-// Remove chemical from query tree
+// Remove chemical from query tree within condition
 function query_remove_chemical(cond_div, chem_div){
-    let cond_node = query_get_cond_node(cond_div, QUERY_TREE);
-    if (cond_node == null){
-        throw new Error('Error! Could not find condition in query tree for chemical removal.');
+    let cond_clause = query_get_cond_clause(cond_div, SCREEN_QUERY.conds);
+    if (cond_clause == null){
+        throw new Error('Error! Could not find condition in query tree for chemical operation.');
     }
-    let chem_parent_node = query_get_chem_parent_node(chem_div, cond_node.chem_tree);
-
-    if ((chem_parent_node.left.op == 'none' || chem_parent_node.left.op == 'not') &&
-        chem_parent_node.left.chemical.is(chem_div)){
-        
-        chem_parent_node.op = chem_parent_node.right.op;
-        if (chem_parent_node.right.chemical){
-            chem_parent_node.chemical = chem_parent_node.right.chemical;
-            delete chem_parent_node.left;
-            delete chem_parent_node.right;
-        } else {
-            chem_parent_node.left = chem_parent_node.right.left;
-            chem_parent_node.right = chem_parent_node.right.right;
-        }
-    } else if ((chem_parent_node.right.op == 'none' || chem_parent_node.right.op == 'not') &&
-               chem_parent_node.right.chemical.is(chem_div)){
-        
-        chem_parent_node.op = chem_parent_node.left.op;
-        if (chem_parent_node.left.chemical){
-            chem_parent_node.chemical = chem_parent_node.left.chemical;
-            delete chem_parent_node.left;
-            delete chem_parent_node.right;
-        } else {
-            chem_parent_node.left = chem_parent_node.left.left;
-            chem_parent_node.right = chem_parent_node.left.right;
-        }
-    } else {
-        throw new Error('Error! Could not find chemical in query tree for removal.')
+    let chem_parent_clause = query_get_chem_parent_clause(chem_div, cond_clause.arg.chems);
+    if (chem_parent_clause == null){
+        throw new Error('Error! Could not find chemical in query tree for removal.');
     }
-    console.log('QT: ', QUERY_TREE);
+    // Either remove left argument
+    if (!chem_parent_clause.arg.arg_left.arg.op && chem_parent_clause.arg.arg_left.arg.q_chemical_div.is(chem_div)){
+        chem_parent_clause.negate = chem_parent_clause.arg.arg_right.negate;
+        chem_parent_clause.arg = chem_parent_clause.arg.arg_right.arg;
+    // Or right argument
+    } else if (!chem_parent_clause.arg.arg_right.arg.op && chem_parent_clause.arg.arg_right.arg.q_chemical_div.is(chem_div)){
+        chem_parent_clause.negate = chem_parent_clause.arg.arg_left.negate;
+        chem_parent_clause.arg = chem_parent_clause.arg.arg_left.arg;
+    
+    }
+    console.log('QT: ', SCREEN_QUERY);
 }
 
-// Get the node of the query tree with the specified condition
-function query_get_chem_node(chem_div, tree){
-    if (tree.op == 'none' || tree.op == 'not'){
-        if (tree.chemical.is(chem_div)){
+// Get the clause of the chemical in the query tree within a condition
+function query_get_chem_clause(chem_div, tree){
+    if (!tree.arg.op){
+        if (tree.arg.q_chemical_div.is(chem_div)){
             return tree;
         } else {
             return null;
         }
     } else {
-        let left = query_get_chem_node(chem_div, tree.left);
-        if (left != null) {
+        let left = query_get_chem_clause(chem_div, tree.arg.arg_left);
+        if (left != null){
             return left;
         } else {
-            return query_get_chem_node(chem_div, tree.right);
+            return query_get_chem_clause(chem_div, tree.arg.arg_right);
         }
     }
 }
 
-// Get the binary operator node of query tree above the specified condition
-function query_get_chem_parent_node(chem_div, tree){
-    if (tree.op == 'and' || tree.op == 'or'){
-        if (tree.left.op == 'none' || tree.left.op == 'not'){
-            if (tree.left.chemical.is(chem_div)){
-                return tree;
-            }
-        }
-        if (tree.right.op == 'none' || tree.right.op == 'not'){
-            if (tree.right.chemical.is(chem_div)){
-                return tree;
-            }
-        }
-        let left = query_get_chem_parent_node(chem_div, tree.left);
-        if (left != null) {
-            return left;
+// Get the clause with the binary operator above the specified chemical within a condition
+function query_get_chem_parent_clause(chem_div, tree){
+    if (tree.arg.op){
+        if (!tree.arg.arg_left.arg.op && tree.arg.arg_left.arg.q_chemical_div.is(chem_div)){
+            return tree;
+        } else if (!tree.arg.arg_right.arg.op && tree.arg.arg_right.arg.q_chemical_div.is(chem_div)){
+            return tree;
         } else {
-            return query_get_chem_parent_node(chem_div, tree.right);
+            let left = query_get_chem_parent_clause(chem_div, tree.arg.arg_left);
+            if (left != null){
+                return left;
+            } else {
+                return query_get_chem_parent_clause(chem_div, tree.arg.arg_right);
+            }
         }
     } else {
         return null;
     }
 }
 
-// Parse query into API json
+/*
+ 
+  ######  ######  #######  #####  #######  #####   #####  
+  #     # #     # #     # #     # #       #     # #     # 
+  #     # #     # #     # #       #       #       #       
+  ######  ######  #     # #       #####    #####   #####  
+  #       #   #   #     # #       #             #       # 
+  #       #    #  #     # #     # #       #     # #     # 
+  #       #     # #######  #####  #######  #####   #####  
+                                                          
+ 
+*/
+
+// Update query from form elements
+function update_query(){
+
+}
+
+// Prepare query for API json
 function parse_query(){
 
 }

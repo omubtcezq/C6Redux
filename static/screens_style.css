@@ -123,3 +123,15 @@ button {
   box-sizing: border-box;
   width: 30%;
 }
+
+/* JQuery UI styling */
+.ui-autocomplete {
+  max-height: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  text-align: left;
+}
+
+.ui-autocomplete-loading {
+  background: white url("images/loading.gif") right center no-repeat;
+}
