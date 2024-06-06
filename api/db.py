@@ -78,7 +78,7 @@ class ChemicalReadLite(ChemicalBase):
 class ChemicalReadLiteAlias(ChemicalReadLite):
     aliases: list["AliasRead"]
 
-# Read when chemical list is read
+# Read when chemical list is read or when chemical selected in query and units needed
 class ChemicalRead(ChemicalBaseLarge):
     id: int
 
@@ -306,6 +306,10 @@ class Well(WellBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
     screen: Screen = Relationship(back_populates="wells")
     wellcondition: WellCondition = Relationship(back_populates="well")
+
+# Read when condition by reference dropdown read
+class WellReadLite(WellBase):
+    id: int
 
 # Read when screen read
 class WellRead(WellBase):

@@ -86,6 +86,7 @@ class WellConditionClause(BaseModel):
 class ScreenQuery(BaseModel):
     #only_available: bool = False # TODO implement
     name_search: str | None = None
+    creator_search: str | None = None
     conds: WellConditionClause | None = None
 
     # To help with matching, don't allow extra params that might make another class match
@@ -93,7 +94,7 @@ class ScreenQuery(BaseModel):
     # Check that some form of screen identification is provided for query
     @model_validator(mode='after')
     def check_name_or_conditions(self):
-        if self.name_search == None and self.conds == None:
+        if self.name_search == None and self.creator_search == None and self.conds == None:
             raise ValueError("Must specify screens by at least a name or by conditions!")
         return self
 
@@ -109,6 +110,8 @@ def parseQuery(query: ScreenQuery):
     clauses = []
     if query.name_search != None:
         clauses.append(col(db.Screen.name).contains(query.name_search))
+    if query.creator_search != None:
+        clauses.append(col(db.Screen.creator).contains(query.creator_search))
     # Create clause tree for conditions
     if query.conds != None:
         if type(query.conds.arg) == WellConditionBinOp:
@@ -235,6 +238,18 @@ async def get_screen_names(*, session: Session=Depends(db.get_session)):
     statement = select(db.Screen)
     screens = session.exec(statement).all()
     return screens
+
+@router.get("/wells", 
+            summary="Get a list of wells given a screen id",
+            response_description="List of wells in specified screen",
+            response_model=list[db.WellReadLite])
+async def get_screen_names(*, session: Session=Depends(db.get_session), screen_id: int):
+    """
+    Get a list of wells given a screen id
+    """
+    statement = select(db.Well).where(db.Well.screen_id == screen_id)
+    wells = session.exec(statement).all()
+    return wells
 
 @router.get("/", 
             summary="Get a list of all screens",
