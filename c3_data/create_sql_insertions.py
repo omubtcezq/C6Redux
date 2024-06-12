@@ -10,7 +10,7 @@ OUTPUT_FPATH = 'db_initialisation/populate_tables.sql'
 CHEMICALS_FPATH = 'c3_data/chemicals_16022021.xml'
 CHEMICALS_SQL_FPATH = 'c3_data/CHEMICALS_202405021237.sql'
 STOCKS_FPATH = 'c3_data/stocks.xlsx'
-SCREEN_FOLDER_PATHS = ['c3_data/c3_screens', 'c3_data/commercial_screens']
+SCREEN_FOLDER_PATHS = ['c3_data/c3_screens', 'c3_data/commercial_screens', 'c3_data/other_screens']
 
 # Insert values to be converted to sql
 value_strs = {'chem': [],
@@ -244,7 +244,7 @@ for folder in SCREEN_FOLDER_PATHS:
             root = tree.getroot()
             screen = root[1]
             s_name = input_str_to_sql_str(screen.attrib['name'], str)
-            s_creator = input_str_to_sql_str(screen.attrib['username'], str)
+            s_owned_by = input_str_to_sql_str(screen.attrib['username'], str)
             s_creation_date = input_str_to_sql_str(screen.attrib['design_date'], str) # xml correctly formats
             s_format_name = input_str_to_sql_str(screen[0].attrib['name'], str)
             s_format_rows = input_str_to_sql_str(screen[0].attrib['rows'], int)
@@ -255,7 +255,7 @@ for folder in SCREEN_FOLDER_PATHS:
 
             # Insertion value for screen table
             value_str = '(%s, %s, %s, %s, %s, %s, %s)' %\
-                            (s_name, s_creator, s_creation_date, s_format_name, s_format_rows, s_format_cols, s_comments)
+                            (s_name, s_owned_by, s_creation_date, s_format_name, s_format_rows, s_format_cols, s_comments)
             value_strs['screen'].append(value_str)
 
             # Insertion value for frequentblock table if relevant entries are not null
