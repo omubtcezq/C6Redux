@@ -238,7 +238,7 @@ class ScreenBase(SQLModel):
     name: str
 
 class ScreenBaseLarge(ScreenBase):
-    creator: str
+    owned_by: str
     creation_date: datetime | None
     format_name: str | None = Field(default=None)
     format_rows: int | None = Field(default=None)

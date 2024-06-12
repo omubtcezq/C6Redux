@@ -173,7 +173,7 @@ create table stock_hazard_link (
 create table screen (
 	id int not null auto_increment,
 	name varchar(64),
-	creator varchar(64),
+	owned_by varchar(64),
 	creation_date datetime,
 	format_name varchar(64),
 	format_rows int,

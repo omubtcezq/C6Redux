@@ -86,7 +86,7 @@ class WellConditionClause(BaseModel):
 class ScreenQuery(BaseModel):
     #only_available: bool = False # TODO implement
     name_search: str | None = None
-    creator_search: str | None = None
+    owner_search: str | None = None
     conds: WellConditionClause | None = None
 
     # To help with matching, don't allow extra params that might make another class match
@@ -94,8 +94,8 @@ class ScreenQuery(BaseModel):
     # Check that some form of screen identification is provided for query
     @model_validator(mode='after')
     def check_name_or_conditions(self):
-        if self.name_search == None and self.creator_search == None and self.conds == None:
-            raise ValueError("Must specify screens by at least a name or by conditions!")
+        if self.name_search == None and self.owner_search == None and self.conds == None:
+            raise ValueError("Must specify screens by at least a name, owner name or by conditions!")
         return self
 
 # Rebuild the classes with self reference (not sure if this is makes a difference)
@@ -110,8 +110,8 @@ def parseQuery(query: ScreenQuery):
     clauses = []
     if query.name_search != None:
         clauses.append(col(db.Screen.name).contains(query.name_search))
-    if query.creator_search != None:
-        clauses.append(col(db.Screen.creator).contains(query.creator_search))
+    if query.owner_search != None:
+        clauses.append(col(db.Screen.owned_by).contains(query.owner_search))
     # Create clause tree for conditions
     if query.conds != None:
         if type(query.conds.arg) == WellConditionBinOp:

@@ -25,7 +25,7 @@ let CHEMICAL_ID_COUNTER = 0;
 
 let SCREEN_QUERY = {
     'name_search': null,
-    'creator_search': null,
+    'owner_search': null,
     'conds': null
 };
 let SCREEN_NAMES = null;
@@ -61,32 +61,39 @@ $('#all-screens').click(function(){
 })
 
 function display_screens(screens){
-    $.each(screens, function(i,s){
-        // Add all screen components to row
+    if (screens.length == 0){
         $('#screen-table > tbody').append(
-            $('<tr>').attr('id','screen-'+s.id).
-            append($('<td>').text(s.id)).
-            append($('<td>').text(s.name)).
-            append($('<td>').text(s.creator)).
-            append($('<td>').text(s.creation_date)).
-            append($('<td>').text(s.format_name)).
-            append($('<td>').text(s.format_rows)).
-            append($('<td>').text(s.format_cols)).
-            append($('<td>').text(s.comments)).
-            // Include button to view the screen calling function defined above
-            append(
-                $('<td>').attr('class', 'button-cell').
-                append(
-                    $('<button>').attr('id', 'view-screen-button'+s.id).
-                    text('View').
-                    click(function () {
-                        // Load screen contents given id and the screen row
-                        load_screen_contents(s.id, $(this).parent().parent());
-                    })
-                )
+            $('<tr>').append(
+                $('<td>').attr('colspan',8).text('No matching screens found')
             )
-        );
-    });
+        )
+    } else {
+        $.each(screens, function(i,s){
+            // Add all screen components to row
+            $('#screen-table > tbody').append(
+                $('<tr>').attr('id','screen-'+s.id).
+                append($('<td>').text(s.name)).
+                append($('<td>').text(s.owned_by)).
+                append($('<td>').text(s.creation_date)).
+                append($('<td>').text(s.format_name)).
+                append($('<td>').text(s.format_rows)).
+                append($('<td>').text(s.format_cols)).
+                append($('<td>').text(s.comments)).
+                // Include button to view the screen calling function defined above
+                append(
+                    $('<td>').attr('class', 'button-cell').
+                    append(
+                        $('<button>').attr('id', 'view-screen-button'+s.id).
+                        text('View').
+                        click(function () {
+                            // Load screen contents given id and the screen row
+                            load_screen_contents(s.id, $(this).parent().parent());
+                        })
+                    )
+                )
+            );
+        });
+    }
 }
 
 // Load screen contents button function
@@ -179,7 +186,7 @@ $('#screen-name-search').change(function(){
     query_update_inputs(false);
 })
 
-$('#screen-creator-search').change(function(){
+$('#screen-owner-search').change(function(){
     query_update_inputs(false);
 })
 
@@ -1477,10 +1484,10 @@ function query_update_inputs(alert_validation){
     } else {
         SCREEN_QUERY.name_search = $('#screen-name-search').val();
     }
-    if ($('#screen-creator-search').val() == ''){
-        SCREEN_QUERY.creator_search = null;
+    if ($('#screen-owner-search').val() == ''){
+        SCREEN_QUERY.owner_search = null;
     } else {
-        SCREEN_QUERY.creator_search = $('#screen-creator-search').val();
+        SCREEN_QUERY.owner_search = $('#screen-owner-search').val();
     }
     // Then recurse into conditions/chemicals
     if (SCREEN_QUERY.conds){
@@ -1491,10 +1498,10 @@ function query_update_inputs(alert_validation){
     // Final validation matching API parser
     if (alert_validation &&
         SCREEN_QUERY.name_search == null &&
-        SCREEN_QUERY.creator_search == null &&
+        SCREEN_QUERY.owner_search == null &&
         SCREEN_QUERY.conds == null){
 
-        alert("Must query screens by at least a name, creator name or by conditions!");
+        alert("Must query screens by at least a name, owner name or by conditions!");
         return false;
     // When not validating always pass
     } else {
