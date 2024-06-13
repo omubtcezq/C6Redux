@@ -113,7 +113,7 @@ function load_screen_contents(screen_id, row){
                 // First row should include cell for well label
                 let first = true;
                 contents_row = $('<tr>');
-                factors = w.wellcondition.factor_links.length;
+                factors = w.wellcondition.factors.length;
                 contents_row.append(
                     $('<td>').attr('rowspan', factors).
                     text(w.label)

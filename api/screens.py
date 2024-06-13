@@ -235,7 +235,7 @@ async def get_screen_names(*, session: Session=Depends(db.get_session)):
     """
     Get a list of all screen names
     """
-    statement = select(db.Screen)
+    statement = select(db.Screen).order_by(db.Screen.name)
     screens = session.exec(statement).all()
     return screens
 
@@ -247,7 +247,7 @@ async def get_screen_names(*, session: Session=Depends(db.get_session), screen_i
     """
     Get a list of wells given a screen id
     """
-    statement = select(db.Well).where(db.Well.screen_id == screen_id)
+    statement = select(db.Well).where(db.Well.screen_id == screen_id).order_by(db.Well.position_number)
     wells = session.exec(statement).all()
     return wells
 
@@ -259,7 +259,7 @@ async def get_screens(*, session: Session=Depends(db.get_session)):
     """
     Get a list of all screens including frequent block information
     """
-    statement = select(db.Screen)
+    statement = select(db.Screen).order_by(db.Screen.name)
     screens = session.exec(statement).all()
     return screens
 
