@@ -7,7 +7,7 @@ import os
 import sys
 
 # Consider the above api folder for importing sqlmodel classes
-sys.path.append(os.join(sys.path[0], '..'))
+sys.path.append(os.path.join(sys.path[0], '..'))
 
 from sqlmodel import Session, create_engine, select, or_, and_, not_, case, col, func
 import api.db as db
