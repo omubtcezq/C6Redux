@@ -112,14 +112,14 @@ function load_screen_contents(screen_id, row){
             $.each(contents_data.wells, function(i, w){
                 // First row should include cell for well label
                 let first = true;
-                contents_row = $('<tr>');
-                factors = w.wellcondition.factors.length;
+                let contents_row = $('<tr>');
+                let num_factors = w.wellcondition.factors.length;
                 contents_row.append(
-                    $('<td>').attr('rowspan', factors).
+                    $('<td>').attr('rowspan', num_factors).
                     text(w.label)
                 );
                 // Loop factors
-                $.each(w.wellcondition.factor_links, function(i, fl){
+                $.each(w.wellcondition.factors, function(i, f){
                     // If not first row of well create a new one
                     if (!first){
                         contents_row = $('<tr>');
@@ -129,10 +129,10 @@ function load_screen_contents(screen_id, row){
                     }
                     // What to display for each factor
                     contents_row.
-                    append($('<td>').text(fl.factor.chemical.name)).
-                    append($('<td>').text(fl.factor.concentration)).
-                    append($('<td>').text(fl.factor.unit)).
-                    append($('<td>').text(fl.factor.ph))
+                    append($('<td>').text(f.chemical.name)).
+                    append($('<td>').text(f.concentration)).
+                    append($('<td>').text(f.unit)).
+                    append($('<td>').text(f.ph))
                     
                     // Add row to contents table
                     screen_contents_table.append(contents_row);
