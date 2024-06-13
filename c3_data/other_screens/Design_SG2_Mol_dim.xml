@@ -254,7 +254,7 @@
             <item units="w/v" conc="30.0" ph="" name="jeffamine ed-2001" />
         </well>
         <well number="59" label="E11">
-            <item units="M" conc="2.1" ph="7.0" name="dl" />
+            <item units="M" conc="2.1" ph="7.0" name="DL-malic acid" />
         </well>
         <well number="60" label="E12">
             <item units="w/v" conc="20.0" ph="" name="polyethylene glycol 3350" />
@@ -355,7 +355,7 @@
         </well>
         <well number="83" label="G11">
             <item units="w/v" conc="20.0" ph="" name="polyethylene glycol 3350" />
-            <item units="M" conc="0.15" ph="7.0" name="dl" />
+            <item units="M" conc="0.15" ph="7.0" name="DL-malic acid" />
         </well>
         <well number="84" label="G12">
             <item units="M" conc="0.1" ph="8.5" name="tris chloride" />

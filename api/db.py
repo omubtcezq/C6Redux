@@ -3,7 +3,7 @@
 """
 
 import configparser as cp
-from sqlmodel import Field, Session, SQLModel, Relationship, create_engine, select
+from sqlmodel import Field, Session, SQLModel, Relationship, create_engine
 from datetime import datetime
 from typing import Union
 
@@ -37,12 +37,6 @@ class Chemical_Substitute_Link(SQLModel, table=True):
     chemical_id: int = Field(foreign_key="chemical.id", primary_key=True)
     substitute_id: int = Field(foreign_key="substitute.id", primary_key=True)
 
-# =========================== Chemical Class Link ============================ #
-
-class Chemical_Class_Link(SQLModel, table=True):
-    chemical_id: int = Field(foreign_key="chemical.id", primary_key=True)
-    class_id: int = Field(foreign_key="class.id", primary_key=True)
-
 # ================================= Chemical ================================= #
 
 class ChemicalBase(SQLModel):
@@ -58,6 +52,7 @@ class ChemicalBaseLarge(ChemicalBase):
     pka3: float | None = Field(default=None)
     molecular_weight: float | None = Field(default=None)
     ions: str | None = Field(default=None)
+    monomer: str | None = Field(default=None)
     chemical_abstracts_db_id: str | None = Field(default=None)
     critical_micelle_concentration: float | None = Field(default=None)
     smiles: str | None = Field(default=None)
@@ -67,7 +62,6 @@ class Chemical(ChemicalBaseLarge, table=True):
     frequentstock: Union["FrequentStock", None] = Relationship(back_populates="chemical")
     aliases: list["Alias"] = Relationship(back_populates="chemical")
     substitutes: list["Substitute"] = Relationship(back_populates="chemicals", link_model=Chemical_Substitute_Link)
-    classes: list["Class"] = Relationship(back_populates="chemicals", link_model=Chemical_Class_Link)
     factors: list["Factor"] = Relationship(back_populates="chemical")
 
 # Read when screen or stock read
@@ -88,7 +82,6 @@ class ChemicalContentsRead(ChemicalBaseLarge):
     frequentstock: "FreqentStockRead | None" = None
     aliases: list["AliasRead"]
     substitutes: list["SubstituteRead"]
-    classes: list["ClassRead"]
 
 # ============================== FrequentStock =============================== #
 
@@ -134,37 +127,9 @@ class SubstituteRead(SubstituteBase):
 
 # ======================== WellCondition Factor Link ========================= #
 
-class WellCondition_Factor_LinkBase(SQLModel):
-    wellcondition_id: int = Field(foreign_key="wellcondition.id")
-    factor_id: int = Field(foreign_key="factor.id")
-    class_id: int | None = Field(foreign_key="class.id")
-
-class WellCondition_Factor_Link(WellCondition_Factor_LinkBase, table=True):
-    id: int | None = Field(default=None, primary_key=True)
-    wellcondition: "WellCondition" = Relationship(back_populates="factor_links")
-    factor: "Factor" = Relationship(back_populates="wellcondition_links")
-    classvar: "Class" = Relationship(back_populates="factor_links")
-
-# Read when screen is read
-class WellCondition_Factor_LinkRead(WellCondition_Factor_LinkBase):
-    id: int
-    factor: "FactorRead"
-    classvar: "ClassRead | None"
-
-
-# ================================== Class =================================== #
-
-class ClassBase(SQLModel):
-    name: str
-
-class Class(ClassBase, table=True):
-    id: int | None = Field(default=None, primary_key=True)
-    chemicals: list[Chemical] = Relationship(back_populates="classes", link_model=Chemical_Class_Link)
-    factor_links: list["WellCondition_Factor_Link"] = Relationship(back_populates="classvar")
-
-# Read when screen is read
-class ClassRead(ClassBase):
-    id: int
+class WellCondition_Factor_Link(SQLModel, table=True):
+    wellcondition_id: int = Field(foreign_key="wellcondition.id", primary_key=True)
+    factor_id: int = Field(foreign_key="factor.id", primary_key=True)
 
 # ================================== Factor ================================== #
 
@@ -178,7 +143,7 @@ class Factor(FactorBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
     chemical: Chemical = Relationship(back_populates="factors")
     stocks: list["Stock"] = Relationship(back_populates="factor")
-    wellcondition_links: list["WellCondition_Factor_Link"] = Relationship(back_populates="factor")
+    wellconditions: list["WellCondition"] = Relationship(back_populates="factors", link_model=WellCondition_Factor_Link)
 
 # Read when screen or stock is read
 class FactorRead(FactorBase):
@@ -287,12 +252,12 @@ class WellConditionBase(SQLModel):
 class WellCondition(WellConditionBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
     well: "Well" = Relationship(back_populates="wellcondition")
-    factor_links: list[WellCondition_Factor_Link] = Relationship(back_populates="wellcondition")
+    factors: list[Factor] = Relationship(back_populates="wellconditions", link_model=WellCondition_Factor_Link)
 
 # Read when screen read
 class WellConditionRead(WellConditionBase):
     id: int
-    factor_links: list[WellCondition_Factor_LinkRead]
+    factors: list[FactorRead]
 
 # =================================== Well =================================== #
 

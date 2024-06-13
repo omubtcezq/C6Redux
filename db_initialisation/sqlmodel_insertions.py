@@ -9,7 +9,7 @@ import sys
 # Consider the above api folder for importing sqlmodel classes
 sys.path.append(sys.path[0]+'\\..')
 
-from sqlmodel import Session, select
+from sqlmodel import Session, create_engine, select, or_, and_, not_, case, col, func
 import api.db as db
 
 # Relevant filepaths
@@ -36,13 +36,16 @@ def type_or_none(val, type):
         else:
             return None
 
+# Use new engine without logging to speed up process
+engine = create_engine(db.read_connection_string(), echo=False, pool_recycle=3600*2, pool_pre_ping=True)
+
 #==============================================================================#
 # CHEMICALS
 #==============================================================================#
 
 def insert_chemicals():
     # Get session
-    with Session(db.engine) as session:
+    with Session(engine) as session:
 
         # Parse file
         tree = et.parse(CHEMICALS_FPATH)
@@ -92,7 +95,7 @@ def insert_chemicals():
                                         precipitation_concentration=fs_prepip_conc)
             session.add(freq_stock)
 
-            # Parse aliases and classes
+            # Parse aliases and ignore classes
             for child in chem_xml:
                 if child.tag == 'alias':
                     a_name = type_or_none(child.text, str)
@@ -100,25 +103,6 @@ def insert_chemicals():
                     alias = db.Alias(name=a_name, 
                                     chemical_id=chem.id)
                     session.add(alias)
-
-                elif child.tag == 'class':
-                    cl_name = type_or_none(child.text, str)
-
-                    # Add class if not already seen
-                    class_search = session.exec(select(db.Class).where(db.Class.name == cl_name)).all()
-                    if len(class_search) == 0:
-                        cls = db.Class(name=cl_name)
-                        session.add(cls)
-                        # Get new class id
-                        session.commit()
-                        session.refresh(cls)
-                    else:
-                        cls = class_search[0]
-
-                    # Add chemical class link entry
-                    chem_cls_link = db.Chemical_Class_Link(chemical_id=chem.id, 
-                                                        class_id=cls.id)
-                    session.add(chem_cls_link)
         
         # Commit left over adds
         session.commit()
@@ -129,7 +113,7 @@ def insert_chemicals():
 
 def insert_stocks():
     # Get session
-    with Session(db.engine) as session:
+    with Session(engine) as session:
 
         # Parse file
         wb = px.load_workbook(STOCKS_FPATH)
@@ -171,7 +155,7 @@ def insert_stocks():
             if len(chem_search) == 0:
                 alias_search = session.exec(select(db.Alias).where(db.Alias.name == c_name)).all()
                 # If can't find the chemical, ignore the stock
-                if len(chem_search) == 0:
+                if len(alias_search) == 0:
                     print('Error!: Chemical', c_name, 'not in chemical table')
                     continue
                 else:
@@ -238,9 +222,6 @@ def insert_stocks():
 #==============================================================================#
 
 def insert_screens():
-    # Get session
-    session = db.get_session()
-
     # Parse file
     for folder in SCREEN_FOLDER_PATHS:
         for subdir, dirs, files in os.walk(folder):
@@ -252,14 +233,19 @@ def insert_screens():
             for file in files:
                 fpath = subdir+'/'+file
                 # Handle screen individually in case single screens want to be added later
+                print('Processing', fpath)
                 insert_screen(fpath)
 
 def insert_screen(fpath):
     # Get session
-    with Session(db.engine) as session:
+    with Session(engine) as session:
         tree = et.parse(fpath)
         root = tree.getroot()
-        screen_xml = root[1]
+        if root[0].tag == 'chemicals':
+            screen_xml = root[1]
+        else:
+            screen_xml = root[0]
+        
         s_name = type_or_none(screen_xml.attrib['name'], str)
         s_owned_by = type_or_none(screen_xml.attrib['username'], str)
         s_creation_date = type_or_none(screen_xml.attrib['design_date'], str) # xml correctly formats
@@ -295,67 +281,93 @@ def insert_screen(fpath):
             wc_position_number = type_or_none(wellcondition_xml.attrib['number'], int)
             wc_label = type_or_none(wellcondition_xml.attrib['label'], str)
 
-            # Add well condition if not already seen
-            # Sql and insertion value for wellcondition table. Again need id for following insertions
-            sql = create_sql_query('INSERT INTO wellcondition (computed_similarities) VALUES', ['(0)'])
-            sql_statements['well_tables'].append(sql)
-            sql_statements['well_tables'].append('SET @last_wellcondition_id = LAST_INSERT_ID();\n')
-
-            # Sql and insertion values for well table using saved id
-            value_str = '((SELECT id FROM screen WHERE name = %s), @last_wellcondition_id, %s, %s)' %\
-                        (s_name, wc_position_number, wc_label)
-            sql = create_sql_query('INSERT INTO well (screen_id, wellcondition_id, position_number, label) VALUES', [value_str])
-            sql_statements['well_tables'].append(sql)
-
             # Loop factors
-            parsed_factors = []
+            f_link_dicts = []
             for factor_xml in wellcondition_xml:
                 c_name = type_or_none(factor_xml.attrib['name'], str)
                 f_concentration = type_or_none(factor_xml.attrib['conc'], float)
                 f_unit = type_or_none(factor_xml.attrib['units'], str)
                 f_ph = type_or_none(factor_xml.attrib['ph'], float)
-                wcf_class = type_or_none(factor_xml.attrib['class'], str)
 
-                parsed_factors.append({})
-
-                # Check if chemical name matches seen chemicals or chemical aliases
-                if c_name not in seen_insertions['chemical_alias_dict'].keys():
-                    found = False
-                    for chem, aliases in seen_insertions['chemical_alias_dict'].items():
-                        if c_name.lower() == chem.lower():
-                            c_name = chem
-                            found = True
-                            break
-                        elif c_name.lower() in [x.lower() for x in aliases]:
-                            c_name = chem
-                            found = True
-                            break
-                    if not found:
+                # Check if chemical matches matches seen chemicals or chemical aliases
+                chem_search = session.exec(select(db.Chemical).where(db.Chemical.name == c_name)).all()
+                if len(chem_search) == 0:
+                    alias_search = session.exec(select(db.Alias).where(db.Alias.name == c_name)).all()
+                    # If can't find the chemical, ignore the factor
+                    if len(alias_search) == 0:
                         print('Error!: Chemical', c_name, 'not in chemical table')
                         continue
+                    else:
+                        alias = alias_search[0]
+                        chem = alias.chemical
+                else:
+                    chem = chem_search[0]
 
-                # Insertion value for class table if class not null and not already seen
-                if wcf_class != 'NULL' and wcf_class not in seen_insertions['class']:
-                    value_str = '(%s)' % (wcf_class)
-                    value_strs['class'].append(value_str)
-                    seen_insertions['class'].append(wcf_class)
+                # Add factor if not already seen
+                factor_search = session.exec(select(db.Factor).where(db.Factor.chemical_id == chem.id, 
+                                                                    db.Factor.concentration == f_concentration,
+                                                                    db.Factor.unit == f_unit,
+                                                                    db.Factor.ph == f_ph)).all()
+                if len(factor_search) == 0:
+                    factor = db.Factor(chemical_id=chem.id,
+                                    concentration=f_concentration,
+                                    unit=f_unit,
+                                    ph=f_ph)
+                    session.add(factor)
+                    # Get new factor id
+                    session.commit()
+                    session.refresh(factor)
+                else:
+                    factor = factor_search[0]
+                
+                # Factor links that define condition used to check if condition already exists
+                f_link_dicts.append({'f_id':factor.id})
 
-                # Insertion value for factor table if factor not already seen
-                if (c_name, f_concentration, f_unit, f_ph) not in seen_insertions['factor']:
-                    value_str = '((SELECT id FROM chemical WHERE name = %s), %s, %s, %s)' %\
-                                (c_name, f_concentration, f_unit, f_ph)
-                    value_strs['factor'].append(value_str)
-                    seen_insertions['factor'].append((c_name, f_concentration, f_unit, f_ph))
+            # finding condition requires that factor link table contain all factors with the same condition id and that
+            # the number of factors with that condition id being equal to the number of search factors
+            clauses = []
+            for f_link_dict in f_link_dicts:
+                clauses.append(
+                    func.sum(case((db.WellCondition_Factor_Link.factor_id == f_link_dict['f_id'], 1), else_=0)) == 1
+                )
+            clauses.append(func.count(db.WellCondition_Factor_Link.wellcondition_id) == len(f_link_dicts))
+            # Add well condition if not already seen
+            wcf_link_search = session.exec(select(db.WellCondition_Factor_Link.wellcondition_id).group_by(db.WellCondition_Factor_Link.wellcondition_id).having(*clauses)).all()
+            if len(wcf_link_search) == 0:
+                wellcondition = db.WellCondition(computed_similarities=0)
+                session.add(wellcondition)
+                # Get new well condition id
+                session.commit()
+                session.refresh(wellcondition)
+                # Add wellcondition factor links
+                for f_link_dict in f_link_dicts:
+                    wcf_link = db.WellCondition_Factor_Link(wellcondition_id=wellcondition.id,
+                                                            factor_id=f_link_dict['f_id'])
+                    session.add(wcf_link)
+                # Commit links in case condition repeats in the same screen
+                session.commit()
+            else:
+                wellcondition = session.exec(select(db.WellCondition).where(db.WellCondition.id == wcf_link_search[0])).all()[0]
 
-                # Sql and insertion values for wellcondition factor link table using saved id
-                value_str = ('(@last_wellcondition_id, (SELECT factor.id FROM factor INNER JOIN chemical ON factor.chemical_id = chemical.id WHERE chemical.name=%s AND ((factor.concentration is null AND %s is null) OR factor.concentration=%s) AND ((factor.unit is null AND %s is null) OR factor.unit=%s) AND ((factor.ph is null AND %s is null) OR factor.ph=%s)), (SELECT id FROM class WHERE name = %s))') %\
-                            (c_name, f_concentration, f_concentration, f_unit, f_unit, f_ph, f_ph, wcf_class)
-                sql = create_sql_query('INSERT INTO wellcondition_factor_link (wellcondition_id, factor_id, class_id) VALUES', [value_str])
-                sql_statements['well_tables'].append(sql)
+            # Add well
+            well = db.Well(screen_id=screen.id,
+                           wellcondition_id=wellcondition.id,
+                           position_number=wc_position_number,
+                           label=wc_label)
+            session.add(well)
+        
+        # Commit left over adds
+        session.commit()
 
 #==============================================================================#
 # Main
 #==============================================================================#
 
-# insert_chemicals()
+print('\nCreating Chemicals\n')
+insert_chemicals()
+print('\nCreating Stocks\n')
 insert_stocks()
+print('\nCreating Screens\n')
+insert_screens()
+
+# insert_screen('c3_data/other_screens/Design_SG2_Mol_dim.xml')

@@ -8,8 +8,6 @@ drop table if exists stock_hazard_link;
 drop table if exists hazard;
 drop table if exists stock;
 drop table if exists factor;
-drop table if exists chemical_class_link;
-drop table if exists class;
 drop table if exists chemical_substitute_link;
 drop table if exists substitute;
 drop table if exists alias;
@@ -28,6 +26,7 @@ create table chemical (
 	pka3 double,
 	molecular_weight double,
 	ions varchar(64),
+	monomer varchar(64),
 	chemical_abstracts_db_id varchar(32),
 	critical_micelle_concentration double,
 	smiles varchar(128),
@@ -83,30 +82,6 @@ create table chemical_substitute_link (
 		ON DELETE CASCADE,
 	FOREIGN KEY(substitute_id)
 		REFERENCES substitute(id)
-		ON DELETE CASCADE
-);
-
-create table class (
-	id int not null auto_increment,
-	name varchar(64),
-
-	PRIMARY KEY(id),
-	INDEX(id)
-);
-
-create table chemical_class_link (
-	chemical_id int not null,
-	class_id int not null,
-
-	PRIMARY KEY(chemical_id, class_id),
-	INDEX(chemical_id, class_id),
-	INDEX(chemical_id),
-	INDEX(class_id),
-	FOREIGN KEY(chemical_id)
-		REFERENCES chemical(id)
-		ON DELETE CASCADE,
-	FOREIGN KEY(class_id)
-		REFERENCES class(id)
 		ON DELETE CASCADE
 );
 
@@ -224,26 +199,20 @@ create table well (
 );
 
 create table wellcondition_factor_link (
-	id int not null auto_increment,
 	wellcondition_id int not null,
 	factor_id int not null,
-	class_id int,
 
-	PRIMARY KEY(id),
-	INDEX(id),
+	PRIMARY KEY(wellcondition_id, factor_id),
+	INDEX(wellcondition_id, factor_id),
 	INDEX(wellcondition_id),
 	INDEX(factor_id),
-	INDEX(class_id),
 	FOREIGN KEY(wellcondition_id)
 		REFERENCES wellcondition(id)
 		ON DELETE CASCADE,
 	FOREIGN KEY(factor_id)
 		REFERENCES factor(id)
 		ON DELETE RESTRICT
-		ON UPDATE RESTRICT,
-	FOREIGN KEY(class_id)
-		REFERENCES class(id)
-		ON DELETE RESTRICT
+		ON UPDATE RESTRICT
 );
 
 create table wellconditionsimilarity (

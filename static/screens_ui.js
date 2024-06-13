@@ -1,7 +1,7 @@
 (function() {
 // Connection parameters
-//API_IP = '13.236.58.27'
-API_IP = 'localhost'
+API_IP = '13.236.58.27'
+//API_IP = 'localhost'
 API_PORT = '8000'
 API_URL = 'http://'+API_IP+':'+API_PORT+'/api'
 
@@ -132,8 +132,7 @@ function load_screen_contents(screen_id, row){
                     append($('<td>').text(fl.factor.chemical.name)).
                     append($('<td>').text(fl.factor.concentration)).
                     append($('<td>').text(fl.factor.unit)).
-                    append($('<td>').text(fl.factor.ph)).
-                    append($('<td>').text(fl.classvar ? fl.classvar.name : null))
+                    append($('<td>').text(fl.factor.ph))
                     
                     // Add row to contents table
                     screen_contents_table.append(contents_row);
@@ -156,8 +155,7 @@ function load_screen_contents(screen_id, row){
                                 append($('<th>').text('Chemical')).
                                 append($('<th>').text('Concentration')).
                                 append($('<th>').text('Units')).
-                                append($('<th>').text('pH')).
-                                append($('<th>').text('Class'))
+                                append($('<th>').text('pH'))
                             )
                         ).
                         // Add the body created above
