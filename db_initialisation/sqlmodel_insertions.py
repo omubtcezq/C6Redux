@@ -15,6 +15,7 @@ import api.db as db
 # Relevant filepaths
 CHEMICALS_FPATH = 'c3_data/chemicals_16022021.xml'
 CHEMICALS_SQL_FPATH = 'c3_data/CHEMICALS_202405021237.sql'
+MONOMER_FPATH = 'c3_data/monomers.xlsx'
 STOCKS_FPATH = 'c3_data/stocks.xlsx'
 SCREEN_FOLDER_PATHS = ['c3_data/c3_screens', 'c3_data/commercial_screens', 'c3_data/other_screens']
 
@@ -360,14 +361,53 @@ def insert_screen(fpath):
         session.commit()
 
 #==============================================================================#
+# MONOMERS
+#==============================================================================#
+
+def add_monomer_data():
+    # Get session
+    with Session(engine) as session:
+
+        # Parse file
+        wb = px.load_workbook(MONOMER_FPATH)
+        l2n = lambda x: px.utils.cell.column_index_from_string(x)-1
+
+        # Loop stocks
+        for row in wb['Sheet 1'].iter_rows(min_row=2, max_row=24):
+            c_name = type_or_none(row[l2n('A')].value, str)
+            c_monomer = type_or_none(row[l2n('C')].value, float)
+
+            # Check if chemical matches matches seen chemicals or chemical aliases
+            chem_search = session.exec(select(db.Chemical).where(db.Chemical.name == c_name)).all()
+            if len(chem_search) == 0:
+                alias_search = session.exec(select(db.Alias).where(db.Alias.name == c_name)).all()
+                # If can't find the chemical, ignore the factor
+                if len(alias_search) == 0:
+                    print('Error!: Chemical', c_name, 'not in chemical table')
+                    continue
+                else:
+                    alias = alias_search[0]
+                    chem = alias.chemical
+            else:
+                chem = chem_search[0]
+            
+            chem.monomer = c_monomer
+            session.add(chem)
+        
+        # Commit all updates
+        session.commit()
+
+#==============================================================================#
 # Main
 #==============================================================================#
 
-print('\nCreating Chemicals\n')
-insert_chemicals()
-print('\nCreating Stocks\n')
-insert_stocks()
-print('\nCreating Screens\n')
-insert_screens()
+# print('\nCreating Chemicals\n')
+# insert_chemicals()
+# print('\nCreating Stocks\n')
+# insert_stocks()
+# print('\nCreating Screens\n')
+# insert_screens()
+print('\Add monomer data')
+add_monomer_data()
 
 # insert_screen('c3_data/other_screens/Design_SG2_Mol_dim.xml')
