@@ -278,12 +278,12 @@ $('#button-search-by-condition').click(function() {
     after(
         $('<button>').attr('id', 'button-condition-remove')
         .css("display", "inline-block")
-        .text('Remove (selection')
+        .text('Remove (selection)')
     ).
     after(
         $('<button>').attr('id', 'button-condition-not')
         .css("display", "inline-block")
-        .text('NOT (selection')
+        .text('NOT (selection)')
     ).
     after(
         $('<button>').attr('id', 'button-condition-or')
