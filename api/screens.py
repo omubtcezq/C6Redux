@@ -106,27 +106,35 @@ WellConditionBinOp.model_rebuild()
 # Screen search query parser
 # ============================================================================ #
 
-def parseQuery(query: ScreenQuery):
+def parseScreenQuery(query: ScreenQuery):
     clauses = []
     if query.name_search != None:
         clauses.append(col(db.Screen.name).contains(query.name_search))
     if query.owner_search != None:
         clauses.append(col(db.Screen.owned_by).contains(query.owner_search))
-    # Create clause tree for conditions
+    # Screen grouped and filtered by screens and conditions that meet query clauses
     if query.conds != None:
-        if type(query.conds.arg) == WellConditionBinOp:
-            cond_clause = parseWellConditionBinOp(query.conds.arg)
-        else:
-            cond_clause = parseWellConditionPred(query.conds.arg)
-        # Handle negation
-        if query.conds.negate:
-            cond_clause = not_(cond_clause)
-        clauses.append(cond_clause)
+        well_ids = parseWellQuery(query.conds)
+        clauses.append(col(db.Well.id).in_(well_ids))
+        screens_counts = select(db.Screen, func.count(db.Well.id)).join(db.Well).where(*clauses).group_by(db.Screen).order_by(db.Screen.name)
+    # Screen filtered by screen clauses only
+    else:
+        screens_counts = select(db.Screen, func.count(db.Well.id)).join(db.Well).where(*clauses).group_by(db.Screen).order_by(db.Screen.name)
+    return screens_counts
 
-    # Screen grouped and filtered by conditions that meet query clauses
-    screens = select(db.Screen).join(db.Well).join(db.WellCondition).group_by(db.Screen).having(*clauses).order_by(db.Screen.name)
-    return screens
-
+def parseWellQuery(query: WellConditionClause):
+    # Create clause tree for conditions
+    if type(query.arg) == WellConditionBinOp:
+        cond_clause = parseWellConditionBinOp(query.arg)
+    else:
+        cond_clause = parseWellConditionPred(query.arg)
+    # Handle negation
+    if query.negate:
+        cond_clause = not_(cond_clause)
+    cond_clause
+    # Select only well ids for later 'in' clauses
+    well_ids = select(db.Well.id).join(db.WellCondition).group_by(db.Well.id).having(cond_clause)
+    return well_ids
 
 def parseWellConditionBinOp(condexp: WellConditionBinOp):
     # Look at both sides of operator and add sub-clauses to list
@@ -228,53 +236,79 @@ router = APIRouter(
 )
 
 @router.get("/names", 
-            summary="Get a list of all screen name",
+            summary="Gets a list of all screen names",
             response_description="List of all screen names",
             response_model=list[db.ScreenReadLite])
 async def get_screen_names(*, session: Session=Depends(db.get_session)):
     """
-    Get a list of all screen names
+    Gets a list of all screen names
     """
     statement = select(db.Screen).order_by(db.Screen.name)
     screens = session.exec(statement).all()
     return screens
 
-@router.get("/wells", 
-            summary="Get a list of wells given a screen id",
-            response_description="List of wells in specified screen",
+@router.get("/wellNames", 
+            summary="Gets a list of well names given a screen id",
+            response_description="List of well names in specified screen",
             response_model=list[db.WellReadLite])
-async def get_screen_names(*, session: Session=Depends(db.get_session), screen_id: int):
+async def get_screen_well_names(*, session: Session=Depends(db.get_session), screen_id: int):
     """
-    Get a list of wells given a screen id
+    Gets a list of well names given a screen id
     """
     statement = select(db.Well).where(db.Well.screen_id == screen_id).order_by(db.Well.position_number)
     wells = session.exec(statement).all()
     return wells
 
-@router.get("/", 
-            summary="Get a list of all screens",
-            response_description="List of all screens",
-            response_model=list[db.ScreenRead])
+@router.get("/all", 
+            summary="Gets a list of all screens and the number of wells in each",
+            response_description="List of all screens and the number of wells in each",
+            response_model=list[tuple[db.ScreenRead, int]])
 async def get_screens(*, session: Session=Depends(db.get_session)):
     """
-    Get a list of all screens including frequent block information
+    Gets a list of all screens and the number of wells in each
     """
-    statement = select(db.Screen).order_by(db.Screen.name)
-    screens = session.exec(statement).all()
-    return screens
+    statement = select(db.Screen, func.count(db.Well.id)).join(db.Well).group_by(db.Screen).order_by(db.Screen.name)
+    screens_counts = session.exec(statement).all()
+    return screens_counts
 
-@router.post("/", 
-             summary="Get a list of screens filtered by query",
-             response_description="List of queried screens",
-             response_model=list[db.ScreenRead])
+@router.get("/wells", 
+             summary="Gets list of wells given a screen id",
+             response_description="List of wells in specified screen",
+             response_model=list[db.WellRead])
+async def get_screen_wells(*, session: Session=Depends(db.get_session), screen_id: int):
+    """
+    Gets list of wells given a screen id
+    """
+    screen = session.get(db.Screen, screen_id)
+    return screen.wells
+
+@router.post("/query", 
+             summary="Gets a list of screens filtered by a query and the number of wells matching the query",
+             response_description="List of screens filtered by provided query and the number of wells matching the query",
+             response_model=list[tuple[db.ScreenRead, int]])
 async def get_screens_query(*, session: Session=Depends(db.get_session), query: ScreenQuery):
     """
-    Get a list of screens filtered by query parameters
+    Gets a list of screens filtered by a query and the number of wells matching the query
     """
-    # Parse Query here
-    statement = parseQuery(query)
-    screens = session.exec(statement).all()
-    return screens
+    # Parse Query for screens
+    statement = parseScreenQuery(query)
+    screens_counts = session.exec(statement).all()
+    return screens_counts
+
+@router.post("/wellQuery", 
+             summary="Gets list of wells given a screen id filtered by a query",
+             response_description="List of wells in specified screen filtered by provided query",
+             response_model=list[db.WellRead])
+async def get_screen_wells_query(*, session: Session=Depends(db.get_session), screen_id: int, well_query: WellConditionClause):
+    """
+    Gets list of wells given a screen id filtered by a query
+    """
+    # Parse Query for well ids
+    well_ids = parseWellQuery(well_query)
+    # Filter screen wells for those in query
+    statement = select(db.Well).where(db.Well.screen_id == screen_id, col(db.Well.id).in_(well_ids)).order_by(db.Well.position_number)
+    wells = session.exec(statement).all()
+    return wells
 
 # @router.get("/export", 
 #             summary="Download a list of all screens",
@@ -284,17 +318,6 @@ async def get_screens_query(*, session: Session=Depends(db.get_session), query: 
 #     Produce and download an exported file of a list of all screens
 #     """
 #     return "Not yet implemented"
-
-@router.get("/contents", 
-             summary="Get the contents of a screen",
-             response_description="Screen details and list of conditions",
-             response_model=db.ScreenContentsRead)
-async def get_screen_contents(*, session: Session=Depends(db.get_session), id: int):
-    """
-    Get the details and list of conditions of a screen given it's database id
-    """
-    screen = session.get(db.Screen, id)
-    return screen
 
 # @router.get("/recipe", 
 #              summary="Download the recipes to make a screen",

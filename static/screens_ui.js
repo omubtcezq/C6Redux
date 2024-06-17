@@ -55,20 +55,22 @@ let ALL_UNITS = [
 $('#all-screens').click(function(){
     screen_table_body = $('#screen-table > tbody');
     screen_table_body.empty();
-    $.getJSON(API_URL+'/screens', function(data) {
-        display_screens(data);
+    $.getJSON(API_URL+'/screens/all', function(data) {
+        display_screens(data, null);
     });
 })
 
-function display_screens(screens){
-    if (screens.length == 0){
+function display_screens(screen_list_data, well_query_string){
+    if (screen_list_data.length == 0){
         $('#screen-table > tbody').append(
             $('<tr>').append(
-                $('<td>').attr('colspan',8).text('No matching screens found')
+                $('<td>').attr('colspan',9).text('No matching screens found')
             )
         )
     } else {
-        $.each(screens, function(i,s){
+        $.each(screen_list_data, function(i,d){
+            let s = d[0];
+            let c = d[1];
             // Add all screen components to row
             $('#screen-table > tbody').append(
                 $('<tr>').attr('id','screen-'+s.id).
@@ -79,6 +81,7 @@ function display_screens(screens){
                 append($('<td>').text(s.format_rows)).
                 append($('<td>').text(s.format_cols)).
                 append($('<td>').text(s.comments)).
+                append($('<td>').text(c)).
                 // Include button to view the screen calling function defined above
                 append(
                     $('<td>').attr('class', 'button-cell').
@@ -87,7 +90,7 @@ function display_screens(screens){
                         text('View').
                         click(function () {
                             // Load screen contents given id and the screen row
-                            load_screen_contents(s.id, $(this).parent().parent());
+                            load_screen_wells(s.id, well_query_string, $(this).parent().parent());
                         })
                     )
                 )
@@ -96,8 +99,72 @@ function display_screens(screens){
     }
 }
 
+function display_wells(well_data, screen_id, row){
+    // Create body to append rows to
+    let screen_contents_table = $('<tbody>')
+    // Loop wells
+    $.each(well_data, function(i, w){
+        // First row should include cell for well label
+        let first = true;
+        let contents_row = $('<tr>');
+        let num_factors = w.wellcondition.factors.length;
+        contents_row.append(
+            $('<td>').attr('rowspan', num_factors).
+            text(w.label)
+        );
+        // Loop factors
+        $.each(w.wellcondition.factors, function(i, f){
+            // If not first row of well create a new one
+            if (!first){
+                contents_row = $('<tr>');
+            }
+            else {
+                first = false;
+            }
+            // What to display for each factor
+            contents_row.
+            append($('<td>').text(f.chemical.name)).
+            append($('<td>').text(f.concentration)).
+            append($('<td>').text(f.unit)).
+            append($('<td>').text(f.ph))
+            
+            // Add row to contents table
+            screen_contents_table.append(contents_row);
+        })
+        
+    })
+    // Create row in original table below screen row and add new contents table there
+    row.after(
+        $('<tr>').
+        attr('id', 'screen-contents-'+screen_id).
+        attr('class', 'viewed-screen').
+        append(
+            $('<td>').attr('colspan', '9')
+            .append(
+                // Contents table
+                $('<table>').attr('class', 'screen-contents-table').
+                append(
+                    $('<thead>').append(
+                        $('<tr>').append($('<th>').text('Well')).
+                        append($('<th>').text('Chemical')).
+                        append($('<th>').text('Concentration')).
+                        append($('<th>').text('Units')).
+                        append($('<th>').text('pH'))
+                    )
+                ).
+                // Add the body created above
+                append(
+                    screen_contents_table
+                )
+            )
+        )
+    )
+    row.addClass('viewed-screen');
+    $('#view-screen-button'+screen_id).text('Hide');
+}
+
 // Load screen contents button function
-function load_screen_contents(screen_id, row){
+function load_screen_wells(screen_id, well_query_string, row){
     // If screen already viewed, remove it
     if (row.next().attr('id') == 'screen-contents-'+screen_id){
         row.next().remove();
@@ -105,69 +172,23 @@ function load_screen_contents(screen_id, row){
         row.removeClass('viewed-screen');
     // If not, get screen contents and display them
     } else {
-        $.getJSON(API_URL+'/screens/contents?id='+screen_id, function(contents_data) {
-            // Create body to append rows to
-            let screen_contents_table = $('<tbody>')
-            // Loop wells
-            $.each(contents_data.wells, function(i, w){
-                // First row should include cell for well label
-                let first = true;
-                let contents_row = $('<tr>');
-                let num_factors = w.wellcondition.factors.length;
-                contents_row.append(
-                    $('<td>').attr('rowspan', num_factors).
-                    text(w.label)
-                );
-                // Loop factors
-                $.each(w.wellcondition.factors, function(i, f){
-                    // If not first row of well create a new one
-                    if (!first){
-                        contents_row = $('<tr>');
-                    }
-                    else {
-                        first = false;
-                    }
-                    // What to display for each factor
-                    contents_row.
-                    append($('<td>').text(f.chemical.name)).
-                    append($('<td>').text(f.concentration)).
-                    append($('<td>').text(f.unit)).
-                    append($('<td>').text(f.ph))
-                    
-                    // Add row to contents table
-                    screen_contents_table.append(contents_row);
-                })
-                
-            })
-            // Create row in original table below screen row and add new contents table there
-            row.after(
-                $('<tr>').
-                attr('id', 'screen-contents-'+screen_id).
-                attr('class', 'viewed-screen').
-                append(
-                    $('<td>').attr('colspan', '9')
-                    .append(
-                        // Contents table
-                        $('<table>').attr('class', 'screen-contents-table').
-                        append(
-                            $('<thead>').append(
-                                $('<tr>').append($('<th>').text('Well')).
-                                append($('<th>').text('Chemical')).
-                                append($('<th>').text('Concentration')).
-                                append($('<th>').text('Units')).
-                                append($('<th>').text('pH'))
-                            )
-                        ).
-                        // Add the body created above
-                        append(
-                            screen_contents_table
-                        )
-                    )
-                )
-            )
-            row.addClass('viewed-screen');
-            $('#view-screen-button'+screen_id).text('Hide');
-        })
+        if (!well_query_string){
+            $.getJSON(API_URL+'/screens/wells?screen_id='+screen_id, function(data){
+                display_wells(data, screen_id, row)
+            });
+        } else {
+            $.ajax({
+                type: 'POST',
+                url: API_URL+'/screens/wellQuery?screen_id='+screen_id, 
+                data: well_query_string, 
+                // Display returned screens
+                success: function(data) {
+                    display_wells(data, screen_id, row);
+                }, 
+                dataType: 'json',
+                contentType: 'application/json'
+            });
+        }
     }
 }
 
@@ -583,7 +604,7 @@ function create_condition_ref_field(condition_id){
                             well_dropdown.attr('disabled', 'disabled');
                             let id = ui.item.id;
                             if (id){
-                                $.getJSON(API_URL+'/screens/wells?screen_id='+id, function(wells){
+                                $.getJSON(API_URL+'/screens/wellNames?screen_id='+id, function(wells){
                                     $.each(wells, function(i, w){
                                         well_dropdown.append(
                                             $('<option>').attr('value', w.wellcondition_id)
@@ -1619,11 +1640,12 @@ function query_screens(){
     screen_table_body.empty();
     $.ajax({
         type: 'POST',
-        url: API_URL+'/screens', 
+        url: API_URL+'/screens/query', 
         data: api_query, 
         // Display returned screens
         success: function(data) {
-            display_screens(data);
+            let api_well_query = JSON.stringify($.extend(true, {}, SCREEN_QUERY.conds), query_drop_extra);
+            display_screens(data, api_well_query);
         }, 
         dataType: 'json',
         contentType: 'application/json'
