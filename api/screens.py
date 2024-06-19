@@ -279,15 +279,14 @@ async def get_subset_screens(*, session: Session=Depends(db.get_session), screen
     """
     Gets a list of screens and the number of wells in each that contain only conditions found in the specified screen
     """
-    # Make an alias for screen to compare id with outer query
-    cmp_screen = alias(db.Screen)
-    # All conditions of the specified screen
-    specified_screen_conditions = select(db.WellCondition.id).join(db.Well).join(db.Screen).where(db.Screen.id == screen_id)
-    # All conditions of selected screen except those of the specified screen
-    comparing_conditions = select(db.WellCondition.id).join(db.Well).join(cmp_screen).where(db.Screen.id == cmp_screen.c.get('id')).except_(specified_screen_conditions)
-    # Select screens and well counts for screens which have no conditions in above select (no conditions which are not also in specified screen)
-    statement = select(db.Screen, func.count(db.Well.id)).join(db.Well).where(db.Screen.id != screen_id, not_(exists(comparing_conditions))).group_by(db.Screen).order_by(db.Screen.name)
-
+    # Wellcondition of specified screen
+    screen_conditions = select(db.WellCondition.id).join(db.Well).join(db.Screen).where(db.Screen.id == screen_id)
+    # Screens, and well counts, which only have wellconditions that are also found in the specified screen
+    statement = select(db.Screen, func.count(db.Well.id)).join(db.Well).join(db.WellCondition)\
+                .where(db.Screen.id != screen_id)\
+                .group_by(db.Screen)\
+                .having(func.count(db.WellCondition.id) == func.sum(case((col(db.WellCondition.id).in_(screen_conditions), 1), else_=0)))
+    # Execute and return
     screens_counts = session.exec(statement).all()
     return screens_counts
 
