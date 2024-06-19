@@ -141,6 +141,48 @@ function display_wells(well_data, screen_id, row){
         append(
             $('<td>').attr('colspan', '9')
             .append(
+                $('<p>').text('Screens contained in this screen:')
+            ).append(
+                $('<div>').append(
+                    $('<button>').attr('id', 'subset-screens-button-'+screen_id).text('Search')
+                    .click(function(){
+                        $.getJSON(API_URL+'/screens/subsets?screen_id='+screen_id, function(data){
+                            let thead = $('<thead>').append($('<tr>').append(
+                                $('<th>').text('Screen name')
+                            ).append(
+                                $('<th>').text('Owner')
+                            ).append(
+                                $('<th>').text('Number of wells')
+                            ))
+                            let tbody = $('<tbody>');
+                            if (data.length == 0){
+                                tbody.append($('<tr>').append(
+                                    $('<td>').attr('colspan', '3').text('No screens found')
+                                ));
+                            } else {
+                                $.each(data, function(i,d){
+                                    let s = d[0];
+                                    let c = d[1];
+                                    tbody.append(
+                                        $('<tr>').append(
+                                            $('<td>').text(s.name)
+                                        ).append(
+                                            $('<td>').text(s.owned_by)
+                                        ).append(
+                                            $('<td>').text(c)
+                                        )
+                                    );
+                                });
+                            }
+                            $('#subset-screens-button-'+screen_id).parent().empty().append(
+                                $('<table>').attr('class', 'screen-contents-table').append(thead).append(tbody)
+                            );
+                        });
+                    })
+                )
+            ).append(
+                $('<p>').text('Relevant Wells:')
+            ).append(
                 // Contents table
                 $('<table>').attr('class', 'screen-contents-table').
                 append(
@@ -1644,7 +1686,10 @@ function query_screens(){
         data: api_query, 
         // Display returned screens
         success: function(data) {
-            let api_well_query = JSON.stringify($.extend(true, {}, SCREEN_QUERY.conds), query_drop_extra);
+            let api_well_query = null;
+            if (SCREEN_QUERY.conds){
+                api_well_query = JSON.stringify($.extend(true, {}, SCREEN_QUERY.conds), query_drop_extra);
+            }
             display_screens(data, api_well_query);
         }, 
         dataType: 'json',
