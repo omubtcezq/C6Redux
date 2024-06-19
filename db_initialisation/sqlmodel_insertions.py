@@ -373,9 +373,9 @@ def add_monomer_data():
         l2n = lambda x: px.utils.cell.column_index_from_string(x)-1
 
         # Loop stocks
-        for row in wb['Sheet 1'].iter_rows(min_row=2, max_row=24):
+        for row in wb['Sheet1'].iter_rows(min_row=2, max_row=65):
             c_name = type_or_none(row[l2n('A')].value, str)
-            c_monomer = type_or_none(row[l2n('C')].value, float)
+            c_monomer = type_or_none(row[l2n('C')].value, str)
 
             # Check if chemical matches matches seen chemicals or chemical aliases
             chem_search = session.exec(select(db.Chemical).where(db.Chemical.name == c_name)).all()
