@@ -227,6 +227,111 @@ def parseChemicalPred(chem: ChemicalPred):
     return chem_clause
 
 # ============================================================================ #
+# Recipe generation
+# ============================================================================ #
+
+def make_condition_recipe(session: Session, condition_id: int):
+    well_condition = session.get(db.WellCondition, condition_id)
+    possible_stocks = {}
+    for f in well_condition.factors:
+        # TODO store id not name for combinatorics search
+        f_index = ' '.join([f.chemical.name, str(f.concentration), f.unit, 'pH:', str(f.ph)])
+        possible_stocks[f_index] = []
+        stocks_for_factor_stmnt = select(db.Stock).join(db.Factor).where(db.Factor.chemical_id == f.chemical_id).order_by(db.Factor.concentration)
+        stocks_for_factor = session.exec(stocks_for_factor_stmnt).all()
+        
+        # Search for same chemical and ph
+        for s in stocks_for_factor:
+            s_index = ' '.join([s.name, str(s.factor.concentration), s.factor.unit, 'pH:', str(s.factor.ph)])
+            # Same chemical and ph
+            if s.factor.ph == f.ph:
+                # Match units and concentration
+                stock_vol = stock_volume(s.factor, f.concentration, f.unit, 1)
+                # Fails if overflow or incompatible units
+                if not stock_vol:
+                    continue
+                else:
+                    possible_stocks[f_index].append({s_index: stock_vol})
+        
+        # Search for same chemical but bounding phs
+        if f.ph:
+            bounding_pairs = {}
+            for s in stocks_for_factor:
+                s_index = ' '.join([s.name, str(s.factor.concentration), s.factor.unit, 'pH:', str(s.factor.ph)])
+
+                # Only consider stocks of the chemical with a specified ph
+                if not s.factor.ph:
+                    continue
+                # Similar ph can be used instead of mixing
+                if abs(f.ph - s.factor.ph) <= 0.1:
+                    stock_vol = stock_volume(s.factor, f.concentration, f.unit, 1)
+                    if stock_vol:
+                        possible_stocks[f_index].append({s_index: stock_vol})
+
+                # Find stocks with tight bounding phs at same concentrations for mixing
+                if (s.factor.concentration, s.factor.unit) not in bounding_pairs.keys():
+                    bounding_pairs[(s.factor.concentration, s.factor.unit)] = [None, None]
+                pair = bounding_pairs[(s.factor.concentration, s.factor.unit)]
+
+                if abs(f.ph - s.factor.ph) <= 1:
+                    if s.factor.ph < f.ph and (not pair[0] or pair[0][0].factor.ph < s.factor.ph):
+                        bot_index = ' '.join([s.name, str(s.factor.concentration), s.factor.unit, 'pH:', str(s.factor.ph)])
+                        pair[0] = (s, bot_index)
+                    if s.factor.ph > f.ph and (not pair[1] or pair[1][0].factor.ph > s.factor.ph):
+                        top_index = ' '.join([s.name, str(s.factor.concentration), s.factor.unit, 'pH:', str(s.factor.ph)])
+                        pair[1] = (s, top_index)
+
+            # For each suitable bounding pair
+            for pair in bounding_pairs.values():
+                if pair[0] and pair[1]:
+                    bot_stock_vol = stock_volume(pair[0][0].factor, f.concentration, f.unit, 0.5)
+                    top_stock_vol = stock_volume(pair[1][0].factor, f.concentration, f.unit, 0.5)
+                    if bot_stock_vol and top_stock_vol:
+                        possible_stocks[f_index].append({pair[0][1]: bot_stock_vol, pair[1][1]: top_stock_vol})
+
+    return possible_stocks
+
+def choose_stocks_condition(possible_stocks):
+    get_factor_volume = lambda x: sum(x.values())
+    num_factors = len(possible_stocks.keys())
+    
+    pass
+
+def stock_volume(stock_factor, desired_conc, desired_unit, total_volume):
+    # In case of weight and volume conversions use the density if it's there
+    chem_density = stock_factor.chemical.density
+    if not chem_density:
+        chem_density = 1
+    # All possible allowable combinations of units
+    stock_volume = None
+    if desired_unit == stock_factor.unit:
+        stock_volume = (desired_conc / stock_factor.concentration) * total_volume
+    elif desired_unit == 'mM' and stock_factor.unit == 'M':
+        stock_volume = (desired_conc * 1000 / stock_factor.concentration) * total_volume
+    elif desired_unit == 'M' and stock_factor.unit == 'mM':
+        stock_volume = (desired_conc / stock_factor.concentration * 1000) * total_volume
+    elif desired_unit == 'mg/ml' and stock_factor.unit == 'w/v':
+        stock_volume = (desired_conc * 100 / stock_factor.concentration) * total_volume
+    elif desired_unit == 'w/v' and stock_factor.unit == 'mg/ml':
+        stock_volume = (desired_conc / stock_factor.concentration * 100) * total_volume
+    elif desired_unit == 'w/v' and stock_factor.unit == 'v/v':
+        stock_volume = (desired_conc / stock_factor.concentration * chem_density) * total_volume
+    elif desired_unit == 'v/v' and stock_factor.unit == 'w/v':
+        stock_volume = (desired_conc * chem_density / stock_factor.concentration) * total_volume
+    elif desired_unit == 'mg/ml' and stock_factor.unit == 'v/v':
+        stock_volume = (desired_conc * 100 / stock_factor.concentration * chem_density) * total_volume
+    elif desired_unit == 'v/v' and stock_factor.unit == 'mg/ml':
+        stock_volume = (desired_conc * chem_density / stock_factor.concentration * 100) * total_volume
+    # None if units not compatible or if stock concentration overflows
+    if stock_volume and stock_volume > total_volume:
+        stock_volume = None
+    return stock_volume
+
+
+def make_screen_recipe(screen_id: int):
+    pass
+
+# ============================================================================ #
 # API operations
 # ============================================================================ #
 
@@ -328,6 +433,15 @@ async def get_screen_wells_query(*, session: Session=Depends(db.get_session), sc
     statement = select(db.Well).where(db.Well.screen_id == screen_id, col(db.Well.id).in_(well_ids)).order_by(db.Well.position_number)
     wells = session.exec(statement).all()
     return wells
+
+@router.get("/conditionRecipe", 
+             summary="Creates a recipe for making a condition specified by id",
+             response_description="Stocks and their volumes required to make the specified condition")
+async def get_screen_wells(*, session: Session=Depends(db.get_session), condition_id: int):
+    """
+    Creates a recipe for making a condition specified by id
+    """
+    return make_condition_recipe(session, condition_id)
 
 # @router.get("/export", 
 #             summary="Download a list of all screens",
