@@ -175,6 +175,10 @@ class Stock(StockBase, table=True):
     factor: Factor = Relationship(back_populates="stocks")
     hazards: list["Hazard"] = Relationship(back_populates="stocks", link_model=Stock_Hazard_Link)
 
+# Read when recipe generated
+class StockReadLite(StockBase):
+    id: int
+
 # Read when stocks read
 class StockRead(StockBase):
     id: int

@@ -4,9 +4,11 @@
 
 from sqlmodel import Session, select, or_, and_, not_, case, col, exists, alias, func
 from fastapi import APIRouter, Depends
-from enum import Enum
 from pydantic import BaseModel, ConfigDict
 from pydantic.functional_validators import model_validator
+from enum import Enum
+from itertools import product
+from collections import Counter
 import api.db as db
 
 # ============================================================================ #
@@ -230,19 +232,22 @@ def parseChemicalPred(chem: ChemicalPred):
 # Recipe generation
 # ============================================================================ #
 
+class Recipe(BaseModel):
+    msg: str
+    stocks: list[db.StockReadLite]
+    water: float
+
+
 def make_condition_recipe(session: Session, condition_id: int):
     well_condition = session.get(db.WellCondition, condition_id)
     possible_stocks = {}
     for f in well_condition.factors:
-        # TODO store id not name for combinatorics search
-        f_index = ' '.join([f.chemical.name, str(f.concentration), f.unit, 'pH:', str(f.ph)])
-        possible_stocks[f_index] = []
+        possible_stocks[f.id] = []
         stocks_for_factor_stmnt = select(db.Stock).join(db.Factor).where(db.Factor.chemical_id == f.chemical_id).order_by(db.Factor.concentration)
         stocks_for_factor = session.exec(stocks_for_factor_stmnt).all()
         
         # Search for same chemical and ph
         for s in stocks_for_factor:
-            s_index = ' '.join([s.name, str(s.factor.concentration), s.factor.unit, 'pH:', str(s.factor.ph)])
             # Same chemical and ph
             if s.factor.ph == f.ph:
                 # Match units and concentration
@@ -251,51 +256,89 @@ def make_condition_recipe(session: Session, condition_id: int):
                 if not stock_vol:
                     continue
                 else:
-                    possible_stocks[f_index].append({s_index: stock_vol})
+                    possible_stocks[f.id].append([{'stock': s, 'volume':stock_vol}])
         
         # Search for same chemical but bounding phs
         if f.ph:
             bounding_pairs = {}
             for s in stocks_for_factor:
-                s_index = ' '.join([s.name, str(s.factor.concentration), s.factor.unit, 'pH:', str(s.factor.ph)])
-
                 # Only consider stocks of the chemical with a specified ph
                 if not s.factor.ph:
                     continue
+
                 # Similar ph can be used instead of mixing
                 if abs(f.ph - s.factor.ph) <= 0.1:
                     stock_vol = stock_volume(s.factor, f.concentration, f.unit, 1)
                     if stock_vol:
-                        possible_stocks[f_index].append({s_index: stock_vol})
+                        possible_stocks[f.id].append([{'stock': s, 'volume': stock_vol}])
 
                 # Find stocks with tight bounding phs at same concentrations for mixing
                 if (s.factor.concentration, s.factor.unit) not in bounding_pairs.keys():
                     bounding_pairs[(s.factor.concentration, s.factor.unit)] = [None, None]
                 pair = bounding_pairs[(s.factor.concentration, s.factor.unit)]
-
+                # Only consider bounding ph if within 1 unit of factor
                 if abs(f.ph - s.factor.ph) <= 1:
-                    if s.factor.ph < f.ph and (not pair[0] or pair[0][0].factor.ph < s.factor.ph):
-                        bot_index = ' '.join([s.name, str(s.factor.concentration), s.factor.unit, 'pH:', str(s.factor.ph)])
-                        pair[0] = (s, bot_index)
-                    if s.factor.ph > f.ph and (not pair[1] or pair[1][0].factor.ph > s.factor.ph):
-                        top_index = ' '.join([s.name, str(s.factor.concentration), s.factor.unit, 'pH:', str(s.factor.ph)])
-                        pair[1] = (s, top_index)
+                    if s.factor.ph < f.ph and (not pair[0] or pair[0].factor.ph < s.factor.ph):
+                        pair[0] = s
+                    if s.factor.ph > f.ph and (not pair[1] or pair[1].factor.ph > s.factor.ph):
+                        pair[1] = s
 
             # For each suitable bounding pair
             for pair in bounding_pairs.values():
                 if pair[0] and pair[1]:
-                    bot_stock_vol = stock_volume(pair[0][0].factor, f.concentration, f.unit, 0.5)
-                    top_stock_vol = stock_volume(pair[1][0].factor, f.concentration, f.unit, 0.5)
+                    bot_stock_vol = stock_volume(pair[0].factor, f.concentration, f.unit, 0.5)
+                    top_stock_vol = stock_volume(pair[1].factor, f.concentration, f.unit, 0.5)
                     if bot_stock_vol and top_stock_vol:
-                        possible_stocks[f_index].append({pair[0][1]: bot_stock_vol, pair[1][1]: top_stock_vol})
+                        possible_stocks[f.id].append([{'stock': pair[0], 'volume': bot_stock_vol}, {'stock': pair[1], 'volume': top_stock_vol}])
 
-    return possible_stocks
+    # Return object
+    recipe = Recipe(msg="", stocks=[], water=0)
+
+    # Check if factors had no possible stocks
+    if any([not stocks for stocks in possible_stocks.values()]):
+        recipe.msg = 'Could not find any valid stocks for some factors in the condition!'
+        return recipe
+
+    # Check if non-overflowing recipe was made
+    stocks, volume = choose_stocks_condition(possible_stocks)
+    if stocks:
+        recipe.msg = 'Recipe'
+        recipe.stocks = stocks
+        recipe.water = 1-volume
+    else:
+        recipe.msg = 'Could not find any combination of stocks that did not overflow!'
+    return recipe
 
 def choose_stocks_condition(possible_stocks):
-    get_factor_volume = lambda x: sum(x.values())
-    num_factors = len(possible_stocks.keys())
-    
-    pass
+    # Possible stock choices by list indeces
+    stock_index_choices = product(*[[i for i in range(len(l))] for l in possible_stocks.values()])
+    # Complex sort to prioritise low-concentration stocks given sorted possible stocks
+    max_stock_index = max([len(x) for x in possible_stocks.values()])-1
+    def sort_key(stock_index_list):
+        c = Counter(stock_index_list)
+        return tuple(c[i] for i in range(max_stock_index, 0, -1))
+    stock_index_choices = sorted(stock_index_choices, key=sort_key)
+
+    # For each choice, get the stocks and compute whether an overflow will occur
+    found = False
+    for choice in stock_index_choices:
+        total_vol = 0
+        all_stocks = []
+        for factor_index,factor_id in enumerate(possible_stocks.keys()):
+            stock_index = choice[factor_index]
+            stocks = possible_stocks[factor_id][stock_index]
+            total_vol += sum([s['volume'] for s in stocks])
+            all_stocks += stocks
+        if total_vol <= 1:
+            found = True
+            break
+
+    # If a valid combination of stocks is found, return stock list and its volume
+    if found:
+        return all_stocks, total_vol
+    # Nones if all stock combinations overflow
+    else:
+        return None, None
 
 def stock_volume(stock_factor, desired_conc, desired_unit, total_volume):
     # In case of weight and volume conversions use the density if it's there
@@ -436,7 +479,8 @@ async def get_screen_wells_query(*, session: Session=Depends(db.get_session), sc
 
 @router.get("/conditionRecipe", 
              summary="Creates a recipe for making a condition specified by id",
-             response_description="Stocks and their volumes required to make the specified condition")
+             response_description="Stocks and their volumes required to make the specified condition",
+             response_model=Recipe)
 async def get_screen_wells(*, session: Session=Depends(db.get_session), condition_id: int):
     """
     Creates a recipe for making a condition specified by id
