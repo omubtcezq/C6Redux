@@ -233,9 +233,10 @@ def parseChemicalPred(chem: ChemicalPred):
 # ============================================================================ #
 
 class Recipe(BaseModel):
+    success: bool
     msg: str
-    stocks: list[db.StockReadLite]
-    water: float
+    stocks: list[db.StockReadLite] | None
+    water: float | None
 
 
 def make_condition_recipe(session: Session, condition_id: int):
@@ -292,21 +293,23 @@ def make_condition_recipe(session: Session, condition_id: int):
                         possible_stocks[f.id].append([{'stock': pair[0], 'volume': bot_stock_vol}, {'stock': pair[1], 'volume': top_stock_vol}])
 
     # Return object
-    recipe = Recipe(msg="", stocks=[], water=0)
-
+    recipe = Recipe(success=False, msg="", stocks=None, water=None)
     # Check if factors had no possible stocks
     if any([not stocks for stocks in possible_stocks.values()]):
+        recipe.success = False
         recipe.msg = 'Could not find any valid stocks for some factors in the condition!'
         return recipe
-
-    # Check if non-overflowing recipe was made
+    # Check if all possible recipes overflowed
     stocks, volume = choose_stocks_condition(possible_stocks)
-    if stocks:
-        recipe.msg = 'Recipe'
+    if not stocks:
+        recipe.success = False
+        recipe.msg = 'Could not find any combination of stocks that did not overflow!'
+    # Return stocks and remaining water volume
+    else:
+        recipe.success = True
+        recipe.msg = ''
         recipe.stocks = stocks
         recipe.water = 1-volume
-    else:
-        recipe.msg = 'Could not find any combination of stocks that did not overflow!'
     return recipe
 
 def choose_stocks_condition(possible_stocks):
