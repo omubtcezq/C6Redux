@@ -22,11 +22,23 @@ button {
 .screen-contents-table > tbody > tr > td {
   border: 1px solid black;
   margin: auto;
-  text-align: left;
+  text-align: center;
 }
 
-.viewed-screen {
+.generated-recipe-table, 
+.generated-recipe-table > thead > tr > th, 
+.generated-recipe-table > tbody > tr > td {
+  border: 1px solid black;
+  margin: auto;
+  text-align: center;
+}
+
+.viewed-screen-highlight {
   background-color: rgb(203, 255, 255);
+}
+
+.generated-recipe-highlight {
+  background-color: rgb(221, 203, 255);
 }
 
 #query-container {

@@ -1,7 +1,7 @@
 (function() {
 // Connection parameters
-API_IP = '13.236.58.27'
-//API_IP = 'localhost'
+//API_IP = '13.236.58.27'
+API_IP = 'localhost'
 API_PORT = '8000'
 API_URL = 'http://'+API_IP+':'+API_PORT+'/api'
 
@@ -41,13 +41,13 @@ let ALL_UNITS = [
 
 /*
  
- ########  #######  ########     ########  ##     ## ######## ########  #######  ##    ##  ######  
-    ##    ##     ## ##     ##    ##     ## ##     ##    ##       ##    ##     ## ###   ## ##    ## 
-    ##    ##     ## ##     ##    ##     ## ##     ##    ##       ##    ##     ## ####  ## ##       
-    ##    ##     ## ########     ########  ##     ##    ##       ##    ##     ## ## ## ##  ######  
-    ##    ##     ## ##           ##     ## ##     ##    ##       ##    ##     ## ##  ####       ## 
-    ##    ##     ## ##           ##     ## ##     ##    ##       ##    ##     ## ##   ### ##    ## 
-    ##     #######  ##           ########   #######     ##       ##     #######  ##    ##  ######  
+ ########    ###    ########  ##       ########  ######  
+    ##      ## ##   ##     ## ##       ##       ##    ## 
+    ##     ##   ##  ##     ## ##       ##       ##       
+    ##    ##     ## ########  ##       ######    ######  
+    ##    ######### ##     ## ##       ##             ## 
+    ##    ##     ## ##     ## ##       ##       ##    ## 
+    ##    ##     ## ########  ######## ########  ######  
  
 */
 
@@ -99,6 +99,35 @@ function display_screens(screen_list_data, well_query_string){
     }
 }
 
+// Load screen contents button function
+function load_screen_wells(screen_id, well_query_string, row){
+    // If screen already viewed, remove it
+    if (row.next().attr('id') == 'screen-contents-'+screen_id){
+        row.next().remove();
+        $('#view-screen-button'+screen_id).text('View');
+        row.removeClass('viewed-screen-highlight');
+    // If not, get screen contents and display them
+    } else {
+        if (!well_query_string){
+            $.getJSON(API_URL+'/screens/wells?screen_id='+screen_id, function(data){
+                display_wells(data, screen_id, row)
+            });
+        } else {
+            $.ajax({
+                type: 'POST',
+                url: API_URL+'/screens/wellQuery?screen_id='+screen_id, 
+                data: well_query_string, 
+                // Display returned screens
+                success: function(data) {
+                    display_wells(data, screen_id, row);
+                }, 
+                dataType: 'json',
+                contentType: 'application/json'
+            });
+        }
+    }
+}
+
 function display_wells(well_data, screen_id, row){
     // Create body to append rows to
     let screen_contents_table = $('<tbody>')
@@ -118,15 +147,31 @@ function display_wells(well_data, screen_id, row){
             if (!first){
                 contents_row = $('<tr>');
             }
-            else {
-                first = false;
-            }
             // What to display for each factor
             contents_row.
             append($('<td>').text(f.chemical.name)).
             append($('<td>').text(f.concentration)).
             append($('<td>').text(f.unit)).
             append($('<td>').text(f.ph))
+
+            // If first add recipe button cell
+            if (first){
+                // Include button to generate recipe for condition
+                contents_row.append(
+                    $('<td>').attr('class', 'button-cell').attr('rowspan', num_factors).
+                    append(
+                        $('<button>').attr('id', 'generate-condition-recipe-button'+w.wellcondition.id).
+                        text('Recipe').
+                        click(function () {
+                            // Load generated recipe wellcondition id and the condition row
+                            generate_recipe(w.wellcondition.id, $(this).parent().parent());
+                        })
+                    )
+                );
+            }
+
+            // No longer first
+            first = false;
             
             // Add row to contents table
             screen_contents_table.append(contents_row);
@@ -137,7 +182,7 @@ function display_wells(well_data, screen_id, row){
     row.after(
         $('<tr>').
         attr('id', 'screen-contents-'+screen_id).
-        attr('class', 'viewed-screen').
+        attr('class', 'viewed-screen-highlight').
         append(
             $('<td>').attr('colspan', '9')
             .append(
@@ -191,7 +236,8 @@ function display_wells(well_data, screen_id, row){
                         append($('<th>').text('Chemical')).
                         append($('<th>').text('Concentration')).
                         append($('<th>').text('Units')).
-                        append($('<th>').text('pH'))
+                        append($('<th>').text('pH')).
+                        append($('<th>').text('Action'))
                     )
                 ).
                 // Add the body created above
@@ -201,37 +247,99 @@ function display_wells(well_data, screen_id, row){
             )
         )
     )
-    row.addClass('viewed-screen');
+    row.addClass('viewed-screen-highlight');
     $('#view-screen-button'+screen_id).text('Hide');
 }
 
-// Load screen contents button function
-function load_screen_wells(screen_id, well_query_string, row){
-    // If screen already viewed, remove it
-    if (row.next().attr('id') == 'screen-contents-'+screen_id){
-        row.next().remove();
-        $('#view-screen-button'+screen_id).text('View');
-        row.removeClass('viewed-screen');
-    // If not, get screen contents and display them
-    } else {
-        if (!well_query_string){
-            $.getJSON(API_URL+'/screens/wells?screen_id='+screen_id, function(data){
-                display_wells(data, screen_id, row)
-            });
+function get_last_row_of_wellcondition(row, select=true){
+    // get the last row of the condition (last factor)
+    let botrow = row;
+    let rowspan = row.children().first().attr('rowspan');
+    let count = 1;
+    while (rowspan && count < rowspan){
+        if (select){
+            botrow.addClass('generated-recipe-highlight');
         } else {
-            $.ajax({
-                type: 'POST',
-                url: API_URL+'/screens/wellQuery?screen_id='+screen_id, 
-                data: well_query_string, 
-                // Display returned screens
-                success: function(data) {
-                    display_wells(data, screen_id, row);
-                }, 
-                dataType: 'json',
-                contentType: 'application/json'
-            });
+            botrow.removeClass('generated-recipe-highlight');
         }
+        botrow = botrow.next();
+        count += 1;
     }
+    if (select){
+        botrow.addClass('generated-recipe-highlight');
+    } else {
+        botrow.removeClass('generated-recipe-highlight');
+    }
+    return botrow;
+}
+
+// Generate wellcondition recipe button function
+function generate_recipe(wellcondition_id, row){
+    // If recipe already generated, remove it
+    let botrow = get_last_row_of_wellcondition(row, false);
+    if (botrow.next().attr('id') == 'wellcondition-recipe-'+wellcondition_id){
+        botrow.next().remove();
+        $('#generate-condition-recipe-button'+wellcondition_id).text('Recipe');
+    // If not, get recipe and display it
+    } else {
+        $.getJSON(API_URL+'/screens/conditionRecipe?condition_id='+wellcondition_id, function(data){
+            display_recipe(data, wellcondition_id, row)
+        });
+    }
+}
+
+function display_recipe(recipe_data, wellcondition_id, row){
+    // Create body to append rows to
+    let recipe_table = $('<tbody>')
+    // Loop recipe
+    if (recipe_data.success){
+        $.each(recipe_data.stocks, function(i, s){
+            let recipe_row = $('<tr>');
+            // What to display for each stock
+            recipe_row.
+            append($('<td>').text(s.stock.name)).
+            append($('<td>').text(s.volume))
+            // Add stock to recipe table
+            recipe_table.append(recipe_row);
+        })
+        if (recipe_data.water > 0){
+            recipe_table.append($('<tr>').
+                append($('<td>').text('Water')).
+                append($('<td>').text(recipe_data.water))
+            )
+        }
+    } else {
+        recipe_table.append($('<tr>').
+            append($('<td>').attr('colspan', 2).text(recipe_data.msg))
+        )
+    }
+    let botrow = get_last_row_of_wellcondition(row, true);
+    // Create row in original table below condition row and add new recipe
+    botrow.after(
+        $('<tr>').
+        attr('id', 'wellcondition-recipe-'+wellcondition_id).
+        attr('class', 'generated-recipe-highlight generated-recipe-row').
+        append(
+            $('<td>').attr('colspan', '6')
+            .append(
+                $('<p>').text('Recipe:')
+            ).append(
+                // Recipe table
+                $('<table>').attr('class', 'generated-recipe-table').
+                append(
+                    $('<thead>').append(
+                        $('<tr>').append($('<th>').text('Stock')).
+                        append($('<th>').text('Volume (ml)'))
+                    )
+                ).
+                // Add the body created above
+                append(
+                    recipe_table
+                )
+            )
+        )
+    )
+    $('#generate-condition-recipe-button'+wellcondition_id).text('Hide');
 }
 
 // Button to toggle screen query container
