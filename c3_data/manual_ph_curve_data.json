@@ -1,0 +1,23 @@
+// Manually written from buffers excel sheet and PH_CURVE export from old DB
+{
+	"ph_curve": [
+		{
+			"chemical_id": 1,
+			"pka": null,
+			"low_range": 4,
+			"low_chemical_id": 1,
+			"high_range": 5,
+			"high_chemical_id": 1,
+			"method": "HH"
+		},
+		{
+			"chemical_id": 1,
+			"pka": null,
+			"low_range": 4,
+			"low_chemical_id": 1,
+			"high_range": 5,
+			"high_chemical_id": 1,
+			"method": "HH"
+		},
+	]
+}

@@ -273,6 +273,12 @@ def make_condition_recipe(session: Session, condition_id: int):
                     if stock_vol:
                         possible_stocks[f.id].append([{'stock': s, 'volume': stock_vol}])
 
+            # Search ph curves for a match
+
+            # Search stocks that are suitable for curve
+
+            # Interpolate appropriately
+
                 # Find stocks with tight bounding phs at same concentrations for mixing
                 if (s.factor.concentration, s.factor.unit) not in bounding_pairs.keys():
                     bounding_pairs[(s.factor.concentration, s.factor.unit)] = [None, None]
