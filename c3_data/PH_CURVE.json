@@ -3,7 +3,7 @@
 	{
 		"PK_PH_CURVE_ID" : 1,
 		"FK_CHEMICAL_ID" : 21787,
-		"NAME" : "bis-tris propane chloride",
+		"NAME" : ["bis-tris propane chloride"],
 		"LOW_STOCK_NAME" : "bis tris propane pH 6.0 (1M)",
 		"LOW_STOCK_ID" : null,
 		"LOW_SOURCE_NAME" : "bis-tris propane chloride",
@@ -28,7 +28,7 @@
 	{
 		"PK_PH_CURVE_ID" : 2,
 		"FK_CHEMICAL_ID" : 57,
-		"NAME" : "citrate-phosphate",
+		"NAME" : ["phosphate-citrate", "disodium hydrogen phosphate-citric acid"],
 		"LOW_STOCK_NAME" : "citric acid \"pH 2.2\" (0.5M)",
 		"LOW_STOCK_ID" : 1006,
 		"LOW_SOURCE_NAME" : "citric acid",
@@ -53,7 +53,7 @@
 	{
 		"PK_PH_CURVE_ID" : 3,
 		"FK_CHEMICAL_ID" : 168,
-		"NAME" : "sodium dihydrogen-dipotassium hydrogen phosphate",
+		"NAME" : ["sodium dihydrogen-dipotassium hydrogen phosphate"],
 		"LOW_STOCK_NAME" : "sodium dihydrogen phosphate \"pH 4.6\" (1M)",
 		"LOW_STOCK_ID" : 2340,
 		"LOW_SOURCE_NAME" : "sodium dihydrogen phosphate",
@@ -78,7 +78,7 @@
 	{
 		"PK_PH_CURVE_ID" : 4,
 		"FK_CHEMICAL_ID" : 5022,
-		"NAME" : "trisodium citrate-citric acid",
+		"NAME" : ["trisodium citrate-citric acid"],
 		"LOW_STOCK_NAME" : "citric acid \"pH 2.3\" (1M)",
 		"LOW_STOCK_ID" : 945,
 		"LOW_SOURCE_NAME" : "citric acid",
@@ -103,7 +103,7 @@
 	{
 		"PK_PH_CURVE_ID" : 5,
 		"FK_CHEMICAL_ID" : 213,
-		"NAME" : "acetate-ADA-bicine",
+		"NAME" : ["acetate-ADA-bicine"],
 		"LOW_STOCK_NAME" : "acetate-ADA-bicine pH 4.0 (100% v\/v)",
 		"LOW_STOCK_ID" : 1899,
 		"LOW_SOURCE_NAME" : "acetate-ADA-bicine",
@@ -128,7 +128,7 @@
 	{
 		"PK_PH_CURVE_ID" : 6,
 		"FK_CHEMICAL_ID" : 215,
-		"NAME" : "tartrate-bis tris-glygly",
+		"NAME" : ["tartrate-bis tris-glygly"],
 		"LOW_STOCK_NAME" : "TBG pH 4.0",
 		"LOW_STOCK_ID" : null,
 		"LOW_SOURCE_NAME" : "TBG",
@@ -153,7 +153,7 @@
 	{
 		"PK_PH_CURVE_ID" : 7,
 		"FK_CHEMICAL_ID" : 210,
-		"NAME" : "citrate-HEPES-CHES",
+		"NAME" : ["citrate-HEPES-CHES"],
 		"LOW_STOCK_NAME" : "CHC pH 4.0",
 		"LOW_STOCK_ID" : null,
 		"LOW_SOURCE_NAME" : "CHC",
@@ -178,7 +178,7 @@
 	{
 		"PK_PH_CURVE_ID" : 8,
 		"FK_CHEMICAL_ID" : 211,
-		"NAME" : "Malonate-Imidazole-Borate",
+		"NAME" : ["malonate-imidazole-borate"],
 		"LOW_STOCK_NAME" : "MIB pH 4.0",
 		"LOW_STOCK_ID" : null,
 		"LOW_SOURCE_NAME" : "MIB",
@@ -203,7 +203,7 @@
 	{
 		"PK_PH_CURVE_ID" : 9,
 		"FK_CHEMICAL_ID" : 214,
-		"NAME" : "DL-malate-MES-tris",
+		"NAME" : ["DL-malate-MES-tris"],
 		"LOW_STOCK_NAME" : "(DL)malate-MES-tris pH 4.0 (100% v\/v)",
 		"LOW_STOCK_ID" : null,
 		"LOW_SOURCE_NAME" : "DL-malate-MES-tris",
@@ -228,7 +228,7 @@
 	{
 		"PK_PH_CURVE_ID" : 10,
 		"FK_CHEMICAL_ID" : 212,
-		"NAME" : "proprionate-cacodylate-bis tris propane",
+		"NAME" : ["propionate-cacodylate-bis tris propane"],
 		"LOW_STOCK_NAME" : "PCB pH 4.0",
 		"LOW_STOCK_ID" : null,
 		"LOW_SOURCE_NAME" : "PCB",
@@ -253,7 +253,7 @@
 	{
 		"PK_PH_CURVE_ID" : 11,
 		"FK_CHEMICAL_ID" : 209,
-		"NAME" : "succinate-phosphate-glycine",
+		"NAME" : ["succinate-phosphate-glycine"],
 		"LOW_STOCK_NAME" : "SPG pH 4.0",
 		"LOW_STOCK_ID" : null,
 		"LOW_SOURCE_NAME" : "SPG",
@@ -278,7 +278,7 @@
 	{
 		"PK_PH_CURVE_ID" : 12,
 		"FK_CHEMICAL_ID" : 5763,
-		"NAME" : "citrate-bis-tris propane",
+		"NAME" : ["citrate-bis-tris propane"],
 		"LOW_STOCK_NAME" : "citric acid \"pH 2.34\" (1M)",
 		"LOW_STOCK_ID" : null,
 		"LOW_SOURCE_NAME" : "citric acid",
@@ -303,7 +303,7 @@
 	{
 		"PK_PH_CURVE_ID" : 13,
 		"FK_CHEMICAL_ID" : 5804,
-		"NAME" : "Maleic acid Tris base",
+		"NAME" : ["tris maleate"],
 		"LOW_STOCK_NAME" : "Maleic acid 1M",
 		"LOW_STOCK_ID" : null,
 		"LOW_SOURCE_NAME" : "maleic acid",
@@ -328,7 +328,7 @@
 	{
 		"PK_PH_CURVE_ID" : 14,
 		"FK_CHEMICAL_ID" : 5805,
-		"NAME" : "Maleic acid Imidazole",
+		"NAME" : ["imidazole maleate"],
 		"LOW_STOCK_NAME" : "maleic acid 1M",
 		"LOW_STOCK_ID" : 1263,
 		"LOW_SOURCE_NAME" : "maleic acid",
@@ -353,7 +353,7 @@
 	{
 		"PK_PH_CURVE_ID" : 93,
 		"FK_CHEMICAL_ID" : 216,
-		"NAME" : "Na2H\/KH2 Phosphate",
+		"NAME" : ["disodium hydrogen-potassium dihydrogen phosphate"],
 		"LOW_STOCK_NAME" : "potassium dihydrogen phosphate \"pH 4.6\" (1M)",
 		"LOW_STOCK_ID" : null,
 		"LOW_SOURCE_NAME" : "potassium dihydrogen phosphate",
@@ -378,7 +378,7 @@
 	{
 		"PK_PH_CURVE_ID" : 73,
 		"FK_CHEMICAL_ID" : 5066,
-		"NAME" : "DL-malate-imidazole",
+		"NAME" : ["DL-malate-imidazole"],
 		"LOW_STOCK_NAME" : "(DL)malic acid \"pH 2.0\" (1M)",
 		"LOW_STOCK_ID" : 1265,
 		"LOW_SOURCE_NAME" : "DL-malic acid",
@@ -403,7 +403,7 @@
 	{
 		"PK_PH_CURVE_ID" : 113,
 		"FK_CHEMICAL_ID" : 5058,
-		"NAME" : "TEMP ammonium citrate - citric acid",
+		"NAME" : ["triammonium citrate-citric acid"],
 		"LOW_STOCK_NAME" : "citric acid \"pH 2.34\" (2.5M)",
 		"LOW_STOCK_ID" : 1161,
 		"LOW_SOURCE_NAME" : "citric acid",
@@ -428,7 +428,7 @@
 	{
 		"PK_PH_CURVE_ID" : 114,
 		"FK_CHEMICAL_ID" : 5087,
-		"NAME" : "NaH2-K2H phosphate high conc",
+		"NAME" : ["potassium sodium phosphate"],
 		"LOW_STOCK_NAME" : "sodium dihydrogen phosphate \"pH 4.6\" (3M)",
 		"LOW_STOCK_ID" : 2420,
 		"LOW_SOURCE_NAME" : "sodium dihydrogen phosphate",
@@ -453,7 +453,7 @@
 	{
 		"PK_PH_CURVE_ID" : 133,
 		"FK_CHEMICAL_ID" : 116,
-		"NAME" : "Tacsimate",
+		"NAME" : ["tacsimate"],
 		"LOW_STOCK_NAME" : "tacsimate pH 4",
 		"LOW_STOCK_ID" : null,
 		"LOW_SOURCE_NAME" : "tacsimate",
