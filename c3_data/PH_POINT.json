@@ -7499,5 +7499,311 @@
 		"FK_PH_CURVE_ID" : 393,
 		"HIGH_PH_FRACTION_X" : 100,
 		"RESULT_PH_Y" : 9.23
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 0,
+		"RESULT_PH_Y" : 1.8
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 2,
+		"RESULT_PH_Y" : 1.85
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 4,
+		"RESULT_PH_Y" : 1.91
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 6,
+		"RESULT_PH_Y" : 1.98
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 8,
+		"RESULT_PH_Y" : 2.04
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 10,
+		"RESULT_PH_Y" : 2.08
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 12,
+		"RESULT_PH_Y" : 2.16
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 14,
+		"RESULT_PH_Y" : 2.22
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 16,
+		"RESULT_PH_Y" : 2.28
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 18,
+		"RESULT_PH_Y" : 2.34
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 20,
+		"RESULT_PH_Y" : 2.4
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 22,
+		"RESULT_PH_Y" : 2.48
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 24,
+		"RESULT_PH_Y" : 2.54
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 26,
+		"RESULT_PH_Y" : 2.6
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 28,
+		"RESULT_PH_Y" : 2.65
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 30,
+		"RESULT_PH_Y" : 2.74
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 32,
+		"RESULT_PH_Y" : 2.81
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 34,
+		"RESULT_PH_Y" : 2.87
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 36,
+		"RESULT_PH_Y" : 2.96
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 38,
+		"RESULT_PH_Y" : 3.03
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 40,
+		"RESULT_PH_Y" : 3.13
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 42,
+		"RESULT_PH_Y" : 3.24
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 44,
+		"RESULT_PH_Y" : 3.35
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 46,
+		"RESULT_PH_Y" : 3.49
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 48,
+		"RESULT_PH_Y" : 3.66
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 50,
+		"RESULT_PH_Y" : 3.85
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 52,
+		"RESULT_PH_Y" : 4.03
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 54,
+		"RESULT_PH_Y" : 4.19
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 56,
+		"RESULT_PH_Y" : 4.34
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 58,
+		"RESULT_PH_Y" : 4.47
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 60,
+		"RESULT_PH_Y" : 4.57
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 62,
+		"RESULT_PH_Y" : 4.67
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 64,
+		"RESULT_PH_Y" : 4.74
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 66,
+		"RESULT_PH_Y" : 4.82
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 68,
+		"RESULT_PH_Y" : 4.89
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 70,
+		"RESULT_PH_Y" : 4.96
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 72,
+		"RESULT_PH_Y" : 5.03
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 76,
+		"RESULT_PH_Y" : 5.1
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 76,
+		"RESULT_PH_Y" : 5.16
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 78,
+		"RESULT_PH_Y" : 5.25
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 80,
+		"RESULT_PH_Y" : 5.34
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 82,
+		"RESULT_PH_Y" : 5.42
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 84,
+		"RESULT_PH_Y" : 5.49
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 86,
+		"RESULT_PH_Y" : 5.59
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 88,
+		"RESULT_PH_Y" : 5.69
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 90,
+		"RESULT_PH_Y" : 5.79
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 92,
+		"RESULT_PH_Y" : 5.92
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 94,
+		"RESULT_PH_Y" : 6.09
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 96,
+		"RESULT_PH_Y" : 6.29
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 98,
+		"RESULT_PH_Y" : 6.42
+	},
+	{
+		"PK_PH_POINT_ID" : 2584,
+		"FK_PH_CURVE_ID" : 1000,
+		"HIGH_PH_FRACTION_X" : 100,
+		"RESULT_PH_Y" : 7.8
 	}
 ]}

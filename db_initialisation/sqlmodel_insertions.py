@@ -3,6 +3,7 @@ Create db population sql from exported C3 files
 """
 import xml.etree.ElementTree as et
 import openpyxl as px
+import json
 import os
 import sys
 
@@ -18,6 +19,9 @@ CHEMICALS_SQL_FPATH = 'c3_data/CHEMICALS_202405021237.sql'
 MONOMER_FPATH = 'c3_data/monomers.xlsx'
 STOCKS_FPATH = 'c3_data/stocks.xlsx'
 SCREEN_FOLDER_PATHS = ['c3_data/c3_screens', 'c3_data/commercial_screens', 'c3_data/other_screens']
+PH_CURVES_FPATH = 'c3_data/manual_ph_curve_data.json'
+PH_CURVES_SQL_FPATH = 'c3_data/PH_CURVE.json'
+PH_POINTS_FPATH = 'c3_data/PH_POINT.json'
 
 #==============================================================================#
 # HELPERS
@@ -398,6 +402,134 @@ def add_monomer_data():
         session.commit()
 
 #==============================================================================#
+# PH CURVES
+#==============================================================================#
+
+def add_ph_curves():
+    # Get session
+    with Session(engine) as session:
+
+        # Parse curve file
+        with open(PH_CURVES_FPATH) as curves_f:
+            curves = json.load(curves_f)
+            for curve in curves['ph_curve']:
+                pc_c_name = curve['chemical_name']
+                pc_low_range = curve['low_range']
+                pc_low_c_name = curve['low_chemical_name']
+                pc_high_range = curve['high_range']
+                pc_high_c_name = curve['high_chemical_name']
+                pc_hh = curve['HH_interpolation']
+
+                # Check if chemical matches seen chemicals or chemical aliases
+                chem_search = session.exec(select(db.Chemical).where(db.Chemical.name == pc_c_name)).all()
+                if len(chem_search) == 0:
+                    alias_search = session.exec(select(db.Alias).where(db.Alias.name == pc_c_name)).all()
+                    # If can't find the chemical, ignore the factor
+                    if len(alias_search) == 0:
+                        print('Error!: Chemical', pc_c_name, 'not in chemical table')
+                        continue
+                    else:
+                        alias = alias_search[0]
+                        chem = alias.chemical
+                else:
+                    chem = chem_search[0]
+                
+                # Check if low range chemical matches seen chemicals or chemical aliases
+                chem_search = session.exec(select(db.Chemical).where(db.Chemical.name == pc_low_c_name)).all()
+                if len(chem_search) == 0:
+                    alias_search = session.exec(select(db.Alias).where(db.Alias.name == pc_low_c_name)).all()
+                    # If can't find the chemical, ignore the factor
+                    if len(alias_search) == 0:
+                        print('Error!: Chemical', pc_low_c_name, 'not in chemical table (curve for', pc_c_name,')')
+                        continue
+                    else:
+                        alias = alias_search[0]
+                        low_chem = alias.chemical
+                else:
+                    low_chem = chem_search[0]
+                
+                # Check if high range chemical matches seen chemicals or chemical aliases
+                chem_search = session.exec(select(db.Chemical).where(db.Chemical.name == pc_high_c_name)).all()
+                if len(chem_search) == 0:
+                    alias_search = session.exec(select(db.Alias).where(db.Alias.name == pc_high_c_name)).all()
+                    # If can't find the chemical, ignore the factor
+                    if len(alias_search) == 0:
+                        print('Error!: Chemical', pc_high_c_name, 'not in chemical table (curve for', pc_c_name,')')
+                        continue
+                    else:
+                        alias = alias_search[0]
+                        high_chem = alias.chemical
+                else:
+                    high_chem = chem_search[0]
+                
+                # Add ph curve
+                phcurve = db.PhCurve(chemical_id=chem.id,
+                                     low_range=pc_low_range,
+                                     low_chemical_id=low_chem.id,
+                                     high_range=pc_high_range,
+                                     high_chemical_id=high_chem.id,
+                                     hh_interpolation=pc_hh)
+                session.add(phcurve)
+            
+            # Commit left over adds
+            session.commit()
+        
+        # Parse points and curve sql files
+        with open(PH_CURVES_SQL_FPATH) as curves_sql_f:
+            with open(PH_POINTS_FPATH) as points_f:
+                curves_sql = json.load(curves_sql_f)
+                points = json.load(points_f)
+                seen_curves = {}
+                sql_keys_with_no_curve = []
+                for point in points['PH_POINT']:
+                    pp_curve_sql_key = point['FK_PH_CURVE_ID']
+                    pp_high_fraction = point['HIGH_PH_FRACTION_X']
+                    pp_result_ph = point['RESULT_PH_Y']
+                    phcurve_ids = []
+                    # Points from a missing curve, skip these
+                    if pp_curve_sql_key in sql_keys_with_no_curve:
+                        continue
+                    # Points from a seen curve
+                    elif pp_curve_sql_key in seen_curves.keys():
+                        phcurve_ids = seen_curves[pp_curve_sql_key]
+                    # Points from as as yet unseen curve
+                    else:
+                        seen_curves[pp_curve_sql_key] = []
+                        for curve_sql in curves_sql['PH_CURVE']:
+                            if curve_sql['PK_PH_CURVE_ID'] == pp_curve_sql_key:
+                                for c_name in curve_sql['NAME']:
+                                    # Check if chemical matches seen chemicals or chemical aliases
+                                    chem_search = session.exec(select(db.Chemical).where(db.Chemical.name == c_name)).all()
+                                    if len(chem_search) == 0:
+                                        alias_search = session.exec(select(db.Alias).where(db.Alias.name == c_name)).all()
+                                        # If can't find the chemical, ignore the factor
+                                        if len(alias_search) == 0:
+                                            print('Error!: Chemical', c_name, 'not in chemical table')
+                                            continue
+                                        else:
+                                            alias = alias_search[0]
+                                            chem = alias.chemical
+                                    else:
+                                        chem = chem_search[0]
+                                    # Note that curves are only for non-HH chemicals - which have at most one phcurve
+                                    seen_curves[pp_curve_sql_key].append(chem.phcurves[0].id)
+                        phcurve_ids = seen_curves[pp_curve_sql_key]
+                    
+                    if phcurve_ids == []:
+                        print('Error!: No curves for point with SQL curve key', pp_curve_sql_key)
+                        sql_keys_with_no_curve.append(pp_curve_sql_key)
+                    
+                    # Add point for each curve it's for
+                    for phcurve_id in phcurve_ids:
+                        phpoint = db.PhPoint(phcurve_id=phcurve_id,
+                                             high_chemical_percentage=pp_high_fraction,
+                                             result_ph=pp_result_ph)
+                        session.add(phpoint)
+                
+                # Commit left over adds
+                session.commit()
+
+#==============================================================================#
 # Main
 #==============================================================================#
 
@@ -407,7 +539,9 @@ def add_monomer_data():
 # insert_stocks()
 # print('\nCreating Screens\n')
 # insert_screens()
-print('\Add monomer data')
-add_monomer_data()
+# print('\nAdding monomer data\n')
+# add_monomer_data()
+print('\nAdding ph curves\n')
+add_ph_curves()
 
 # insert_screen('c3_data/other_screens/Design_SG2_Mol_dim.xml')

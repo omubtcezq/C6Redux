@@ -4,6 +4,8 @@ drop table if exists well;
 drop table if exists wellcondition;
 drop table if exists frequentblock;
 drop table if exists screen;
+drop table if exists phpoint;
+drop table if exists phcurve;
 drop table if exists stock_hazard_link;
 drop table if exists hazard;
 drop table if exists stock;
@@ -143,6 +145,45 @@ create table stock_hazard_link (
 	FOREIGN KEY(hazard_id)
 		REFERENCES hazard(id)
 		ON DELETE CASCADE
+);
+
+create table phcurve (
+	id int not null auto_increment,
+	chemical_id int not null,
+	low_range double not null,
+	low_chemical_id int not null,
+	high_range double not null,
+	high_chemical_id int not null,
+	hh_interpolation tinyint not null,
+
+	PRIMARY KEY(id),
+	INDEX(id),
+	INDEX(chemical_id),
+	INDEX(low_chemical_id),
+	INDEX(high_chemical_id),
+	FOREIGN KEY(chemical_id)
+		REFERENCES chemical(id)
+		ON DELETE CASCADE,
+	FOREIGN KEY(low_chemical_id)
+		REFERENCES chemical(id)
+		ON DELETE RESTRICT,
+	FOREIGN KEY(high_chemical_id)
+		REFERENCES chemical(id)
+		ON DELETE RESTRICT
+);
+
+create table phpoint (
+	id int not null auto_increment,
+	phcurve_id int not null,
+	high_chemical_percentage double not null,
+	result_ph double not null,
+
+	PRIMARY KEY(id),
+	INDEX(id),
+	INDEX(phcurve_id),
+	FOREIGN KEY(phcurve_id)
+		REFERENCES phcurve(id)
+		ON DELETE CASCADE 
 );
 
 create table screen (

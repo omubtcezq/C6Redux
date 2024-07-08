@@ -63,6 +63,9 @@ class Chemical(ChemicalBaseLarge, table=True):
     aliases: list["Alias"] = Relationship(back_populates="chemical")
     substitutes: list["Substitute"] = Relationship(back_populates="chemicals", link_model=Chemical_Substitute_Link)
     factors: list["Factor"] = Relationship(back_populates="chemical")
+    phcurves: list["PhCurve"] = Relationship(back_populates="chemical", sa_relationship_kwargs={"foreign_keys": "[PhCurve.chemical_id]"})
+    low_chemical_phcurves: list["PhCurve"] = Relationship(back_populates="low_chemical", sa_relationship_kwargs={"foreign_keys": "[PhCurve.low_chemical_id]"})
+    high_chemical_phcurves:  list["PhCurve"] = Relationship(back_populates="high_chemical", sa_relationship_kwargs={"foreign_keys": "[PhCurve.high_chemical_id]"})
 
 # Read when screen or stock read
 class ChemicalReadLite(ChemicalBase):
@@ -201,6 +204,34 @@ class Hazard(HazardBase, table=True):
 class HazardRead(HazardBase):
     id: int
 
+# ================================== PhCurve ================================== #
+
+class PhCurveBase(SQLModel):
+    chemical_id: int = Field(foreign_key="chemical.id")
+    low_range: float
+    low_chemical_id: int = Field(foreign_key="chemical.id")
+    high_range: float
+    high_chemical_id: int = Field(foreign_key="chemical.id")
+    hh_interpolation: int
+
+class PhCurve(PhCurveBase, table=True):
+    id: int | None = Field(default=None, primary_key=True)
+    chemical: Chemical = Relationship(back_populates="phcurves", sa_relationship_kwargs={"foreign_keys": "[PhCurve.chemical_id]"})
+    low_chemical: Chemical = Relationship(back_populates="low_chemical_phcurves", sa_relationship_kwargs={"foreign_keys": "[PhCurve.low_chemical_id]"})
+    high_chemical: Chemical = Relationship(back_populates="high_chemical_phcurves", sa_relationship_kwargs={"foreign_keys": "[PhCurve.high_chemical_id]"})
+    points: list["PhPoint"] = Relationship(back_populates="phcurve")
+
+# ================================== PhPoint ================================== #
+
+class PhPointBase(SQLModel):
+    phcurve_id: int = Field(foreign_key="phcurve.id")
+    high_chemical_percentage: float
+    result_ph: float
+
+class PhPoint(PhPointBase, table=True):
+    id: int | None = Field(default=None, primary_key=True)
+    phcurve: PhCurve = Relationship(back_populates="points")
+
 # ================================== Screen ================================== #
 
 class ScreenBase(SQLModel):
@@ -255,7 +286,7 @@ class WellConditionBase(SQLModel):
 
 class WellCondition(WellConditionBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
-    well: "Well" = Relationship(back_populates="wellcondition")
+    wells: list["Well"] = Relationship(back_populates="wellcondition")
     factors: list[Factor] = Relationship(back_populates="wellconditions", link_model=WellCondition_Factor_Link)
 
 # Read when screen read
@@ -274,7 +305,7 @@ class WellBase(SQLModel):
 class Well(WellBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
     screen: Screen = Relationship(back_populates="wells")
-    wellcondition: WellCondition = Relationship(back_populates="well")
+    wellcondition: WellCondition = Relationship(back_populates="wells")
 
 # Read when condition by reference dropdown read
 class WellReadLite(WellBase):
