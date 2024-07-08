@@ -244,59 +244,86 @@ def make_condition_recipe(session: Session, condition_id: int):
     possible_stocks = {}
     for f in well_condition.factors:
         possible_stocks[f.id] = []
+
+        # Search for stocks of the factor chemical
         stocks_for_factor_stmnt = select(db.Stock).join(db.Factor).where(db.Factor.chemical_id == f.chemical_id).order_by(db.Factor.concentration)
         stocks_for_factor = session.exec(stocks_for_factor_stmnt).all()
-        
-        # Search for same chemical and ph
         for s in stocks_for_factor:
-            # Same chemical and ph
+
+            # Same chemical and ph (ph may be none)
             if s.factor.ph == f.ph:
                 # Match units and concentration
                 stock_vol = stock_volume(s.factor, f.concentration, f.unit, 1)
-                # Fails if overflow or incompatible units
-                if not stock_vol:
-                    continue
-                else:
+                if stock_vol:
                     possible_stocks[f.id].append([{'stock': s, 'volume':stock_vol}])
-        
-        # Search for same chemical but bounding phs
-        if f.ph:
-            bounding_pairs = {}
-            for s in stocks_for_factor:
-                # Only consider stocks of the chemical with a specified ph
-                if not s.factor.ph:
+                # Fails if overflow or incompatible units
+                else:
                     continue
 
-                # Similar ph can be used instead of mixing
+            # Same chemical and ph within 0.1 units
+            elif f.ph and s.factor.ph:
                 if abs(f.ph - s.factor.ph) <= 0.1:
                     stock_vol = stock_volume(s.factor, f.concentration, f.unit, 1)
                     if stock_vol:
                         possible_stocks[f.id].append([{'stock': s, 'volume': stock_vol}])
+                    # Fails if overflow or incompatible units
+                    else:
+                        continue
+        
+        # Search for ph curves
+        if f.ph:
+            for phcurve in f.chemical.phcurves:
+                if f.ph >= phcurve.low_range and f.ph <= phcurve.high_range:
+                    stocks_for_low_chemical_stmnt = select(db.Stock).join(db.Factor).where(db.Factor.chemical_id == phcurve.low_chemical.id).order_by(db.Factor.concentration)
+                    stocks_for_low_chemical = session.exec(stocks_for_low_chemical_stmnt).all()
+                    stocks_for_high_chemical_stmnt = select(db.Stock).join(db.Factor).where(db.Factor.chemical_id == phcurve.high_chemical.id).order_by(db.Factor.concentration)
+                    stocks_for_high_chemical = session.exec(stocks_for_high_chemical_stmnt).all()
+                    # Store suitable stocks for the low ph stock
+                    seen_concs = {}
+                    for low_s in stocks_for_low_chemical:
+                        if low_s.factor.ph and abs(low_s.factor.ph - phcurve.low_range) <= 0.1 and low_s.factor.ph < f.ph:
+                            seen_concs[(low_s.factor.concentration, low_s.factor.unit)] = low_s
+                            break
+                    # Search for suitable high ph stocks that have same concentration as a suitable low ph stock
+                    for high_s in stocks_for_high_chemical:
+                        if high_s.factor.ph and abs(high_s.factor.ph - phcurve.high_range) <= 0.1 and high_s.factor.ph > f.ph:
+                            # Found matching low ph stock
+                            if (high_s.factor.concentration, high_s.factor.unit) in seen_concs.keys():
+                                low_s = seen_concs[(high_s.factor.concentration, high_s.factor.unit)]
 
-            # Search ph curves for a match
+                                # Either compute henderson haselbalch interpolation
+                                if phcurve.hh_interpolation:
+                                    pkas = [f.chemical.pka1, f.chemical.pka2, f.chemical.pka3]
+                                    hh_pka = None
+                                    for pka in pkas:
+                                        if pka and pka > phcurve.low_range and pka < phcurve.high_range:
+                                            hh_pka = pka
+                                            break
+                                    if not hh_pka:
+                                        break
+                                    low_stock_fraction = henderson_hasselbalch(hh_pka, low_s.factor.ph, high_s.factor.ph, f.ph)
+                                    high_stock_fraction = 1-low_stock_fraction
 
-            # Search stocks that are suitable for curve
+                                # Or use curve points to find stock ratios
+                                else:
+                                    points = sorted(phcurve.points, key=lambda p: p.result_ph)
+                                    closest_point = points[0]
+                                    for p in points[1:]:
+                                        if abs(p.result_ph - f.ph) < abs(closest_point.result_ph - f.ph):
+                                            closest_point = p
+                                    high_stock_fraction = closest_point.high_chemical_percentage / 100
+                                    low_stock_fraction = 1-high_stock_fraction
 
-            # Interpolate appropriately
-
-                # Find stocks with tight bounding phs at same concentrations for mixing
-                if (s.factor.concentration, s.factor.unit) not in bounding_pairs.keys():
-                    bounding_pairs[(s.factor.concentration, s.factor.unit)] = [None, None]
-                pair = bounding_pairs[(s.factor.concentration, s.factor.unit)]
-                # Only consider bounding ph if within 1 unit of factor
-                if abs(f.ph - s.factor.ph) <= 1:
-                    if s.factor.ph < f.ph and (not pair[0] or pair[0].factor.ph < s.factor.ph):
-                        pair[0] = s
-                    if s.factor.ph > f.ph and (not pair[1] or pair[1].factor.ph > s.factor.ph):
-                        pair[1] = s
-
-            # For each suitable bounding pair
-            for pair in bounding_pairs.values():
-                if pair[0] and pair[1]:
-                    bot_stock_vol = stock_volume(pair[0].factor, f.concentration, f.unit, 0.5)
-                    top_stock_vol = stock_volume(pair[1].factor, f.concentration, f.unit, 0.5)
-                    if bot_stock_vol and top_stock_vol:
-                        possible_stocks[f.id].append([{'stock': pair[0], 'volume': bot_stock_vol}, {'stock': pair[1], 'volume': top_stock_vol}])
+                                # Add the two stocks needed to get the desired ph
+                                low_stock_vol = stock_volume(low_s.factor, f.concentration, f.unit, low_stock_fraction)
+                                high_stock_vol = stock_volume(high_s.factor, f.concentration, f.unit, high_stock_fraction)
+                                if low_stock_vol != None and high_stock_vol != None:
+                                    stocks = []
+                                    if low_stock_vol > 0:
+                                        stocks.append({'stock': low_s, 'volume': low_stock_vol})
+                                    if high_stock_vol > 0:
+                                        stocks.append({'stock': high_s, 'volume': high_stock_vol})
+                                    possible_stocks[f.id].append(stocks)
 
     # Return object
     recipe = Recipe(success=False, msg="", stocks=None, water=None)
@@ -379,6 +406,16 @@ def stock_volume(stock_factor, desired_conc, desired_unit, total_volume):
         stock_volume = None
     return stock_volume
 
+def henderson_hasselbalch(pka, low_ph, high_ph, desired_ph):
+    exp_low = 10**(low_ph - pka)
+    exp_high = 10**(high_ph - pka)
+    exp_desired = 10**(desired_ph - pka)
+    part_low1 = 1 / (1+exp_low)
+    part_high1 = 1 / (1+exp_high)
+    part_low2 = 1 / (1+1/exp_low)
+    part_high2 = 1 / (1+1/exp_high)
+    fraction_low = (exp_desired*part_high1 - part_high2) / (part_low2 - part_high2 - exp_desired*(part_low1 - part_high1))
+    return fraction_low
 
 def make_screen_recipe(screen_id: int):
     pass
