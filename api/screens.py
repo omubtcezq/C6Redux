@@ -337,7 +337,7 @@ def make_condition_recipe(session: Session, condition_id: int):
                     if pka != None and abs(f.ph - pka) <= 1:
                         # Check there are no pkas too close to this one
                         close_pka = False
-                        for j,cmp_pka in ([f.chemical.pka1, f.chemical.pka2, f.chemical.pka3]):
+                        for j,cmp_pka in enumerate([f.chemical.pka1, f.chemical.pka2, f.chemical.pka3]):
                             if i == j:
                                 continue
                             else:
