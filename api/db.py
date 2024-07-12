@@ -212,7 +212,6 @@ class PhCurveBase(SQLModel):
     low_chemical_id: int = Field(foreign_key="chemical.id")
     high_range: float
     high_chemical_id: int = Field(foreign_key="chemical.id")
-    hh_interpolation: int
 
 class PhCurve(PhCurveBase, table=True):
     id: int | None = Field(default=None, primary_key=True)

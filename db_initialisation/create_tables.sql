@@ -154,7 +154,6 @@ create table phcurve (
 	low_chemical_id int not null,
 	high_range double not null,
 	high_chemical_id int not null,
-	hh_interpolation tinyint not null,
 
 	PRIMARY KEY(id),
 	INDEX(id),

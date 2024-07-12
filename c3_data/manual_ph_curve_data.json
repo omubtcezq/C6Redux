@@ -1,399 +1,291 @@
 {
 	"ph_curve": [
 		{
-			"chemical_name": "ADA",
-			"low_range": 5.6,
-			"low_chemical_name": "ADA",
-			"high_range": 7.6,
-			"high_chemical_name": "ADA",
-			"HH_interpolation": 1
-		},
-		{
-			"chemical_name": "bicine",
-			"pka": 8.35,
-			"low_range": 7.35,
-			"low_chemical_name": "bicine",
-			"high_range": 9.35,
-			"high_chemical_name": "bicine",
-			"HH_interpolation": 1
-		},
-		{
-			"chemical_name": "bis-tris",
-			"pka": 6.46,
-			"low_range": 5.46,
-			"low_chemical_name": "bis-tris",
-			"high_range": 7.46,
-			"high_chemical_name": "bis-tris",
-			"HH_interpolation": 1
-		},
-		{
-			"chemical_name": "bis-tris propane",
-			"pka": 6.8,
-			"low_range": 5.8,
-			"low_chemical_name": "bis-tris propane",
-			"high_range": 7.8,
-			"high_chemical_name": "bis-tris propane",
-			"HH_interpolation": 1
-		},
-		{
-			"chemical_name": "bis-tris propane",
-			"pka": 9,
-			"low_range": 8,
-			"low_chemical_name": "bis-tris propane",
-			"high_range": 10,
-			"high_chemical_name": "bis-tris propane",
-			"HH_interpolation": 1
-		},
-		{
-			"chemical_name": "CAPS",
-			"pka": 10.4,
-			"low_range": 9.4,
-			"low_chemical_name": "CAPS",
-			"high_range": 11.4,
-			"high_chemical_name": "CAPS",
-			"HH_interpolation": 1
-		},
-		{
-			"chemical_name": "CHES",
-			"pka": 9.3,
-			"low_range": 8.3,
-			"low_chemical_name": "CHES",
-			"high_range": 10.3,
-			"high_chemical_name": "CHES",
-			"HH_interpolation": 1
-		},
-		{
-			"chemical_name": "glycine",
-			"pka": 9.6,
-			"low_range": 8.6,
-			"low_chemical_name": "glycine",
-			"high_range": 10.6,
-			"high_chemical_name": "glycine",
-			"HH_interpolation": 1
-		},
-		{
-			"chemical_name": "gly-gly",
-			"low_range": 7.5,
-			"low_chemical_name": "gly-gly",
-			"high_range": 8.9,
-			"high_chemical_name": "gly-gly",
-			"HH_interpolation": 1
-		},
-		{
-			"chemical_name": "HEPES",
-			"low_range": 6.5,
-			"low_chemical_name": "HEPES",
-			"high_range": 8.5,
-			"high_chemical_name": "HEPES",
-			"HH_interpolation": 1
-		},
-		{
-			"chemical_name": "imidazole",
-			"pka": 7.05,
-			"low_range": 6.05,
-			"low_chemical_name": "imidazole",
-			"high_range": 8.05,
-			"high_chemical_name": "imidazole",
-			"HH_interpolation": 1
-		},
-		{
-			"chemical_name": "MOPS",
-			"low_range": 6.2,
-			"low_chemical_name": "MOPS",
-			"high_range": 8.2,
-			"high_chemical_name": "MOPS",
-			"HH_interpolation": 1
-		},
-		{
-			"chemical_name": "piperazine",
-			"low_range": 4.7,
-			"low_chemical_name": "piperazine",
-			"high_range": 6.6,
-			"high_chemical_name": "piperazine",
-			"HH_interpolation": 1
-		},
-		{
-			"chemical_name": "sodium acetate",
-			"pka": 4.76,
-			"low_range": 3.76,
-			"low_chemical_name": "sodium acetate",
-			"high_range": 5.76,
-			"high_chemical_name": "sodium acetate",
-			"HH_interpolation": 1
-		},
-		{
-			"chemical_name": "sodium cacodylate",
-			"pka": 6.27,
-			"low_range": 5.27,
-			"low_chemical_name": "sodium cacodylate",
-			"high_range": 7.27,
-			"high_chemical_name": "sodium cacodylate",
-			"HH_interpolation": 1
-		},
-		{
-			"chemical_name": "sodium phosphate",
-			"pka": 7.2,
-			"low_range": 6.2,
-			"low_chemical_name": "sodium phosphate",
-			"high_range": 8.2,
-			"high_chemical_name": "sodium phosphate",
-			"HH_interpolation": 1
-		},
-		{
-			"chemical_name": "TES",
-			"low_range": 6.5,
-			"low_chemical_name": "TES",
-			"high_range": 8.5,
-			"high_chemical_name": "TES",
-			"HH_interpolation": 1
-		},
-		{
-			"chemical_name": "tricine",
-			"low_range": 7.15,
-			"low_chemical_name": "tricine",
-			"high_range": 9.15,
-			"high_chemical_name": "tricine",
-			"HH_interpolation": 1
-		},
-		{
-			"chemical_name": "tris",
-			"low_range": 7.1,
-			"low_chemical_name": "tris",
-			"high_range": 9.1,
-			"high_chemical_name": "tris",
-			"HH_interpolation": 1
-		},
-		{
 			"chemical_name": "succinate-phosphate-glycine",
 			"low_range": 4,
 			"low_chemical_name": "succinate-phosphate-glycine",
 			"high_range": 10,
-			"high_chemical_name": "succinate-phosphate-glycine",
-			"HH_interpolation": 0
+			"high_chemical_name": "succinate-phosphate-glycine"
 		},
 		{
 			"chemical_name": "citrate-HEPES-CHES",
 			"low_range": 4,
 			"low_chemical_name": "citrate-HEPES-CHES",
 			"high_range": 10,
-			"high_chemical_name": "citrate-HEPES-CHES",
-			"HH_interpolation": 0
+			"high_chemical_name": "citrate-HEPES-CHES"
 		},
 		{
 			"chemical_name": "malonate-imidazole-borate",
 			"low_range": 4,
 			"low_chemical_name": "malonate-imidazole-borate",
 			"high_range": 10,
-			"high_chemical_name": "malonate-imidazole-borate",
-			"HH_interpolation": 0
+			"high_chemical_name": "malonate-imidazole-borate"
 		},
 		{
 			"chemical_name": "propionate-cacodylate-bis tris propane",
 			"low_range": 4,
 			"low_chemical_name": "propionate-cacodylate-bis tris propane",
 			"high_range": 9.5,
-			"high_chemical_name": "propionate-cacodylate-bis tris propane",
-			"HH_interpolation": 0
+			"high_chemical_name": "propionate-cacodylate-bis tris propane"
 		},
 		{
 			"chemical_name": "acetate-ADA-bicine",
 			"low_range": 4,
 			"low_chemical_name": "acetate-ADA-bicine",
 			"high_range": 9,
-			"high_chemical_name": "acetate-ADA-bicine",
-			"HH_interpolation": 0
+			"high_chemical_name": "acetate-ADA-bicine"
 		},
 		{
 			"chemical_name": "DL-malate-MES-tris",
 			"low_range": 4,
 			"low_chemical_name": "DL-malate-MES-tris",
 			"high_range": 9,
-			"high_chemical_name": "DL-malate-MES-tris",
-			"HH_interpolation": 0
+			"high_chemical_name": "DL-malate-MES-tris"
 		},
 		{
 			"chemical_name": "tartrate-bis tris-glygly",
 			"low_range": 4,
 			"low_chemical_name": "tartrate-bis tris-glygly",
 			"high_range": 9,
-			"high_chemical_name": "tartrate-bis tris-glygly",
-			"HH_interpolation": 0
+			"high_chemical_name": "tartrate-bis tris-glygly"
+		},
+		{
+			"chemical_name": "citric acid",
+			"low_range": 2.3,
+			"low_chemical_name": "citric acid",
+			"high_range": 8.1,
+			"high_chemical_name": "trisodium citrate"
+		},
+		{
+			"chemical_name": "sodium citrate",
+			"low_range": 2.3,
+			"low_chemical_name": "citric acid",
+			"high_range": 8.1,
+			"high_chemical_name": "trisodium citrate"
+		},
+		{
+			"chemical_name": "trisodium citrate-HCl",
+			"low_range": 2.3,
+			"low_chemical_name": "citric acid",
+			"high_range": 8.1,
+			"high_chemical_name": "trisodium citrate"
+		},
+		{
+			"chemical_name": "trisodium citrate",
+			"low_range": 2.3,
+			"low_chemical_name": "citric acid",
+			"high_range": 8.1,
+			"high_chemical_name": "trisodium citrate"
 		},
 		{
 			"chemical_name": "trisodium citrate-citric acid",
 			"low_range": 2.3,
 			"low_chemical_name": "citric acid",
 			"high_range": 8.1,
-			"high_chemical_name": "trisodium citrate",
-			"HH_interpolation": 0
+			"high_chemical_name": "trisodium citrate"
+		},
+		{
+			"chemical_name": "tripotassium citrate",
+			"low_range": 2.3,
+			"low_chemical_name": "citric acid",
+			"high_range": 8.1,
+			"high_chemical_name": "trisodium citrate"
+		},
+		{
+			"chemical_name": "potassium citrate",
+			"low_range": 2.3,
+			"low_chemical_name": "citric acid",
+			"high_range": 8.1,
+			"high_chemical_name": "tripotassium citrate"
+		},
+		{
+			"chemical_name": "tripotassium citrate-citric acid",
+			"low_range": 2.3,
+			"low_chemical_name": "citric acid",
+			"high_range": 8.1,
+			"high_chemical_name": "tripotassium citrate"
 		},
 		{
 			"chemical_name": "disodium hydrogen phosphate-citric acid",
 			"low_range": 2.2,
 			"low_chemical_name": "citric acid",
 			"high_range": 9.3,
-			"high_chemical_name": "disodium hydrogen phosphate",
-			"HH_interpolation": 0
+			"high_chemical_name": "disodium hydrogen phosphate"
 		},
 		{
 			"chemical_name": "citrate-bis-tris propane",
 			"low_range": 2.3,
 			"low_chemical_name": "citric acid",
 			"high_range": 10.8,
-			"high_chemical_name": "bis-tris propane",
-			"HH_interpolation": 0
+			"high_chemical_name": "bis-tris propane"
 		},
 		{
 			"chemical_name": "tris maleate",
 			"low_range": 1.46,
 			"low_chemical_name": "maleic acid",
 			"high_range": 9.44,
-			"high_chemical_name": "tris",
-			"HH_interpolation": 0
+			"high_chemical_name": "tris"
 		},
 		{
 			"chemical_name": "imidazole maleate",
 			"low_range": 1.46,
 			"low_chemical_name": "maleic acid",
 			"high_range": 9,
-			"high_chemical_name": "imidazole",
-			"HH_interpolation": 0
+			"high_chemical_name": "imidazole"
 		},
 		{
 			"chemical_name": "sodium malonate-malonic acid",
 			"low_range": 1.9,
 			"low_chemical_name": "malonic acid",
 			"high_range": 7.8,
-			"high_chemical_name": "sodium malonate",
-			"HH_interpolation": 0
+			"high_chemical_name": "sodium malonate"
 		},
 		{
 			"chemical_name": "DL-malate-imidazole",
 			"low_range": 2,
 			"low_chemical_name": "DL-malic acid",
 			"high_range": 9,
-			"high_chemical_name": "imidazole",
-			"HH_interpolation": 0
+			"high_chemical_name": "imidazole"
 		},
 		{
 			"chemical_name": "tacsimate",
 			"low_range": 4,
 			"low_chemical_name": "tacsimate",
 			"high_range": 7.48,
-			"high_chemical_name": "tacsimate",
-			"HH_interpolation": 0
+			"high_chemical_name": "tacsimate"
 		},
 		{
 			"chemical_name": "bis-tris propane chloride",
 			"low_range": 6,
 			"low_chemical_name": "bis-tris propane chloride",
 			"high_range": 10,
-			"high_chemical_name": "bis-tris propane chloride",
-			"HH_interpolation": 0
+			"high_chemical_name": "bis-tris propane chloride"
 		},
 		{
 			"chemical_name": "phosphate-citrate",
 			"low_range": 2.2,
 			"low_chemical_name": "citric acid",
 			"high_range": 9.3,
-			"high_chemical_name": "disodium hydrogen phosphate",
-			"HH_interpolation": 0
+			"high_chemical_name": "disodium hydrogen phosphate"
 		},
 		{
 			"chemical_name": "sodium dihydrogen-dipotassium hydrogen phosphate",
 			"low_range": 4.6,
 			"low_chemical_name": "sodium dihydrogen phosphate",
 			"high_range": 9.2,
-			"high_chemical_name": "dipotassium hydrogen phosphate",
-			"HH_interpolation": 0
+			"high_chemical_name": "dipotassium hydrogen phosphate"
 		},
 		{
 			"chemical_name": "disodium hydrogen-potassium dihydrogen phosphate",
 			"low_range": 4.6,
 			"low_chemical_name": "potassium dihydrogen phosphate",
 			"high_range": 9.2,
-			"high_chemical_name": "disodium hydrogen phosphate",
-			"HH_interpolation": 0
+			"high_chemical_name": "disodium hydrogen phosphate"
+		},
+		{
+			"chemical_name": "diammonium hydrogen citrate",
+			"low_range": 2.34,
+			"low_chemical_name": "citric acid",
+			"high_range": 8.1,
+			"high_chemical_name": "triammonium citrate"
+		},
+		{
+			"chemical_name": "ammonium citrate",
+			"low_range": 2.34,
+			"low_chemical_name": "citric acid",
+			"high_range": 8.1,
+			"high_chemical_name": "triammonium citrate"
+		},
+		{
+			"chemical_name": "triammonium citrate",
+			"low_range": 2.34,
+			"low_chemical_name": "citric acid",
+			"high_range": 8.1,
+			"high_chemical_name": "triammonium citrate"
 		},
 		{
 			"chemical_name": "triammonium citrate-citric acid",
 			"low_range": 2.34,
 			"low_chemical_name": "citric acid",
 			"high_range": 8.1,
-			"high_chemical_name": "triammonium citrate",
-			"HH_interpolation": 0
+			"high_chemical_name": "triammonium citrate"
 		},
 		{
 			"chemical_name": "potassium sodium phosphate",
 			"low_range": 4.6,
 			"low_chemical_name": "sodium dihydrogen phosphate",
 			"high_range": 9.2,
-			"high_chemical_name": "dipotassium hydrogen phosphate",
-			"HH_interpolation": 0
+			"high_chemical_name": "dipotassium hydrogen phosphate"
+		},
+		{
+			"chemical_name": "disodium hydrogen phosphate",
+			"low_range": 4.6,
+			"low_chemical_name": "sodium dihydrogen phosphate",
+			"high_range": 9.3,
+			"high_chemical_name": "disodium hydrogen phosphate"
 		},
 		{
 			"chemical_name": "sodium dihydrogen phosphate-disodium hydrogen phosphate",
 			"low_range": 4.6,
 			"low_chemical_name": "sodium dihydrogen phosphate",
 			"high_range": 9.3,
-			"high_chemical_name": "disodium hydrogen phosphate",
-			"HH_interpolation": 0
+			"high_chemical_name": "disodium hydrogen phosphate"
+		},
+		{
+			"chemical_name": "dipotassium hydrogen phosphate",
+			"low_range": 4.6,
+			"low_chemical_name": "potassium dihydrogen phosphate",
+			"high_range": 9.2,
+			"high_chemical_name": "dipotassium hydrogen phosphate"
 		},
 		{
 			"chemical_name": "dipotassium hydrogen-potassium dihydrogen phosphate",
 			"low_range": 4.6,
 			"low_chemical_name": "potassium dihydrogen phosphate",
 			"high_range": 9.2,
-			"high_chemical_name": "dipotassium hydrogen phosphate",
-			"HH_interpolation": 0
+			"high_chemical_name": "dipotassium hydrogen phosphate"
 		},
 		{
 			"chemical_name": "ammonium dihydrogen phosphate-diammonium hydrogen phosphate",
 			"low_range": 3.5,
 			"low_chemical_name": "ammonium dihydrogen phosphate",
 			"high_range": 8.3,
-			"high_chemical_name": "diammonium hydrogen phosphate",
-			"HH_interpolation": 0
+			"high_chemical_name": "diammonium hydrogen phosphate"
 		},
 		{
 			"chemical_name": "MES-imidazole",
 			"low_range": 3.8,
 			"low_chemical_name": "MES",
 			"high_range": 9,
-			"high_chemical_name": "imidazole",
-			"HH_interpolation": 0
+			"high_chemical_name": "imidazole"
 		},
 		{
 			"chemical_name": "MOPS-sodium HEPES",
 			"low_range": 4.7,
 			"low_chemical_name": "MOPS",
 			"high_range": 9.1,
-			"high_chemical_name": "sodium HEPES",
-			"HH_interpolation": 0
+			"high_chemical_name": "sodium HEPES"
 		},
 		{
 			"chemical_name": "bicine-tris",
 			"low_range": 5.1,
 			"low_chemical_name": "bicine",
 			"high_range": 10.1,
-			"high_chemical_name": "tris",
-			"HH_interpolation": 0
+			"high_chemical_name": "tris"
 		},
 		{
 			"chemical_name": "MES-bis tris",
 			"low_range": 3.8,
 			"low_chemical_name": "MES",
 			"high_range": 8.9,
-			"high_chemical_name": "bis tris",
-			"HH_interpolation": 0
+			"high_chemical_name": "bis tris"
 		},
 		{
 			"chemical_name": "propionate-MES-bis tris propane",
 			"low_range": 4,
 			"low_chemical_name": "propionate-MES-bis tris propane",
 			"high_range": 9.5,
-			"high_chemical_name": "propionate-MES-bis tris propane",
-			"HH_interpolation": 0
+			"high_chemical_name": "propionate-MES-bis tris propane"
 		}
 	]
 }

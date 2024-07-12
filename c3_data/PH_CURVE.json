@@ -78,7 +78,7 @@
 	{
 		"PK_PH_CURVE_ID" : 4,
 		"FK_CHEMICAL_ID" : 5022,
-		"NAME" : ["trisodium citrate-citric acid"],
+		"NAME" : ["trisodium citrate-citric acid", "trisodium citrate", "trisodium citrate-HCl", "citric acid", "tripotassium citrate-citric acid", "potassium citrate", "tripotassium citrate", "sodium citrate"],
 		"LOW_STOCK_NAME" : "citric acid \"pH 2.3\" (1M)",
 		"LOW_STOCK_ID" : 945,
 		"LOW_SOURCE_NAME" : "citric acid",
@@ -403,7 +403,7 @@
 	{
 		"PK_PH_CURVE_ID" : 113,
 		"FK_CHEMICAL_ID" : 5058,
-		"NAME" : ["triammonium citrate-citric acid"],
+		"NAME" : ["triammonium citrate-citric acid", "ammonium citrate", "diammonium hydrogen citrate", "triammonium citrate"],
 		"LOW_STOCK_NAME" : "citric acid \"pH 2.34\" (2.5M)",
 		"LOW_STOCK_ID" : 1161,
 		"LOW_SOURCE_NAME" : "citric acid",
@@ -478,7 +478,7 @@
 	{
 		"PK_PH_CURVE_ID" : 153,
 		"FK_CHEMICAL_ID" : 204,
-		"NAME" : ["sodium dihydrogen phosphate-disodium hydrogen phosphate"],
+		"NAME" : ["sodium dihydrogen phosphate-disodium hydrogen phosphate", "disodium hydrogen phosphate"],
 		"LOW_STOCK_NAME" : "sodium dihydrogen phosphate \"pH 4.6\" (1M)",
 		"LOW_STOCK_ID" : 2340,
 		"LOW_SOURCE_NAME" : "sodium dihydrogen phosphate",
@@ -503,7 +503,7 @@
 	{
 		"PK_PH_CURVE_ID" : 173,
 		"FK_CHEMICAL_ID" : 205,
-		"NAME" : ["dipotassium hydrogen-potassium dihydrogen phosphate"],
+		"NAME" : ["dipotassium hydrogen-potassium dihydrogen phosphate", "dipotassium hydrogen phosphate"],
 		"LOW_STOCK_NAME" : "potassium dihydrogen phosphate \"pH 4.6\" (1M)",
 		"LOW_STOCK_ID" : null,
 		"LOW_SOURCE_NAME" : "potassium dihydrogen phosphate",

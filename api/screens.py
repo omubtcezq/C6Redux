@@ -270,14 +270,16 @@ def make_condition_recipe(session: Session, condition_id: int):
                     else:
                         continue
         
-        # Search for ph curves
+        # If factor has ph it is likely a buffer
         if f.ph:
+            # First search for ph curves
             for phcurve in f.chemical.phcurves:
                 if f.ph >= phcurve.low_range and f.ph <= phcurve.high_range:
                     stocks_for_low_chemical_stmnt = select(db.Stock).join(db.Factor).where(db.Factor.chemical_id == phcurve.low_chemical.id).order_by(db.Factor.concentration)
                     stocks_for_low_chemical = session.exec(stocks_for_low_chemical_stmnt).all()
                     stocks_for_high_chemical_stmnt = select(db.Stock).join(db.Factor).where(db.Factor.chemical_id == phcurve.high_chemical.id).order_by(db.Factor.concentration)
                     stocks_for_high_chemical = session.exec(stocks_for_high_chemical_stmnt).all()
+                    print('\n',f.id,'\n',stocks_for_low_chemical,'\n\n', stocks_for_high_chemical)
                     # Store suitable stocks for the low ph stock
                     seen_concs = {}
                     for low_s in stocks_for_low_chemical:
@@ -325,12 +327,80 @@ def make_condition_recipe(session: Session, condition_id: int):
                                         stocks.append({'stock': high_s, 'volume': high_stock_vol})
                                     possible_stocks[f.id].append(stocks)
 
+            # If no ph curves, either henderson hasslebalch or a salt with ph
+            if f.chemical.phcurves == []:
+
+                # Check if chemical meets default henderson haselbalch interpolation
+                hh_pka = None
+                for i,pka in enumerate([f.chemical.pka1, f.chemical.pka2, f.chemical.pka3]):
+                    # Check for the pka close to the factor ph
+                    if pka != None and abs(f.ph - pka) <= 1:
+                        # Check there are no pkas too close to this one
+                        close_pka = False
+                        for j,cmp_pka in ([f.chemical.pka1, f.chemical.pka2, f.chemical.pka3]):
+                            if i == j:
+                                continue
+                            else:
+                                if cmp_pka != None and abs(pka, cmp_pka) <= 2:
+                                    close_pka = True
+                                    break
+                        if close_pka:
+                            break
+                        else:
+                            hh_pka = pka
+                            break
+
+                # Use HH if chemical has a pka close to factor ph and no other pkas close to it
+                if hh_pka:
+                    # Get bounding stocks
+                    bounding_pairs = {}
+                    for s in stocks_for_factor:
+                        # Only consider stocks of the chemical with a ph within 1 unit of pka as well
+                        if not s.factor.ph or abs(hh_pka - s.factor.ph) > 1:
+                            continue
+                        # Find stocks with tight bounding phs at same concentrations for mixing
+                        if (s.factor.concentration, s.factor.unit) not in bounding_pairs.keys():
+                            bounding_pairs[(s.factor.concentration, s.factor.unit)] = {'low': None, 'high': None}
+                        pair = bounding_pairs[(s.factor.concentration, s.factor.unit)]
+                        if s.factor.ph < f.ph and (not pair['low'] or pair['low'].factor.ph < s.factor.ph):
+                            pair['low'] = s
+                        if s.factor.ph > f.ph and (not pair['high'] or pair['high'].factor.ph > s.factor.ph):
+                            pair['high'] = s
+
+                    # For each suitable bounding pair compute hendersen hasselbalch
+                    for pair in bounding_pairs.values():
+                        if pair['low'] and pair['high']:
+                            low_stock_fraction = henderson_hasselbalch(hh_pka, pair['low'].factor.ph, pair['high'].factor.ph, f.ph)
+                            high_stock_fraction = 1-low_stock_fraction
+                            low_stock_vol = stock_volume(pair['low'].factor, f.concentration, f.unit, low_stock_fraction)
+                            high_stock_vol = stock_volume(pair['high'].factor, f.concentration, f.unit, high_stock_fraction)
+                            if low_stock_vol != None and high_stock_vol != None:
+                                stocks = []
+                                if low_stock_vol > 0:
+                                    stocks.append({'stock': pair['low'], 'volume': low_stock_vol})
+                                if high_stock_vol > 0:
+                                    stocks.append({'stock': pair['high'], 'volume': high_stock_vol})
+                                possible_stocks[f.id].append(stocks)
+                
+                # If no suitable HH interpretation, assume salt with specified ph
+                else:
+                    # Take stock with no ph or ph close to neutral (7)
+                    for s in stocks_for_factor:
+                        if s.factor.ph == None or abs(s.factor.ph - 7) <= 0.1:
+                            stock_vol = stock_volume(s.factor, f.concentration, f.unit, 1)
+                            if stock_vol:
+                                possible_stocks[f.id].append([{'stock': s, 'volume': stock_vol}])
+                            # Fails if overflow or incompatible units
+                            else:
+                                continue
+
     # Return object
     recipe = Recipe(success=False, msg="", stocks=None, water=None)
     # Check if factors had no possible stocks
     if any([not stocks for stocks in possible_stocks.values()]):
         recipe.success = False
         recipe.msg = 'Could not find any valid stocks for some factors in the condition!'
+        print('\n\n',possible_stocks,'\n\n')
         return recipe
     # Check if all possible recipes overflowed
     stocks, volume = choose_stocks_condition(possible_stocks)
