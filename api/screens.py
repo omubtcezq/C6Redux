@@ -273,19 +273,20 @@ def make_condition_recipe(session: Session, condition_id: int):
         # If factor has ph it is likely a buffer
         if f.ph:
             # First search for ph curves
+            suitable_curve = False
             for phcurve in f.chemical.phcurves:
                 if f.ph >= phcurve.low_range and f.ph <= phcurve.high_range:
+                    suitable_curve = True
                     stocks_for_low_chemical_stmnt = select(db.Stock).join(db.Factor).where(db.Factor.chemical_id == phcurve.low_chemical.id).order_by(db.Factor.concentration)
                     stocks_for_low_chemical = session.exec(stocks_for_low_chemical_stmnt).all()
                     stocks_for_high_chemical_stmnt = select(db.Stock).join(db.Factor).where(db.Factor.chemical_id == phcurve.high_chemical.id).order_by(db.Factor.concentration)
                     stocks_for_high_chemical = session.exec(stocks_for_high_chemical_stmnt).all()
-                    print('\n',f.id,'\n',stocks_for_low_chemical,'\n\n', stocks_for_high_chemical)
+                    # print('\n',f.id,'\n',stocks_for_low_chemical,'\n\n', stocks_for_high_chemical)
                     # Store suitable stocks for the low ph stock
                     seen_concs = {}
                     for low_s in stocks_for_low_chemical:
                         if low_s.factor.ph and abs(low_s.factor.ph - phcurve.low_range) <= 0.1 and low_s.factor.ph < f.ph:
                             seen_concs[(low_s.factor.concentration, low_s.factor.unit)] = low_s
-                            break
                     # Search for suitable high ph stocks that have same concentration as a suitable low ph stock
                     for high_s in stocks_for_high_chemical:
                         if high_s.factor.ph and abs(high_s.factor.ph - phcurve.high_range) <= 0.1 and high_s.factor.ph > f.ph:
@@ -294,7 +295,7 @@ def make_condition_recipe(session: Session, condition_id: int):
                                 low_s = seen_concs[(high_s.factor.concentration, high_s.factor.unit)]
 
                                 # Either compute henderson haselbalch interpolation
-                                if phcurve.hh_interpolation:
+                                if phcurve.hh:
                                     pkas = [f.chemical.pka1, f.chemical.pka2, f.chemical.pka3]
                                     hh_pka = None
                                     for pka in pkas:
@@ -328,13 +329,12 @@ def make_condition_recipe(session: Session, condition_id: int):
                                     possible_stocks[f.id].append(stocks)
 
             # If no ph curves, either henderson hasslebalch or a salt with ph
-            if f.chemical.phcurves == []:
-
+            if not suitable_curve:
                 # Check if chemical meets default henderson haselbalch interpolation
                 hh_pka = None
                 for i,pka in enumerate([f.chemical.pka1, f.chemical.pka2, f.chemical.pka3]):
                     # Check for the pka close to the factor ph
-                    if pka != None and abs(f.ph - pka) <= 1:
+                    if pka != None and abs(f.ph - pka) <= 1.1:
                         # Check there are no pkas too close to this one
                         close_pka = False
                         for j,cmp_pka in enumerate([f.chemical.pka1, f.chemical.pka2, f.chemical.pka3]):
@@ -356,7 +356,7 @@ def make_condition_recipe(session: Session, condition_id: int):
                     bounding_pairs = {}
                     for s in stocks_for_factor:
                         # Only consider stocks of the chemical with a ph within 1 unit of pka as well
-                        if not s.factor.ph or abs(hh_pka - s.factor.ph) > 1:
+                        if not s.factor.ph or abs(hh_pka - s.factor.ph) >= 1.1:
                             continue
                         # Find stocks with tight bounding phs at same concentrations for mixing
                         if (s.factor.concentration, s.factor.unit) not in bounding_pairs.keys():
@@ -400,7 +400,7 @@ def make_condition_recipe(session: Session, condition_id: int):
     if any([not stocks for stocks in possible_stocks.values()]):
         recipe.success = False
         recipe.msg = 'Could not find any valid stocks for some factors in the condition!'
-        print('\n\n',possible_stocks,'\n\n')
+        # print('\n\n',possible_stocks,'\n\n')
         return recipe
     # Check if all possible recipes overflowed
     stocks, volume = choose_stocks_condition(possible_stocks)

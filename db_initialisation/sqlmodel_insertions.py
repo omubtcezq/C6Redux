@@ -418,6 +418,7 @@ def add_ph_curves():
                 pc_low_c_name = curve['low_chemical_name']
                 pc_high_range = curve['high_range']
                 pc_high_c_name = curve['high_chemical_name']
+                pc_hh = curve['hh']
 
                 # Check if chemical matches seen chemicals or chemical aliases
                 chem_search = session.exec(select(db.Chemical).where(db.Chemical.name == pc_c_name)).all()
@@ -466,7 +467,8 @@ def add_ph_curves():
                                      low_range=pc_low_range,
                                      low_chemical_id=low_chem.id,
                                      high_range=pc_high_range,
-                                     high_chemical_id=high_chem.id)
+                                     high_chemical_id=high_chem.id,
+                                     hh=pc_hh)
                 session.add(phcurve)
             
             # Commit left over adds
