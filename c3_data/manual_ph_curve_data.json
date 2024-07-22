@@ -1,6 +1,14 @@
 {
 	"ph_curve": [
 		{
+			"chemical_name": "MES",
+			"low_range": 5.15,
+			"low_chemical_name": "sodium MES",
+			"high_range": 7.15,
+			"high_chemical_name": "sodium MES",
+			"hh": 1
+		},
+		{
 			"chemical_name": "sodium acetate",
 			"low_range": 3.76,
 			"low_chemical_name": "sodium acetate-acetic acid",
