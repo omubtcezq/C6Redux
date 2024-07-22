@@ -147,7 +147,7 @@ def insert_stocks():
             with open(CHEMICALS_SQL_FPATH, 'r') as chem_f:
                 for l in chem_f.readlines():
                     l = l.strip()
-                    if len(l)>2 and l[0] == '(' and l[1:].startswith(str(c3_chem_id)):
+                    if len(l)>1 and l.startswith('('+str(c3_chem_id)+','):
                         c_name = type_or_none(l[l.index(",'")+2:l.index("',")].strip("'"), str)
                         chem_found = True
                         break
@@ -533,14 +533,14 @@ def add_ph_curves():
 # Main
 #==============================================================================#
 
-# print('\nCreating Chemicals\n')
-# insert_chemicals()
-# print('\nCreating Stocks\n')
-# insert_stocks()
-# print('\nCreating Screens\n')
-# insert_screens()
-# print('\nAdding monomer data\n')
-# add_monomer_data()
+print('\nCreating Chemicals\n')
+insert_chemicals()
+print('\nCreating Stocks\n')
+insert_stocks()
+print('\nCreating Screens\n')
+insert_screens()
+print('\nAdding monomer data\n')
+add_monomer_data()
 print('\nAdding ph curves\n')
 add_ph_curves()
 

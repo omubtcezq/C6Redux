@@ -232,10 +232,14 @@ def parseChemicalPred(chem: ChemicalPred):
 # Recipe generation
 # ============================================================================ #
 
+class StockVolume(BaseModel):
+    stock: db.StockReadLite
+    volume: float
+
 class Recipe(BaseModel):
     success: bool
     msg: str
-    stocks: list[db.StockReadLite] | None
+    stocks: list[StockVolume] | None
     water: float | None
 
 
@@ -255,7 +259,7 @@ def make_condition_recipe(session: Session, condition_id: int):
                 # Match units and concentration
                 stock_vol = stock_volume(s.factor, f.concentration, f.unit, 1)
                 if stock_vol:
-                    possible_stocks[f.id].append([{'stock': s, 'volume':stock_vol}])
+                    possible_stocks[f.id].append([StockVolume(stock=s, volume=stock_vol)])
                 # Fails if overflow or incompatible units
                 else:
                     continue
@@ -265,7 +269,7 @@ def make_condition_recipe(session: Session, condition_id: int):
                 if abs(f.ph - s.factor.ph) <= 0.1:
                     stock_vol = stock_volume(s.factor, f.concentration, f.unit, 1)
                     if stock_vol:
-                        possible_stocks[f.id].append([{'stock': s, 'volume': stock_vol}])
+                        possible_stocks[f.id].append([StockVolume(stock=s, volume=stock_vol)])
                     # Fails if overflow or incompatible units
                     else:
                         continue
@@ -323,76 +327,73 @@ def make_condition_recipe(session: Session, condition_id: int):
                                 if low_stock_vol != None and high_stock_vol != None:
                                     stocks = []
                                     if low_stock_vol > 0:
-                                        stocks.append({'stock': low_s, 'volume': low_stock_vol})
+                                        stocks.append(StockVolume(stock=low_s, volume=low_stock_vol))
                                     if high_stock_vol > 0:
-                                        stocks.append({'stock': high_s, 'volume': high_stock_vol})
+                                        stocks.append(StockVolume(stock=high_s, volume=high_stock_vol))
                                     possible_stocks[f.id].append(stocks)
 
-            # If no ph curves, either henderson hasslebalch or a salt with ph
-            if not suitable_curve:
-                # Check if chemical meets default henderson haselbalch interpolation
-                hh_pka = None
-                for i,pka in enumerate([f.chemical.pka1, f.chemical.pka2, f.chemical.pka3]):
-                    # Check for the pka close to the factor ph
-                    if pka != None and abs(f.ph - pka) <= 1.1:
-                        # Check there are no pkas too close to this one
-                        close_pka = False
-                        for j,cmp_pka in enumerate([f.chemical.pka1, f.chemical.pka2, f.chemical.pka3]):
-                            if i == j:
-                                continue
-                            else:
-                                if cmp_pka != None and abs(pka, cmp_pka) <= 2:
-                                    close_pka = True
-                                    break
-                        if close_pka:
-                            break
-                        else:
-                            hh_pka = pka
-                            break
-
-                # Use HH if chemical has a pka close to factor ph and no other pkas close to it
-                if hh_pka:
-                    # Get bounding stocks
-                    bounding_pairs = {}
-                    for s in stocks_for_factor:
-                        # Only consider stocks of the chemical with a ph within 1 unit of pka as well
-                        if not s.factor.ph or abs(hh_pka - s.factor.ph) >= 1.1:
+            # Next, check if chemical meets default henderson haselbalch interpolation
+            hh_pka = None
+            for i,pka in enumerate([f.chemical.pka1, f.chemical.pka2, f.chemical.pka3]):
+                # Check for the pka close to the factor ph
+                if pka != None and abs(f.ph - pka) <= 1.1:
+                    # Check there are no pkas too close to this one
+                    close_pka = False
+                    for j,cmp_pka in enumerate([f.chemical.pka1, f.chemical.pka2, f.chemical.pka3]):
+                        if i == j:
                             continue
-                        # Find stocks with tight bounding phs at same concentrations for mixing
-                        if (s.factor.concentration, s.factor.unit) not in bounding_pairs.keys():
-                            bounding_pairs[(s.factor.concentration, s.factor.unit)] = {'low': None, 'high': None}
-                        pair = bounding_pairs[(s.factor.concentration, s.factor.unit)]
-                        if s.factor.ph < f.ph and (not pair['low'] or pair['low'].factor.ph < s.factor.ph):
-                            pair['low'] = s
-                        if s.factor.ph > f.ph and (not pair['high'] or pair['high'].factor.ph > s.factor.ph):
-                            pair['high'] = s
+                        else:
+                            if cmp_pka != None and abs(pka - cmp_pka) <= 2:
+                                close_pka = True
+                                break
+                    if close_pka:
+                        break
+                    else:
+                        hh_pka = pka
+                        break
+            # Use HH if chemical has a pka close to factor ph and no other pkas close to it
+            if hh_pka:
+                # Get bounding stocks
+                bounding_pairs = {}
+                for s in stocks_for_factor:
+                    # Only consider stocks of the chemical with a ph within 1 unit of pka as well
+                    if not s.factor.ph or abs(hh_pka - s.factor.ph) >= 1.1:
+                        continue
+                    # Find stocks with tight bounding phs at same concentrations for mixing
+                    if (s.factor.concentration, s.factor.unit) not in bounding_pairs.keys():
+                        bounding_pairs[(s.factor.concentration, s.factor.unit)] = {'low': None, 'high': None}
+                    pair = bounding_pairs[(s.factor.concentration, s.factor.unit)]
+                    if s.factor.ph < f.ph and (not pair['low'] or pair['low'].factor.ph < s.factor.ph):
+                        pair['low'] = s
+                    if s.factor.ph > f.ph and (not pair['high'] or pair['high'].factor.ph > s.factor.ph):
+                        pair['high'] = s
 
-                    # For each suitable bounding pair compute hendersen hasselbalch
-                    for pair in bounding_pairs.values():
-                        if pair['low'] and pair['high']:
-                            low_stock_fraction = henderson_hasselbalch(hh_pka, pair['low'].factor.ph, pair['high'].factor.ph, f.ph)
-                            high_stock_fraction = 1-low_stock_fraction
-                            low_stock_vol = stock_volume(pair['low'].factor, f.concentration, f.unit, low_stock_fraction)
-                            high_stock_vol = stock_volume(pair['high'].factor, f.concentration, f.unit, high_stock_fraction)
-                            if low_stock_vol != None and high_stock_vol != None:
-                                stocks = []
-                                if low_stock_vol > 0:
-                                    stocks.append({'stock': pair['low'], 'volume': low_stock_vol})
-                                if high_stock_vol > 0:
-                                    stocks.append({'stock': pair['high'], 'volume': high_stock_vol})
-                                possible_stocks[f.id].append(stocks)
-                
-                # If no suitable HH interpretation, assume salt with specified ph
-                else:
-                    # Take stock with no ph or ph close to neutral (7)
-                    for s in stocks_for_factor:
-                        if s.factor.ph == None or abs(s.factor.ph - 7) <= 0.1:
-                            stock_vol = stock_volume(s.factor, f.concentration, f.unit, 1)
-                            if stock_vol:
-                                possible_stocks[f.id].append([{'stock': s, 'volume': stock_vol}])
-                            # Fails if overflow or incompatible units
-                            else:
-                                continue
+                # For each suitable bounding pair compute hendersen hasselbalch
+                for pair in bounding_pairs.values():
+                    if pair['low'] and pair['high']:
+                        low_stock_fraction = henderson_hasselbalch(hh_pka, pair['low'].factor.ph, pair['high'].factor.ph, f.ph)
+                        high_stock_fraction = 1-low_stock_fraction
+                        low_stock_vol = stock_volume(pair['low'].factor, f.concentration, f.unit, low_stock_fraction)
+                        high_stock_vol = stock_volume(pair['high'].factor, f.concentration, f.unit, high_stock_fraction)
+                        if low_stock_vol != None and high_stock_vol != None:
+                            stocks = []
+                            if low_stock_vol > 0:
+                                stocks.append(StockVolume(stock=pair['low'], volume=low_stock_vol))
+                            if high_stock_vol > 0:
+                                stocks.append(StockVolume(stock=pair['high'], volume=high_stock_vol))
+                            possible_stocks[f.id].append(stocks)
+            
+            # If no suitable curve found and no suitable HH interpretation, assume salt with specified ph
+            if not suitable_curve and not hh_pka:
+                # Take stock with no ph or ph close to neutral (7)
+                for s in stocks_for_factor:
+                    if s.factor.ph == None or abs(s.factor.ph - 7) <= 0.1:
+                        stock_vol = stock_volume(s.factor, f.concentration, f.unit, 1)
+                        if stock_vol:
+                            possible_stocks[f.id].append([StockVolume(stock=s, volume=stock_vol)])
+                        # Fails if overflow or incompatible units
+                        else:
+                            continue
 
     # Return object
     recipe = Recipe(success=False, msg="", stocks=None, water=None)
@@ -400,6 +401,10 @@ def make_condition_recipe(session: Session, condition_id: int):
     if any([not stocks for stocks in possible_stocks.values()]):
         recipe.success = False
         recipe.msg = 'Could not find any valid stocks for some factors in the condition!'
+        # TEMP hijack
+        # for factor_id,stocks in possible_stocks.items():
+        #     if stocks == []:
+        #         recipe.msg = '%d' % factor_id
         # print('\n\n',possible_stocks,'\n\n')
         return recipe
     # Check if all possible recipes overflowed
@@ -433,7 +438,7 @@ def choose_stocks_condition(possible_stocks):
         for factor_index,factor_id in enumerate(possible_stocks.keys()):
             stock_index = choice[factor_index]
             stocks = possible_stocks[factor_id][stock_index]
-            total_vol += sum([s['volume'] for s in stocks])
+            total_vol += sum([s.volume for s in stocks])
             all_stocks += stocks
         if total_vol <= 1:
             found = True
@@ -456,21 +461,21 @@ def stock_volume(stock_factor, desired_conc, desired_unit, total_volume):
     if desired_unit == stock_factor.unit:
         stock_volume = (desired_conc / stock_factor.concentration) * total_volume
     elif desired_unit == 'mM' and stock_factor.unit == 'M':
-        stock_volume = (desired_conc * 1000 / stock_factor.concentration) * total_volume
+        stock_volume = (desired_conc / (stock_factor.concentration * 1000)) * total_volume
     elif desired_unit == 'M' and stock_factor.unit == 'mM':
-        stock_volume = (desired_conc / stock_factor.concentration * 1000) * total_volume
+        stock_volume = ((desired_conc * 1000) / stock_factor.concentration) * total_volume
     elif desired_unit == 'mg/ml' and stock_factor.unit == 'w/v':
-        stock_volume = (desired_conc * 100 / stock_factor.concentration) * total_volume
+        stock_volume = (desired_conc / (stock_factor.concentration * 10)) * total_volume
     elif desired_unit == 'w/v' and stock_factor.unit == 'mg/ml':
-        stock_volume = (desired_conc / stock_factor.concentration * 100) * total_volume
+        stock_volume = ((desired_conc * 10) / stock_factor.concentration) * total_volume
     elif desired_unit == 'w/v' and stock_factor.unit == 'v/v':
-        stock_volume = (desired_conc / stock_factor.concentration * chem_density) * total_volume
+        stock_volume = (desired_conc / (stock_factor.concentration * chem_density)) * total_volume
     elif desired_unit == 'v/v' and stock_factor.unit == 'w/v':
-        stock_volume = (desired_conc * chem_density / stock_factor.concentration) * total_volume
+        stock_volume = ((desired_conc * chem_density) / stock_factor.concentration) * total_volume
     elif desired_unit == 'mg/ml' and stock_factor.unit == 'v/v':
-        stock_volume = (desired_conc * 100 / stock_factor.concentration * chem_density) * total_volume
+        stock_volume = (desired_conc / (stock_factor.concentration * chem_density * 10)) * total_volume
     elif desired_unit == 'v/v' and stock_factor.unit == 'mg/ml':
-        stock_volume = (desired_conc * chem_density / stock_factor.concentration * 100) * total_volume
+        stock_volume = ((desired_conc * chem_density * 10) / stock_factor.concentration) * total_volume
     # None if units not compatible or if stock concentration overflows
     if stock_volume and stock_volume > total_volume:
         stock_volume = None
@@ -601,6 +606,27 @@ async def get_screen_wells(*, session: Session=Depends(db.get_session), conditio
     """
     Creates a recipe for making a condition specified by id
     """
+    # TEMP hijack
+    # stmnt = select(db.WellCondition).order_by(db.WellCondition.id)
+    # wellconditions = session.exec(stmnt).all()
+    # total = 0
+    # no_factor_stocks = 0
+    # failed_factors = []
+    # all_overflow = 0
+    # for wc in wellconditions:
+    #     r = make_condition_recipe(session, wc.id)
+    #     total += 1
+    #     if not r.success:
+    #         if r.msg == 'Could not find any combination of stocks that did not overflow!':
+    #             all_overflow += 1
+    #         else:
+    #             no_factor_stocks += 1
+    #             failed_factors.append(int(r.msg))
+    # print('\n\nTOTAL:', total)
+    # print('NO STOCKS FOR A FACTOR:', no_factor_stocks)
+    # print('ALL STOCKS OVERFLOW:', all_overflow, '\n\n')
+    # print(failed_factors, '\n\n')
+
     return make_condition_recipe(session, condition_id)
 
 # @router.get("/export", 

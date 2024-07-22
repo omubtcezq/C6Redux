@@ -81,6 +81,15 @@ mysql> ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY 'r
 mysql> FLUSH PRIVILEGES;
 mysql> exit;
 
+*to add readon only account*
+CREATE USER 'c6reader'@'%' IDENTIFIED WITH mysql_native_password BY 'looky by no touchy';
+GRANT SELECT, SHOW VIEW ON c6reduxdb.* TO 'c6reader'@'%';
+FLUSH PRIVILEGES;
+
+*allow remote connections*
+sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+bind-address = 0.0.0.0
+
 **should add creation of mysql user than can only modify c6reduxdb db**
 **should add creation of db and db init here**
 
