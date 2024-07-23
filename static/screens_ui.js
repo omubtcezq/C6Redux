@@ -1816,8 +1816,6 @@ function query_drop_extra(key, value){
     }
 }
 
-
-
 // Close document ready and namespace functions
 });
 })();
