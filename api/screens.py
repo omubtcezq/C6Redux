@@ -264,9 +264,9 @@ def make_condition_recipe(session: Session, condition_id: int):
                 else:
                     continue
 
-            # Same chemical and ph within 0.1 units
+            # Same chemical and ph within 0.2 units
             elif f.ph and s.factor.ph:
-                if abs(f.ph - s.factor.ph) <= 0.1:
+                if abs(f.ph - s.factor.ph) <= 0.2:
                     stock_vol = stock_volume(s.factor, f.concentration, f.unit, 1)
                     if stock_vol:
                         possible_stocks[f.id].append([StockVolume(stock=s, volume=stock_vol)])
@@ -285,15 +285,17 @@ def make_condition_recipe(session: Session, condition_id: int):
                     stocks_for_low_chemical = session.exec(stocks_for_low_chemical_stmnt).all()
                     stocks_for_high_chemical_stmnt = select(db.Stock).join(db.Factor).where(db.Factor.chemical_id == phcurve.high_chemical.id).order_by(db.Factor.concentration)
                     stocks_for_high_chemical = session.exec(stocks_for_high_chemical_stmnt).all()
-                    # print('\n',f.id,'\n',stocks_for_low_chemical,'\n\n', stocks_for_high_chemical)
+                    #print('\n',f.id,'\n',stocks_for_low_chemical,'\n\n', stocks_for_high_chemical)
                     # Store suitable stocks for the low ph stock
                     seen_concs = {}
                     for low_s in stocks_for_low_chemical:
-                        if low_s.factor.ph and abs(low_s.factor.ph - phcurve.low_range) <= 0.1 and low_s.factor.ph < f.ph:
+                        if low_s.factor.ph and abs(low_s.factor.ph - phcurve.low_range) <= 0.2 and low_s.factor.ph < f.ph:
                             seen_concs[(low_s.factor.concentration, low_s.factor.unit)] = low_s
+                    
+                    #print('\nSEARCHING\n', seen_concs,'\n\n')
                     # Search for suitable high ph stocks that have same concentration as a suitable low ph stock
                     for high_s in stocks_for_high_chemical:
-                        if high_s.factor.ph and abs(high_s.factor.ph - phcurve.high_range) <= 0.1 and high_s.factor.ph > f.ph:
+                        if high_s.factor.ph and abs(high_s.factor.ph - phcurve.high_range) <= 0.2 and high_s.factor.ph > f.ph:
                             # Found matching low ph stock
                             if (high_s.factor.concentration, high_s.factor.unit) in seen_concs.keys():
                                 low_s = seen_concs[(high_s.factor.concentration, high_s.factor.unit)]
@@ -336,7 +338,7 @@ def make_condition_recipe(session: Session, condition_id: int):
             hh_pka = None
             for i,pka in enumerate([f.chemical.pka1, f.chemical.pka2, f.chemical.pka3]):
                 # Check for the pka close to the factor ph
-                if pka != None and abs(f.ph - pka) <= 1.1:
+                if pka != None and abs(f.ph - pka) <= 1.2:
                     # Check there are no pkas too close to this one
                     close_pka = False
                     for j,cmp_pka in enumerate([f.chemical.pka1, f.chemical.pka2, f.chemical.pka3]):
@@ -357,7 +359,7 @@ def make_condition_recipe(session: Session, condition_id: int):
                 bounding_pairs = {}
                 for s in stocks_for_factor:
                     # Only consider stocks of the chemical with a ph within 1 unit of pka as well
-                    if not s.factor.ph or abs(hh_pka - s.factor.ph) >= 1.1:
+                    if not s.factor.ph or abs(hh_pka - s.factor.ph) >= 1.2:
                         continue
                     # Find stocks with tight bounding phs at same concentrations for mixing
                     if (s.factor.concentration, s.factor.unit) not in bounding_pairs.keys():
@@ -387,7 +389,7 @@ def make_condition_recipe(session: Session, condition_id: int):
             if not suitable_curve and not hh_pka:
                 # Take stock with no ph or ph close to neutral (7)
                 for s in stocks_for_factor:
-                    if s.factor.ph == None or abs(s.factor.ph - 7) <= 0.1:
+                    if s.factor.ph == None or abs(s.factor.ph - 7) <= 0.2:
                         stock_vol = stock_volume(s.factor, f.concentration, f.unit, 1)
                         if stock_vol:
                             possible_stocks[f.id].append([StockVolume(stock=s, volume=stock_vol)])
@@ -405,7 +407,7 @@ def make_condition_recipe(session: Session, condition_id: int):
         # for factor_id,stocks in possible_stocks.items():
         #     if stocks == []:
         #         recipe.msg = '%d' % factor_id
-        # print('\n\n',possible_stocks,'\n\n')
+        #print('\n\n',possible_stocks,'\n\n')
         return recipe
     # Check if all possible recipes overflowed
     stocks, volume = choose_stocks_condition(possible_stocks)

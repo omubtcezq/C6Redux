@@ -533,14 +533,14 @@ def add_ph_curves():
 # Main
 #==============================================================================#
 
-print('\nCreating Chemicals\n')
-insert_chemicals()
-print('\nCreating Stocks\n')
-insert_stocks()
-print('\nCreating Screens\n')
-insert_screens()
-print('\nAdding monomer data\n')
-add_monomer_data()
+# print('\nCreating Chemicals\n')
+# insert_chemicals()
+# print('\nCreating Stocks\n')
+# insert_stocks()
+# print('\nCreating Screens\n')
+# insert_screens()
+# print('\nAdding monomer data\n')
+# add_monomer_data()
 print('\nAdding ph curves\n')
 add_ph_curves()
 
