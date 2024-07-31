@@ -11,7 +11,7 @@ router = APIRouter(
     tags=["Stock Operations"]
 )
 
-@router.get("/", 
+@router.get("/all", 
             summary="Get a list of all stocks",
             response_description="List of all stocks",
             response_model=list[db.StockRead])
@@ -19,6 +19,6 @@ async def get_stocks(*, session: Session=Depends(db.get_session)):
     """
     Get a list of all stocks
     """
-    statement = select(db.Stock)
+    statement = select(db.Stock).order_by(db.Stock.available.desc(), db.Stock.name)
     stocks = session.exec(statement).all()
     return stocks

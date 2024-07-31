@@ -1,4 +1,9 @@
 
+#screen-view-buttons-table {
+  width: 100%;
+  padding: 0 40%;
+}
+
 #screen-table, 
 #screen-table > thead > tr > th, 
 #screen-table > tbody > tr > td {

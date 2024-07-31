@@ -11,9 +11,19 @@
 <body>
 <div id="site-banner">
   <div id="site-title"><p>C6 Redux</p></div>
-  <div id="site-banner-button-div"><button id="site-banner-screens-buttons">Screens</button><button id="site-banner-stocks-buttons" disabled="disabled">Stocks</button><button id="site-banner-chemicals-buttons" disabled="disabled">Chemicals</button></div>
+  <div id="site-banner-button-div">
+    <table class="button-table">
+      <tbody>
+        <tr>
+          <td><button id="site-banner-screens-buttons" class="table-cell-button">Screens</button></td>
+          <td><button id="site-banner-stocks-buttons" class="table-cell-button">Stocks</button></td>
+          <td><button id="site-banner-chemicals-buttons" class="table-cell-button">Chemicals</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
   <div id="site-details">
-    <p>Further details of the site here</br>(github link)</p>
+    <p>Code base and contact details</br>can be found on <a href="https://github.com/omubtcezq/C6Redux">GitHub</a></p>
   </div>
 </div>
 <div id="site-content-screens"></div>

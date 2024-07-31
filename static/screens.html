@@ -7,9 +7,15 @@
 <body>
 
 <h1>Screens</h1>
-</br>
 <div>
-  <button id="all-screens">View All Screens</button><button id="query-screens">Query Screens</button>
+  <table id="screen-view-buttons-table" class="button-table">
+    <tbody>
+      <tr>
+        <td><button id="all-screens" class="table-cell-button">View All Screens</button></td>
+        <td><button id="query-screens" class="table-cell-button">Query Screens</button></td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 </br>
 <div id="query-container" style="display: none;">
@@ -42,21 +48,21 @@
   </div>
 </div>
 <p>Results:</p>
-  <table id="screen-table">
-    <thead>
-      <tr id="screen-table-header">
-        <th>Name</th>
-        <th>Owner</th>
-        <th>Creation Date</th>
-        <th>Format Name</th>
-        <th>Format Rows</th>
-        <th>Format Cols</th>
-        <th>Comments</th>
-        <th>Relevant Wells</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+<table id="screen-table">
+  <thead>
+    <tr id="screen-table-header">
+      <th>Name</th>
+      <th>Owner</th>
+      <th>Creation Date</th>
+      <th>Format Name</th>
+      <th>Format Rows</th>
+      <th>Format Cols</th>
+      <th>Comments</th>
+      <th>Relevant Wells</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
 </body>
 </html>

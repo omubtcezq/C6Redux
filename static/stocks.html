@@ -1,10 +1,42 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link rel="stylesheet" href="stocks.css">
+  <script src="stocks.js"></script>
 </head>
 <body>
 
 <h1>Stocks</h1>
+<div>
+  <table id="stock-view-buttons-table" class="button-table">
+    <tbody>
+      <tr>
+        <td><button id="all-stocks" class="table-cell-button">View All Stocks</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<br/>
+<p>Results:</p>
+<table id="stock-table">
+<thead>
+  <tr id="stock-table-header">
+    <th>Availability</th>
+    <th>Stock Name</th>
+    <th>Chemical</th>
+    <th>Concentration</th>
+    <th>Unit</th>
+    <th>pH</th>
+    <th>Polarity</th>
+    <th>Viscosity</th>
+    <th>Volatility</th>
+    <th>Density</th>
+    <th>Comments</th>
+    <th>Actions</th>
+  </tr>
+</thead>
+<tbody></tbody>
+</table>
 
 </body>
 </html>
