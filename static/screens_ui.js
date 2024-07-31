@@ -23,16 +23,6 @@ let SCREEN_QUERY = {
     'owner_search': null,
     'conds': null
 };
-let SCREEN_NAMES = null;
-let CHEMICAL_NAMES = null;
-
-let ALL_UNITS = [
-    'M',
-    'v/v',
-    'w/v',
-    'mM',
-    'mg/ml'
-]
 
 /*
  
@@ -82,6 +72,7 @@ function display_screens(screen_list_data, well_query_string){
                     $('<td>').attr('class', 'button-cell').
                     append(
                         $('<button>').attr('id', 'view-screen-button'+s.id).
+                        attr('class', 'stacked-button').
                         text('View').
                         click(function () {
                             // Load screen contents given id and the screen row
@@ -331,7 +322,7 @@ function display_recipe(recipe_data, wellcondition_id, row){
                 append(
                     recipe_table
                 )
-            )
+            ).append('<br/>')
         )
     )
     $('#generate-condition-recipe-button'+wellcondition_id).text('Hide');
@@ -357,47 +348,6 @@ $('#screen-owner-search').change(function(){
 $('#button-query').click(function(){
     query_screens();
 })
-
-// Sub function for screen name string matching
-function search_screen_names(term, screen_names){
-    let out = [];
-    $.each(screen_names, function(i, s){
-        if (s.name.toLowerCase().includes(term.toLowerCase())){
-            out.push({
-                'value': s.name,
-                'label': s.name,
-                'id': s.id
-            });
-        }
-    });
-    return out;
-}
-
-// Sub function for chemical name string matching
-function search_chemical_names(term, chemical_names){
-    let out = [];
-    $.each(chemical_names, function(i, c){
-        if (c.name.toLowerCase().includes(term.toLowerCase())){
-            out.push({
-                'value': c.name,
-                'label': c.name,
-                'id': c.id
-            });
-        } else {
-            for (i in c.aliases){
-                if (c.aliases[i].name.toLowerCase().includes(term.toLowerCase())){
-                    out.push({
-                        'value': c.name,
-                        'label': c.name + " (alias: " + c.aliases[i].name + ")",
-                        'id': c.id
-                    });
-                    break;
-                }
-            }
-        }
-    });
-    return out;
-}
 
 /*
  
@@ -923,7 +873,7 @@ function create_chemical_div(){
                 )
             )
         ).
-        // Concentration search
+        // Concentration and unit search
         append(
             $('<tr>').append(
                 $('<td>').append(

@@ -11,10 +11,10 @@
   text-align: center;
 }
 
-.stacked-button {
-    width: calc(100% - 6px);
+#stock-edit-div {
+    margin: 0 30%;
 }
 
-.delete-button {
-    color: rgb(209, 0, 0);
+#stock-edit-button-div {
+    margin: 0 40%;
 }

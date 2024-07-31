@@ -6,6 +6,60 @@ const API_IP = '13.236.58.27';
 const API_PORT = '8000';
 let API_URL = 'http://'+API_IP+':'+API_PORT+'/api';
 
+// Units
+const ALL_UNITS = [
+    'M',
+    'v/v',
+    'w/v',
+    'mM',
+    'mg/ml'
+]
+
+// Cached lists
+let SCREEN_NAMES = null;
+let CHEMICAL_NAMES = null;
+
+// Search functions for cached lists
+function search_chemical_names(term, chemical_names){
+    let out = [];
+    // String match chemicals and aliases
+    $.each(chemical_names, function(i, c){
+        if (c.name.toLowerCase().includes(term.toLowerCase())){
+            out.push({
+                'value': c.name,
+                'label': c.name,
+                'id': c.id
+            });
+        } else {
+            for (i in c.aliases){
+                if (c.aliases[i].name.toLowerCase().includes(term.toLowerCase())){
+                    out.push({
+                        'value': c.name,
+                        'label': c.name + " (alias: " + c.aliases[i].name + ")",
+                        'id': c.id
+                    });
+                    break;
+                }
+            }
+        }
+    });
+    return out;
+}
+function search_screen_names(term, screen_names){
+    let out = [];
+    // String match screens names only
+    $.each(screen_names, function(i, s){
+        if (s.name.toLowerCase().includes(term.toLowerCase())){
+            out.push({
+                'value': s.name,
+                'label': s.name,
+                'id': s.id
+            });
+        }
+    });
+    return out;
+}
+
 (function() {
 // Flag to only load tabs on first click and then save
 let screens_loaded = false;

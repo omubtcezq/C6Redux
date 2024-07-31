@@ -59,3 +59,15 @@ button {
 .table-cell-button {
   width: calc(100% - 6px);
 }
+
+.stacked-button {
+  width: calc(100% - 6px);
+}
+
+.delete-button {
+  color: rgb(209, 0, 0);
+}
+
+.viewed-row-highlight {
+  background-color: rgb(239, 199, 255);
+}
