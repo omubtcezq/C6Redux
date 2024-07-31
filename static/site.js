@@ -1,8 +1,8 @@
 // Global parameters
 
 // Connection
-//const API_IP = '13.236.58.27';
-const API_IP = 'localhost';
+const API_IP = '13.236.58.27';
+//const API_IP = 'localhost';
 const API_PORT = '8000';
 let API_URL = 'http://'+API_IP+':'+API_PORT+'/api';
 
