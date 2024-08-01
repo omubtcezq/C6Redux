@@ -1,3 +1,5 @@
 __pycache__/*
 api/__pycache__/*
 logs/*
+deployment/*
+run/*

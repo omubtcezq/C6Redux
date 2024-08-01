@@ -99,3 +99,7 @@ sudo apt install python3-dev default-libmysqlclient-dev
 pip install mysqlclient
 
 
+========= Deployment
+
+https://dylancastillo.co/posts/fastapi-nginx-gunicorn.html
+
