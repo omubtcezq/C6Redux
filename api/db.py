@@ -7,26 +7,38 @@ from sqlmodel import Field, Session, SQLModel, Relationship, create_engine
 from datetime import datetime
 from typing import Union
 
+def make_connection_string(prefix, username, password, ip, port, database_name):
+    return "%s://%s:%s@%s:%s/%s" % (prefix, username, password, ip, port, database_name) 
+
 # Read config for database connection string
-def read_connection_string():
+def connection_string(write=False):
     config = cp.ConfigParser()
     config.read("api/api.ini")
     db = config["DATABASE"]
+    if not write:
+        username = db["readonly-username"]
+        password = db["readonly-password"]
+    else:
+        username = db["write-username"]
+        password = db["write-password"]
     prefix = db["type_prefix"]
-    username = db["username"]
-    password = db["password"]
     ip = db["ip"]
     port = db["port"]
     database_name = db["database_name"]
-    return "%s://%s:%s@%s:%s/%s" % (prefix, username, password, ip, port, database_name)
+    return make_connection_string(prefix, username, password, ip, port, database_name)
 
 # Create engine object for subsequent queries
 # MySQL recycles pool every 8h leading to error if not done here as well. Recycle and check before connection
-engine = create_engine(read_connection_string(), echo=True, pool_recycle=3600*2, pool_pre_ping=True)
+readonly_engine = create_engine(connection_string(), echo=True, pool_recycle=3600*2, pool_pre_ping=True)
+write_engine = create_engine(connection_string(True), echo=True, pool_recycle=3600*2, pool_pre_ping=True)
 
 # Get a db session to use with fastapi dependencies
-def get_session():
-    with Session(engine) as session:
+def get_readonly_session():
+    with Session(readonly_engine) as session:
+        yield session
+
+def get_write_session():
+    with Session(write_engine) as session:
         yield session
 
 # Mapping DB tables to Python classes and input and output objects

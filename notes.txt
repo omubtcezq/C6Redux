@@ -81,16 +81,25 @@ mysql> ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY 'r
 mysql> FLUSH PRIVILEGES;
 mysql> exit;
 
-*to add readon only account*
+# Add read-only account
 CREATE USER 'c6reader'@'%' IDENTIFIED WITH mysql_native_password BY 'looky by no touchy';
-GRANT SELECT, SHOW VIEW ON c6reduxdb.* TO 'c6reader'@'%';
+GRANT SELECT, ON c6reduxdb.* TO 'c6reader'@'%';
+FLUSH PRIVILEGES;
+
+# Add read-only account that can be accessed remotely
+CREATE USER 'c6reader'@'%' IDENTIFIED WITH mysql_native_password BY 'looky by no touchy';
+GRANT SELECT, ON c6reduxdb.* TO 'c6reader'@'%';
+FLUSH PRIVILEGES;
+
+# Add write account
+CREATE USER 'c6writer'@'localhost' IDENTIFIED WITH mysql_native_password BY 'touchy what that is allowed';
+GRANT SELECT, INSERT, UPDATE, DELETE ON c6reduxdb.* TO 'c6writer'@'localhost';
 FLUSH PRIVILEGES;
 
 *allow remote connections*
 sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
 bind-address = 0.0.0.0
 
-**should add creation of mysql user than can only modify c6reduxdb db**
 **should add creation of db and db init here**
 
 sudo apt install pkg-config (might not be needed if below is used)
@@ -98,8 +107,10 @@ sudo apt install python3-dev default-libmysqlclient-dev
 
 pip install mysqlclient
 
+*security*
+pip install pyjwt
+pip install "passlib[bcrypt]"
 
 ========= Deployment
 
 https://dylancastillo.co/posts/fastapi-nginx-gunicorn.html
-

@@ -15,7 +15,7 @@ router = APIRouter(
             summary="Get a list of all chemical names",
             response_description="List of all chemical names",
             response_model=list[db.ChemicalReadLiteAlias])
-async def get_chemical_names(*, session: Session=Depends(db.get_session)):
+async def get_chemical_names(*, session: Session=Depends(db.get_readonly_session)):
     """
     Get a list of all chemical names
     """
@@ -27,7 +27,7 @@ async def get_chemical_names(*, session: Session=Depends(db.get_session)):
             summary="Get single chemical properties",
             response_description="Single chemical properties",
             response_model=db.ChemicalRead)
-async def get_chemical(*, session: Session=Depends(db.get_session), chemical_id: int):
+async def get_chemical(*, session: Session=Depends(db.get_readonly_session), chemical_id: int):
     """
     Get single chemical properties
     """
@@ -39,7 +39,7 @@ async def get_chemical(*, session: Session=Depends(db.get_session), chemical_id:
             summary="Get a list of all chemicals",
             response_description="List of all chemicals",
             response_model=list[db.ChemicalRead])
-async def get_chemicals(*, session: Session=Depends(db.get_session)):
+async def get_chemicals(*, session: Session=Depends(db.get_readonly_session)):
     """
     Get a list of all chemicals including frequent slock information
     """

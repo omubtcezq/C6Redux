@@ -5,6 +5,7 @@
 from sqlmodel import Session, select
 from fastapi import APIRouter, Depends
 import api.db as db
+import api.authentication as auth
 
 router = APIRouter(
     prefix="/stocks",
@@ -15,7 +16,7 @@ router = APIRouter(
             summary="Get a list of all stocks",
             response_description="List of all stocks",
             response_model=list[db.StockRead])
-async def get_stocks(*, session: Session=Depends(db.get_session)):
+async def get_stocks(*, session: Session=Depends(db.get_readonly_session)):
     """
     Get a list of all stocks
     """

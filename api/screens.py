@@ -510,7 +510,7 @@ router = APIRouter(
             summary="Gets a list of all screen names",
             response_description="List of all screen names",
             response_model=list[db.ScreenReadLite])
-async def get_screen_names(*, session: Session=Depends(db.get_session)):
+async def get_screen_names(*, session: Session=Depends(db.get_readonly_session)):
     """
     Gets a list of all screen names
     """
@@ -522,7 +522,7 @@ async def get_screen_names(*, session: Session=Depends(db.get_session)):
             summary="Gets a list of well names given a screen id",
             response_description="List of well names in specified screen",
             response_model=list[db.WellReadLite])
-async def get_screen_well_names(*, session: Session=Depends(db.get_session), screen_id: int):
+async def get_screen_well_names(*, session: Session=Depends(db.get_readonly_session), screen_id: int):
     """
     Gets a list of well names given a screen id
     """
@@ -534,7 +534,7 @@ async def get_screen_well_names(*, session: Session=Depends(db.get_session), scr
             summary="Gets a list of all screens and the number of wells in each",
             response_description="List of all screens and the number of wells in each",
             response_model=list[tuple[db.ScreenRead, int]])
-async def get_screens(*, session: Session=Depends(db.get_session)):
+async def get_screens(*, session: Session=Depends(db.get_readonly_session)):
     """
     Gets a list of all screens and the number of wells in each
     """
@@ -546,7 +546,7 @@ async def get_screens(*, session: Session=Depends(db.get_session)):
             summary="Gets a list of screens and the number of wells in each that contain only conditions found in the specified screen",
             response_description="List of screens and the number of wells in each that contain only conditions found in the specified screen",
             response_model=list[tuple[db.ScreenRead, int]])
-async def get_subset_screens(*, session: Session=Depends(db.get_session), screen_id: int):
+async def get_subset_screens(*, session: Session=Depends(db.get_readonly_session), screen_id: int):
     """
     Gets a list of screens and the number of wells in each that contain only conditions found in the specified screen
     """
@@ -565,7 +565,7 @@ async def get_subset_screens(*, session: Session=Depends(db.get_session), screen
              summary="Gets list of wells given a screen id",
              response_description="List of wells in specified screen",
              response_model=list[db.WellRead])
-async def get_screen_wells(*, session: Session=Depends(db.get_session), screen_id: int):
+async def get_screen_wells(*, session: Session=Depends(db.get_readonly_session), screen_id: int):
     """
     Gets list of wells given a screen id
     """
@@ -576,7 +576,7 @@ async def get_screen_wells(*, session: Session=Depends(db.get_session), screen_i
              summary="Gets a list of screens filtered by a query and the number of wells matching the query",
              response_description="List of screens filtered by provided query and the number of wells matching the query",
              response_model=list[tuple[db.ScreenRead, int]])
-async def get_screens_query(*, session: Session=Depends(db.get_session), query: ScreenQuery):
+async def get_screens_query(*, session: Session=Depends(db.get_readonly_session), query: ScreenQuery):
     """
     Gets a list of screens filtered by a query and the number of wells matching the query
     """
@@ -589,7 +589,7 @@ async def get_screens_query(*, session: Session=Depends(db.get_session), query: 
              summary="Gets list of wells given a screen id filtered by a query",
              response_description="List of wells in specified screen filtered by provided query",
              response_model=list[db.WellRead])
-async def get_screen_wells_query(*, session: Session=Depends(db.get_session), screen_id: int, well_query: WellConditionClause):
+async def get_screen_wells_query(*, session: Session=Depends(db.get_readonly_session), screen_id: int, well_query: WellConditionClause):
     """
     Gets list of wells given a screen id filtered by a query
     """
@@ -604,7 +604,7 @@ async def get_screen_wells_query(*, session: Session=Depends(db.get_session), sc
              summary="Creates a recipe for making a condition specified by id",
              response_description="Stocks and their volumes required to make the specified condition",
              response_model=Recipe)
-async def get_screen_wells(*, session: Session=Depends(db.get_session), condition_id: int):
+async def get_screen_wells(*, session: Session=Depends(db.get_readonly_session), condition_id: int):
     """
     Creates a recipe for making a condition specified by id
     """
@@ -643,7 +643,7 @@ async def get_screen_wells(*, session: Session=Depends(db.get_session), conditio
 # @router.get("/recipe", 
 #              summary="Download the recipes to make a screen",
 #              response_description="File containing recipes for a screen")
-# async def get_screen_recipes(*, session: Session=Depends(db.get_session), id: int):
+# async def get_screen_recipes(*, session: Session=Depends(db.get_readonly_session), id: int):
 #     """
 #     Produce and download a file of recipes required to make all conditions in a screen given it's database id
 #     """
@@ -652,7 +652,7 @@ async def get_screen_wells(*, session: Session=Depends(db.get_session), conditio
 # @router.get("/report", 
 #              summary="Download a report of requested conditions",
 #              response_description="File containing details of requested conditions")
-# async def get_conditions_report(*, session: Session=Depends(db.get_session), cond_id: list[int]):
+# async def get_conditions_report(*, session: Session=Depends(db.get_readonly_session), cond_id: list[int]):
 #     """
 #     Produce and download a file containing details of conditions given their database id's
 #     """
@@ -661,7 +661,7 @@ async def get_screen_wells(*, session: Session=Depends(db.get_session), conditio
 # @router.get("/generate", 
 #              summary="Create a screen design based on chosen conditions",
 #              response_description="Unsaved screen based on chosen conditions")
-# async def generate_screen(*, session: Session=Depends(db.get_session), cond_id: list[int]):
+# async def generate_screen(*, session: Session=Depends(db.get_readonly_session), cond_id: list[int]):
 #     """
 #     Generate a new screen design around the supplied conditions without saving it to the database
 #     """
