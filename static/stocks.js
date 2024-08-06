@@ -67,7 +67,7 @@ function edit_stock(s, stock_row){
         $('<tr>').append(
             $('<td>').append(
                 $('<label>').attr('for', 'stock-available'+s.id).
-                text('Availability')
+                text('Available')
             )
         ).append(
             $('<td>').append(
@@ -229,7 +229,7 @@ function edit_stock(s, stock_row){
         $('<tr>').append(
             $('<td>').append(
                 $('<label>').attr('for', 'stock-polar'+s.id).
-                text('Polarity')
+                text('Polar')
             )
         ).
         append(

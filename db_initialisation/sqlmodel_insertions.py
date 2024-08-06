@@ -42,7 +42,7 @@ def type_or_none(val, type):
             return None
 
 # Use new engine without logging to speed up process
-engine = create_engine(db.read_connection_string(), echo=False, pool_recycle=3600*2, pool_pre_ping=True)
+engine = create_engine(db.connection_string(True), echo=False, pool_recycle=3600*2, pool_pre_ping=True)
 
 #==============================================================================#
 # CHEMICALS
@@ -530,6 +530,18 @@ def add_ph_curves():
                 session.commit()
 
 #==============================================================================#
+# API USERS
+#==============================================================================#
+
+def add_api_users():
+    # Get session
+    with Session(engine) as session:
+        # Janet's preferred login
+        user = db.ApiUser(username='janetn', password_hash=b'$2b$12$RFd3/PavfPns4OjvTvbuZeescfHgvcYBCouKpUCTgrb7oQ68mCV96', write_permission=1)
+        session.add(user)
+        session.commit()
+
+#==============================================================================#
 # Main
 #==============================================================================#
 
@@ -541,7 +553,9 @@ def add_ph_curves():
 # insert_screens()
 # print('\nAdding monomer data\n')
 # add_monomer_data()
-print('\nAdding ph curves\n')
-add_ph_curves()
+# print('\nAdding ph curves\n')
+# add_ph_curves()
+print('\nAdding api users\n')
+add_api_users()
 
 # insert_screen('c3_data/other_screens/Design_SG2_Mol_dim.xml')

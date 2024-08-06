@@ -1,3 +1,4 @@
+drop table if exists apiuser;
 drop table if exists wellconditionsimilarity;
 drop table if exists wellcondition_factor_link;
 drop table if exists well;
@@ -273,3 +274,21 @@ create table wellconditionsimilarity (
 		REFERENCES wellcondition(id)
 		ON DELETE CASCADE
 );
+
+create table apiuser (
+	id int not null auto_increment,
+	username varchar(512) not null,
+	password_hash varchar(512) not null,
+	write_permission tinyint not null,
+	
+	PRIMARY KEY(id),
+	INDEX(id),
+	INDEX(username)
+);
+
+
+
+
+
+
+

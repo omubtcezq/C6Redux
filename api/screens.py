@@ -211,7 +211,7 @@ def parseChemicalPred(chem: ChemicalPred):
     if chem.id != None:
         clause = clause and db.Chemical.id == chem.id
     else:
-        clause = clause and col(db.Chemical.id).contains(chem.name_search)
+        clause = clause and col(db.Chemical.name).contains(chem.name_search)
     # Specify concentration
     if chem.conc != None and chem.units != None:
         clause = clause and db.Chemical.conc == chem.conc and db.Chemical.units == chem.units

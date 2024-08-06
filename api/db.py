@@ -165,6 +165,10 @@ class FactorRead(FactorBase):
     id: int
     chemical: ChemicalReadLite
 
+# Use when creating stock
+class FactorCreate(FactorBase):
+    pass
+
 # ============================ Stock Hazard Link ============================= #
 
 class Stock_Hazard_Link(SQLModel, table=True):
@@ -174,7 +178,6 @@ class Stock_Hazard_Link(SQLModel, table=True):
 # ================================== Stock =================================== #
 
 class StockBase(SQLModel):
-    factor_id: int = Field(foreign_key="factor.id")
     name: str
     polar: int | None = Field(default=None)
     viscosity: int | None = Field(default=None)
@@ -185,22 +188,36 @@ class StockBase(SQLModel):
     location: str | None = Field(default=None)
     comments: str | None = Field(default=None)
 
-class Stock(StockBase, table=True):
+class StockReadBase(StockBase):
+    factor_id: int = Field(foreign_key="factor.id")
+
+class Stock(StockReadBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
     factor: Factor = Relationship(back_populates="stocks")
     hazards: list["Hazard"] = Relationship(back_populates="stocks", link_model=Stock_Hazard_Link)
 
 # Read when recipe generated
-class StockReadLite(StockBase):
+class StockReadLite(StockReadBase):
     id: int
 
 # Read when stocks read
-class StockRead(StockBase):
+class StockRead(StockReadBase):
     id: int
     factor: FactorRead
 
-# Read when one stocks read
-class StockContentsRead(StockRead):
+# Read when one stock read
+class StockContentsRead(StockReadBase):
+    hazards: list["HazardRead"]
+
+# Use when updating stock
+class StockUpdate(StockBase):
+    id: int
+    factor: FactorCreate
+    hazards: list["HazardRead"]
+
+# Use when creating a stock
+class StockCreate(StockBase):
+    factor: FactorCreate
     hazards: list["HazardRead"]
 
 # ================================== Hazard ================================== #
@@ -337,3 +354,17 @@ class WellConditionSimilarity(SQLModel, table=True):
     similarity: float
     wellcondition1: WellCondition = Relationship(sa_relationship_kwargs={"foreign_keys": "[WellConditionSimilarity.wellcondition_id1]"})
     wellcondition2: WellCondition = Relationship(sa_relationship_kwargs={"foreign_keys": "[WellConditionSimilarity.wellcondition_id2]"})
+
+# ============================== ApiUser =============================== #
+
+class ApiUserBase(SQLModel):
+    username: str
+    write_permission: int
+
+class ApiUser(ApiUserBase, table=True):
+    id: int | None = Field(default=None, primary_key=True)
+    password_hash: str
+
+# Read when authorised user requested from token
+class ApiUserRead(ApiUserBase):
+    id: int
