@@ -55,14 +55,13 @@ async def update_stock(*, authorised_user: db.ApiUserRead=Depends(auth.get_autho
                            concentration = updated_stock.factor.concentration,
                            unit = updated_stock.factor.unit,
                            ph = updated_stock.factor.ph)
-        session.add(factor)
-        session.commit()
-        session.refresh(factor)
+        #session.add(factor)
+        #session.commit()
+        #session.refresh(factor)
     
     # Get the stock to update
     stock = session.get(db.Stock, updated_stock.id)
     # Update remaining values
-    stock.factor_id = factor.id
     #stock.hazards = updated_stock.hazards # (not current editable)
     stock.name = updated_stock.name
     stock.polar = updated_stock.polar
@@ -71,7 +70,7 @@ async def update_stock(*, authorised_user: db.ApiUserRead=Depends(auth.get_autho
     stock.density = updated_stock.density
     stock.available = updated_stock.available
     stock.creator = updated_stock.creator
-    stock.location = updated_stock.location
+    #stock.location = updated_stock.location # (not currently there)
     stock.comments = updated_stock.comments
     # Update stock
     session.add(stock)

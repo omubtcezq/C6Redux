@@ -1,6 +1,6 @@
-// Global parameters
+// Global js
 
-// Connection
+// Connection parameters
 const API_ADDRESS = 'www.c6redux.au';
 const API_PORT = '443';
 let API_URL = 'https://'+API_ADDRESS+':'+API_PORT+'/api';
@@ -8,7 +8,7 @@ let API_URL = 'https://'+API_ADDRESS+':'+API_PORT+'/api';
 // const API_PORT = '8000';
 // let API_URL = 'http://'+API_ADDRESS+':'+API_PORT+'/api';
 
-// Units
+// All units
 const ALL_UNITS = [
     'M',
     'v/v',
@@ -17,11 +17,27 @@ const ALL_UNITS = [
     'mg/ml'
 ]
 
-// Cached lists
+// Cached screen names lists
 let SCREEN_NAMES = null;
-let CHEMICAL_NAMES = null;
+// Search over screen names
+function search_screen_names(term, screen_names){
+    let out = [];
+    // String match screens names only
+    $.each(screen_names, function(i, s){
+        if (s.name.toLowerCase().includes(term.toLowerCase())){
+            out.push({
+                'value': s.name,
+                'label': s.name,
+                'id': s.id
+            });
+        }
+    });
+    return out;
+}
 
-// Search functions for cached lists
+// Cached chemical names list
+let CHEMICAL_NAMES = null;
+// Search over chemical name
 function search_chemical_names(term, chemical_names){
     let out = [];
     // String match chemicals and aliases
@@ -47,21 +63,21 @@ function search_chemical_names(term, chemical_names){
     });
     return out;
 }
-function search_screen_names(term, screen_names){
-    let out = [];
-    // String match screens names only
-    $.each(screen_names, function(i, s){
-        if (s.name.toLowerCase().includes(term.toLowerCase())){
-            out.push({
-                'value': s.name,
-                'label': s.name,
-                'id': s.id
-            });
+
+// Get authentication token
+function get_auth_token(msg){
+    // If no token or a message needs to be displayed, popup login dialog
+    if (!window.sessionStorage.auth_token || msg){
+        window.sessionStorage.auth_token = null;
+        if (msg) {
+            $('#login-error-message').text(msg);
         }
-    });
-    return out;
+        $("#login-popup").css("display", "block");
+    }
+    return window.sessionStorage.auth_token;
 }
 
+// Local js for site functions
 (function() {
 // Flag to only load tabs on first click and then save
 let screens_loaded = false;
@@ -128,6 +144,35 @@ $('#site-banner-chemicals-buttons').click(function(){
 
 // Start by selecting screens tab
 $('#site-banner-screens-buttons').click();
+
+// Login form should authenticate on submission
+$("#login-form").submit(function(e) {
+    // Don't do default form submission
+    e.preventDefault();
+    // Submit authentication for token
+    let form = $(this);
+    $.ajax({
+        type: 'POST',
+        url: API_URL+'/auth/token', 
+        data: form.serialize(), 
+        success: function(token) {
+            // Save token and hide login
+            window.sessionStorage.auth_token = token.access_token;
+            $('#login-error-message').text('');
+            $("#login-popup").css("display", "none");
+        },
+        error: function(xhr, status, error) {
+            // Display error
+            $('#login-error-message').text("Error: " + error);
+        }
+    });
+});
+
+$('#login-cancel-button').click(function(){
+    // Hide login
+    $('#login-error-message').text('');
+    $("#login-popup").css("display", "none");
+});
 
 });
 })();

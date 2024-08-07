@@ -71,3 +71,28 @@ button {
 .viewed-row-highlight {
   background-color: rgb(239, 199, 255);
 }
+
+#login-popup {
+  position: fixed;
+  width: 20%;
+  left: 40%;
+  top: 25%;
+  z-index: 10;
+  background-color: rgb(184, 151, 214);
+  text-align: center;
+  border: 2px solid black;
+}
+
+#login-button-table {
+  width: 60%;
+  margin: auto;
+}
+
+#login-input-table {
+  width: 80%;
+  margin: auto;
+}
+
+#login-error-message {
+  color: rgb(201, 70, 70);
+}

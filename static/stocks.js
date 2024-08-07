@@ -11,52 +11,59 @@ $('#all-stocks').click(function(){
 });
 
 function display_stocks(stock_list){
+    // If no stocks to show, display this
     if (stock_list.length == 0){
         $('#stock-table > tbody').append(
             $('<tr>').append(
                 $('<td>').attr('colspan',12).text('No stocks found')
             )
         )
+    // Otherwise add each stock row to table
     } else {
         $.each(stock_list, function(i,s){
-            // Add all stock components to row
-            $('#stock-table > tbody').append(
-                $('<tr>').attr('id','stock-'+s.id).
-                append($('<td>').text(s.available)).
-                append($('<td>').text(s.name)).
-                append($('<td>').text(s.factor.chemical.name)).
-                append($('<td>').text(s.factor.concentration)).
-                append($('<td>').text(s.factor.unit)).
-                append($('<td>').text(s.factor.ph)).
-                append($('<td>').text(s.polar)).
-                append($('<td>').text(s.viscosity)).
-                append($('<td>').text(s.volatility)).
-                append($('<td>').text(s.density)).
-                append($('<td>').text(s.comments)).
-                // Include buttons to edit or remove stock
-                append(
-                    $('<td>').attr('class', 'button-cell').
-                    append(
-                        $('<button>').attr('id', 'edit-stock-button'+s.id).
-                        attr('class', 'stacked-button').
-                        text('Edit').
-                        click(function () {
-                            // Turn row into editable stock
-                            edit_stock(s, $(this).parent().parent());
-                        })
-                    ).
-                    append(
-                        $('<button>').attr('id', 'delete-stock-button'+s.id).
-                        attr('class', 'stacked-button delete-button').
-                        text('Delete').
-                        click(function () {
-                            // Delete stock in row (with confirmation) given id and row
-                        })
-                    )
-                )
-            );
+            $('#stock-table > tbody').append(create_stock_row(s));
         });
     }
+}
+
+function create_stock_row(s){
+    // Create row
+    stock_row = $('<tr>');
+    // Add all stock components to row
+    stock_row.attr('id','stock-'+s.id).
+    append($('<td>').text(s.available)).
+    append($('<td>').text(s.name)).
+    append($('<td>').text(s.factor.chemical.name)).
+    append($('<td>').text(s.factor.concentration)).
+    append($('<td>').text(s.factor.unit)).
+    append($('<td>').text(s.factor.ph)).
+    append($('<td>').text(s.polar)).
+    append($('<td>').text(s.viscosity)).
+    append($('<td>').text(s.volatility)).
+    append($('<td>').text(s.density)).
+    append($('<td>').text(s.comments)).
+    // Include buttons to edit or remove stock
+    append(
+        $('<td>').attr('class', 'button-cell').
+        append(
+            $('<button>').attr('id', 'edit-stock-button'+s.id).
+            attr('class', 'stacked-button').
+            text('Edit').
+            click(function () {
+                // Turn row into editable stock
+                edit_stock(s, $(this).parent().parent());
+            })
+        ).
+        append(
+            $('<button>').attr('id', 'delete-stock-button'+s.id).
+            attr('class', 'stacked-button delete-button').
+            text('Delete').
+            click(function () {
+                // Delete stock in row (with confirmation) given id and row
+            })
+        )
+    );
+    return stock_row;
 }
 
 function edit_stock(s, stock_row){
@@ -93,6 +100,23 @@ function edit_stock(s, stock_row){
                 attr('class', 'input-wide').
                 attr('name', 'stock-name'+s.id).
                 val(s.name)
+            )
+        )
+    ).
+    // Stock creator input
+    append(
+        $('<tr>').append(
+            $('<td>').append(
+                $('<label>').attr('for', 'stock-creator'+s.id).
+                text('Creator')
+            )
+        ).
+        append(
+            $('<td>').append(
+                $('<input>').attr('id', 'stock-creator'+s.id).
+                attr('class', 'input-wide').
+                attr('name', 'stock-creator'+s.id).
+                val(s.creator)
             )
         )
     ).
@@ -183,9 +207,9 @@ function edit_stock(s, stock_row){
                 val(s.factor.concentration)
             ).
             append(
-                $('<select>').attr('id', 'stock-units'+s.id).
+                $('<select>').attr('id', 'stock-unit'+s.id).
                 attr('class', 'input-units').
-                attr('name', 'stock-units'+s.id).
+                attr('name', 'stock-unit'+s.id).
                 append(
                     ALL_UNITS.map(function(u){
                         let o = $('<option>').attr('value', u).
@@ -350,7 +374,56 @@ function edit_stock(s, stock_row){
                         attr('class', 'stacked-button').
                         text('Save').
                         click(function () {
-                            // 
+                            updated_stock = {
+                                "id": s.id,
+                                "available": $('#stock-available'+s.id).prop('checked') ? 1 : 0,
+                                "name": $('#stock-name'+s.id).val() ? $('#stock-name'+s.id).val() : null,
+                                "creator": $('#stock-creator'+s.id).val() ? $('#stock-creator'+s.id).val() : null,
+                                "factor": {
+                                    "chemical_id": $('#stock-chemical-id'+s.id).attr('autocomplete-id'),
+                                    "concentration": $('#stock-conc'+s.id).val() ? $('#stock-conc'+s.id).val() : null,
+                                    "unit": $('#stock-unit'+s.id).val(),
+                                    "ph": $('#stock-ph'+s.id).val() ? $('#stock-ph'+s.id).val() : null,
+                                },
+                                "polar": $('#stock-polar'+s.id).prop('checked') ? 1 : 0,
+                                "viscosity": $('#stock-visc'+s.id).val() ? $('#stock-visc'+s.id).val() : null,
+                                "volatility": $('#stock-vola'+s.id).val() ? $('#stock-vola'+s.id).val() : null,
+                                "density": $('#stock-dens'+s.id).val() ? $('#stock-dens'+s.id).val() : null,
+                                "comments": $('#stock-comments'+s.id).val() ? $('#stock-comments'+s.id).val() : null,
+                                "hazards": []
+                            }
+                            if (updated_stock.name == null){
+                                alert('Must specify a stock name!');
+                            } else if (updated_stock.creator == null) {
+                                alert('Must specify a stock creator!');
+                            } else if (updated_stock.factor.chemical_id == '' || updated_stock.factor.concentration == null) {
+                                alert('Must specify chemical and concentration!');
+                            } else {
+                                auth_token = get_auth_token();
+                                if (auth_token){
+                                    $.ajax({
+                                        type: 'PUT',
+                                        url: API_URL+'/stocks/update', 
+                                        data: JSON.stringify(updated_stock), 
+                                        headers: {"Authorization": "Bearer " + auth_token},
+                                        // Update original row
+                                        success: function(returned_stock) {
+                                            stock_row.next().remove();
+                                            stock_row.removeClass('viewed-row-highlight');
+                                            $('#edit-stock-button'+s.id).removeAttr('disabled');
+                                            stock_row.replaceWith(create_stock_row(returned_stock));
+                                        },
+                                        error: function(xhr, status, error){
+                                            if (xhr.status == 401) {
+                                                msg = 'Please log in again';
+                                                get_auth_token(msg);
+                                            }
+                                        },
+                                        dataType: 'json',
+                                        contentType: 'application/json'
+                                    });
+                                }
+                            }
                         })
                     ).
                     append(

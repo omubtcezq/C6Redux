@@ -29,5 +29,34 @@
 <div id="site-content-screens"></div>
 <div id="site-content-stocks"></div>
 <div id="site-content-chemicals"></div>
+<div id="login-popup" style="display: none;">
+  <form id="login-form">
+    <h2>Login</h2>
+    <p id="login-error-message"></p>
+    <input type="hidden" name="grant_type" value="password" />
+    <table id="login-input-table">
+      <tbody>
+        <tr>
+          <td><label for="username">Username</label></td>
+          <td><input type="text" placeholder="Enter Username" name="username" required></td>
+        </tr>
+        <tr>
+          <td><label for="password">Password</label></td>
+          <td><input type="password" placeholder="Enter Password" name="password" required></td>
+        </tr>
+      </tbody>
+    </table>
+    <br/>
+    <table id="login-button-table" class="button-table">
+      <tbody>
+        <tr>
+          <td><button id="login-submit-button" type="submit" class="table-cell-button">Login</button></td>
+          <td><button id="login-cancel-button" type="button" class="table-cell-button">Cancel</button></td>
+        </tr>
+      </tbody>
+    </table>
+    <br/>
+  </form>
+</div>
 </body>
 </html>

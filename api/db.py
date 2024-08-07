@@ -206,7 +206,7 @@ class StockRead(StockReadBase):
     factor: FactorRead
 
 # Read when one stock read
-class StockContentsRead(StockReadBase):
+class StockContentsRead(StockRead):
     hazards: list["HazardRead"]
 
 # Use when updating stock
