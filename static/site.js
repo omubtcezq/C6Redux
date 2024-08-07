@@ -67,14 +67,14 @@ function search_chemical_names(term, chemical_names){
 // Get authentication token
 function get_auth_token(msg){
     // If no token or a message needs to be displayed, popup login dialog
-    if (!window.sessionStorage.auth_token || msg){
-        window.sessionStorage.auth_token = null;
+    if (!window.sessionStorage.getItem('auth_token') || msg){
+        window.sessionStorage.removeItem('auth_token');
         if (msg) {
             $('#login-error-message').text(msg);
         }
         $("#login-popup").css("display", "block");
     }
-    return window.sessionStorage.auth_token;
+    return window.sessionStorage.getItem('auth_token');
 }
 
 // Local js for site functions
@@ -157,7 +157,7 @@ $("#login-form").submit(function(e) {
         data: form.serialize(), 
         success: function(token) {
             // Save token and hide login
-            window.sessionStorage.auth_token = token.access_token;
+            window.sessionStorage.setItem('auth_token', token.access_token);
             $('#login-error-message').text('');
             $("#login-popup").css("display", "none");
         },
