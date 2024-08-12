@@ -55,9 +55,9 @@ async def update_stock(*, authorised_user: db.ApiUserRead=Depends(auth.get_autho
                            concentration = updated_stock.factor.concentration,
                            unit = updated_stock.factor.unit,
                            ph = updated_stock.factor.ph)
-        #session.add(factor)
-        #session.commit()
-        #session.refresh(factor)
+        session.add(factor)
+        session.commit()
+        session.refresh(factor)
     
     # Get the stock to update
     stock = session.get(db.Stock, updated_stock.id)
@@ -85,7 +85,7 @@ async def update_stock(*, authorised_user: db.ApiUserRead=Depends(auth.get_autho
              summary="Create a new stock",
              response_description="The new stock",
              response_model=db.StockContentsRead)
-async def update_stock(*, authorised_user: db.ApiUserRead=Depends(auth.get_authorised_user), session: Session=Depends(db.get_write_session), new_stock: db.StockUpdate):
+async def create_stock(*, authorised_user: db.ApiUserRead=Depends(auth.get_authorised_user), session: Session=Depends(db.get_write_session), new_stock: db.StockCreate):
     """
     Create a new stock
     """
@@ -129,8 +129,7 @@ async def update_stock(*, authorised_user: db.ApiUserRead=Depends(auth.get_autho
 
 @router.delete("/delete", 
                summary="Remove a stock",
-               response_description="Contents of removed stock",
-               response_model=db.StockContentsRead)
+               response_description="None")
 async def delete_stock(*, authorised_user: db.ApiUserRead=Depends(auth.get_authorised_user), session: Session=Depends(db.get_write_session), stock_id: int):
     """
     Get contents of a single stock
@@ -142,4 +141,4 @@ async def delete_stock(*, authorised_user: db.ApiUserRead=Depends(auth.get_autho
 
     # Log and return
     print("Stock deletion performed by user: %s" % authorised_user.username)
-    return stock
+    return

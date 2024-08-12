@@ -64,17 +64,53 @@ function search_chemical_names(term, chemical_names){
     return out;
 }
 
-// Get authentication token
-function get_auth_token(msg){
-    // If no token or a message needs to be displayed, popup login dialog
+// Authentication
+function authorise_action(msg, action_needing_token){
+    // No token or a message, require user to login
     if (!window.sessionStorage.getItem('auth_token') || msg){
+        // Remove old token if present and display message is present
         window.sessionStorage.removeItem('auth_token');
         if (msg) {
             $('#login-error-message').text(msg);
         }
+        // Display login dialog
         $("#login-popup").css("display", "block");
+        // Make submit action perform callback with token after sucessful login
+        $('#login-submit-button').off("click");
+        $('#login-submit-button').click(function() {
+            $.ajax({
+                type: 'POST',
+                url: API_URL+'/auth/token', 
+                data: $('#login-form').serialize(), 
+                success: function(token) {
+                    // Save token, perform action and hide login
+                    window.sessionStorage.setItem('auth_token', token.access_token);
+                    action_needing_token(window.sessionStorage.getItem('auth_token'));
+                    $('#login-cancel-button').click();
+                },
+                error: function(xhr, status, error) {
+                    // Display error
+                    $('#login-error-message').text("Error: " + error);
+                }
+            });
+        });
+    // Token present and no message, perform action with existing token
+    } else {
+        action_needing_token(window.sessionStorage.getItem('auth_token'));
     }
-    return window.sessionStorage.getItem('auth_token');
+}
+
+// Confirmation popup
+function confirm_action(msg, action){
+    // Display message
+    $('#confirmation-message').text(msg);
+    $("#confirmation-popup").css("display", "block");
+    // Make accept perform callback action before calcelling the dialog
+    $('#confirmation-accept-button').off("click");
+    $('#confirmation-accept-button').click(function() {
+        action();
+        $('#confirmation-cancel-button').click();
+    });
 }
 
 // Local js for site functions
@@ -145,33 +181,27 @@ $('#site-banner-chemicals-buttons').click(function(){
 // Start by selecting screens tab
 $('#site-banner-screens-buttons').click();
 
-// Login form should authenticate on submission
+// Remove login submission default action
 $("#login-form").submit(function(e) {
-    // Don't do default form submission
     e.preventDefault();
-    // Submit authentication for token
-    let form = $(this);
-    $.ajax({
-        type: 'POST',
-        url: API_URL+'/auth/token', 
-        data: form.serialize(), 
-        success: function(token) {
-            // Save token and hide login
-            window.sessionStorage.setItem('auth_token', token.access_token);
-            $('#login-error-message').text('');
-            $("#login-popup").css("display", "none");
-        },
-        error: function(xhr, status, error) {
-            // Display error
-            $('#login-error-message').text("Error: " + error);
-        }
-    });
 });
 
+// Login dialog cancel
 $('#login-cancel-button').click(function(){
     // Hide login
-    $('#login-error-message').text('');
     $("#login-popup").css("display", "none");
+    // Remove message
+    $('#login-error-message').text('');
+});
+
+// Confirmation dialog cancel
+$('#confirmation-cancel-button').click(function(){
+    // Remove accept action
+    $('#confirmation-accept-button').off("click");
+    // Hide confirmation dialog
+    $("#confirmation-popup").css("display", "none");
+    // Remove message
+    $('#confirmation-message').text('');
 });
 
 });

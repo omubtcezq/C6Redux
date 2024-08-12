@@ -1,6 +1,6 @@
 #stock-view-buttons-table {
     width: 100%;
-    padding: 0 45%;
+    padding: 0 40%;
 }
 
 #stock-table, 
@@ -11,10 +11,10 @@
   text-align: center;
 }
 
-#stock-edit-div {
+#stock-contents-div {
     margin: 0 30%;
 }
 
-#stock-edit-button-div {
+#stock-contents-button-div {
     margin: 0 40%;
 }
