@@ -1615,7 +1615,7 @@ function query_update_inputs(alert_validation){
         SCREEN_QUERY.owner_search == null &&
         SCREEN_QUERY.conds == null){
 
-        alert("Must query screens by at least a name, owner name or by conditions!");
+        alert_user("Must query screens by at least a name, owner name or by conditions!");
         return false;
     // When not validating always pass
     } else {
@@ -1653,7 +1653,7 @@ function query_update_conds(tree, alert_validation){
             tree.arg.id == null &&
             tree.arg.chems == null){
                 
-            alert("Must specify condition exclusively either by reference or by chemicals!");
+            alert_user("Must specify condition exclusively either by reference or by chemicals!");
             return false;
         // When not validating always continue parsing
         } else {
@@ -1703,14 +1703,14 @@ function query_update_chems(tree, alert_validation){
             if (tree.arg.id == null &&
                 tree.arg.name_search == null){
 
-                alert("Must specify chemical!");
+                alert_user("Must specify chemical!");
                 return false;
             } else if (tree.arg.id == null &&
                 tree.arg.name_search == null &&
                 tree.arg.conc == null &&
                 tree.arg.ph == null){
 
-                alert("Must specify chemical with at least name, concentration and unit, or ph!");
+                alert_user("Must specify chemical with at least name, concentration and unit, or ph!");
                 return false
             } else {
                 return true;

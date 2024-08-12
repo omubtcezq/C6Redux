@@ -4,6 +4,10 @@
   padding: 0 40%;
 }
 
+#screen-table {
+  width: 100%;
+}
+
 #screen-table, 
 #screen-table > thead > tr > th, 
 #screen-table > tbody > tr > td {

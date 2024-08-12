@@ -73,7 +73,8 @@ button {
 }
 
 #login-popup,
-#confirmation-popup {
+#confirmation-popup,
+#information-popup {
   position: fixed;
   width: 20%;
   left: 40%;
@@ -85,7 +86,8 @@ button {
 }
 
 #login-button-table,
-#confirmation-button-table {
+#confirmation-button-table,
+#information-button-table {
   width: 60%;
   margin: auto;
 }
@@ -96,6 +98,7 @@ button {
 }
 
 #login-error-message,
-#confirmation-message {
+#confirmation-message,
+#information-message {
   color: rgb(95, 49, 49);
 }

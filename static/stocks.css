@@ -3,6 +3,10 @@
     padding: 0 40%;
 }
 
+#stock-table {
+    width: 100%;
+}
+
 #stock-table, 
 #stock-table > thead > tr > th, 
 #stock-table > tbody > tr > td {

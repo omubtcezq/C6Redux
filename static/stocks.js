@@ -465,11 +465,11 @@ function save_new_stock(id){
     }
     // Sanity checks
     if (new_stock.name == null){
-        alert('Must specify a stock name!');
+        alert_user('Must specify a stock name!');
     } else if (new_stock.creator == null) {
-        alert('Must specify a stock creator!');
+        alert_user('Must specify a stock creator!');
     } else if (new_stock.factor.chemical_id == '' || new_stock.factor.concentration == null) {
-        alert('Must specify chemical and concentration!');
+        alert_user('Must specify chemical and concentration!');
     } else {
         // Authorise and make api call
         to_authorise = function(auth_token){
@@ -533,11 +533,11 @@ function save_edited_stock(id){
     }
     // Sanity checks
     if (updated_stock.name == null){
-        alert('Must specify a stock name!');
+        alert_user('Must specify a stock name!');
     } else if (updated_stock.creator == null) {
-        alert('Must specify a stock creator!');
+        alert_user('Must specify a stock creator!');
     } else if (updated_stock.factor.chemical_id == '' || updated_stock.factor.concentration == null) {
-        alert('Must specify chemical and concentration!');
+        alert_user('Must specify chemical and concentration!');
     } else {
         // Authorise and make api call
         to_authorise = function(auth_token){

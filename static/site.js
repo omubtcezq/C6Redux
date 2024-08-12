@@ -113,6 +113,13 @@ function confirm_action(msg, action){
     });
 }
 
+// Alert popup
+function alert_user(msg){
+    // Display message
+    $('#information-message').text(msg);
+    $("#information-popup").css("display", "block");
+}
+
 // Local js for site functions
 (function() {
 // Flag to only load tabs on first click and then save
@@ -202,6 +209,14 @@ $('#confirmation-cancel-button').click(function(){
     $("#confirmation-popup").css("display", "none");
     // Remove message
     $('#confirmation-message').text('');
+});
+
+// Information dialog okay
+$('#information-okay-button').click(function(){
+    // Hide dialog
+    $("#information-popup").css("display", "none");
+    // Remove message
+    $('#information-message').text('');
 });
 
 });
