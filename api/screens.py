@@ -233,7 +233,7 @@ def parseChemicalPred(chem: ChemicalPred):
 # ============================================================================ #
 
 class StockVolume(BaseModel):
-    stock: db.StockReadLite
+    stock: db.StockRead
     volume: float
 
 class Recipe(BaseModel):
@@ -249,8 +249,8 @@ def make_condition_recipe(session: Session, condition_id: int):
     for f in well_condition.factors:
         possible_stocks[f.id] = []
 
-        # Search for stocks of the factor chemical. Prioritise stocks that are available and then those at lower concentration
-        stocks_for_factor_stmnt = select(db.Stock).join(db.Factor).where(db.Factor.chemical_id == f.chemical_id).order_by(db.Stock.available.desc(), db.Factor.concentration)
+        # Search for stocks of the factor chemical
+        stocks_for_factor_stmnt = select(db.Stock).join(db.Factor).where(db.Factor.chemical_id == f.chemical_id)
         stocks_for_factor = session.exec(stocks_for_factor_stmnt).all()
         #print('\n\n', stocks_for_factor, '\n\n')
         for s in stocks_for_factor:
@@ -282,17 +282,17 @@ def make_condition_recipe(session: Session, condition_id: int):
             for phcurve in f.chemical.phcurves:
                 if f.ph >= phcurve.low_range and f.ph <= phcurve.high_range:
                     suitable_curve = True
-                    # Sort low and high ph stocks by avilability then by concentration
-                    stocks_for_low_chemical_stmnt = select(db.Stock).join(db.Factor).where(db.Factor.chemical_id == phcurve.low_chemical.id).order_by(db.Stock.available.desc(), db.Factor.concentration)
+                    # Get low and high ph stocks
+                    stocks_for_low_chemical_stmnt = select(db.Stock).join(db.Factor).where(db.Factor.chemical_id == phcurve.low_chemical.id)
                     stocks_for_low_chemical = session.exec(stocks_for_low_chemical_stmnt).all()
-                    stocks_for_high_chemical_stmnt = select(db.Stock).join(db.Factor).where(db.Factor.chemical_id == phcurve.high_chemical.id).order_by(db.Stock.available.desc(), db.Factor.concentration)
+                    stocks_for_high_chemical_stmnt = select(db.Stock).join(db.Factor).where(db.Factor.chemical_id == phcurve.high_chemical.id)
                     stocks_for_high_chemical = session.exec(stocks_for_high_chemical_stmnt).all()
                     #print('\n',f.id,'\n',stocks_for_low_chemical,'\n\n', stocks_for_high_chemical)
                     # Store suitable stocks for the low ph stock
                     seen_concs = {}
                     for low_s in stocks_for_low_chemical:
                         if low_s.factor.ph and abs(low_s.factor.ph - phcurve.low_range) <= 0.2 and low_s.factor.ph < f.ph:
-                            # Save matching low ph stocks grouped by concentration (and still sorted by available)
+                            # Save matching low ph stocks grouped by concentration
                             if (low_s.factor.concentration, low_s.factor.unit) not in seen_concs.keys():
                                 seen_concs[(low_s.factor.concentration, low_s.factor.unit)] = []
                             seen_concs[(low_s.factor.concentration, low_s.factor.unit)].append(low_s)
@@ -428,14 +428,34 @@ def make_condition_recipe(session: Session, condition_id: int):
     return recipe
 
 def choose_stocks_condition(possible_stocks):
-    # Possible stock choices by list indeces
+    # Sort possible stocks for each factor by concentration
+    for factor_id in possible_stocks.keys():
+        # Assume all stock options for a factor are in the same units (not 
+        # technically true, but almost certain)
+        possible_stocks[factor_id] = sorted(possible_stocks[factor_id], key=lambda stock_option: stock_option[0].stock.factor.concentration)
+
+    # All possible combinations of possible stocks for the condition (as 
+    # vectors of indices). Indices indicate steps up inconcentration due to 
+    # sort above.
     stock_index_choices = product(*[[i for i in range(len(l))] for l in possible_stocks.values()])
-    # Complex sort to prioritise low-concentration stocks given sorted possible stocks
+
+    # Sort the combinations to first prioritise total number of available 
+    # stocks, and then to prioritise more slightly lower concentration stocks 
+    # than one much lower concentration stock (play on indices above). This 
+    # makes lower concentration stocks always get used up first.
     max_stock_index = max([len(x) for x in possible_stocks.values()])-1
-    def sort_key(stock_index_list):
+    def sort_stock_combinations_key(stock_index_list):
+        not_available_penalty = 0
+        for factor_index,factor_id in enumerate(possible_stocks.keys()):
+            stock_index = stock_index_list[factor_index]
+            # Add 1 for every stock in this stock_index_list that is not in 
+            # stock
+            not_available_penalty += sum([0 if s.stock.available else 1 for s in possible_stocks[factor_id][stock_index]])
+        # Counts the numbers of different step ups in concentration
         c = Counter(stock_index_list)
-        return tuple(c[i] for i in range(max_stock_index, 0, -1))
-    stock_index_choices = sorted(stock_index_choices, key=sort_key)
+        # Sort first by availabile, then by step ups in concentration
+        return tuple([not_available_penalty]+[c[i] for i in range(max_stock_index, 0, -1)])
+    stock_index_choices = sorted(stock_index_choices, key=sort_stock_combinations_key)
 
     # For each choice, get the stocks and compute whether an overflow will occur
     found = False

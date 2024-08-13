@@ -134,7 +134,7 @@ def insert_stocks():
             s_viscosity = type_or_none(row[l2n('J')].value, int)
             s_volatility = type_or_none(row[l2n('K')].value, int)
             s_density = type_or_none(row[l2n('U')].value, float)
-            s_available = type_or_none(1 if row[l2n('M')].value==0 else 0, int)
+            s_available = type_or_none(0 if row[l2n('M')].value==0 else 1, int)
             s_creator = type_or_none('c3', str)
             s_location = type_or_none(row[l2n('R')].value, str)
             s_comments = type_or_none(row[l2n('N')].value, str)
