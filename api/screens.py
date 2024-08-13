@@ -428,43 +428,47 @@ def make_condition_recipe(session: Session, condition_id: int):
     return recipe
 
 def choose_stocks_condition(possible_stocks):
+    #print('\n\n',possible_stocks,'\n\n')
     # Sort possible stocks for each factor by concentration
     for factor_id in possible_stocks.keys():
         # Assume all stock options for a factor are in the same units (not 
         # technically true, but almost certain)
         possible_stocks[factor_id] = sorted(possible_stocks[factor_id], key=lambda stock_option: stock_option[0].stock.factor.concentration)
 
-    # All possible combinations of possible stocks for the condition (as 
-    # vectors of indices). Indices indicate steps up inconcentration due to 
-    # sort above.
-    stock_index_choices = product(*[[i for i in range(len(l))] for l in possible_stocks.values()])
+    # All possible combinations of possible stocks for the condition
+    stock_choices = product(*possible_stocks.values())
 
     # Sort the combinations to first prioritise total number of available 
-    # stocks, and then to prioritise more slightly lower concentration stocks 
-    # than one much lower concentration stock (play on indices above). This 
-    # makes lower concentration stocks always get used up first.
+    # stocks, and then to prioritise more slightly higher concentration stocks 
+    # than one much higher concentration stock. This makes lower concentration 
+    # stocks always get used up first.
     max_stock_index = max([len(x) for x in possible_stocks.values()])-1
-    def sort_stock_combinations_key(stock_index_list):
+    possible_stock_keys = list(possible_stocks.keys())
+    def sort_stock_choices_key(stock_choice_lists):
+        # Sum of stocks in this choice that are not available
         not_available_penalty = 0
-        for factor_index,factor_id in enumerate(possible_stocks.keys()):
-            stock_index = stock_index_list[factor_index]
-            # Add 1 for every stock in this stock_index_list that is not in 
-            # stock
-            not_available_penalty += sum([0 if s.stock.available else 1 for s in possible_stocks[factor_id][stock_index]])
-        # Counts the numbers of different step ups in concentration
-        c = Counter(stock_index_list)
-        # Sort first by availabile, then by step ups in concentration
+        for stocks in stock_choice_lists:
+            not_available_penalty += sum([0 if s.stock.available else 1 for s in stocks])
+        # Counter for stock "step-ups" in concentration. Since possible stocks 
+        # are sorted by concentration, each stock's index in the list off 
+        # possible stocks for its factor says how many step-ups in 
+        # concentration it has. By summing the number of single, double, etc. 
+        # step-ups we can sort to always prioritise using more less 
+        # concentrated stocks. Noting that below the order of 
+        # possible_stocks.values() that produced the stock choices we are 
+        # sorting is in the same order as possible_stocks.keys()
+        c = Counter([possible_stocks[possible_stock_keys[i]].index(stocks) for i,stocks in enumerate(stock_choice_lists)])
+        # Sort first by availability, then by least number of largest step ups 
+        # in concentration
         return tuple([not_available_penalty]+[c[i] for i in range(max_stock_index, 0, -1)])
-    stock_index_choices = sorted(stock_index_choices, key=sort_stock_combinations_key)
+    stock_choices = sorted(stock_choices, key=sort_stock_choices_key)
 
     # For each choice, get the stocks and compute whether an overflow will occur
     found = False
-    for choice in stock_index_choices:
+    for choice in stock_choices:
         total_vol = 0
         all_stocks = []
-        for factor_index,factor_id in enumerate(possible_stocks.keys()):
-            stock_index = choice[factor_index]
-            stocks = possible_stocks[factor_id][stock_index]
+        for stocks in choice:
             total_vol += sum([s.volume for s in stocks])
             all_stocks += stocks
         if total_vol <= 1:
@@ -478,31 +482,39 @@ def choose_stocks_condition(possible_stocks):
     else:
         return None, None
 
+def unit_conversion(conc, unit, density, desired_unit):
+    # All possible allowable combinations of units
+    if unit == desired_unit:
+        return conc
+    elif desired_unit == 'mM' and unit == 'M':
+        return conc*1000
+    elif desired_unit == 'M' and unit == 'mM':
+        return conc/1000
+    elif desired_unit == 'mg/ml' and unit == 'w/v':
+        return conc * 10
+    elif desired_unit == 'w/v' and unit == 'mg/ml':
+        return conc / 10
+    elif desired_unit == 'w/v' and unit == 'v/v':
+        return conc * density
+    elif desired_unit == 'v/v' and unit == 'w/v':
+        return conc / density
+    elif desired_unit == 'mg/ml' and unit == 'v/v':
+        return conc * density * 10
+    elif desired_unit == 'v/v' and unit == 'mg/ml':
+        return conc / (density * 10)
+    else:
+        return None
+
 def stock_volume(stock_factor, desired_conc, desired_unit, total_volume):
     # In case of weight and volume conversions use the density if it's there
     chem_density = stock_factor.chemical.density
     if not chem_density:
         chem_density = 1
-    # All possible allowable combinations of units
+    # Convert factor concentration appropriately
     stock_volume = None
-    if desired_unit == stock_factor.unit:
-        stock_volume = (desired_conc / stock_factor.concentration) * total_volume
-    elif desired_unit == 'mM' and stock_factor.unit == 'M':
-        stock_volume = (desired_conc / (stock_factor.concentration * 1000)) * total_volume
-    elif desired_unit == 'M' and stock_factor.unit == 'mM':
-        stock_volume = ((desired_conc * 1000) / stock_factor.concentration) * total_volume
-    elif desired_unit == 'mg/ml' and stock_factor.unit == 'w/v':
-        stock_volume = (desired_conc / (stock_factor.concentration * 10)) * total_volume
-    elif desired_unit == 'w/v' and stock_factor.unit == 'mg/ml':
-        stock_volume = ((desired_conc * 10) / stock_factor.concentration) * total_volume
-    elif desired_unit == 'w/v' and stock_factor.unit == 'v/v':
-        stock_volume = (desired_conc / (stock_factor.concentration * chem_density)) * total_volume
-    elif desired_unit == 'v/v' and stock_factor.unit == 'w/v':
-        stock_volume = ((desired_conc * chem_density) / stock_factor.concentration) * total_volume
-    elif desired_unit == 'mg/ml' and stock_factor.unit == 'v/v':
-        stock_volume = (desired_conc / (stock_factor.concentration * chem_density * 10)) * total_volume
-    elif desired_unit == 'v/v' and stock_factor.unit == 'mg/ml':
-        stock_volume = ((desired_conc * chem_density * 10) / stock_factor.concentration) * total_volume
+    converted_stock_factor_concentration = unit_conversion(stock_factor.concentration, stock_factor.unit, chem_density, desired_unit)
+    if converted_stock_factor_concentration:
+        stock_volume = (desired_conc / converted_stock_factor_concentration) * total_volume
     # None if units not compatible or if stock concentration overflows
     if stock_volume and stock_volume > total_volume:
         stock_volume = None

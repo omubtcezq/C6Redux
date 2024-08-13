@@ -160,7 +160,7 @@ class Factor(FactorBase, table=True):
     stocks: list["Stock"] = Relationship(back_populates="factor")
     wellconditions: list["WellCondition"] = Relationship(back_populates="factors", link_model=WellCondition_Factor_Link)
 
-# Read when screen or stock is read
+# Read when screen or stock is read, and when recipe generated
 class FactorRead(FactorBase):
     id: int
     chemical: ChemicalReadLite
