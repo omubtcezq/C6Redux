@@ -283,6 +283,7 @@ function display_recipe(recipe_data, wellcondition_id, row){
             let recipe_row = $('<tr>');
             // What to display for each stock
             recipe_row.
+            append($('<td>').text(s.stock.available)).
             append($('<td>').text(s.stock.name)).
             append($('<td>').text(s.volume.toFixed(2)))
             // Add stock to recipe table
@@ -290,6 +291,7 @@ function display_recipe(recipe_data, wellcondition_id, row){
         })
         if (recipe_data.water > 0){
             recipe_table.append($('<tr>').
+                append($('<td>').text('')).
                 append($('<td>').text('Water')).
                 append($('<td>').text(recipe_data.water.toFixed(2)))
             )
@@ -314,7 +316,8 @@ function display_recipe(recipe_data, wellcondition_id, row){
                 $('<table>').attr('class', 'generated-recipe-table').
                 append(
                     $('<thead>').append(
-                        $('<tr>').append($('<th>').text('Stock')).
+                        $('<tr>').append($('<th>').text('Available')).
+                        append($('<th>').text('Stock')).
                         append($('<th>').text('Volume (ml)'))
                     )
                 ).

@@ -249,9 +249,10 @@ def make_condition_recipe(session: Session, condition_id: int):
     for f in well_condition.factors:
         possible_stocks[f.id] = []
 
-        # Search for stocks of the factor chemical
-        stocks_for_factor_stmnt = select(db.Stock).join(db.Factor).where(db.Factor.chemical_id == f.chemical_id).order_by(db.Factor.concentration)
+        # Search for stocks of the factor chemical. Prioritise stocks that are available and then those at lower concentration
+        stocks_for_factor_stmnt = select(db.Stock).join(db.Factor).where(db.Factor.chemical_id == f.chemical_id).order_by(db.Stock.available.desc(), db.Factor.concentration)
         stocks_for_factor = session.exec(stocks_for_factor_stmnt).all()
+        #print('\n\n', stocks_for_factor, '\n\n')
         for s in stocks_for_factor:
 
             # Same chemical and ph (ph may be none)
@@ -281,58 +282,62 @@ def make_condition_recipe(session: Session, condition_id: int):
             for phcurve in f.chemical.phcurves:
                 if f.ph >= phcurve.low_range and f.ph <= phcurve.high_range:
                     suitable_curve = True
-                    stocks_for_low_chemical_stmnt = select(db.Stock).join(db.Factor).where(db.Factor.chemical_id == phcurve.low_chemical.id).order_by(db.Factor.concentration)
+                    # Sort low and high ph stocks by avilability then by concentration
+                    stocks_for_low_chemical_stmnt = select(db.Stock).join(db.Factor).where(db.Factor.chemical_id == phcurve.low_chemical.id).order_by(db.Stock.available.desc(), db.Factor.concentration)
                     stocks_for_low_chemical = session.exec(stocks_for_low_chemical_stmnt).all()
-                    stocks_for_high_chemical_stmnt = select(db.Stock).join(db.Factor).where(db.Factor.chemical_id == phcurve.high_chemical.id).order_by(db.Factor.concentration)
+                    stocks_for_high_chemical_stmnt = select(db.Stock).join(db.Factor).where(db.Factor.chemical_id == phcurve.high_chemical.id).order_by(db.Stock.available.desc(), db.Factor.concentration)
                     stocks_for_high_chemical = session.exec(stocks_for_high_chemical_stmnt).all()
                     #print('\n',f.id,'\n',stocks_for_low_chemical,'\n\n', stocks_for_high_chemical)
                     # Store suitable stocks for the low ph stock
                     seen_concs = {}
                     for low_s in stocks_for_low_chemical:
                         if low_s.factor.ph and abs(low_s.factor.ph - phcurve.low_range) <= 0.2 and low_s.factor.ph < f.ph:
-                            seen_concs[(low_s.factor.concentration, low_s.factor.unit)] = low_s
+                            # Save matching low ph stocks grouped by concentration (and still sorted by available)
+                            if (low_s.factor.concentration, low_s.factor.unit) not in seen_concs.keys():
+                                seen_concs[(low_s.factor.concentration, low_s.factor.unit)] = []
+                            seen_concs[(low_s.factor.concentration, low_s.factor.unit)].append(low_s)
                     
                     #print('\nSEARCHING\n', seen_concs,'\n\n')
                     # Search for suitable high ph stocks that have same concentration as a suitable low ph stock
                     for high_s in stocks_for_high_chemical:
                         if high_s.factor.ph and abs(high_s.factor.ph - phcurve.high_range) <= 0.2 and high_s.factor.ph > f.ph:
-                            # Found matching low ph stock
+                            # Loop through matching low ph stocks
                             if (high_s.factor.concentration, high_s.factor.unit) in seen_concs.keys():
-                                low_s = seen_concs[(high_s.factor.concentration, high_s.factor.unit)]
+                                for low_s in seen_concs[(high_s.factor.concentration, high_s.factor.unit)]:
 
-                                # Either compute henderson haselbalch interpolation
-                                if phcurve.hh:
-                                    pkas = [f.chemical.pka1, f.chemical.pka2, f.chemical.pka3]
-                                    hh_pka = None
-                                    for pka in pkas:
-                                        if pka and pka > phcurve.low_range and pka < phcurve.high_range:
-                                            hh_pka = pka
+                                    # Either compute henderson haselbalch interpolation
+                                    if phcurve.hh:
+                                        pkas = [f.chemical.pka1, f.chemical.pka2, f.chemical.pka3]
+                                        hh_pka = None
+                                        for pka in pkas:
+                                            if pka and pka > phcurve.low_range and pka < phcurve.high_range:
+                                                hh_pka = pka
+                                                break
+                                        if not hh_pka:
                                             break
-                                    if not hh_pka:
-                                        break
-                                    low_stock_fraction = henderson_hasselbalch(hh_pka, low_s.factor.ph, high_s.factor.ph, f.ph)
-                                    high_stock_fraction = 1-low_stock_fraction
+                                        low_stock_fraction = henderson_hasselbalch(hh_pka, low_s.factor.ph, high_s.factor.ph, f.ph)
+                                        high_stock_fraction = 1-low_stock_fraction
 
-                                # Or use curve points to find stock ratios
-                                else:
-                                    points = sorted(phcurve.points, key=lambda p: p.result_ph)
-                                    closest_point = points[0]
-                                    for p in points[1:]:
-                                        if abs(p.result_ph - f.ph) < abs(closest_point.result_ph - f.ph):
-                                            closest_point = p
-                                    high_stock_fraction = closest_point.high_chemical_percentage / 100
-                                    low_stock_fraction = 1-high_stock_fraction
+                                    # Or use curve points to find stock ratios
+                                    else:
+                                        points = sorted(phcurve.points, key=lambda p: p.result_ph)
+                                        closest_point = points[0]
+                                        for p in points[1:]:
+                                            if abs(p.result_ph - f.ph) < abs(closest_point.result_ph - f.ph):
+                                                closest_point = p
+                                        high_stock_fraction = closest_point.high_chemical_percentage / 100
+                                        low_stock_fraction = 1-high_stock_fraction
 
-                                # Add the two stocks needed to get the desired ph
-                                low_stock_vol = stock_volume(low_s.factor, f.concentration, f.unit, low_stock_fraction)
-                                high_stock_vol = stock_volume(high_s.factor, f.concentration, f.unit, high_stock_fraction)
-                                if low_stock_vol != None and high_stock_vol != None:
-                                    stocks = []
-                                    if low_stock_vol > 0:
-                                        stocks.append(StockVolume(stock=low_s, volume=low_stock_vol))
-                                    if high_stock_vol > 0:
-                                        stocks.append(StockVolume(stock=high_s, volume=high_stock_vol))
-                                    possible_stocks[f.id].append(stocks)
+                                    # Add the two stocks needed to get the desired ph
+                                    low_stock_vol = stock_volume(low_s.factor, f.concentration, f.unit, low_stock_fraction)
+                                    high_stock_vol = stock_volume(high_s.factor, f.concentration, f.unit, high_stock_fraction)
+                                    if low_stock_vol != None and high_stock_vol != None:
+                                        stocks = []
+                                        if low_stock_vol > 0:
+                                            stocks.append(StockVolume(stock=low_s, volume=low_stock_vol))
+                                        if high_stock_vol > 0:
+                                            stocks.append(StockVolume(stock=high_s, volume=high_stock_vol))
+                                        possible_stocks[f.id].append(stocks)
 
             # Next, check if chemical meets default henderson haselbalch interpolation
             hh_pka = None
