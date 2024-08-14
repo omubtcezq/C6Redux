@@ -413,7 +413,7 @@ def make_condition_recipe(session: Session, condition_id: int):
         #print('\n\n',possible_stocks,'\n\n')
         return recipe
     # Check if all possible recipes overflowed
-    stocks, volume = choose_stocks_condition(possible_stocks)
+    stocks = choose_stocks_condition(possible_stocks)
     if not stocks:
         recipe.success = False
         recipe.msg = 'Could not find any combination of stocks that did not overflow!'
@@ -421,8 +421,9 @@ def make_condition_recipe(session: Session, condition_id: int):
     else:
         recipe.success = True
         recipe.msg = ''
-        recipe.stocks = [StockVolume(stock=sv["stock"], volume=sv["volume"]) for sv in stocks]
-        recipe.water = 1-volume
+        recipe.stocks = [StockVolume(stock=sv["stock"], volume=round(sv["volume"], 3)) for sv in stocks]
+        # Water volume computed from rounded volumes to avoid rounding overflow
+        recipe.water = round(1-sum(round(sv["volume"], 3) for sv in stocks), 3)
     return recipe
 
 def unit_conversion(conc, unit, density, desired_unit):
@@ -505,12 +506,12 @@ def choose_stocks_condition(possible_stocks):
             found = True
             break
 
-    # If a valid combination of stocks is found, return stock list and its volume
+    # If a valid combination of stocks is found, return stock list
     if found:
-        return all_stocks, total_vol
-    # Nones if all stock combinations overflow
+        return all_stocks
+    # None if all stock combinations overflow
     else:
-        return None, None
+        return None
 
 def stock_volume(stock_factor, desired_conc, desired_unit, total_volume):
     # In case of weight and volume conversions use the density if it's there

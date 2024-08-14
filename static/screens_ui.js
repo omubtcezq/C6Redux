@@ -285,7 +285,7 @@ function display_recipe(recipe_data, wellcondition_id, row){
             recipe_row.
             append($('<td>').text(s.stock.available)).
             append($('<td>').text(s.stock.name)).
-            append($('<td>').text(s.volume.toFixed(2)))
+            append($('<td>').text(s.volume.toFixed(3)))
             // Add stock to recipe table
             recipe_table.append(recipe_row);
         })
@@ -293,7 +293,7 @@ function display_recipe(recipe_data, wellcondition_id, row){
             recipe_table.append($('<tr>').
                 append($('<td>').text('')).
                 append($('<td>').text('Water')).
-                append($('<td>').text(recipe_data.water.toFixed(2)))
+                append($('<td>').text(recipe_data.water.toFixed(3)))
             )
         }
     } else {
