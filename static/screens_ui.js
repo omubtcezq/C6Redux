@@ -298,7 +298,7 @@ function display_recipe(recipe_data, wellcondition_id, row){
         }
     } else {
         recipe_table.append($('<tr>').
-            append($('<td>').attr('colspan', 2).text(recipe_data.msg))
+            append($('<td>').attr('colspan', 3).text(recipe_data.msg))
         )
     }
     let botrow = get_last_row_of_wellcondition(row, true);

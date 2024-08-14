@@ -301,7 +301,7 @@ def make_condition_recipe(session: Session, condition_id: int):
                     # Search for suitable high ph stocks that have same concentration as a suitable low ph stock
                     for high_s in stocks_for_high_chemical:
                         if high_s.factor.ph and abs(high_s.factor.ph - phcurve.high_range) <= 0.2 and high_s.factor.ph > f.ph:
-                            # Loop through matching low ph stocks
+                            # Loop through matching low ph stocks for all possible pairs
                             if (high_s.factor.concentration, high_s.factor.unit) in seen_concs.keys():
                                 for low_s in seen_concs[(high_s.factor.concentration, high_s.factor.unit)]:
 
@@ -360,35 +360,33 @@ def make_condition_recipe(session: Session, condition_id: int):
                         break
             # Use HH if chemical has a pka close to factor ph and no other pkas close to it
             if hh_pka:
-                # Get bounding stocks
-                bounding_pairs = {}
-                for s in stocks_for_factor:
-                    # Only consider stocks of the chemical with a ph within 1 unit of pka as well
-                    if not s.factor.ph or abs(hh_pka - s.factor.ph) >= 1.2:
-                        continue
-                    # Find stocks with tight bounding phs at same concentrations for mixing
-                    if (s.factor.concentration, s.factor.unit) not in bounding_pairs.keys():
-                        bounding_pairs[(s.factor.concentration, s.factor.unit)] = {'low': None, 'high': None}
-                    pair = bounding_pairs[(s.factor.concentration, s.factor.unit)]
-                    if s.factor.ph < f.ph and (not pair['low'] or pair['low'].factor.ph < s.factor.ph):
-                        pair['low'] = s
-                    if s.factor.ph > f.ph and (not pair['high'] or pair['high'].factor.ph > s.factor.ph):
-                        pair['high'] = s
 
-                # For each suitable bounding pair compute hendersen hasselbalch
-                for pair in bounding_pairs.values():
-                    if pair['low'] and pair['high']:
-                        low_stock_fraction = henderson_hasselbalch(hh_pka, pair['low'].factor.ph, pair['high'].factor.ph, f.ph)
-                        high_stock_fraction = 1-low_stock_fraction
-                        low_stock_vol = stock_volume(pair['low'].factor, f.concentration, f.unit, low_stock_fraction)
-                        high_stock_vol = stock_volume(pair['high'].factor, f.concentration, f.unit, high_stock_fraction)
-                        if low_stock_vol != None and high_stock_vol != None:
-                            stocks = []
-                            if low_stock_vol > 0:
-                                stocks.append({"stock": pair['low'], "volume": low_stock_vol})
-                            if high_stock_vol > 0:
-                                stocks.append({"stock": pair['high'], "volume": high_stock_vol})
-                            possible_stocks[f.id].append(stocks)
+                # Store suitable stocks for the low ph stock. Similar to logic above but low and high stocks are the same chemical and bounds around hh_pka guessed as default
+                seen_concs = {}
+                for low_s in stocks_for_factor:
+                    # Save matching low ph stocks grouped by concentration
+                    if low_s.factor.ph and abs(hh_pka - low_s.factor.ph) <= 1.2 and low_s.factor.ph < f.ph:
+                        if (low_s.factor.concentration, low_s.factor.unit) not in seen_concs.keys():
+                            seen_concs[(low_s.factor.concentration, low_s.factor.unit)] = []
+                        seen_concs[(low_s.factor.concentration, low_s.factor.unit)].append(low_s)
+                
+                # Search for suitable high ph stocks that have same concentration as a suitable low ph stock
+                for high_s in stocks_for_factor:
+                    if high_s.factor.ph and abs(hh_pka - low_s.factor.ph) <= 1.2 and high_s.factor.ph > f.ph:
+                        # Loop through matching low ph stocks for all possible pairs
+                        if (high_s.factor.concentration, high_s.factor.unit) in seen_concs.keys():
+                            for low_s in seen_concs[(high_s.factor.concentration, high_s.factor.unit)]:
+                                low_stock_fraction = henderson_hasselbalch(hh_pka, low_s.factor.ph, high_s.factor.ph, f.ph)
+                                high_stock_fraction = 1-low_stock_fraction
+                                low_stock_vol = stock_volume(low_s.factor, f.concentration, f.unit, low_stock_fraction)
+                                high_stock_vol = stock_volume(high_s.factor, f.concentration, f.unit, high_stock_fraction)
+                                if low_stock_vol != None and high_stock_vol != None:
+                                    stocks = []
+                                    if low_stock_vol > 0:
+                                        stocks.append({"stock": low_s, "volume": low_stock_vol})
+                                    if high_stock_vol > 0:
+                                        stocks.append({"stock": high_s, "volume": high_stock_vol})
+                                    possible_stocks[f.id].append(stocks)
             
             # If no suitable curve found and no suitable HH interpretation, assume salt with specified ph
             if not suitable_curve and not hh_pka:
