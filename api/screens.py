@@ -372,7 +372,7 @@ def make_condition_recipe(session: Session, condition_id: int):
                 
                 # Search for suitable high ph stocks that have same concentration as a suitable low ph stock
                 for high_s in stocks_for_factor:
-                    if high_s.factor.ph and abs(hh_pka - low_s.factor.ph) <= 1.2 and high_s.factor.ph > f.ph:
+                    if high_s.factor.ph and abs(hh_pka - high_s.factor.ph) <= 1.2 and high_s.factor.ph > f.ph:
                         # Loop through matching low ph stocks for all possible pairs
                         if (high_s.factor.concentration, high_s.factor.unit) in seen_concs.keys():
                             for low_s in seen_concs[(high_s.factor.concentration, high_s.factor.unit)]:
