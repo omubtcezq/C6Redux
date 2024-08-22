@@ -94,11 +94,11 @@ button {
 
 .delete-button,
 .cancel-button {
-  color: rgb(209, 0, 0);
+  color: rgb(206, 21, 21);
 }
 
 .save-button {
-  color: rgb(0, 209, 52);
+  color: rgb(45, 194, 20);
 }
 
 .viewed-row-highlight {

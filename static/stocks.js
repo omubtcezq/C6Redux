@@ -611,19 +611,6 @@ function delete_stock(id){
 
 // TABULATOR
 
-function formatter_edit(cell, formatterParams, onRendered){
-    return $('<button>').attr('class', 'edit-button').text('Edit').prop('outerHTML');
-}
-function formatter_cancel(cell, formatterParams, onRendered){
-    return $('<button>').attr('class', 'cancel-button').text('Cancel').prop('outerHTML');
-}
-function formatter_save(cell, formatterParams, onRendered){
-    return $('<button>').attr('class', 'save-button').text('Save').prop('outerHTML');
-}
-function formatter_delete(cell, formatterParams, onRendered){
-    return $('<button>').attr('class', 'delete-button').text('Delete').prop('outerHTML');
-}
-
 function formatter_buttons(cell, formatterParams, onRendered){
     if (cell.getRow().isSelected()){
         div = $('<table>').attr('class', 'button-table').append($('<tbody>').append(
@@ -705,6 +692,102 @@ function row_cancel(row){
 }
 
 
+var table = new Tabulator("#stock-tabulator", {
+    ajaxURL:API_URL+"/stocks/all",
+    height: "100%",
+    layout: "fitColumns",
+    //persistence: true,
+    rowHeight: 48,
+    selectableRows: false,
+    index: "id",
+    columns: [
+        {title: "Available", 
+         field: "available", 
+         hozAlign: "center", 
+         vertAlign: "middle",
+         widthGrow: 1,
+         editor: "tickCross", 
+         editable: is_selected,
+         formatter: "tickCross", 
+         headerFilter:"tickCross", 
+         headerFilterEmptyCheck: function(value){return !value;}},
+        {title: "Name", 
+         field: "name", 
+         vertAlign: "middle",
+         widthGrow: 5,
+         editor: "input",
+         editable: is_selected,
+         headerFilter: "input"},
+        {title: "Chemical", 
+         field: "factor.chemical.name", 
+         vertAlign: "middle",
+         widthGrow: 4,
+         headerFilter: "input"},
+        {title: "Concentration", 
+         field: "factor.concentration", 
+         hozAlign: "right", 
+         vertAlign: "middle",
+         widthGrow: 1,
+         headerFilter: "number"},
+        {title: "Unit", 
+         field: "factor.unit", 
+         vertAlign: "middle",
+         widthGrow: 1,
+         headerFilter: "input"},
+        {title: "pH", 
+         field: "factor.ph", 
+         hozAlign: "right", 
+         vertAlign: "middle",
+         widthGrow: 1,
+         headerFilter: "number"},
+        {title: "Polar", 
+         field: "polar", 
+         hozAlign: "center", 
+         vertAlign: "middle",
+         widthGrow: 1,
+         formatter: "tickCross",
+         headerFilter:"tickCross", 
+         headerFilterEmptyCheck: function(value){return !value;}},
+        {title: "Viscosity", 
+         field: "viscosity", 
+         hozAlign: "right", 
+         vertAlign: "middle",
+         widthGrow: 1,
+         headerFilter: "number"},
+        {title: "Volatility", 
+         field: "volatility", 
+         hozAlign: "right", 
+         vertAlign: "middle",
+         widthGrow: 1,
+         headerFilter: "number"},
+        {title: "Density", 
+         field: "density", 
+         hozAlign: "right", 
+         vertAlign: "middle",
+         widthGrow: 1,
+         headerFilter: "number"},
+        {title: "Creator", 
+         field: "creator", 
+         vertAlign: "middle",
+         widthGrow: 2,
+         visible: true, 
+         headerFilter: "input"},
+        {title: "Hazards", 
+         field: "hazards", 
+         vertAlign: "middle",
+         widthGrow: 2,
+         visible: true},
+        {title: "Comments", 
+         field: "comments", 
+         vertAlign: "middle",
+         widthGrow: 4,
+         headerFilter: "input"},
+        {title: "", field: "actions", width: 170, formatter: formatter_buttons, cellClick: cellclick_action, headerSort: false, hozAlign: "center", vertAlign: "middle", resizable: false, frozen: true}
+    ],
+    initialSort: [
+        {column: "available", dir: "desc"}
+    ]
+});
 
 
 function cellclick_edit(e, cell){
@@ -817,102 +900,6 @@ function cellclick_selected_tick(e, cell){
 //   ]
 // })
 
-var table = new Tabulator("#stock-tabulator", {
-    ajaxURL:API_URL+"/stocks/all",
-    height: "100%",
-    layout: "fitColumns",
-    //persistence: true,
-    rowHeight: 48,
-    selectableRows: false,
-    index: "id",
-    columns: [
-        {title: "Available", 
-         field: "available", 
-         hozAlign: "center", 
-         vertAlign: "middle",
-         widthGrow: 1,
-         editor: "tickCross", 
-         editable: is_selected,
-         formatter: "tickCross", 
-         headerFilter:"tickCross", 
-         headerFilterEmptyCheck: function(value){return !value;}},
-        {title: "Name", 
-         field: "name", 
-         vertAlign: "middle",
-         widthGrow: 5,
-         editor: "input",
-         editable: is_selected,
-         headerFilter: "input"},
-        {title: "Chemical", 
-         field: "factor.chemical.name", 
-         vertAlign: "middle",
-         widthGrow: 4,
-         headerFilter: "input"},
-        {title: "Concentration", 
-         field: "factor.concentration", 
-         hozAlign: "right", 
-         vertAlign: "middle",
-         widthGrow: 1,
-         headerFilter: "number"},
-        {title: "Unit", 
-         field: "factor.unit", 
-         vertAlign: "middle",
-         widthGrow: 1,
-         headerFilter: "input"},
-        {title: "pH", 
-         field: "factor.ph", 
-         hozAlign: "right", 
-         vertAlign: "middle",
-         widthGrow: 1,
-         headerFilter: "number"},
-        {title: "Polar", 
-         field: "polar", 
-         hozAlign: "center", 
-         vertAlign: "middle",
-         widthGrow: 1,
-         formatter: "tickCross",
-         headerFilter:"tickCross", 
-         headerFilterEmptyCheck: function(value){return !value;}},
-        {title: "Viscosity", 
-         field: "viscosity", 
-         hozAlign: "right", 
-         vertAlign: "middle",
-         widthGrow: 1,
-         headerFilter: "number"},
-        {title: "Volatility", 
-         field: "volatility", 
-         hozAlign: "right", 
-         vertAlign: "middle",
-         widthGrow: 1,
-         headerFilter: "number"},
-        {title: "Density", 
-         field: "density", 
-         hozAlign: "right", 
-         vertAlign: "middle",
-         widthGrow: 1,
-         headerFilter: "number"},
-        {title: "Creator", 
-         field: "creator", 
-         vertAlign: "middle",
-         widthGrow: 2,
-         visible: true, 
-         headerFilter: "input"},
-        {title: "Hazards", 
-         field: "hazards", 
-         vertAlign: "middle",
-         widthGrow: 2,
-         visible: true},
-        {title: "Comments", 
-         field: "comments", 
-         vertAlign: "middle",
-         widthGrow: 4,
-         headerFilter: "input"},
-        {title: "", field: "actions", width: 170, formatter: formatter_buttons, cellClick: cellclick_action, headerSort: false, hozAlign: "center", vertAlign: "middle", resizable: false, frozen: true}
-    ],
-    initialSort: [
-        {column: "available", dir: "desc"}
-    ]
-});
 
 });
 })();
