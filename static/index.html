@@ -3,16 +3,19 @@
 <head>
   <link rel="shortcut icon" href="#" />
   <link rel="stylesheet" href="site.css">
-  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.min.js"></script>
-  <script src="site.js"></script>
+  <link rel="stylesheet" href="libs/jquery-ui.css">
+  <link rel="stylesheet" href="libs/tabulator.min.css">
+  <script type="text/javascript" src="libs/jquery-3.7.1.min.js"></script>
+  <script type="text/javascript" src="libs/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="libs/tabulator.min.js"></script>
+  <script type="text/javascript" src="libs/luxon.min.js"></script>
+  <script type="text/javascript" src="site.js"></script>
 </head>
 <body>
 <div id="site-banner">
-  <div id="site-title"><p>C6 Redux</p></div>
-  <div id="site-banner-button-div">
-    <table class="button-table">
+  <div id="site-title" class="site-banner-component"><p>C6 Redux</p></div>
+  <div id="site-banner-button-div" class="site-banner-component">
+    <table id="site-banner-button-table" class="button-table">
       <tbody>
         <tr>
           <td><button id="site-banner-screens-buttons" class="table-cell-button">Screens</button></td>
@@ -22,13 +25,15 @@
       </tbody>
     </table>
   </div>
-  <div id="site-details">
+  <div id="site-details" class="site-banner-component">
     <p>Code base and contact details</br>can be found on <a href="https://github.com/omubtcezq/C6Redux">GitHub</a></p>
   </div>
 </div>
-<div id="site-content-screens"></div>
-<div id="site-content-stocks"></div>
-<div id="site-content-chemicals"></div>
+<div id="site-body">
+  <div id="site-content-screens"></div>
+  <div id="site-content-stocks"></div>
+  <div id="site-content-chemicals"></div>
+</div>
 <div id="login-popup" style="display: none;">
   <form id="login-form">
     <h2>Login</h2>

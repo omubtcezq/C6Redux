@@ -481,7 +481,7 @@ def choose_stocks_condition(possible_stocks):
         for stocks in stock_choice_lists:
             not_available_penalty += sum([0 if s["stock"].available else 1 for s in stocks])
         # Counter for stock "step-ups" in concentration. Since possible stocks 
-        # are sorted by concentration, each stock's index in the list off 
+        # are sorted by concentration, each stock's index in the list of 
         # possible stocks for its factor says how many step-ups in 
         # concentration it has. By summing the number of single, double, etc. 
         # step-ups we can sort to always prioritise using more less 

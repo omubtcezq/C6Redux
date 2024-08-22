@@ -609,5 +609,310 @@ function delete_stock(id){
     });
 }
 
+// TABULATOR
+
+function formatter_edit(cell, formatterParams, onRendered){
+    return $('<button>').attr('class', 'edit-button').text('Edit').prop('outerHTML');
+}
+function formatter_cancel(cell, formatterParams, onRendered){
+    return $('<button>').attr('class', 'cancel-button').text('Cancel').prop('outerHTML');
+}
+function formatter_save(cell, formatterParams, onRendered){
+    return $('<button>').attr('class', 'save-button').text('Save').prop('outerHTML');
+}
+function formatter_delete(cell, formatterParams, onRendered){
+    return $('<button>').attr('class', 'delete-button').text('Delete').prop('outerHTML');
+}
+
+function formatter_buttons(cell, formatterParams, onRendered){
+    if (cell.getRow().isSelected()){
+        div = $('<table>').attr('class', 'button-table').append($('<tbody>').append(
+            $('<tr>').append(
+                $('<td>').append(
+                    $('<button>').
+                    attr('class', 'save-button table-cell-button').
+                    text('Save')
+                )
+            ).append(
+                $('<td>').append(
+                    $('<button>').
+                    attr('class', 'cancel-button table-cell-button').
+                    text('Cancel')
+                )
+        )))
+    } else if (cell.getTable().getSelectedRows().length == 0) {
+        div = $('<table>').attr('class', 'button-table').append($('<tbody>').append(
+            $('<tr>').append(
+                $('<td>').append(
+                    $('<button>').
+                    attr('class', 'edit-button table-cell-button').
+                    text('Edit')
+                )
+            ).append(
+                $('<td>').append(
+                    $('<button>').
+                    attr('class', 'delete-button table-cell-button').
+                    text('Delete')
+                )
+        )))
+    } else {
+        div = $('<div>');
+    }
+    return div.prop('outerHTML');
+}
+
+function cellclick_action(e, cell){
+    target = $(e.target);
+    if (target.hasClass('edit-button')) {
+        row_edit(cell.getRow());
+    } else if (target.hasClass('delete-button')){
+        row_delete(cell.getRow());
+    } else if (target.hasClass('save-button')){
+        row_save(cell.getRow());
+    } else if (target.hasClass('cancel-button')){
+        row_cancel(cell.getRow());
+    }
+}
+
+function row_edit(row){
+    table = row.getTable();
+    table.deselectRow();
+    row.select();
+
+    all_rows = table.getRows();
+    $.each(all_rows, function(i, r){r.reformat()});
+
+    cells = row.getCells();
+    $.each(cells, function(i, c){c.setValue(c.getValue());});
+
+}
+
+function row_delete(row){
+
+}
+
+function row_save(row){
+
+}
+
+function row_cancel(row){
+    table.deselectRow();
+    cells = row.getCells();
+    $.each(cells, function(i, c){c.restoreOldValue();});
+
+    all_rows = table.getRows();
+    $.each(all_rows, function(i, r){r.reformat()});
+}
+
+
+
+
+function cellclick_edit(e, cell){
+    row = cell.getRow();
+    table = cell.getTable();
+    selected_rows = table.getSelectedRows();
+    if (selected_rows.length > 0) {
+        $.each(selected_rows, function(index, value){
+            value.deselect();
+            value.reformat();
+        });
+    }
+
+    // Fix below
+    row.select();
+    row.reformat();
+    cells = row.getCells();
+
+    for (i = 0; i < cells.length; i++) {
+        cells[i].setValue(cells[i].getValue());
+    }
+
+    table.hideColumn("edit_button");
+    table.hideColumn("delete_button");
+    table.showColumn("save_button");
+    table.showColumn("cancel_button");
+}
+
+function cellclick_cancel(e, cell){
+    if (!cell.getRow().isSelected()){
+        return
+    }
+    row = cell.getRow();
+    table = cell.getTable();
+    cells = row.getCells();
+
+    for (i = 0; i < cells.length; i++) {
+        cells[i].restoreOldValue();
+    }
+    stop_editing(cell);
+}
+
+function cellclick_save(e, cell){
+    if (!cell.getRow().isSelected()){
+        return
+    }
+    stop_editing(cell);
+}
+
+function cellclick_delete(e, cell){
+    if (!cell.getRow().isSelected()){
+        return
+    }
+    //Can use prompt to make them connfirm the name
+    if(window.confirm("Delete the user "+cell.getData().FirstName+" "+ cell.getData().LastName+"?"))
+    {
+        stop_editing(cell);
+        cell.getRow().delete();
+    }
+}
+
+function stop_editing(cell){
+  row = cell.getRow()
+  table = cell.getTable()
+  table.deselectRow()
+  table.showColumn("edit_button");
+  table.showColumn("delete_button");
+
+  table.hideColumn("save_button");
+  table.hideColumn("cancel_button");
+  row.reformat()
+}
+
+function is_selected(cell){
+  return cell.getRow().isSelected()
+}
+
+function cellclick_selected_tick(e, cell){
+  if (cell.getRow().isSelected()){
+    cell.setValue(!cell.getValue())
+  }
+}
+
+// var UsersTable = new Tabulator("#UsersTable",{
+//   index:"ID",
+//   ajaxURL:"/api/getUsersData",
+//   layout:"fitDataFill",
+//   layoutColumnsOnNewData:true,
+//   paginationSize:10,
+//   pagination:"local",
+//   selectable:false,
+//   initialSort:[
+//     {column:"FirstName", dir:"asc"},
+//     {column:"LastName", dir:"asc"},
+//     {column:"Active", dir:"desc"}
+//   ],
+//   columns:[
+//     {title:"Active", field:"Active", formatter:"tickCross", mutator: mutator_Active, cellClick:cellClick_FlipIfSelected, align:"center", resizable:false},
+//     {title:"ID", field:"ID"},
+//     {title:"Last", field:"LastName", editable:isRowSelected, editor:"input", resizable:false},
+//     {title:"First", field:"FirstName", editable:isRowSelected, editor:"input", resizable:false},
+//     {title:"Email", field:"Email", editable:isRowSelected, editor:"input", resizable:false},
+//     {title:"Phone Number", field:"PhoneNumber", editable:isRowSelected, editor:"input", resizable:false},
+//     {title:"Created", field:"CreatedAt", editable:isRowSelected, formatter:"datetime", resizable:false},
+//     {title:"Updated", field:"UpdatedAt", editable:isRowSelected, formatter:"datetime", resizable:false},
+//     {field:"EditButton",formatter:formatter_EditButton,cellClick:cellClick_EditButton, headerSort:false, align:"center", resizable:false},
+//     {field:"CancelButton", formatter:formatter_CancelButton,cellClick:cellClick_CancelButton, headerSort:false, align:"center", resizable:false,visible:false},
+//     {field:"SaveButton",formatter:formatter_SaveButton,cellClick:cellClick_SaveButton, headerSort:false, align:"center", resizable:false,visible:false},
+//     {field:"DeleteButton",formatter:formatter_DeleteButton,cellClick:cellClick_DeleteButton, headerSort:false, align:"center", resizable:false,visible:false},
+//   ]
+// })
+
+var table = new Tabulator("#stock-tabulator", {
+    ajaxURL:API_URL+"/stocks/all",
+    height: "100%",
+    layout: "fitColumns",
+    //persistence: true,
+    rowHeight: 48,
+    selectableRows: false,
+    index: "id",
+    columns: [
+        {title: "Available", 
+         field: "available", 
+         hozAlign: "center", 
+         vertAlign: "middle",
+         widthGrow: 1,
+         editor: "tickCross", 
+         editable: is_selected,
+         formatter: "tickCross", 
+         headerFilter:"tickCross", 
+         headerFilterEmptyCheck: function(value){return !value;}},
+        {title: "Name", 
+         field: "name", 
+         vertAlign: "middle",
+         widthGrow: 5,
+         editor: "input",
+         editable: is_selected,
+         headerFilter: "input"},
+        {title: "Chemical", 
+         field: "factor.chemical.name", 
+         vertAlign: "middle",
+         widthGrow: 4,
+         headerFilter: "input"},
+        {title: "Concentration", 
+         field: "factor.concentration", 
+         hozAlign: "right", 
+         vertAlign: "middle",
+         widthGrow: 1,
+         headerFilter: "number"},
+        {title: "Unit", 
+         field: "factor.unit", 
+         vertAlign: "middle",
+         widthGrow: 1,
+         headerFilter: "input"},
+        {title: "pH", 
+         field: "factor.ph", 
+         hozAlign: "right", 
+         vertAlign: "middle",
+         widthGrow: 1,
+         headerFilter: "number"},
+        {title: "Polar", 
+         field: "polar", 
+         hozAlign: "center", 
+         vertAlign: "middle",
+         widthGrow: 1,
+         formatter: "tickCross",
+         headerFilter:"tickCross", 
+         headerFilterEmptyCheck: function(value){return !value;}},
+        {title: "Viscosity", 
+         field: "viscosity", 
+         hozAlign: "right", 
+         vertAlign: "middle",
+         widthGrow: 1,
+         headerFilter: "number"},
+        {title: "Volatility", 
+         field: "volatility", 
+         hozAlign: "right", 
+         vertAlign: "middle",
+         widthGrow: 1,
+         headerFilter: "number"},
+        {title: "Density", 
+         field: "density", 
+         hozAlign: "right", 
+         vertAlign: "middle",
+         widthGrow: 1,
+         headerFilter: "number"},
+        {title: "Creator", 
+         field: "creator", 
+         vertAlign: "middle",
+         widthGrow: 2,
+         visible: true, 
+         headerFilter: "input"},
+        {title: "Hazards", 
+         field: "hazards", 
+         vertAlign: "middle",
+         widthGrow: 2,
+         visible: true},
+        {title: "Comments", 
+         field: "comments", 
+         vertAlign: "middle",
+         widthGrow: 4,
+         headerFilter: "input"},
+        {title: "", field: "actions", width: 170, formatter: formatter_buttons, cellClick: cellclick_action, headerSort: false, hozAlign: "center", vertAlign: "middle", resizable: false, frozen: true}
+    ],
+    initialSort: [
+        {column: "available", dir: "desc"}
+    ]
+});
+
 });
 })();

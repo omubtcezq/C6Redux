@@ -1,7 +1,75 @@
-body {
+/* Give body a size for fitting top level content easily */
+
+html, body {
   text-align: center;
   font-family: Arial, Helvetica, sans-serif;
+  height: 100%;
   margin: 0;
+}
+
+/* Banner */
+
+#site-banner {
+  background-color: rgb(111, 175, 177);
+  font-size: 0;
+  height: 75px;
+}
+
+.site-banner-component {
+  box-sizing: border-box;
+  height: 100%;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.site-banner-component > p {
+  margin: 0;
+  display: inline-block;
+  line-height: 1.5;
+  vertical-align: middle;
+}
+
+#site-title {
+  line-height: 75px;
+  width: 30%;
+  text-align: left;
+  font-size: 25px;
+  padding-left: 30px;
+}
+
+#site-banner-button-div {
+  font-size: 12px;
+  width: 40%;
+  text-align: center;
+}
+
+#site-details {
+  line-height: 75px;
+  width: 30%;
+  text-align: right;
+  font-size: 12px;
+  padding-right: 30px;
+}
+
+#site-banner-button-table {
+  height: 100%;
+  margin: auto;
+  max-width: 500px;
+}
+
+/* Body */
+
+#site-body {
+  height: calc(100% - 75px);
+}
+
+#site-content-screens,
+#site-content-stocks,
+#site-content-chemicals {
+  margin: 0 20px 20px 20px;
+  width: calc(100% - 40px);
+  height: calc(100% - 20px);
+  overflow: auto;
 }
 
 button {
@@ -10,62 +78,27 @@ button {
   font-size: 17px;
 }
 
-#site-banner {
-  background-color: rgb(111, 175, 177);
-  font-size: 0;
-}
-
-#site-title {
-  box-sizing: border-box;
-  width: 30%;
-  text-align: left;
-  font-size: 25px;
-  display: inline-block;
-  padding-left: 30px;
-  vertical-align: middle;
-}
-
-#site-banner-button-div {
-  box-sizing: border-box;
-  font-size: 12px;
-  width: 40%;
-  padding: 0 10%;
-  text-align: center;
-  display: inline-block;
-  vertical-align: middle;
-}
-
-#site-details {
-  box-sizing: border-box;
-  width: 30%;
-  text-align: right;
-  font-size: 12px;
-  display: inline-block;
-  padding-right: 30px;
-  vertical-align: middle;
-}
-
-#site-content-screens,
-#site-content-stocks,
-#site-content-chemicals {
-  margin: 0 30px 30px 30px;
-  width: calc(100% - 60px);
-}
-
 .button-table {
   table-layout: fixed;
   width: 100%;
 }
+
 .table-cell-button {
   width: calc(100% - 6px);
+  overflow: hidden;
 }
 
 .stacked-button {
   width: calc(100% - 6px);
 }
 
-.delete-button {
+.delete-button,
+.cancel-button {
   color: rgb(209, 0, 0);
+}
+
+.save-button {
+  color: rgb(0, 209, 52);
 }
 
 .viewed-row-highlight {

@@ -1,7 +1,3 @@
-#stock-view-buttons-table {
-    width: 100%;
-    padding: 0 40%;
-}
 
 #stock-table {
     width: 100%;
@@ -21,4 +17,23 @@
 
 #stock-contents-button-div {
     margin: 0 40%;
+}
+
+#stock-banner {
+    height: 40px;
+}
+
+#stock-view-buttons-table {
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    max-width: 200px;
+}
+
+#stock-tabulator-holder {
+    height: calc(100% - 40px);
+}
+
+#stock-tabulator {
+    box-sizing: border-box;
 }
