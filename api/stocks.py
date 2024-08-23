@@ -2,7 +2,7 @@
 
 """
 
-from sqlmodel import Session, select
+from sqlmodel import Session, select, or_
 from fastapi import APIRouter, Depends
 import api.db as db
 import api.authentication as auth
@@ -24,30 +24,19 @@ async def get_stocks(*, session: Session=Depends(db.get_readonly_session)):
     stocks = session.exec(statement).all()
     return stocks
 
-@router.get("/read", 
-            summary="Get contents of a single stock",
-            response_description="Contents of a single stock",
-            response_model=db.StockContentsRead)
-async def get_stocks(*, session: Session=Depends(db.get_readonly_session), stock_id: int):
-    """
-    Get contents of a single stock
-    """
-    stock = session.get(db.Stock, stock_id)
-    return stock
-
 @router.put("/update", 
             summary="Update a stock",
             response_description="The updated stock",
-            response_model=db.StockContentsRead)
+            response_model=db.StockRead)
 async def update_stock(*, authorised_user: db.ApiUserRead=Depends(auth.get_authorised_user), session: Session=Depends(db.get_write_session), updated_stock: db.StockUpdate):
     """
     Update a stock
     """
     # Find new stock factor
     factor_search_stmnt = select(db.Factor).where(db.Factor.chemical_id == updated_stock.factor.chemical_id, 
-                                                 db.Factor.concentration == updated_stock.factor.concentration,
-                                                 db.Factor.unit == updated_stock.factor.unit,
-                                                 db.Factor.ph == updated_stock.factor.ph)
+                                                  db.Factor.concentration == updated_stock.factor.concentration,
+                                                  db.Factor.unit == updated_stock.factor.unit,
+                                                  db.Factor.ph == updated_stock.factor.ph)
     factor = session.exec(factor_search_stmnt).first()
     # If cannot be found, create a new factor for stock
     if not factor:
@@ -59,20 +48,26 @@ async def update_stock(*, authorised_user: db.ApiUserRead=Depends(auth.get_autho
         session.commit()
         session.refresh(factor)
     
+    # Find stock hazards
+    hazard_search_stmnt = select(db.Hazard).where(or_(*[db.Hazard.id == h.id for h in updated_stock.hazards]))
+    print('\n\n', [db.Hazard.id == h.id for h in updated_stock.hazards], '\n\n')
+    hazards = session.exec(hazard_search_stmnt).all()
+    
     # Get the stock to update
     stock = session.get(db.Stock, updated_stock.id)
+    # Update relations
+    stock.factor_id = factor.id
+    stock.apiuser_id = updated_stock.apiuser_id
+    stock.hazards = hazards
     # Update remaining values
-    #stock.hazards = updated_stock.hazards # (not current editable)
     stock.name = updated_stock.name
     stock.polar = updated_stock.polar
     stock.viscosity = updated_stock.viscosity
     stock.volatility = updated_stock.volatility
     stock.density = updated_stock.density
     stock.available = updated_stock.available
-    stock.creator = updated_stock.creator
-    #stock.location = updated_stock.location # (not currently there)
     stock.comments = updated_stock.comments
-    # Update stock
+    # Add updated stock
     session.add(stock)
     session.commit()
     session.refresh(stock)
@@ -84,7 +79,7 @@ async def update_stock(*, authorised_user: db.ApiUserRead=Depends(auth.get_autho
 @router.post("/create", 
              summary="Create a new stock",
              response_description="The new stock",
-             response_model=db.StockContentsRead)
+             response_model=db.StockRead)
 async def create_stock(*, authorised_user: db.ApiUserRead=Depends(auth.get_authorised_user), session: Session=Depends(db.get_write_session), new_stock: db.StockCreate):
     """
     Create a new stock
@@ -105,18 +100,21 @@ async def create_stock(*, authorised_user: db.ApiUserRead=Depends(auth.get_autho
         session.commit()
         session.refresh(factor)
     
+    # Find stock hazards
+    hazard_search_stmnt = select(db.Hazard).where(*[db.Hazard.id == h.id for h in new_stock.hazards])
+    hazards = session.exec(hazard_search_stmnt).all()
+    
     # Create new stock object
     stock = db.Stock(factor_id = factor.id,
-                     hazards = new_stock.hazards,
+                     apiuser_id = new_stock.apiuser_id,
                      name = new_stock.name,
                      polar = new_stock.polar,
                      viscosity = new_stock.viscosity,
                      volatility = new_stock.volatility,
                      density = new_stock.density,
                      available = new_stock.available,
-                     creator = new_stock.creator,
-                     location = new_stock.location,
                      comments = new_stock.comments)
+    stock.hazards = hazards
     
     # Save stock
     session.add(stock)
@@ -142,3 +140,27 @@ async def delete_stock(*, authorised_user: db.ApiUserRead=Depends(auth.get_autho
     # Log and return
     print("Stock deletion performed by user: %s" % authorised_user.username)
     return
+
+@router.get("/users", 
+            summary="Get a list of users that can create stocks",
+            response_description="List of users that can create stocks",
+            response_model=list[db.ApiUserRead])
+async def get_users(*, session: Session=Depends(db.get_readonly_session)):
+    """
+    Get a list of users that can create stocks
+    """
+    statement = select(db.ApiUser).order_by(db.ApiUser.username)
+    users = session.exec(statement).all()
+    return users
+
+@router.get("/hazards", 
+            summary="Get a list of hazards that a stock can have",
+            response_description="List of hazards that a stock can have",
+            response_model=list[db.HazardRead])
+async def get_hazards(*, session: Session=Depends(db.get_readonly_session)):
+    """
+    Get a list of hazards that a stock can have
+    """
+    statement = select(db.Hazard).order_by(db.Hazard.name)
+    hazards = session.exec(statement).all()
+    return hazards

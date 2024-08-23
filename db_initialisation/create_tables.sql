@@ -1,5 +1,3 @@
-drop table if exists apiuser;
-drop table if exists wellconditionsimilarity;
 drop table if exists wellcondition_factor_link;
 drop table if exists well;
 drop table if exists wellcondition;
@@ -11,11 +9,21 @@ drop table if exists stock_hazard_link;
 drop table if exists hazard;
 drop table if exists stock;
 drop table if exists factor;
-drop table if exists chemical_substitute_link;
-drop table if exists substitute;
 drop table if exists alias;
 drop table if exists frequentstock;
 drop table if exists chemical;
+drop table if exists apiuser;
+
+create table apiuser (
+	id int not null auto_increment,
+	username varchar(512) not null,
+	password_hash varchar(512) not null,
+	admin tinyint not null,
+	
+	PRIMARY KEY(id),
+	INDEX(id),
+	INDEX(username)
+);
 
 create table chemical (
 	id int not null auto_increment,
@@ -64,30 +72,6 @@ create table alias (
 		ON DELETE CASCADE
 );
 
-create table substitute (
-	id int not null auto_increment,
-	name varchar(128),
-
-	PRIMARY KEY(id),
-	INDEX(id)
-);
-
-create table chemical_substitute_link (
-	chemical_id int not null,
-	substitute_id int not null,
-
-	PRIMARY KEY(chemical_id, substitute_id),
-	INDEX(chemical_id, substitute_id),
-	INDEX(chemical_id),
-	INDEX(substitute_id),
-	FOREIGN KEY(chemical_id)
-		REFERENCES chemical(id)
-		ON DELETE CASCADE,
-	FOREIGN KEY(substitute_id)
-		REFERENCES substitute(id)
-		ON DELETE CASCADE
-);
-
 create table factor (
 	id int not null auto_increment,
 	chemical_id int not null,
@@ -106,23 +90,27 @@ create table factor (
 create table stock (
 	id int not null auto_increment,
 	factor_id int not null,
+	apiuser_id int not null,
 	name varchar(64),
 	polar tinyint,
 	viscosity int,
 	volatility int,
 	density double,
 	available tinyint,
-	creator varchar(64),
 	location varchar(64),
 	comments varchar(1024),
 
 	PRIMARY KEY(id),
 	INDEX(id),
 	INDEX(factor_id),
+	INDEX(apiuser_id),
 	FOREIGN KEY(factor_id)
 		REFERENCES factor(id)
 		ON DELETE CASCADE
-		ON UPDATE RESTRICT
+		ON UPDATE RESTRICT,
+	foreign key(apiuser_id)
+		references apiuser(id)
+		on delete restrict
 );
 
 create table hazard (
@@ -256,36 +244,6 @@ create table wellcondition_factor_link (
 		ON DELETE RESTRICT
 		ON UPDATE RESTRICT
 );
-
-create table wellconditionsimilarity (
-	id int not null auto_increment,
-	wellcondition_id1 int not null,
-	wellcondition_id2 int not null,
-	similarity double,
-
-	PRIMARY KEY(id),
-	INDEX(id),
-	INDEX(wellcondition_id1),
-	INDEX(wellcondition_id2),
-	FOREIGN KEY(wellcondition_id1)
-		REFERENCES wellcondition(id)
-		ON DELETE CASCADE,
-	FOREIGN KEY(wellcondition_id2)
-		REFERENCES wellcondition(id)
-		ON DELETE CASCADE
-);
-
-create table apiuser (
-	id int not null auto_increment,
-	username varchar(512) not null,
-	password_hash varchar(512) not null,
-	write_permission tinyint not null,
-	
-	PRIMARY KEY(id),
-	INDEX(id),
-	INDEX(username)
-);
-
 
 
 

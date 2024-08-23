@@ -46,9 +46,9 @@ def verify_password(plain_password, hashed_password):
     password_byte_enc = plain_password.encode("utf-8")
     return bcrypt.checkpw(password = password_byte_enc , hashed_password = hashed_password)
 
-# Check that login credentials produce an api user with write permissions
+# Check that login credentials produce an api user with admin permissions
 def authenticate_api_user(session: db.Session, username: str, password: str):
-    stmnt = select(db.ApiUser).where(db.ApiUser.username == username, db.ApiUser.write_permission == 1)
+    stmnt = select(db.ApiUser).where(db.ApiUser.username == username, db.ApiUser.admin == 1)
     user = session.exec(stmnt).first()
     if not user:
         return None
@@ -57,7 +57,7 @@ def authenticate_api_user(session: db.Session, username: str, password: str):
     else:
         return user
 
-# Used for write operations, user is gotten from valid token
+# Used for admin operations, user is gotten from valid token
 async def get_authorised_user(jwt_token: str=Depends(oauth2_scheme), session: db.Session=Depends(db.get_readonly_session)):
     credentials_exception = HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                                           detail="Could not validate token",
@@ -73,7 +73,7 @@ async def get_authorised_user(jwt_token: str=Depends(oauth2_scheme), session: db
     # Check db for user and permission
     stmnt = select(db.ApiUser).where(db.ApiUser.username == username)
     user = session.exec(stmnt).first()
-    if user is None or not user.write_permission:
+    if user is None or not user.admin:
         raise credentials_exception
     # return user
     return user

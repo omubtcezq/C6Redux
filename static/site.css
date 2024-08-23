@@ -97,7 +97,8 @@ button {
   color: rgb(206, 21, 21);
 }
 
-.save-button {
+.save-button,
+.add-button {
   color: rgb(45, 194, 20);
 }
 
@@ -109,19 +110,36 @@ button {
 #confirmation-popup,
 #information-popup {
   position: fixed;
-  width: 20%;
-  left: 40%;
+  width: 250px;
+  left: calc(50% - 125px);
   top: 25%;
   z-index: 10;
-  background-color: rgb(184, 151, 214);
+  background-color: rgb(197 170 221);
   text-align: center;
-  border: 2px solid black;
+  border: 1px solid #999
+}
+
+#login-popup,
+#confirmation-popup {
+  width: 350px;
+  left: calc(50% - 175px);
+}
+
+#information-popup {
+  width: 250px;
+  left: calc(50% - 125px);
 }
 
 #login-button-table,
-#confirmation-button-table,
+#confirmation-button-table {
+  width: 100%;
+  max-width: 300px;
+  margin: auto;
+}
+
 #information-button-table {
-  width: 60%;
+  width: 100%;
+  max-width: 150px;
   margin: auto;
 }
 
@@ -133,5 +151,5 @@ button {
 #login-error-message,
 #confirmation-message,
 #information-message {
-  color: rgb(95, 49, 49);
+  color: rgb(0, 0, 0);
 }

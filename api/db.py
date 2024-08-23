@@ -43,11 +43,20 @@ def get_write_session():
 
 # Mapping DB tables to Python classes and input and output objects
 
-# ========================= Chemical Substitute Link ========================= #
+# ============================== ApiUser =============================== #
 
-class Chemical_Substitute_Link(SQLModel, table=True):
-    chemical_id: int = Field(foreign_key="chemical.id", primary_key=True)
-    substitute_id: int = Field(foreign_key="substitute.id", primary_key=True)
+class ApiUserBase(SQLModel):
+    username: str
+
+class ApiUser(ApiUserBase, table=True):
+    id: int | None = Field(default=None, primary_key=True)
+    password_hash: str
+    admin: int
+    stocks: list["Stock"] = Relationship(back_populates="apiuser")
+
+# Read when authorised user requested from token
+class ApiUserRead(ApiUserBase):
+    id: int
 
 # ================================= Chemical ================================= #
 
@@ -73,7 +82,6 @@ class Chemical(ChemicalBaseLarge, table=True):
     id: int = Field(default=None, primary_key=True)
     frequentstock: Union["FrequentStock", None] = Relationship(back_populates="chemical")
     aliases: list["Alias"] = Relationship(back_populates="chemical")
-    substitutes: list["Substitute"] = Relationship(back_populates="chemicals", link_model=Chemical_Substitute_Link)
     factors: list["Factor"] = Relationship(back_populates="chemical")
     phcurves: list["PhCurve"] = Relationship(back_populates="chemical", sa_relationship_kwargs={"foreign_keys": "[PhCurve.chemical_id]"})
     low_chemical_phcurves: list["PhCurve"] = Relationship(back_populates="low_chemical", sa_relationship_kwargs={"foreign_keys": "[PhCurve.low_chemical_id]"})
@@ -86,6 +94,7 @@ class ChemicalReadLite(ChemicalBase):
 # Read when chemical names read
 class ChemicalReadLiteAlias(ChemicalReadLite):
     aliases: list["AliasRead"]
+    unit: str | None
 
 # Read when chemical list is read or when chemical selected in query and units needed
 class ChemicalRead(ChemicalBaseLarge):
@@ -96,7 +105,6 @@ class ChemicalContentsRead(ChemicalBaseLarge):
     id: int
     frequentstock: "FreqentStockRead | None" = None
     aliases: list["AliasRead"]
-    substitutes: list["SubstituteRead"]
 
 # ============================== FrequentStock =============================== #
 
@@ -123,21 +131,8 @@ class Alias(AliasBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
     chemical: Chemical = Relationship(back_populates="aliases")
 
-# Read when chemical is read
+# Read when stock or chemical is read
 class AliasRead(AliasBase):
-    id: int
-
-# ================================ Substitute ================================ #
-
-class SubstituteBase(SQLModel):
-    name: str
-
-class Substitute(SubstituteBase, table=True):
-    id: int | None = Field(default=None, primary_key=True)
-    chemicals: list[Chemical] = Relationship(back_populates="substitutes", link_model=Chemical_Substitute_Link)
-
-# Read when substitute is read
-class SubstituteRead(SubstituteBase):
     id: int
 
 # ======================== WellCondition Factor Link ========================= #
@@ -160,12 +155,17 @@ class Factor(FactorBase, table=True):
     stocks: list["Stock"] = Relationship(back_populates="factor")
     wellconditions: list["WellCondition"] = Relationship(back_populates="factors", link_model=WellCondition_Factor_Link)
 
-# Read when screen or stock is read, and when recipe generated
+# Read when screen is read, and when recipe generated
 class FactorRead(FactorBase):
     id: int
     chemical: ChemicalReadLite
 
-# Use when creating stock
+# Read when stock is read
+class FactorReadAlias(FactorBase):
+    id: int
+    chemical: ChemicalReadLiteAlias
+
+# Use when updating or creating stock
 class FactorCreate(FactorBase):
     pass
 
@@ -178,41 +178,44 @@ class Stock_Hazard_Link(SQLModel, table=True):
 # ================================== Stock =================================== #
 
 class StockBase(SQLModel):
+    factor_id: int = Field(foreign_key="factor.id")
+    apiuser_id: int = Field(foreign_key="apiuser.id")
     name: str
     polar: int | None = Field(default=None)
     viscosity: int | None = Field(default=None)
     volatility: int | None = Field(default=None)
     density: float | None = Field(default=None)
     available: int
-    creator: str
-    location: str | None = Field(default=None)
     comments: str | None = Field(default=None)
 
-class StockReadBase(StockBase):
-    factor_id: int = Field(foreign_key="factor.id")
-
-class Stock(StockReadBase, table=True):
+class Stock(StockBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
     factor: Factor = Relationship(back_populates="stocks")
+    apiuser: ApiUser = Relationship(back_populates="stocks")
     hazards: list["Hazard"] = Relationship(back_populates="stocks", link_model=Stock_Hazard_Link)
 
-# Read when stocks read or recipe generated
-class StockRead(StockReadBase):
+# Read when recipe generated
+class StockReadRecipe(StockBase):
     id: int
     factor: FactorRead
 
-# Read when one stock read
-class StockContentsRead(StockRead):
+# Read when stocks read
+class StockRead(StockBase):
+    id: int
+    factor: FactorReadAlias
+    apiuser: ApiUserRead
     hazards: list["HazardRead"]
 
 # Use when updating stock
 class StockUpdate(StockBase):
     id: int
+    factor_id: None
     factor: FactorCreate
     hazards: list["HazardRead"]
 
 # Use when creating a stock
 class StockCreate(StockBase):
+    factor_id: None
     factor: FactorCreate
     hazards: list["HazardRead"]
 
@@ -340,27 +343,3 @@ class WellReadLite(WellBase):
 class WellRead(WellBase):
     id: int
     wellcondition: WellConditionRead
-
-# ========================= WellConditionSimilarity ========================== #
-
-class WellConditionSimilarity(SQLModel, table=True):
-    id: int | None = Field(default=None, primary_key=True)
-    wellcondition_id1: int = Field(foreign_key="wellcondition.id")
-    wellcondition_id2: int = Field(foreign_key="wellcondition.id")
-    similarity: float
-    wellcondition1: WellCondition = Relationship(sa_relationship_kwargs={"foreign_keys": "[WellConditionSimilarity.wellcondition_id1]"})
-    wellcondition2: WellCondition = Relationship(sa_relationship_kwargs={"foreign_keys": "[WellConditionSimilarity.wellcondition_id2]"})
-
-# ============================== ApiUser =============================== #
-
-class ApiUserBase(SQLModel):
-    username: str
-    write_permission: int
-
-class ApiUser(ApiUserBase, table=True):
-    id: int | None = Field(default=None, primary_key=True)
-    password_hash: str
-
-# Read when authorised user requested from token
-class ApiUserRead(ApiUserBase):
-    id: int

@@ -233,7 +233,7 @@ def parseChemicalPred(chem: ChemicalPred):
 # ============================================================================ #
 
 class StockVolume(BaseModel):
-    stock: db.StockRead
+    stock: db.StockReadRecipe
     volume: float
 
 class Recipe(BaseModel):

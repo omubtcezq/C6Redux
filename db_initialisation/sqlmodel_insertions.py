@@ -45,6 +45,18 @@ def type_or_none(val, type):
 engine = create_engine(db.connection_string(True), echo=False, pool_recycle=3600*2, pool_pre_ping=True)
 
 #==============================================================================#
+# API USERS
+#==============================================================================#
+
+def add_api_users():
+    # Get session
+    with Session(engine) as session:
+        # Janet's preferred login
+        user = db.ApiUser(username='janetn', password_hash=b'$2b$12$RFd3/PavfPns4OjvTvbuZeescfHgvcYBCouKpUCTgrb7oQ68mCV96', write_permission=1)
+        session.add(user)
+        session.commit()
+
+#==============================================================================#
 # CHEMICALS
 #==============================================================================#
 
@@ -124,18 +136,21 @@ def insert_stocks():
         wb = px.load_workbook(STOCKS_FPATH)
         l2n = lambda x: px.utils.cell.column_index_from_string(x)-1
 
+        # Get main user id to use as creator
+        creator_id = session.exec(select(db.ApiUser).where(db.ApiUser.username == 'janetn')).first()
+
         # Loop stocks
         for row in wb['STOCKS_300'].iter_rows(min_row=2, max_row=498):
             s_name = type_or_none(row[l2n('B')].value, str)
             f_concentration = type_or_none(row[l2n('G')].value, float)
             f_unit = type_or_none(row[l2n('H')].value, str)
             f_ph = type_or_none(row[l2n('I')].value, float)
+            s_apiuser = type_or_none(creator_id, int)
             s_polar = type_or_none(1 if row[l2n('D')]=='Y' else 0, int)
             s_viscosity = type_or_none(row[l2n('J')].value, int)
             s_volatility = type_or_none(row[l2n('K')].value, int)
             s_density = type_or_none(row[l2n('U')].value, float)
             s_available = type_or_none(0 if row[l2n('M')].value==0 else 1, int)
-            s_creator = type_or_none('c3', str)
             s_location = type_or_none(row[l2n('R')].value, str)
             s_comments = type_or_none(row[l2n('N')].value, str)
             s_hazard1 = type_or_none(row[l2n('S')].value, str)
@@ -188,13 +203,13 @@ def insert_stocks():
             
             # Add stock
             stock = db.Stock(factor_id=factor.id,
+                             apiuser_id=s_apiuser,
                              name=s_name,
                              polar=s_polar,
                              viscosity=s_viscosity,
                              volatility=s_volatility,
                              density=s_density,
                              available=s_available,
-                             creator=s_creator,
                              location=s_location,
                              comments=s_comments)
             session.add(stock)
@@ -528,18 +543,6 @@ def add_ph_curves():
                 
                 # Commit left over adds
                 session.commit()
-
-#==============================================================================#
-# API USERS
-#==============================================================================#
-
-def add_api_users():
-    # Get session
-    with Session(engine) as session:
-        # Janet's preferred login
-        user = db.ApiUser(username='janetn', password_hash=b'$2b$12$RFd3/PavfPns4OjvTvbuZeescfHgvcYBCouKpUCTgrb7oQ68mCV96', write_permission=1)
-        session.add(user)
-        session.commit()
 
 #==============================================================================#
 # Main
