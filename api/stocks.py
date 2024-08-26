@@ -49,9 +49,11 @@ async def update_stock(*, authorised_user: db.ApiUserRead=Depends(auth.get_autho
         session.refresh(factor)
     
     # Find stock hazards
-    hazard_search_stmnt = select(db.Hazard).where(or_(*[db.Hazard.id == h.id for h in updated_stock.hazards]))
-    print('\n\n', [db.Hazard.id == h.id for h in updated_stock.hazards], '\n\n')
-    hazards = session.exec(hazard_search_stmnt).all()
+    if len(updated_stock.hazards) > 0:
+        hazard_search_stmnt = select(db.Hazard).where(or_(*[db.Hazard.id == h.id for h in updated_stock.hazards]))
+        hazards = session.exec(hazard_search_stmnt).all()
+    else:
+        hazards = []
     
     # Get the stock to update
     stock = session.get(db.Stock, updated_stock.id)
@@ -101,8 +103,11 @@ async def create_stock(*, authorised_user: db.ApiUserRead=Depends(auth.get_autho
         session.refresh(factor)
     
     # Find stock hazards
-    hazard_search_stmnt = select(db.Hazard).where(*[db.Hazard.id == h.id for h in new_stock.hazards])
-    hazards = session.exec(hazard_search_stmnt).all()
+    if len(new_stock.hazards) > 0:
+        hazard_search_stmnt = select(db.Hazard).where(or_(*[db.Hazard.id == h.id for h in new_stock.hazards]))
+        hazards = session.exec(hazard_search_stmnt).all()
+    else:
+        hazards = []
     
     # Create new stock object
     stock = db.Stock(factor_id = factor.id,

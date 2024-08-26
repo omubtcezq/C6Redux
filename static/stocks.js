@@ -63,6 +63,10 @@ function row_save(row){
                     table.updateRow(row.getPosition(), returned_stock);
                     // Id needs to be manually updated
                     row.getData().id = returned_stock.id
+                    // Update row count
+                    update_stock_count_loaded(table.getData());
+                    // Refresh filters
+                    table.refreshFilter();
                     // Finish editing row
                     stop_editing(table);
                 },
@@ -90,6 +94,8 @@ function row_save(row){
                 // On success replace with contents of returned stock (shouldn't be different)
                 success: function(returned_stock) {
                     table.updateRow(stock.id, returned_stock);
+                    // Refresh filters
+                    table.refreshFilter();
                     // Finish editing row
                     stop_editing(table);
                 },
@@ -138,6 +144,10 @@ function row_delete(row){
                 // On success remove stock
                 success: function() {
                     table.deleteRow(row);
+                    // Update row count
+                    update_stock_count_loaded(table.getData());
+                    // Refresh filters
+                    table.refreshFilter();
                 },
                 // On authentication error, request login
                 error: function(xhr, status, error){
@@ -184,10 +194,31 @@ var column_visibility_toggle_menu = function(column){
                 columns[i].show();
             }
         }
+    }, {
+        label: "Clear All Filters",
+        action: function(e, column){
+            // Clear table filters
+            let table = column.getTable();
+            table.clearFilter(true)
+        }
     }];
 
    return menu;
 };
+
+// Function for custom footer to show number of stocks when data loaded
+function update_stock_count_loaded(data){
+    $('#stock-row-count').text(data.length + ' Stocks');
+}
+
+// Function for custom footer to show number of stocks when filter run
+function update_stock_count_filtered(filters, rows){
+    if (filters.length > 0){
+        $('#filtered-stock-row-count').text(' (' + rows.length + ' Filtered)');
+    } else {
+        $('#filtered-stock-row-count').text('');
+    }
+}
 
 // Tabulator table
 var table = new Tabulator("#stock-tabulator", {
@@ -198,6 +229,7 @@ var table = new Tabulator("#stock-tabulator", {
     persistence: true,
     rowHeight: 48,
     editorEmptyValue: null,
+    placeholderHeaderFilter: "No Matching Stocks",
     selectableRows: false,
     index: "id",
     columns: [
@@ -691,8 +723,12 @@ var table = new Tabulator("#stock-tabulator", {
     ],
     initialSort: [
         {column: "available", dir: "desc"}
-    ]
+    ],
+    footerElement: $('<div>').append($('<span>').attr('id', 'stock-row-count')).append($('<span>').attr('id', 'filtered-stock-row-count')).prop('outerHTML')
 });
+
+table.on("dataFiltered", update_stock_count_filtered);
+table.on("dataLoaded", update_stock_count_loaded);
 
 // Adding a new stock button. Adds a new row to the table with nulls and begins its editing
 $('#add-stock-button').click(function(){
