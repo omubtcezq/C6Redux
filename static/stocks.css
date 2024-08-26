@@ -1,24 +1,4 @@
 
-#stock-table {
-    width: 100%;
-}
-
-#stock-table, 
-#stock-table > thead > tr > th, 
-#stock-table > tbody > tr > td {
-  border: 1px solid black;
-  margin: auto;
-  text-align: center;
-}
-
-#stock-contents-div {
-    margin: 0 30%;
-}
-
-#stock-contents-button-div {
-    margin: 0 40%;
-}
-
 #stock-banner {
     height: 40px;
 }
@@ -36,4 +16,8 @@
 
 #stock-tabulator {
     box-sizing: border-box;
+}
+
+.tabulator-menu {
+    text-align: left;
 }

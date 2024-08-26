@@ -166,11 +166,35 @@ function cellclick_flip_tick(e, cell){
     }
 }
 
+// Header menu that allows the toggling of column visibilities
+var column_visibility_toggle_menu = function(column){
+    var menu = [];
+    var columns = this.getColumns();
+    menu = [{
+        label: "Hide Column",
+        action: function(e, column){
+            // Hide column that menu was accessed from
+            column.hide();
+        }
+    }, {
+        label: "Show All Columns",
+        action: function(e, column){
+            // Show all columns
+            for(i in columns){
+                columns[i].show();
+            }
+        }
+    }];
+
+   return menu;
+};
+
 // Tabulator table
 var table = new Tabulator("#stock-tabulator", {
     ajaxURL: API_URL+"/stocks/all",
     height: "100%",
-    layout: "fitColumns",
+    layout: "fitData",
+    movableColumns: true,
     persistence: true,
     rowHeight: 48,
     editorEmptyValue: null,
@@ -184,8 +208,10 @@ var table = new Tabulator("#stock-tabulator", {
             hozAlign: "center", 
             vertAlign: "middle",
             widthGrow: 1,
+            minWidth: 20,
             // Rather than allowing editing, use the better UI for checkbox editing instead
             cellClick: cellclick_flip_tick,
+            headerMenu: column_visibility_toggle_menu,
             headerFilter:"tickCross", 
             // Header filter only makes sense if it only looks for checkbox (otherwise can't be disabled)
             headerFilterEmptyCheck: function(value){return !value;},
@@ -199,6 +225,8 @@ var table = new Tabulator("#stock-tabulator", {
             field: "name", 
             vertAlign: "middle",
             widthGrow: 5,
+            minWidth: 350,
+            headerMenu: column_visibility_toggle_menu,
             editable: is_selected,
             validator: function(cell, value){
                 if (value == null || value == ""){
@@ -217,6 +245,8 @@ var table = new Tabulator("#stock-tabulator", {
             field: "factor.chemical", 
             vertAlign: "middle",
             widthGrow: 4,
+            minWidth: 290,
+            headerMenu: column_visibility_toggle_menu,
             editable: is_selected,
             validator: function(cell, value){
                 // Check that the chemical object is there and that it has an id for a valid chemical
@@ -323,6 +353,8 @@ var table = new Tabulator("#stock-tabulator", {
             hozAlign: "right", 
             vertAlign: "middle",
             widthGrow: 1,
+            minWidth: 105,
+            headerMenu: column_visibility_toggle_menu,
             editable: is_selected,
             validator: function(cell, value){
                 if (value == null || typeof value !== "number" || value <= 0){
@@ -341,6 +373,8 @@ var table = new Tabulator("#stock-tabulator", {
             field: "factor.unit", 
             vertAlign: "middle",
             widthGrow: 1,
+            minWidth: 85,
+            headerMenu: column_visibility_toggle_menu,
             editable: is_selected,
             validator: function(cell, value){
                 if (value == null || value == ""){
@@ -362,6 +396,8 @@ var table = new Tabulator("#stock-tabulator", {
             hozAlign: "right", 
             vertAlign: "middle",
             widthGrow: 1,
+            minWidth: 75,
+            headerMenu: column_visibility_toggle_menu,
             editable: is_selected,
             validator: function(cell, value){
                 if (value == null){
@@ -383,8 +419,10 @@ var table = new Tabulator("#stock-tabulator", {
             hozAlign: "center", 
             vertAlign: "middle",
             widthGrow: 1,
+            minWidth: 90,
             // Rather than allowing editing, use the better UI for checkbox editing instead
             cellClick: cellclick_flip_tick,
+            headerMenu: column_visibility_toggle_menu,
             headerFilter:"tickCross", 
             // Header filter only makes sense if it only looks for checkbox (otherwise can't be disabled)
             headerFilterEmptyCheck: function(value){return !value;},
@@ -399,6 +437,7 @@ var table = new Tabulator("#stock-tabulator", {
             hozAlign: "right", 
             vertAlign: "middle",
             widthGrow: 1,
+            headerMenu: column_visibility_toggle_menu,
             editable: is_selected,
             validator: function(cell, value){
                 if (value == null){
@@ -420,6 +459,8 @@ var table = new Tabulator("#stock-tabulator", {
             hozAlign: "right", 
             vertAlign: "middle",
             widthGrow: 1,
+            minWidth: 105,
+            headerMenu: column_visibility_toggle_menu,
             editable: is_selected,
             validator: function(cell, value){
                 if (value == null){
@@ -441,6 +482,8 @@ var table = new Tabulator("#stock-tabulator", {
             hozAlign: "right", 
             vertAlign: "middle",
             widthGrow: 1,
+            minWidth: 105,
+            headerMenu: column_visibility_toggle_menu,
             editable: is_selected,
             validator: function(cell, value){
                 if (value == null){
@@ -461,6 +504,8 @@ var table = new Tabulator("#stock-tabulator", {
             field: "apiuser", 
             vertAlign: "middle",
             widthGrow: 2,
+            minWidth: 110,
+            headerMenu: column_visibility_toggle_menu,
             editable: is_selected,
             validator: function(cell, value){
                 // Check that the chemical object is there and that it has an id for a valid chemical
@@ -521,6 +566,8 @@ var table = new Tabulator("#stock-tabulator", {
             field: "hazards", 
             vertAlign: "middle",
             widthGrow: 2,
+            minWidth: 110,
+            headerMenu: column_visibility_toggle_menu,
             editable: is_selected,
             editor:"list", 
             editorParams:{
@@ -574,6 +621,9 @@ var table = new Tabulator("#stock-tabulator", {
             field: "comments", 
             vertAlign: "middle",
             widthGrow: 4,
+            minWidth: 20,
+            minWidth: 350,
+            headerMenu: column_visibility_toggle_menu,
             editable: is_selected,
             editor: "input",
             headerFilter: "input"
@@ -674,6 +724,11 @@ $('#add-stock-button').click(function(){
         hazards: [],
         comments: null
     }, true).then(function(row){
+        let columns = table.getColumns()
+        for(i in columns){
+            columns[i].show();
+        }
+        table.scrollToRow(row, "top", true);
         row_edit(row);
     });
 });
