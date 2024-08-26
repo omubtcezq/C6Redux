@@ -1,3 +1,4 @@
+//# sourceURL=stocks.js
 (function() {
 // Load once document is ready
 $(document).ready(function() {
@@ -218,7 +219,8 @@ var table = new Tabulator("#stock-tabulator", {
             widthGrow: 4,
             editable: is_selected,
             validator: function(cell, value){
-                if (value == null || value == ""){
+                // Check that the chemical object is there and that it has an id for a valid chemical
+                if (value == null || value == "" || value.id == null || value.id == ""){
                     alert_user("You must select a chemical.");
                     return false;
                 } else {
@@ -461,7 +463,8 @@ var table = new Tabulator("#stock-tabulator", {
             widthGrow: 2,
             editable: is_selected,
             validator: function(cell, value){
-                if (value == null || value == ""){
+                // Check that the chemical object is there and that it has an id for a valid chemical
+                if (value == null || value == "" || value.id == null || value.id == ""){
                     alert_user("You must specify a creator.");
                     return false;
                 } else {
