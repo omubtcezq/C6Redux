@@ -177,16 +177,55 @@ function cellclick_flip_tick(e, cell){
 }
 
 // Header menu that allows the toggling of column visibilities
-var column_visibility_toggle_menu = function(column){
-    var menu = [];
-    var columns = this.getColumns();
-    menu = [{
+var column_menu = function(e, column){
+    let columns_with_null_filter = ["factor.ph", "viscosity", "volatility", "density"]
+    let menu = [];
+    let columns = this.getColumns();
+    let apply_null_filter_option = true;
+    let filters = this.getFilters();
+    // If a non-header filter (must be null filter) is found for the column, option should be to remove it
+    for (i in filters){
+        if (filters[i].field == column.getField()){
+            apply_null_filter_option = false;
+        }
+    }
+
+    // Hide column menu
+    menu.push({
         label: "Hide Column",
         action: function(e, column){
             // Hide column that menu was accessed from
             column.hide();
         }
-    }, {
+    });
+
+    // If menu is for a column that allows the null filter, display it here in the menu
+    if ($.inArray(column.getField(), columns_with_null_filter) != -1){
+        menu.push({
+            label: apply_null_filter_option ? '"null" Filter' : 'Remove "null" Filter',
+            action: function(e, column){
+                let table = column.getTable();
+                // No current null filter means clear the header filter and set a null filter
+                if (apply_null_filter_option){
+                    table.setHeaderFilterValue(column.getField(), "");
+                    table.addFilter(column.getField(), "in", [null, ""]);
+                }
+                // Otherwise search and remove the null filter
+                for (i in filters){
+                    if (filters[i].field == column.getField()){
+                        table.removeFilter(filters[i].field, filters[i].type, filters[i].value);
+                        return;
+                    }
+                }
+            }
+        });
+    }
+
+    // Rest of menu
+    menu.push({
+        separator: true,
+    });
+    menu.push({
         label: "Show All Columns",
         action: function(e, column){
             // Show all columns
@@ -194,14 +233,15 @@ var column_visibility_toggle_menu = function(column){
                 columns[i].show();
             }
         }
-    }, {
+    });
+    menu.push({
         label: "Clear All Filters",
         action: function(e, column){
             // Clear table filters
             let table = column.getTable();
-            table.clearFilter(true)
+            table.clearFilter(true);
         }
-    }];
+    });
 
    return menu;
 };
@@ -214,7 +254,7 @@ function update_stock_count_loaded(data){
 // Function for custom footer to show number of stocks when filter run
 function update_stock_count_filtered(filters, rows){
     if (filters.length > 0){
-        $('#filtered-stock-row-count').text(' (' + rows.length + ' Filtered)');
+        $('#filtered-stock-row-count').text(' (' + rows.length + ' Shown)');
     } else {
         $('#filtered-stock-row-count').text('');
     }
@@ -226,12 +266,20 @@ var table = new Tabulator("#stock-tabulator", {
     height: "100%",
     layout: "fitData",
     movableColumns: true,
-    persistence: true,
     rowHeight: 48,
     editorEmptyValue: null,
     placeholderHeaderFilter: "No Matching Stocks",
+    initialFilter:[],
     selectableRows: false,
     index: "id",
+    persistence: {
+        sort: false,
+        filter: false,
+        headerFilter: false,
+        group: true,
+        page: false,
+        columns: true,
+    },
     columns: [
         // Available
         {
@@ -243,7 +291,7 @@ var table = new Tabulator("#stock-tabulator", {
             minWidth: 20,
             // Rather than allowing editing, use the better UI for checkbox editing instead
             cellClick: cellclick_flip_tick,
-            headerMenu: column_visibility_toggle_menu,
+            headerMenu: column_menu,
             headerFilter:"tickCross", 
             // Header filter only makes sense if it only looks for checkbox (otherwise can't be disabled)
             headerFilterEmptyCheck: function(value){return !value;},
@@ -258,7 +306,7 @@ var table = new Tabulator("#stock-tabulator", {
             vertAlign: "middle",
             widthGrow: 5,
             minWidth: 350,
-            headerMenu: column_visibility_toggle_menu,
+            headerMenu: column_menu,
             editable: is_selected,
             validator: function(cell, value){
                 if (value == null || value == ""){
@@ -269,7 +317,8 @@ var table = new Tabulator("#stock-tabulator", {
                 }
             },
             editor: "input",
-            headerFilter: "input"
+            headerFilter: "input",
+            headerFilterPlaceholder: "Filter"
 
         // Chemical
         }, {
@@ -278,7 +327,7 @@ var table = new Tabulator("#stock-tabulator", {
             vertAlign: "middle",
             widthGrow: 4,
             minWidth: 290,
-            headerMenu: column_visibility_toggle_menu,
+            headerMenu: column_menu,
             editable: is_selected,
             validator: function(cell, value){
                 // Check that the chemical object is there and that it has an id for a valid chemical
@@ -362,6 +411,7 @@ var table = new Tabulator("#stock-tabulator", {
                     }
             },
             headerFilter: "input",
+            headerFilterPlaceholder: "Filter",
             // Header filter also searches names and aliases
             headerFilterFunc: function (term, cell_val, row_data, filter_params){
                 if (row_data.factor.chemical.name.toLowerCase().includes(term.toLowerCase())){
@@ -376,7 +426,7 @@ var table = new Tabulator("#stock-tabulator", {
                 return false;
             },
             // Display only name from the chemical object in the cell
-            formatter: function(cell, formatterParams, onRendered){return cell.getValue().name;}
+            formatter: function(cell, formatterParams, onRendered){return cell.getValue().name + (cell.getValue().aliases.length ? ' (aliases: ' + cell.getValue().aliases.length + ')' : "");}
 
         // Concentration
         }, {
@@ -386,7 +436,7 @@ var table = new Tabulator("#stock-tabulator", {
             vertAlign: "middle",
             widthGrow: 1,
             minWidth: 105,
-            headerMenu: column_visibility_toggle_menu,
+            headerMenu: column_menu,
             editable: is_selected,
             validator: function(cell, value){
                 if (value == null || typeof value !== "number" || value <= 0){
@@ -397,7 +447,8 @@ var table = new Tabulator("#stock-tabulator", {
                 }
             },
             editor: "number",
-            headerFilter: "number"
+            headerFilter: "number",
+            headerFilterPlaceholder: "Filter"
 
         // Unit
         }, {
@@ -406,7 +457,7 @@ var table = new Tabulator("#stock-tabulator", {
             vertAlign: "middle",
             widthGrow: 1,
             minWidth: 85,
-            headerMenu: column_visibility_toggle_menu,
+            headerMenu: column_menu,
             editable: is_selected,
             validator: function(cell, value){
                 if (value == null || value == ""){
@@ -419,7 +470,8 @@ var table = new Tabulator("#stock-tabulator", {
             editor: "list",
             editorParams: {values: ALL_UNITS},
             headerFilter: "list",
-            headerFilterParams: {values: ALL_UNITS}
+            headerFilterParams: {values: ALL_UNITS},
+            headerFilterPlaceholder: "Filter"
 
         // pH
         }, {
@@ -429,7 +481,7 @@ var table = new Tabulator("#stock-tabulator", {
             vertAlign: "middle",
             widthGrow: 1,
             minWidth: 75,
-            headerMenu: column_visibility_toggle_menu,
+            headerMenu: column_menu,
             editable: is_selected,
             validator: function(cell, value){
                 if (value == null){
@@ -442,7 +494,8 @@ var table = new Tabulator("#stock-tabulator", {
                 }
             },
             editor: "number",
-            headerFilter: "number"
+            headerFilter: "number",
+            headerFilterPlaceholder: "Filter"
 
         // Polarity
         }, {
@@ -454,7 +507,7 @@ var table = new Tabulator("#stock-tabulator", {
             minWidth: 90,
             // Rather than allowing editing, use the better UI for checkbox editing instead
             cellClick: cellclick_flip_tick,
-            headerMenu: column_visibility_toggle_menu,
+            headerMenu: column_menu,
             headerFilter:"tickCross", 
             // Header filter only makes sense if it only looks for checkbox (otherwise can't be disabled)
             headerFilterEmptyCheck: function(value){return !value;},
@@ -469,7 +522,7 @@ var table = new Tabulator("#stock-tabulator", {
             hozAlign: "right", 
             vertAlign: "middle",
             widthGrow: 1,
-            headerMenu: column_visibility_toggle_menu,
+            headerMenu: column_menu,
             editable: is_selected,
             validator: function(cell, value){
                 if (value == null){
@@ -482,7 +535,8 @@ var table = new Tabulator("#stock-tabulator", {
                 }
             },
             editor: "number",
-            headerFilter: "number"
+            headerFilter: "number",
+            headerFilterPlaceholder: "Filter"
 
         // Volatility
         }, {
@@ -492,7 +546,7 @@ var table = new Tabulator("#stock-tabulator", {
             vertAlign: "middle",
             widthGrow: 1,
             minWidth: 105,
-            headerMenu: column_visibility_toggle_menu,
+            headerMenu: column_menu,
             editable: is_selected,
             validator: function(cell, value){
                 if (value == null){
@@ -505,7 +559,8 @@ var table = new Tabulator("#stock-tabulator", {
                 }
             },
             editor: "number",
-            headerFilter: "number"
+            headerFilter: "number",
+            headerFilterPlaceholder: "Filter"
 
         // Density
         }, {
@@ -515,7 +570,7 @@ var table = new Tabulator("#stock-tabulator", {
             vertAlign: "middle",
             widthGrow: 1,
             minWidth: 105,
-            headerMenu: column_visibility_toggle_menu,
+            headerMenu: column_menu,
             editable: is_selected,
             validator: function(cell, value){
                 if (value == null){
@@ -528,7 +583,8 @@ var table = new Tabulator("#stock-tabulator", {
                 }
             },
             editor: "number",
-            headerFilter: "number"
+            headerFilter: "number",
+            headerFilterPlaceholder: "Filter"
 
         // Creator / Apiuser
         }, {
@@ -537,7 +593,7 @@ var table = new Tabulator("#stock-tabulator", {
             vertAlign: "middle",
             widthGrow: 2,
             minWidth: 110,
-            headerMenu: column_visibility_toggle_menu,
+            headerMenu: column_menu,
             editable: is_selected,
             validator: function(cell, value){
                 // Check that the chemical object is there and that it has an id for a valid chemical
@@ -585,6 +641,7 @@ var table = new Tabulator("#stock-tabulator", {
                 listOnEmpty:true,
             },
             headerFilter: "input",
+            headerFilterPlaceholder: "Filter",
             // Header filter also searches only usernames
             headerFilterFunc: function (term, cell_val, row_data, filter_params){
                 return row_data.apiuser.username.toLowerCase().includes(term.toLowerCase());
@@ -599,7 +656,7 @@ var table = new Tabulator("#stock-tabulator", {
             vertAlign: "middle",
             widthGrow: 2,
             minWidth: 110,
-            headerMenu: column_visibility_toggle_menu,
+            headerMenu: column_menu,
             editable: is_selected,
             editor:"list", 
             editorParams:{
@@ -633,6 +690,7 @@ var table = new Tabulator("#stock-tabulator", {
                 multiselect:true,
             },
             headerFilter: "input",
+            headerFilterPlaceholder: "Filter",
             // Header filter searches through the hazard names
             headerFilterFunc: function (term, cell_val, row_data, filter_params){
                 for (i in row_data.hazards){
@@ -655,10 +713,11 @@ var table = new Tabulator("#stock-tabulator", {
             widthGrow: 4,
             minWidth: 20,
             minWidth: 350,
-            headerMenu: column_visibility_toggle_menu,
+            headerMenu: column_menu,
             editable: is_selected,
             editor: "input",
-            headerFilter: "input"
+            headerFilter: "input",
+            headerFilterPlaceholder: "Filter"
 
         // Action buttons
         }, {
@@ -722,7 +781,8 @@ var table = new Tabulator("#stock-tabulator", {
             frozen: true}
     ],
     initialSort: [
-        {column: "available", dir: "desc"}
+        {column: "available", dir: "desc"},
+        {column: "name", dir: "asc"}
     ],
     footerElement: $('<div>').append($('<span>').attr('id', 'stock-row-count')).append($('<span>').attr('id', 'filtered-stock-row-count')).prop('outerHTML')
 });
@@ -772,6 +832,7 @@ $('#add-stock-button').click(function(){
 // Refresh button
 $('#reload-stocks-button').click(function(){
     table.setData();
+    table.clearFilter(true);
 });
 
 });
