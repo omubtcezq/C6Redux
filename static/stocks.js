@@ -8,11 +8,15 @@ function stop_editing(table){
     table.deselectRow();
     all_rows = table.getRows();
     $.each(all_rows, function(i, r){r.reformat()});
+    // Renabled adding new stock after editing
+    $('#add-stock-button').removeAttr("disabled");
 }
 
 // Begin editing row
 function row_edit(row){
     table = row.getTable();
+    // Disabled adding new stock while editing
+    $('#add-stock-button').attr("disabled", "disabled");
     // Deselect all others and select this row
     table.deselectRow();
     row.select();
