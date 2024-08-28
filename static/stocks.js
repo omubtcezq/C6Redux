@@ -784,8 +784,8 @@ var table = new Tabulator("#stock-tabulator", {
             frozen: true}
     ],
     initialSort: [
-        {column: "available", dir: "desc"},
-        {column: "name", dir: "asc"}
+        {column: "name", dir: "asc"},
+        {column: "available", dir: "desc"}
     ],
     footerElement: $('<div>').append($('<span>').attr('id', 'stock-row-count')).append($('<span>').attr('id', 'filtered-stock-row-count')).prop('outerHTML')
 });
