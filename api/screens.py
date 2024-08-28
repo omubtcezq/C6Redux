@@ -206,20 +206,20 @@ def parseChemicalBinOp(chemexp: ChemicalBinOp):
 
 def parseChemicalPred(chem: ChemicalPred):
     # Selecting a chemical by id, name search, conc/units or ph (or any combination of them except id AND name search)
-    clause = True
+    clauses = []
     # Identify chemical
     if chem.id != None:
-        clause = clause and db.Chemical.id == chem.id
+        clauses.append(db.Chemical.id == chem.id)
     else:
-        clause = clause and col(db.Chemical.name).contains(chem.name_search)
+        clauses.append(col(db.Chemical.name).contains(chem.name_search))
     # Specify concentration
     if chem.conc != None and chem.units != None:
-        clause = clause and db.Chemical.conc == chem.conc and db.Chemical.units == chem.units
+        clauses.append(db.Factor.concentration == chem.conc and db.Factor.unit == chem.units)
     # Specify ph
     if chem.ph != None:
-        clause = clause and db.Chemical.ph == chem.ph
+        clauses.append(db.Factor.ph == chem.ph)
     # Expression for number of chemicals matched in a single condition
-    chemicals_matched = func.sum(case((clause, 1), else_=0))
+    chemicals_matched = func.sum(case((and_(*clauses), 1), else_=0))
     # Either check if all chemicals met criteria (universal)
     if chem.universal_quantification:
         chem_clause = chemicals_matched == func.count(db.Chemical.id)
