@@ -1,10 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <script src="chemicals.js"></script>
 </head>
 <body>
 
-<h1>Chemicals</h1>
+<div class="add-reload-banner">
+  <table class="button-table add-reload-header-buttons-table">
+    <tbody>
+      <tr>
+        <td><button id="add-chemical-button" class="table-cell-button add-button">Add New Chemical</button></td>
+        <td><button id="reload-chemicals-button" class="table-cell-button">Reload Chemicals</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="holder-for-tabulator">
+  <div id="chemical-tabulator" class="object-for-tabulator"></div>
+</div>
 
 </body>
 </html>
