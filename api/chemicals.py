@@ -35,10 +35,10 @@ async def get_chemical(*, session: Session=Depends(db.get_readonly_session), che
     chemical = session.exec(statement).first()
     return chemical
 
-@router.get("/", 
+@router.get("/all", 
             summary="Get a list of all chemicals",
             response_description="List of all chemicals",
-            response_model=list[db.ChemicalRead])
+            response_model=list[db.ChemicalContentsRead])
 async def get_chemicals(*, session: Session=Depends(db.get_readonly_session)):
     """
     Get a list of all chemicals including frequent slock information

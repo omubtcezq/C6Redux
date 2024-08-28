@@ -715,7 +715,6 @@ var table = new Tabulator("#stock-tabulator", {
             field: "comments", 
             vertAlign: "middle",
             widthGrow: 4,
-            minWidth: 20,
             minWidth: 350,
             headerMenu: column_menu,
             editable: is_selected,

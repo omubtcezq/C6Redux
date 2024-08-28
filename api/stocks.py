@@ -7,6 +7,8 @@ from fastapi import APIRouter, Depends
 import api.db as db
 import api.authentication as auth
 
+# TODO on update and delete of stock, check for factors that are no longer used (as stock or screen) and delete them from db
+
 router = APIRouter(
     prefix="/stocks",
     tags=["Stock Operations"]
