@@ -153,30 +153,7 @@ var table = new Tabulator("#chemical-tabulator", {
             editor: "input",
             headerFilter: "input",
             headerFilterPlaceholder: "Filter"
-
-        // Unit
-        }, {
-            title: "Unit", 
-            field: "unit", 
-            vertAlign: "middle",
-            widthGrow: 1,
-            minWidth: 85,
-            headerMenu: column_menu,
-            editable: is_selected,
-            validator: function(cell, value){
-                if (value == null || value == ""){
-                    alert_user("You must specify a unit.");
-                    return false;
-                } else {
-                    return true;
-                }
-            },
-            editor: "list",
-            editorParams: {values: ALL_UNITS},
-            headerFilter: "list",
-            headerFilterParams: {values: ALL_UNITS},
-            headerFilterPlaceholder: "Filter"
-
+            
         // Formula
         }, {
             title: "Formula", 
@@ -189,55 +166,7 @@ var table = new Tabulator("#chemical-tabulator", {
             editor: "input",
             headerFilter: "input",
             headerFilterPlaceholder: "Filter"
-
-        // Density
-        }, {
-            title: "Density", 
-            field: "density", 
-            hozAlign: "right", 
-            vertAlign: "middle",
-            widthGrow: 1,
-            minWidth: 105,
-            headerMenu: column_menu,
-            editable: is_selected,
-            validator: function(cell, value){
-                if (value == null){
-                    return true;
-                } else if (typeof value !== "number" || value <= 0){
-                    alert_user("Density must be greater than 0.");
-                    return false;
-                } else {
-                    return true;
-                }
-            },
-            editor: "number",
-            headerFilter: "number",
-            headerFilterPlaceholder: "Filter"
-
-        // Solubility
-        }, {
-            title: "Solubility", 
-            field: "solubility", 
-            hozAlign: "right", 
-            vertAlign: "middle",
-            widthGrow: 1,
-            minWidth: 100,
-            headerMenu: column_menu,
-            editable: is_selected,
-            validator: function(cell, value){
-                if (value == null){
-                    return true;
-                } else if (typeof value !== "number" || value <= 0){
-                    alert_user("Solubility must be greater than 0.");
-                    return false;
-                } else {
-                    return true;
-                }
-            },
-            editor: "number",
-            headerFilter: "number",
-            headerFilterPlaceholder: "Filter"
-
+            
         // pKa1
         }, {
             title: "pKa1", 
@@ -315,6 +244,30 @@ var table = new Tabulator("#chemical-tabulator", {
             editor: "number",
             headerFilter: "number",
             headerFilterPlaceholder: "Filter"
+            
+            // Density
+        }, {
+            title: "Density", 
+            field: "density", 
+            hozAlign: "right", 
+            vertAlign: "middle",
+            widthGrow: 1,
+            minWidth: 105,
+            headerMenu: column_menu,
+            editable: is_selected,
+            validator: function(cell, value){
+                if (value == null){
+                    return true;
+                } else if (typeof value !== "number" || value <= 0){
+                    alert_user("Density must be greater than 0.");
+                    return false;
+                } else {
+                    return true;
+                }
+            },
+            editor: "number",
+            headerFilter: "number",
+            headerFilterPlaceholder: "Filter"
 
         // Molecular Weight
         }, {
@@ -337,7 +290,54 @@ var table = new Tabulator("#chemical-tabulator", {
             editor: "number",
             headerFilter: "number",
             headerFilterPlaceholder: "Filter"
-        
+            
+        // Solubility
+        }, {
+            title: "Solubility", 
+            field: "solubility", 
+            hozAlign: "right", 
+            vertAlign: "middle",
+            widthGrow: 1,
+            minWidth: 100,
+            headerMenu: column_menu,
+            editable: is_selected,
+            validator: function(cell, value){
+                if (value == null){
+                    return true;
+                } else if (typeof value !== "number" || value <= 0){
+                    alert_user("Solubility must be greater than 0.");
+                    return false;
+                } else {
+                    return true;
+                }
+            },
+            editor: "number",
+            headerFilter: "number",
+            headerFilterPlaceholder: "Filter"
+
+        // Unit
+        }, {
+            title: "Concentration Unit", 
+            field: "unit", 
+            vertAlign: "middle",
+            widthGrow: 1,
+            minWidth: 85,
+            headerMenu: column_menu,
+            editable: is_selected,
+            validator: function(cell, value){
+                if (value == null || value == ""){
+                    alert_user("You must specify a unit.");
+                    return false;
+                } else {
+                    return true;
+                }
+            },
+            editor: "list",
+            editorParams: {values: ALL_UNITS},
+            headerFilter: "list",
+            headerFilterParams: {values: ALL_UNITS},
+            headerFilterPlaceholder: "Filter"
+            
         // Ions
         }, {
             title: "Ions", 
