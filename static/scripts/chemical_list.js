@@ -1,4 +1,4 @@
-//# sourceURL=chemicals.js
+//# sourceURL=chemical_list.js
 (function() {
 // Load once document is ready
 $(document).ready(function() {
@@ -95,7 +95,7 @@ var column_menu = function(e, column){
         }
     });
 
-   return menu;
+    return menu;
 };
 
 // Function for custom footer to show number of chemicals when data loaded

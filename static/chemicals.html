@@ -1,23 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script src="chemicals.js"></script>
+  <script src="scripts/chemicals.js"></script>
 </head>
 <body>
 
-<div class="add-reload-banner">
-  <table class="button-table add-reload-header-buttons-table">
+<div class="subpage-banner">
+<table class="button-table subpage-buttons-table">
     <tbody>
-      <tr>
-        <td><button id="add-chemical-button" class="table-cell-button add-button">Add New Chemical</button></td>
-        <td><button id="reload-chemicals-button" class="table-cell-button">Reload Chemicals</button></td>
-      </tr>
+    <tr>
+        <td><button id="chemical-list-subpage-button" class="table-cell-button">Chemical List</button></td>
+        <td><button id="phcurves-subpage-button" class="table-cell-button">Chemical pH Curves</button></td>
+    </tr>
     </tbody>
-  </table>
+</table>
 </div>
-<div class="holder-for-tabulator">
-  <div id="chemical-tabulator" class="object-for-tabulator"></div>
-</div>
+<div id="chemical-list-subpage" class="subpage-div"></div>
+<div id="phcurves-subpage" class="subpage-div"></div>
 
 </body>
 </html>

@@ -1,12 +1,12 @@
 // Global js
 
 // Connection parameters
-const API_ADDRESS = 'www.c6redux.au';
-const API_PORT = '443';
-let API_URL = 'https://'+API_ADDRESS+':'+API_PORT+'/api';
-// const API_ADDRESS = 'localhost';
-// const API_PORT = '8000';
-// let API_URL = 'http://'+API_ADDRESS+':'+API_PORT+'/api';
+// const API_ADDRESS = 'www.c6redux.au';
+// const API_PORT = '443';
+// let API_URL = 'https://'+API_ADDRESS+':'+API_PORT+'/api';
+const API_ADDRESS = 'localhost';
+const API_PORT = '8000';
+let API_URL = 'http://'+API_ADDRESS+':'+API_PORT+'/api';
 
 // All units
 const ALL_UNITS = [
@@ -16,6 +16,10 @@ const ALL_UNITS = [
     'mM',
     'mg/ml'
 ]
+
+
+// HOPEFULLY TEMPORARY
+
 
 // Cached screen names lists
 let SCREEN_NAMES = null;
@@ -62,6 +66,48 @@ function search_chemical_names(term, chemical_names){
         }
     });
     return out;
+}
+
+
+
+// Function that allows setting up of subpage buttons.
+// Variable subpages should be in the form:
+// [{
+//     button_id: str,
+//     content_id: str,
+//     content_html: str,
+//     click_on_init: bool
+// }, ... ]
+function init_subpage_buttons(subpages){
+    // Loop the subpages
+    $.each(subpages, function(i, subpage){
+
+        // Create click event handler on the button
+        $('#'+subpage.button_id).click(function(){
+
+            // Disabled button and enable content
+            $('#'+subpage.content_id).css("display", "block");
+            $('#'+subpage.button_id).attr('disabled','disabled');
+
+            // Loop other subpages, disable content and and enable buttons
+            $.each(subpages, function(j, other_subpage){
+                if (i != j){
+                    $('#'+other_subpage.content_id).css("display", "none");
+                    $('#'+other_subpage.button_id).removeAttr('disabled');
+                }
+            });
+
+            // If the content is empty, load it form the html (will only happen once)
+            if ($('#'+subpage.content_id).children().length == 0){
+                $('#'+subpage.content_id).load(subpage.content_html);
+            }
+        });
+
+        // Click the subpage button that should be click on initialisation
+        if (subpage.click_on_init){
+            $('#'+subpage.button_id).click();
+        }
+    });
 }
 
 // Authentication
@@ -122,71 +168,28 @@ function alert_user(msg){
 
 // Local js for site functions
 (function() {
-// Flag to only load tabs on first click and then save
-let screens_loaded = false;
-let stocks_loaded = false;
-let chemicals_loaded = false;
 
 // Load once document is ready
 $(document).ready(function() {
 
-// Set the actions of the buttons at the top site banner
-$('#site-banner-screens-buttons').click(function(){
-    // Show screens contents, hide rest
-    $('#site-content-screens').css("display", "block");
-    $('#site-content-stocks').css("display", "none");
-    $('#site-content-chemicals').css("display", "none");
-    
-    // Disable screens button, enable rest
-    $('#site-banner-screens-buttons').attr('disabled','disabled');
-    $('#site-banner-stocks-buttons').removeAttr('disabled');
-    $('#site-banner-chemicals-buttons').removeAttr('disabled');
-
-    // Load screens on first tab change
-    if (!screens_loaded){
-        $('#site-content-screens').load('screens.html');
-        screens_loaded = true;
-    }
-});
-
-$('#site-banner-stocks-buttons').click(function(){
-    // Show stocks contents, hide rest
-    $('#site-content-screens').css("display", "none");
-    $('#site-content-stocks').css("display", "block");
-    $('#site-content-chemicals').css("display", "none");
-
-    // Disable stocks button, enable rest
-    $('#site-banner-screens-buttons').removeAttr('disabled');
-    $('#site-banner-stocks-buttons').attr('disabled','disabled');
-    $('#site-banner-chemicals-buttons').removeAttr('disabled');
-
-    // Load stocks on first tab change
-    if (!stocks_loaded){
-        $('#site-content-stocks').load('stocks.html');
-        stocks_loaded = true;
-    }
-});
-
-$('#site-banner-chemicals-buttons').click(function(){
-    // Show chemicals contents, hide rest
-    $('#site-content-screens').css("display", "none");
-    $('#site-content-stocks').css("display", "none");
-    $('#site-content-chemicals').css("display", "block");
-
-    // Disable chemicals button, enable rest
-    $('#site-banner-screens-buttons').removeAttr('disabled');
-    $('#site-banner-stocks-buttons').removeAttr('disabled');
-    $('#site-banner-chemicals-buttons').attr('disabled','disabled');
-
-    // Load chemicals on first tab change
-    if (!chemicals_loaded){
-        $('#site-content-chemicals').load('chemicals.html');
-        chemicals_loaded = true;
-    }
-});
-
-// Start by selecting screens tab
-$('#site-banner-screens-buttons').click();
+// Set up banner subpage buttons
+subpages = [{
+    button_id: "site-banner-screens-buttons",
+    content_id: "site-content-screens",
+    content_html: "screens.html",
+    click_on_init: true
+}, {
+    button_id: "site-banner-stocks-buttons",
+    content_id: "site-content-stocks",
+    content_html: "stocks.html",
+    click_on_init: false
+}, {
+    button_id: "site-banner-chemicals-buttons",
+    content_id: "site-content-chemicals",
+    content_html: "chemicals.html",
+    click_on_init: false
+}];
+init_subpage_buttons(subpages);
 
 // Remove login submission default action
 $("#login-form").submit(function(e) {
