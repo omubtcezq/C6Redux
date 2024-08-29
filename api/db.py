@@ -77,6 +77,7 @@ class ChemicalBaseLarge(ChemicalBase):
     chemical_abstracts_db_id: str | None = Field(default=None)
     critical_micelle_concentration: float | None = Field(default=None)
     smiles: str | None = Field(default=None)
+    available: int
 
 class Chemical(ChemicalBaseLarge, table=True):
     id: int = Field(default=None, primary_key=True)

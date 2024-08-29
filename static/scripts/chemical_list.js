@@ -28,6 +28,13 @@ function is_selected(cell){
     return cell.getRow().isSelected()
 }
 
+// UI fix for editing checkbox. Lets the whole cell be the toggle
+function cellclick_flip_tick(e, cell){
+    if (cell.getRow().isSelected()){
+        cell.setValue(!cell.getValue());
+    }
+}
+
 // Header menu that allows the toggling of column visibilities
 var column_menu = function(e, column){
     let columns_with_null_filter = ["formula", "density", "solubility", "pka1", "pka2", "pka3", "ions", "monomer", "chemical_abstracts_db_id", "critical_micelle_concentration", "smiles"]
@@ -133,8 +140,26 @@ var table = new Tabulator("#chemical-tabulator", {
         columns: true,
     },
     columns: [
-        // Name
+        // Available
         {
+            title: "Available", 
+            field: "available", 
+            hozAlign: "center", 
+            vertAlign: "middle",
+            widthGrow: 1,
+            minWidth: 20,
+            // Rather than allowing editing, use the better UI for checkbox editing instead
+            cellClick: cellclick_flip_tick,
+            headerMenu: column_menu,
+            headerFilter:"tickCross", 
+            // Header filter only makes sense if it only looks for checkbox (otherwise can't be disabled)
+            headerFilterEmptyCheck: function(value){return !value;},
+            formatter: "tickCross",
+            // Preserve checkbox booleans as integers as per the database
+            mutator: function(value, data){return value ? 1 : 0;}
+
+        // Name
+        }, {
             title: "Name", 
             field: "name", 
             vertAlign: "middle",

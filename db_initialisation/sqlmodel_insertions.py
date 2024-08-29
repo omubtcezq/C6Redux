@@ -99,7 +99,8 @@ def insert_chemicals():
                                 ions=c_ions, 
                                 chemical_abstracts_db_id=c_cas, 
                                 critical_micelle_concentration=c_cmc, 
-                                smiles=c_smiles)
+                                smiles=c_smiles,
+                                available=0)
             session.add(chem)
             # Get chemical id
             session.commit()

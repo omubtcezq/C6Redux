@@ -41,6 +41,7 @@ create table chemical (
 	chemical_abstracts_db_id varchar(32),
 	critical_micelle_concentration double,
 	smiles varchar(128),
+	available tinyint,
 
 	PRIMARY KEY(id),
 	INDEX(id)
