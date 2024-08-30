@@ -52,6 +52,7 @@ create table frequentstock (
 	concentration double,
 	unit varchar(8),
 	precipitation_concentration double,
+	precipitation_concentration_unit varchar(8),
 
 	PRIMARY KEY(chemical_id),
 	INDEX(chemical_id),

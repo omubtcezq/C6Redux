@@ -110,7 +110,8 @@ def insert_chemicals():
             freq_stock = db.FrequentStock(chemical_id=chem.id, 
                                         concentration=fs_concentration, 
                                         unit=fs_unit, 
-                                        precipitation_concentration=fs_prepip_conc)
+                                        precipitation_concentration=fs_prepip_conc,
+                                        precipitation_concentration_unit=None if fs_prepip_conc == None else 'w/v')
             session.add(freq_stock)
 
             # Parse aliases and ignore classes

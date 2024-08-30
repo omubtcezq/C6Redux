@@ -146,8 +146,7 @@ var table = new Tabulator("#chemical-tabulator", {
             field: "available", 
             hozAlign: "center", 
             vertAlign: "middle",
-            widthGrow: 1,
-            minWidth: 20,
+            width: 105,
             // Rather than allowing editing, use the better UI for checkbox editing instead
             cellClick: cellclick_flip_tick,
             headerMenu: column_menu,
@@ -163,8 +162,7 @@ var table = new Tabulator("#chemical-tabulator", {
             title: "Name", 
             field: "name", 
             vertAlign: "middle",
-            widthGrow: 5,
-            minWidth: 350,
+            width: 350,
             headerMenu: column_menu,
             editable: is_selected,
             validator: function(cell, value){
@@ -184,8 +182,7 @@ var table = new Tabulator("#chemical-tabulator", {
             title: "Formula", 
             field: "formula", 
             vertAlign: "middle",
-            widthGrow: 4,
-            minWidth: 300,
+            width: 300,
             headerMenu: column_menu,
             editable: is_selected,
             editor: "input",
@@ -198,8 +195,7 @@ var table = new Tabulator("#chemical-tabulator", {
             field: "pka1", 
             hozAlign: "right", 
             vertAlign: "middle",
-            widthGrow: 1,
-            minWidth: 75,
+            width: 90,
             headerMenu: column_menu,
             editable: is_selected,
             validator: function(cell, value){
@@ -222,8 +218,7 @@ var table = new Tabulator("#chemical-tabulator", {
             field: "pka2", 
             hozAlign: "right", 
             vertAlign: "middle",
-            widthGrow: 1,
-            minWidth: 75,
+            width: 90,
             headerMenu: column_menu,
             editable: is_selected,
             validator: function(cell, value){
@@ -249,8 +244,7 @@ var table = new Tabulator("#chemical-tabulator", {
             field: "pka3", 
             hozAlign: "right", 
             vertAlign: "middle",
-            widthGrow: 1,
-            minWidth: 75,
+            width: 90,
             headerMenu: column_menu,
             editable: is_selected,
             validator: function(cell, value){
@@ -276,8 +270,7 @@ var table = new Tabulator("#chemical-tabulator", {
             field: "density", 
             hozAlign: "right", 
             vertAlign: "middle",
-            widthGrow: 1,
-            minWidth: 105,
+            width: 110,
             headerMenu: column_menu,
             editable: is_selected,
             validator: function(cell, value){
@@ -300,8 +293,7 @@ var table = new Tabulator("#chemical-tabulator", {
             field: "molecular_weight", 
             hozAlign: "right", 
             vertAlign: "middle",
-            widthGrow: 1,
-            minWidth: 175,
+            width: 175,
             headerMenu: column_menu,
             editable: is_selected,
             validator: function(cell, value){
@@ -322,8 +314,7 @@ var table = new Tabulator("#chemical-tabulator", {
             field: "solubility", 
             hozAlign: "right", 
             vertAlign: "middle",
-            widthGrow: 1,
-            minWidth: 100,
+            width: 120,
             headerMenu: column_menu,
             editable: is_selected,
             validator: function(cell, value){
@@ -345,8 +336,7 @@ var table = new Tabulator("#chemical-tabulator", {
             title: "Concentration Unit", 
             field: "unit", 
             vertAlign: "middle",
-            widthGrow: 1,
-            minWidth: 85,
+            width: 185,
             headerMenu: column_menu,
             editable: is_selected,
             validator: function(cell, value){
@@ -368,8 +358,7 @@ var table = new Tabulator("#chemical-tabulator", {
             title: "Ions", 
             field: "ions", 
             vertAlign: "middle",
-            widthGrow: 4,
-            minWidth: 100,
+            width: 85,
             headerMenu: column_menu,
             editable: is_selected,
             editor: "input",
@@ -381,8 +370,7 @@ var table = new Tabulator("#chemical-tabulator", {
             title: "Monomer", 
             field: "monomer", 
             vertAlign: "middle",
-            widthGrow: 4,
-            minWidth: 120,
+            width: 120,
             headerMenu: column_menu,
             editable: is_selected,
             editor: "input",
@@ -394,8 +382,7 @@ var table = new Tabulator("#chemical-tabulator", {
             title: "Chemical Abstracts DB ID", 
             field: "chemical_abstracts_db_id", 
             vertAlign: "middle",
-            widthGrow: 4,
-            minWidth: 230,
+            width: 230,
             headerMenu: column_menu,
             editable: is_selected,
             editor: "input",
@@ -408,8 +395,7 @@ var table = new Tabulator("#chemical-tabulator", {
             field: "critical_micelle_concentration", 
             hozAlign: "right", 
             vertAlign: "middle",
-            widthGrow: 1,
-            minWidth: 255,
+            width: 255,
             headerMenu: column_menu,
             editable: is_selected,
             validator: function(cell, value){
@@ -431,8 +417,7 @@ var table = new Tabulator("#chemical-tabulator", {
             title: "SMILES", 
             field: "smiles", 
             vertAlign: "middle",
-            widthGrow: 4,
-            minWidth: 110,
+            width: 110,
             headerMenu: column_menu,
             editable: is_selected,
             editor: "input",
@@ -450,7 +435,7 @@ var table = new Tabulator("#chemical-tabulator", {
                 hozAlign: "right", 
                 vertAlign: "middle",
                 widthGrow: 1,
-                minWidth: 105,
+                width: 105,
                 headerMenu: column_menu,
                 editable: is_selected,
                 validator: function(cell, value){
@@ -467,14 +452,37 @@ var table = new Tabulator("#chemical-tabulator", {
                 headerFilter: "number",
                 headerFilterPlaceholder: "Filter"
 
+            // FrequentStock Unit
+            }, {
+                title: "Unit", 
+                field: "frequentstock.unit", 
+                vertAlign: "middle",
+                width: 85,
+                headerMenu: column_menu,
+                editable: is_selected,
+                validator: function(cell, value){
+                    if (value == null && cell.getRow().getValue('frequentstock.concentration') == null){
+                        return true;
+                    } else if (value == null || value == ""){
+                        alert_user("You must specify a unit when specifying a frequently made stock concentration.");
+                        return false;
+                    } else {
+                        return true;
+                    }
+                },
+                editor: "list",
+                editorParams: {values: ALL_UNITS},
+                headerFilter: "list",
+                headerFilterParams: {values: ALL_UNITS},
+                headerFilterPlaceholder: "Filter"
+
             // Precipitation Concentration
             }, {
                 title: "Precipitation Concentration", 
                 field: "frequentstock.precipitation_concentration", 
                 hozAlign: "right", 
                 vertAlign: "middle",
-                widthGrow: 1,
-                minWidth: 105,
+                width: 195,
                 headerMenu: column_menu,
                 editable: is_selected,
                 validator: function(cell, value){
@@ -491,20 +499,19 @@ var table = new Tabulator("#chemical-tabulator", {
                 headerFilter: "number",
                 headerFilterPlaceholder: "Filter"
 
-            // FrequentStock Unit
+                // Precipitation Concentration Unit
             }, {
-                title: "Unit", 
-                field: "frequentstock.unit", 
+                title: "Precipitation Concentration Unit", 
+                field: "frequentstock.precipitation_concentration_unit", 
                 vertAlign: "middle",
-                widthGrow: 1,
-                minWidth: 85,
+                width: 270,
                 headerMenu: column_menu,
                 editable: is_selected,
                 validator: function(cell, value){
-                    if (value == null && cell.getRow().getValue('frequentstock.concentration') == null && cell.getRow().getValue('frequentstock.precipitation_concentration') == null){
+                    if (value == null && cell.getRow().getValue('frequentstock.precipitation_concentration') == null){
                         return true;
                     } else if (value == null || value == ""){
-                        alert_user("You must specify a unit when specifying a frequently made stock.");
+                        alert_user("You must specify a unit when specifying a precipitation concentration.");
                         return false;
                     } else {
                         return true;

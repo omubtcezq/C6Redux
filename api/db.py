@@ -114,6 +114,7 @@ class FrequentStockBase(SQLModel):
     concentration: float | None = Field(default=None)
     unit: str | None = Field(default=None)
     precipitation_concentration: float | None = Field(default=None)
+    precipitation_concentration_unit: str | None = Field(default=None)
 
 class FrequentStock(FrequentStockBase, table=True):
     chemical: Chemical = Relationship(back_populates="frequentstock")
