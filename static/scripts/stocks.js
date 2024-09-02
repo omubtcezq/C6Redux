@@ -64,7 +64,7 @@ function row_save(row){
                 headers: {"Authorization": "Bearer " + auth_token},
                 // On success replace row with contents of returned new stock
                 success: function(returned_stock) {
-                    table.updateRow(row.getPosition(), returned_stock);
+                    table.updateRow(row, returned_stock);
                     // Id needs to be manually updated
                     row.getData().id = returned_stock.id
                     // Update row count
@@ -364,7 +364,7 @@ var table = new Tabulator("#stock-tabulator", {
                     });
                 },
                 sort: "asc",
-                emptyValue: null,
+                emptyValue: {id: null, name: null, aliases: [], unit: null},
                 placeholderLoading: "Loading Chemical List...",
                 placeholderEmpty: "No Chemicals Found",
                 autocomplete:true,
@@ -439,7 +439,7 @@ var table = new Tabulator("#stock-tabulator", {
             headerMenu: column_menu,
             editable: is_selected,
             validator: function(cell, value){
-                if (value == null || typeof value !== "number" || value <= 0){
+                if (value == null || value == "" || typeof value !== "number" || value <= 0){
                     alert_user("You must specify a positive concentration.");
                     return false;
                 } else {
@@ -623,7 +623,7 @@ var table = new Tabulator("#stock-tabulator", {
                     });
                 },
                 sort: "asc",
-                emptyValue: null,
+                emptyValue: {id: null, username: null},
                 placeholderLoading: "Loading User List...",
                 placeholderEmpty: "No Users Found",
                 autocomplete: true,
@@ -811,6 +811,7 @@ $('#add-stock-button').click(function(){
         hazards: [],
         comments: null
     }, true).then(function(row){
+        // Reshow all columns when adding new stock
         let columns = table.getColumns()
         for(i in columns){
             columns[i].show();

@@ -5,22 +5,200 @@ $(document).ready(function() {
 
 // Remove selection and reformat rows to display edit and delete buttons
 function stop_editing(table){
+    table.deselectRow();
+    all_rows = table.getRows();
+    $.each(all_rows, function(i, r){r.reformat()});
+    // Renabled adding new chemical after editing
+    $('#add-chemical-button').removeAttr("disabled");
 }
 
 // Begin editing row
 function row_edit(row){
+    table = row.getTable();
+    // Disabled adding new chemical while editing
+    $('#add-chemical-button').attr("disabled", "disabled");
+    // Deselect all others and select this row
+    table.deselectRow();
+    row.select();
+    // Reformat rows to hide buttons from non-selected row
+    all_rows = table.getRows();
+    $.each(all_rows, function(i, r){r.reformat()});
+    // Reset values, this allows cancel to return to the old values
+    cells = row.getCells();
+    $.each(cells, function(i, c){c.setValue(c.getValue());});
 }
 
 // Save row being edited
 function row_save(row){
+    var table = row.getTable();
+
+    // Validate current edit
+    var valid = row.validate();
+    if (valid !== true){
+        return;
+    }
+
+    // Make expected data object
+    var chemical = $.extend(true, {}, row.getData());
+    // Remove added property for button column
+    delete chemical.actions;
+
+    // Either update a chemical or add a new one. This is checked by looking at the id
+    if (chemical.id === null){
+        // New chemical being added, remove the null id as a new one will be recieved
+        delete chemical.id;
+        // Authorise and make api call
+        to_authorise = function(auth_token){
+            $.ajax({
+                type: 'POST',
+                url: API_URL+'/chemicals/create', 
+                data: JSON.stringify(chemical), 
+                headers: {"Authorization": "Bearer " + auth_token},
+                // On success replace row with contents of returned new chemical
+                success: function(returned_chemical) {
+                    table.updateRow(row, returned_chemical);
+                    // Id needs to be manually updated
+                    row.getData().id = returned_chemical.id
+                    // Update row count
+                    update_chemical_count_loaded(table.getData());
+                    // Refresh filters
+                    table.refreshFilter();
+                    // Finish editing row
+                    stop_editing(table);
+                },
+                // On authentication error, request login
+                error: function(xhr, status, error){
+                    if (xhr.status == 401) {
+                        msg = 'Please log in again';
+                        authorise_action(msg, to_authorise);
+                    }
+                },
+                dataType: 'json',
+                contentType: 'application/json'
+            });
+        }
+        authorise_action(null, to_authorise);
+    // Otherwise updating an existing chemical
+    } else {
+        // First see how many places the chemical is used
+        $.ajax({
+            type: 'GET',
+            url: API_URL+'/chemicals/useOfChemical?chemical_id=' + chemical.id,
+            success: function(counter){
+                // Function to authorise and make api call
+                edit_call = function (){
+                    to_authorise = function(auth_token){
+                        $.ajax({
+                            type: 'PUT',
+                            url: API_URL+'/chemicals/update', 
+                            data: JSON.stringify(chemical), 
+                            headers: {"Authorization": "Bearer " + auth_token},
+                            // On success replace with contents of returned chemical (shouldn't be different)
+                            success: function(returned_chemical) {
+                                table.updateRow(chemical.id, returned_chemical);
+                                // Refresh filters
+                                table.refreshFilter();
+                                // Finish editing row
+                                stop_editing(table);
+                            },
+                            // On authentication error, request login
+                            error: function(xhr, status, error){
+                                if (xhr.status == 401) {
+                                    msg = 'Please log in again';
+                                    authorise_action(msg, to_authorise);
+                                }
+                            },
+                            dataType: 'json',
+                            contentType: 'application/json'
+                        });
+                    }
+                    authorise_action(null, to_authorise);
+                };
+                // If the chemical is not used anywhere, perform the edit
+                if (counter.well_count == 0 && counter.stock_count == 0){
+                    edit_call();
+                // Otherwise warn the user about all the places the chemical is used before editing
+                } else {
+                    confirm_action("The chemical you wish to edit is used in:\n" + 
+                                   counter.condition_count + (counter.condition_count==1 ? " condition," : " conditions,") + " " +
+                                   counter.well_count + (counter.well_count==1 ? " well," : " wells,") + " " +
+                                   counter.screen_count + (counter.screen_count==1 ? " screen and" : " screens and") + " " +
+                                   counter.stock_count + (counter.stock_count==1 ? " stock." : " stocks.") + "\n" +
+                                   "Are you sure you wish to edit it?", edit_call);
+                }
+            }
+        });
+    }
 }
 
 // Cancel editing of row
 function row_cancel(row){
+    var cells = row.getCells();
+    var data = row.getData();
+    var table = row.getTable();
+    // If id is null, then a newly added row is being edited. Remove it after cancel
+    if (data.id === null){
+        table.deleteRow(row);
+    // If id present, return the values to what they were before editing
+    } else {
+        $.each(cells, function(i, c){c.restoreInitialValue();});
+    }
+    // Finish editing
+    stop_editing(table);
 }
 
 // Delete row
 function row_delete(row){
+    var table = row.getTable();
+    var chemical_id_to_remove = row.getData().id;
+
+    // First see how many places the chemical is used
+    $.ajax({
+        type: 'GET',
+        url: API_URL+'/chemicals/useOfChemical?chemical_id=' + chemical_id_to_remove,
+        success: function(counter){
+            // Function to authorise and make api call
+            delete_call = function (){
+                to_authorise = function(auth_token){
+                    $.ajax({
+                        type: 'DELETE',
+                        url: API_URL+'/chemicals/delete?chemical_id='+chemical_id_to_remove,
+                        headers: {"Authorization": "Bearer " + auth_token},
+                        // On success remove chemical
+                        success: function() {
+                            table.deleteRow(row);
+                            // Update row count
+                            update_chemical_count_loaded(table.getData());
+                            // Refresh filters
+                            table.refreshFilter();
+                        },
+                        // On authentication error, request login
+                        error: function(xhr, status, error){
+                            if (xhr.status == 401) {
+                                msg = 'Please log in again';
+                                authorise_action(msg, to_authorise);
+                            }
+                        },
+                        dataType: 'json',
+                        contentType: 'application/json'
+                    });
+                }
+                authorise_action(null, to_authorise);
+            };
+            // If the chemical is not used anywhere, perform the delete
+            if (counter.well_count == 0 && counter.stock_count == 0){
+                confirm_action("This will delete the selected chemical from the database.", delete_call);
+            // Otherwise warn the user about all the places the chemical is used and do not allow removal
+            } else {
+                alert_user("The chemical you wish to delete is used in:\n" + 
+                           counter.condition_count + (counter.condition_count==1 ? " condition," : " conditions,") + " " +
+                           counter.well_count + (counter.well_count==1 ? " well," : " wells,") + " " +
+                           counter.screen_count + (counter.screen_count==1 ? " screen and" : " screens and") + " " +
+                           counter.stock_count + (counter.stock_count==1 ? " stock." : " stocks.") + "\n" +
+                           "You cannot delete it until it is not in use");
+            }
+        }
+    });
 }
 
 // Check if a cell is in the currently selected row
@@ -227,7 +405,7 @@ var table = new Tabulator("#chemical-tabulator", {
                 } else if (typeof value !== "number" || value < 0 || value > 14){
                     alert_user("pKas must be either null or between 0 and 14.");
                     return false;
-                } else if (cell.getRow().getValue('pka1') == null){
+                } else if (cell.getData().pka1 == null){
                     alert_user("pKa1 must not be null if entering pKa2.");
                     return false;
                 } else {
@@ -253,7 +431,7 @@ var table = new Tabulator("#chemical-tabulator", {
                 } else if (typeof value !== "number" || value < 0 || value > 14){
                     alert_user("pKas must be either null or between 0 and 14.");
                     return false;
-                } else if (cell.getRow().getValue('pka1') == null || cell.getRow().getValue('pka2') == null){
+                } else if (cell.getData().pka1 == null || cell.getData().pka2 == null){
                     alert_user("pKa1 and pKa2 must not be null if entering pKa3.");
                     return false;
                 } else {
@@ -439,10 +617,15 @@ var table = new Tabulator("#chemical-tabulator", {
                 headerMenu: column_menu,
                 editable: is_selected,
                 validator: function(cell, value){
-                    if (value == null && cell.getRow().getValue('frequentstock.unit') == null && cell.getRow().getValue('frequentstock.precipitation_concentration') == null){
+                    unit_is_null = cell.getData().frequentstock.unit == null || cell.getData().frequentstock.unit == ''
+                    conc_is_null = value == null || value == ""
+                    if (conc_is_null && unit_is_null){
                         return true;
-                    } else if (value == null || typeof value !== "number" || value <= 0){
-                        alert_user("You must specify a positive concentration when specifying a frequently made stock.");
+                    } else if (!conc_is_null && unit_is_null){
+                        alert_user("Frequent stock concentration is missing its unit.");
+                        return false;
+                    } else if (conc_is_null || typeof value !== "number" || value <= 0){
+                        alert_user("Frequent stock concentration must be greater than 0.");
                         return false;
                     } else {
                         return true;
@@ -461,17 +644,21 @@ var table = new Tabulator("#chemical-tabulator", {
                 headerMenu: column_menu,
                 editable: is_selected,
                 validator: function(cell, value){
-                    if (value == null && cell.getRow().getValue('frequentstock.concentration') == null){
+                    conc_is_null = cell.getData().frequentstock.concentration == null || cell.getData().frequentstock.concentration == ''
+                    unit_is_null = value == null || value == ""
+                    if (unit_is_null && conc_is_null){
                         return true;
-                    } else if (value == null || value == ""){
-                        alert_user("You must specify a unit when specifying a frequently made stock concentration.");
+                    } else if (!unit_is_null && conc_is_null) {
+                        return true; // Pass validation because concentration won't and one needs to to allow changing
+                    } else if (unit_is_null){
+                        alert_user("Frequent stock unit is required if its concentration is given.");
                         return false;
                     } else {
                         return true;
                     }
                 },
                 editor: "list",
-                editorParams: {values: ALL_UNITS},
+                editorParams: {values: ALL_UNITS, clearable: true},
                 headerFilter: "list",
                 headerFilterParams: {values: ALL_UNITS},
                 headerFilterPlaceholder: "Filter"
@@ -486,10 +673,15 @@ var table = new Tabulator("#chemical-tabulator", {
                 headerMenu: column_menu,
                 editable: is_selected,
                 validator: function(cell, value){
-                    if (value == null){
+                    precip_conc_unit_is_null = cell.getData().frequentstock.precipitation_concentration_unit == null || cell.getData().frequentstock.precipitation_concentration_unit == ''
+                    precip_conc_is_null = value == null || value == ""
+                    if (precip_conc_is_null && precip_conc_unit_is_null){
                         return true;
-                    } else if (typeof value !== "number" || value <= 0){
-                        alert_user("Precipitation concentration must be greater than 0.");
+                    } else if (!precip_conc_is_null && precip_conc_unit_is_null) {
+                        alert_user("Stock precipitation concentration is missing its unit.");
+                        return false;
+                    } else if (precip_conc_is_null || typeof value !== "number" || value <= 0){
+                        alert_user("Stock precipitation concentration must be greater than 0.");
                         return false;
                     } else {
                         return true;
@@ -508,17 +700,21 @@ var table = new Tabulator("#chemical-tabulator", {
                 headerMenu: column_menu,
                 editable: is_selected,
                 validator: function(cell, value){
-                    if (value == null && cell.getRow().getValue('frequentstock.precipitation_concentration') == null){
+                    precip_conc_is_null = cell.getData().frequentstock.precipitation_concentration == null || cell.getData().frequentstock.precipitation_concentration == ''
+                    precip_conc_unit_is_null = value == null || value == ""
+                    if (precip_conc_unit_is_null && precip_conc_is_null){
                         return true;
-                    } else if (value == null || value == ""){
-                        alert_user("You must specify a unit when specifying a precipitation concentration.");
+                    } else if (!precip_conc_unit_is_null && precip_conc_is_null){
+                        return true; // Pass validation because concentration won't and one needs to to allow changing
+                    } else if (precip_conc_unit_is_null){
+                        alert_user("Stock precipitation unit is required if its concentration is given.");
                         return false;
                     } else {
                         return true;
                     }
                 },
                 editor: "list",
-                editorParams: {values: ALL_UNITS},
+                editorParams: {values: ALL_UNITS, clearable: true},
                 headerFilter: "list",
                 headerFilterParams: {values: ALL_UNITS},
                 headerFilterPlaceholder: "Filter"
@@ -593,6 +789,43 @@ var table = new Tabulator("#chemical-tabulator", {
 
 table.on("dataFiltered", update_chemical_count_filtered);
 table.on("dataLoaded", update_chemical_count_loaded);
+
+// Adding a new chemical button. Adds a new row to the table with nulls and begins its editing
+$('#add-chemical-button').click(function(){
+    table.addRow({
+        id: null,
+        available: 1,
+        name: null,
+        formula: null,
+        pka1: null,
+        pka2: null,
+        pka3: null,
+        density: null,
+        molecular_weight: null,
+        solubility: null,
+        unit: ALL_UNITS[0],
+        ions: null,
+        monomer: null,
+        chemical_abstracts_db_id: null,
+        critical_micelle_concentration: null,
+        smiles: null,
+        frequentstock: {
+            concentration: null,
+            unit: null,
+            precipitation_concentration: null,
+            precipitation_concentration_unit: null
+        },
+        aliases: []
+    }, true).then(function(row){
+        // Reshow all columns when adding new chemical
+        let columns = table.getColumns()
+        for(i in columns){
+            columns[i].show();
+        }
+        table.scrollToRow(row, "top", true);
+        row_edit(row);
+    });
+});
 
 // Refresh button
 $('#reload-chemicals-button').click(function(){

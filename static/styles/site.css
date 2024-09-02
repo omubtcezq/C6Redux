@@ -148,24 +148,13 @@ button {
 #confirmation-popup,
 #information-popup {
   position: fixed;
-  width: 250px;
-  left: calc(50% - 125px);
+  width: 350px;
+  left: calc(50% - 175px);
   top: 25%;
   z-index: 10;
   background-color: rgb(197 170 221);
   text-align: center;
   border: 1px solid #999
-}
-
-#login-popup,
-#confirmation-popup {
-  width: 350px;
-  left: calc(50% - 175px);
-}
-
-#information-popup {
-  width: 250px;
-  left: calc(50% - 125px);
 }
 
 #login-button-table,
@@ -190,4 +179,5 @@ button {
 #confirmation-message,
 #information-message {
   color: rgb(0, 0, 0);
+  white-space: pre-wrap;
 }

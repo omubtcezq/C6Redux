@@ -137,7 +137,7 @@ async def create_stock(*, authorised_user: db.ApiUserRead=Depends(auth.get_autho
                response_description="None")
 async def delete_stock(*, authorised_user: db.ApiUserRead=Depends(auth.get_authorised_user), session: Session=Depends(db.get_write_session), stock_id: int):
     """
-    Get contents of a single stock
+    Delete a stock from the database
     """
     # find and remove stock
     stock = session.get(db.Stock, stock_id)

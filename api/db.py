@@ -62,9 +62,9 @@ class ApiUserRead(ApiUserBase):
 
 class ChemicalBase(SQLModel):
     name: str
+    unit: str | None = Field(default=None)
 
 class ChemicalBaseLarge(ChemicalBase):
-    unit: str | None = Field(default=None)
     formula: str | None = Field(default=None)
     density: float | None = Field(default=None)
     solubility: float | None = Field(default=None)
@@ -88,54 +88,70 @@ class Chemical(ChemicalBaseLarge, table=True):
     low_chemical_phcurves: list["PhCurve"] = Relationship(back_populates="low_chemical", sa_relationship_kwargs={"foreign_keys": "[PhCurve.low_chemical_id]"})
     high_chemical_phcurves:  list["PhCurve"] = Relationship(back_populates="high_chemical", sa_relationship_kwargs={"foreign_keys": "[PhCurve.high_chemical_id]"})
 
-# Read when screen or stock read
+# Read when chemical names read, screen read, stock read
 class ChemicalReadLite(ChemicalBase):
     id: int
-
-# Read when chemical names read
-class ChemicalReadLiteAlias(ChemicalReadLite):
     aliases: list["AliasRead"]
-    unit: str | None
-
-# Read when chemical list is read or when chemical selected in query and units needed
-class ChemicalRead(ChemicalBaseLarge):
-    id: int
 
 # Read when chemical is read
-class ChemicalContentsRead(ChemicalBaseLarge):
+class ChemicalRead(ChemicalBaseLarge):
     id: int
-    frequentstock: "FreqentStockRead | None" = None
+    frequentstock: "FrequentStockRead | None" = None
     aliases: list["AliasRead"]
+
+# Use when chemical updated
+class ChemicalUpdate(ChemicalBaseLarge):
+    id: int
+    frequentstock: "FrequentStockCreate | None" = None
+    aliases: list["AliasCreate"]
+
+# Use when chemical created
+class ChemicalCreate(ChemicalBaseLarge):
+    frequentstock: "FrequentStockCreate | None" = None
+    aliases: list["AliasCreate"]
 
 # ============================== FrequentStock =============================== #
 
 class FrequentStockBase(SQLModel):
-    chemical_id: int = Field(foreign_key="chemical.id", primary_key=True)
     concentration: float | None = Field(default=None)
     unit: str | None = Field(default=None)
     precipitation_concentration: float | None = Field(default=None)
     precipitation_concentration_unit: str | None = Field(default=None)
 
 class FrequentStock(FrequentStockBase, table=True):
+    chemical_id: int = Field(foreign_key="chemical.id", primary_key=True)
     chemical: Chemical = Relationship(back_populates="frequentstock")
 
 # Read when chemical is read
-class FreqentStockRead(FrequentStockBase):
+class FrequentStockRead(FrequentStockBase):
+    chemical_id: int
+
+# Use when updating chemical
+class FrequentStockUpdate(FrequentStockBase):
+    chemical_id: int
+
+# Use when creating chemical
+class FrequentStockCreate(FrequentStockBase):
     pass
 
 # ================================== Alias =================================== #
 
 class AliasBase(SQLModel):
     name: str
-    chemical_id: int = Field(foreign_key="chemical.id")
 
 class Alias(AliasBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
+    chemical_id: int = Field(foreign_key="chemical.id")
     chemical: Chemical = Relationship(back_populates="aliases")
 
-# Read when stock or chemical is read
+# Read when chemical is read
 class AliasRead(AliasBase):
     id: int
+    chemical_id: int
+
+# Use when chemical created
+class AliasCreate(AliasBase):
+    pass
 
 # ======================== WellCondition Factor Link ========================= #
 
@@ -165,7 +181,7 @@ class FactorRead(FactorBase):
 # Read when stock is read
 class FactorReadAlias(FactorBase):
     id: int
-    chemical: ChemicalReadLiteAlias
+    chemical: ChemicalReadLite
 
 # Use when updating or creating stock
 class FactorCreate(FactorBase):
