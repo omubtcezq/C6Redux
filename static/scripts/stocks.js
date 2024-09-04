@@ -321,6 +321,24 @@ var table = new Tabulator("#stock-tabulator", {
                     alert_user("You must specify a stock name.");
                     return false;
                 } else {
+                    var all_data = cell.getTable().getData();
+                    var this_data = cell.getData();
+                    for (i in all_data){
+                        var looped_data = all_data[i];
+                        if (looped_data.id == this_data.id){
+                            continue;
+                        }
+                        if (looped_data.name == value){
+                            alert_user("A stock with the same name already exists.\nCannot have multiple stocks of the same name.");
+                            return false;
+                        } else if (looped_data.factor.chemical.id == this_data.factor.chemical.id && 
+                                   looped_data.factor.concentration == this_data.factor.concentration && 
+                                   looped_data.factor.unit == this_data.factor.unit && 
+                                   looped_data.factor.ph == this_data.factor.ph){
+                            alert_user("Stock: "+looped_data.name+" has the same concentration, unit and ph.\nCannot have multiple stocks of the same chemical factor.");
+                            return false;
+                        }
+                    }
                     return true;
                 }
             },

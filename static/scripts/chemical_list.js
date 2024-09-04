@@ -374,6 +374,18 @@ var table = new Tabulator("#chemical-tabulator", {
                     alert_user("You must specify a chemical name.");
                     return false;
                 } else {
+                    var all_data = cell.getTable().getData();
+                    var this_data = cell.getData();
+                    for (i in all_data){
+                        var looped_data = all_data[i];
+                        if (looped_data.id == this_data.id){
+                            continue;
+                        }
+                        if (looped_data.name == value){
+                            alert_user("A chemical with the same name already exists.\nCannot have multiple chemicals of the same name.");
+                            return false;
+                        }
+                    }
                     return true;
                 }
             },
@@ -852,6 +864,25 @@ var table = new Tabulator("#chemical-tabulator", {
                         alert_user("You must specify an alias name.");
                         return false;
                     } else {
+                        var all_data = row.getTable().getData();
+                        var this_alias = cell.getData();
+                        for (i in all_data){
+                            var chemical = all_data[i];
+                            if (chemical.name == value){
+                                alert_user("Chemical "+chemical.name+" is named the same as a given alias.\nCannot name alises the same as an existing chemical.");
+                                return false;
+                            }
+                            for (j in chemical.aliases){
+                                var alias = chemical.aliases[j];
+                                if (alias.id == this_alias.id){
+                                    continue;
+                                }
+                                if (alias.name == value){
+                                    alert_user("Chemical "+chemical.name+" has the same alias as one given.\nCannot have multiple aliases of the same name.");
+                                    return false;
+                                }
+                            }
+                        }
                         return true;
                     }
                 },
