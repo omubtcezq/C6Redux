@@ -112,7 +112,7 @@ async def create_chemical(*, authorised_user: db.ApiUserRead=Depends(auth.get_au
     for alias in chemical.aliases:
         session.delete(alias)
     for new_alias in new_chemical.aliases:
-        session.add(db.Alias().sqlmodel_update(new_alias.model_dump(exclude_unset=True)))
+        session.add(db.Alias(chemical_id=chemical.id).sqlmodel_update(new_alias.model_dump(exclude_unset=True)))
     session.commit()
     session.refresh(chemical)
 

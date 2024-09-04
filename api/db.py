@@ -103,7 +103,7 @@ class ChemicalRead(ChemicalBaseLarge):
 class ChemicalUpdate(ChemicalBaseLarge):
     id: int
     frequentstock: "FrequentStockCreate | None" = None
-    aliases: list["AliasCreate"]
+    aliases: list["AliasUpdate"]
 
 # Use when chemical created
 class ChemicalCreate(ChemicalBaseLarge):
@@ -134,15 +134,20 @@ class FrequentStockCreate(FrequentStockBase):
 
 class AliasBase(SQLModel):
     name: str
-    chemical_id: int = Field(foreign_key="chemical.id")
 
 class Alias(AliasBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
+    chemical_id: int = Field(foreign_key="chemical.id")
     chemical: Chemical = Relationship(back_populates="aliases")
 
 # Read when chemical is read
 class AliasRead(AliasBase):
     id: int
+    chemical_id: int
+
+# Use when chemical created
+class AliasUpdate(AliasBase):
+    chemical_id: int
 
 # Use when chemical created
 class AliasCreate(AliasBase):

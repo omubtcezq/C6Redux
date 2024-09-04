@@ -63,6 +63,11 @@ function row_save(row){
     if (chemical.id === null){
         // New chemical being added, remove the null id as a new one will be recieved
         delete chemical.id;
+        // Similarly for the chemical ids of the aliases
+        for (i in chemical.aliases){
+            delete chemical.aliases[i].chemical_id;
+        }
+
         // Authorise and make api call
         to_authorise = function(auth_token){
             $.ajax({
