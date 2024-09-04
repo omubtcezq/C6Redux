@@ -74,7 +74,13 @@ async def update_chemical(*, authorised_user: db.ApiUserRead=Depends(auth.get_au
     session.commit()
     session.refresh(chemical)
 
-    # TODO Aliases
+    # Remove all aliases and re-add new ones
+    for alias in chemical.aliases:
+        session.delete(alias)
+    for new_alias in updated_chemical.aliases:
+        session.add(db.Alias().sqlmodel_update(new_alias.model_dump(exclude_unset=True)))
+    session.commit()
+    session.refresh(chemical)
 
     # Log and return updated chemical
     print("Chemical update performed by user: %s" % authorised_user.username)
@@ -102,7 +108,13 @@ async def create_chemical(*, authorised_user: db.ApiUserRead=Depends(auth.get_au
     session.commit()
     session.refresh(chemical)
 
-    # TODO Aliases
+    # Remove all aliases and re-add new ones
+    for alias in chemical.aliases:
+        session.delete(alias)
+    for new_alias in new_chemical.aliases:
+        session.add(db.Alias().sqlmodel_update(new_alias.model_dump(exclude_unset=True)))
+    session.commit()
+    session.refresh(chemical)
 
     # Log and return new chemical
     print("Chemical creation performed by user: %s" % authorised_user.username)
@@ -130,7 +142,10 @@ async def delete_chemical(*, authorised_user: db.ApiUserRead=Depends(auth.get_au
             session.delete(factor)
     session.commit()
 
-    # TODO Aliases
+    # Remove all aliases
+    for alias in chemical.aliases:
+        session.delete(alias)
+    session.commit()
 
     session.delete(chemical)
     session.commit()

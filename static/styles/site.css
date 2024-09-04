@@ -142,6 +142,21 @@ button {
   text-align: left;
 }
 
+.holder-for-subtable {
+  box-sizing: border-box;
+  padding: 15px;
+  margin: auto;
+  background: rgb(221, 221, 221);
+}
+
+.subtable {
+  margin-right: auto;
+}
+
+.alias-subtable {
+  width: 600px;
+}
+
 /* Popup windows */
 
 #login-popup,
@@ -152,7 +167,7 @@ button {
   left: calc(50% - 175px);
   top: 25%;
   z-index: 10;
-  background-color: rgb(197 170 221);
+  background-color: rgb(197, 170, 221);
   text-align: center;
   border: 1px solid #999
 }

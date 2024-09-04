@@ -126,11 +126,7 @@ class FrequentStock(FrequentStockBase, table=True):
 class FrequentStockRead(FrequentStockBase):
     chemical_id: int
 
-# Use when updating chemical
-class FrequentStockUpdate(FrequentStockBase):
-    chemical_id: int
-
-# Use when creating chemical
+# Use when creating or updating chemical
 class FrequentStockCreate(FrequentStockBase):
     pass
 
@@ -138,16 +134,15 @@ class FrequentStockCreate(FrequentStockBase):
 
 class AliasBase(SQLModel):
     name: str
+    chemical_id: int = Field(foreign_key="chemical.id")
 
 class Alias(AliasBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
-    chemical_id: int = Field(foreign_key="chemical.id")
     chemical: Chemical = Relationship(back_populates="aliases")
 
 # Read when chemical is read
 class AliasRead(AliasBase):
     id: int
-    chemical_id: int
 
 # Use when chemical created
 class AliasCreate(AliasBase):

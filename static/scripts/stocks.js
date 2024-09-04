@@ -33,9 +33,11 @@ function row_save(row){
     var table = row.getTable();
 
     // Validate current edit
-    var valid = row.validate();
-    if (valid !== true){
-        return;
+    var cells = row.getCells();
+    for (i in cells){
+        if (cells[i].validate() !== true){
+            return;
+        }
     }
 
     // Make expected data object
@@ -276,14 +278,15 @@ var table = new Tabulator("#stock-tabulator", {
     initialFilter:[],
     selectableRows: false,
     index: "id",
-    persistence: {
-        sort: false,
-        filter: false,
-        headerFilter: false,
-        group: true,
-        page: false,
-        columns: true,
-    },
+    validationMode: 'manual',
+    // persistence: {
+    //     sort: false,
+    //     filter: false,
+    //     headerFilter: false,
+    //     group: true,
+    //     page: false,
+    //     columns: true,
+    // },
     columns: [
         // Available
         {
@@ -426,8 +429,14 @@ var table = new Tabulator("#stock-tabulator", {
                 }
                 return false;
             },
-            // Display only name from the chemical object in the cell
-            formatter: function(cell, formatterParams, onRendered){return cell.getValue().name + (cell.getValue().aliases.length ? ' (aliases: ' + cell.getValue().aliases.length + ')' : "");}
+            // Display only name and alias count from the chemical object in the cell
+            formatter: function(cell, formatterParams, onRendered){
+                if (cell.getValue().name == null){
+                    return "";
+                } else {
+                    return cell.getValue().name + (cell.getValue().aliases.length ? ' (aliases: ' + cell.getValue().aliases.length + ')' : "");
+                }
+            }
 
         // Concentration
         }, {
@@ -716,7 +725,7 @@ var table = new Tabulator("#stock-tabulator", {
             field: "actions", 
             width: 170, 
             // Depeding on whether a row is selected, if some other row is selected or if no row selected display apporpriate buttons
-            formatter: function formatter_buttons(cell, formatterParams, onRendered){
+            formatter: function (cell, formatterParams, onRendered){
                 if (cell.getRow().isSelected()){
                     div = $('<table>').attr('class', 'button-table').append($('<tbody>').append(
                         $('<tr>').append(
@@ -753,7 +762,7 @@ var table = new Tabulator("#stock-tabulator", {
                 return div.prop('outerHTML');
             }, 
             // When the cell is clicked, check if or which button has been clicked and perform the right action
-            cellClick: function cellclick_action(e, cell){
+            cellClick: function(e, cell){
                 target = $(e.target);
                 if (target.hasClass('edit-button')) {
                     row_edit(cell.getRow());

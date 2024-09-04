@@ -23,25 +23,41 @@ function row_edit(row){
     // Reformat rows to hide buttons from non-selected row
     all_rows = table.getRows();
     $.each(all_rows, function(i, r){r.reformat()});
-    // Reset values, this allows cancel to return to the old values
-    cells = row.getCells();
-    $.each(cells, function(i, c){c.setValue(c.getValue());});
+    // Save old values, this allows cancel to return to how it was
+    row.getData().old_data = $.extend(true, {}, row.getData());
 }
 
 // Save row being edited
 function row_save(row){
     var table = row.getTable();
 
-    // Validate current edit
-    var valid = row.validate();
-    if (valid !== true){
-        return;
+    // Validate current edit, stop at first fail (will trigger notification)
+    var cells = row.getCells();
+    for (i in cells){
+        if (cells[i].validate() !== true){
+            return;
+        }
+    }
+    // Get alias subtable and validate it too
+    var alias_table = Tabulator.findTable('#alias-subtable-'+row.getData().id)[0];
+    var alias_table_rows = alias_table.getRows();
+    for (i in alias_table_rows){
+        var alias_table_cells = alias_table_rows[i].getCells();
+        for (j in alias_table_cells){
+            if (alias_table_cells[j].validate() !== true){
+                return;
+            }
+        }
     }
 
     // Make expected data object
     var chemical = $.extend(true, {}, row.getData());
     // Remove added property for button column
     delete chemical.actions;
+    // Remove ids from aliases (these are no longer db ids but rather tabulator ids)
+    for (i in chemical.aliases){
+        delete chemical.aliases[i].id;
+    }
 
     // Either update a chemical or add a new one. This is checked by looking at the id
     if (chemical.id === null){
@@ -96,6 +112,8 @@ function row_save(row){
                             // On success replace with contents of returned chemical (shouldn't be different)
                             success: function(returned_chemical) {
                                 table.updateRow(chemical.id, returned_chemical);
+                                // Old data can be dropped
+                                delete row.getData().old_data
                                 // Refresh filters
                                 table.refreshFilter();
                                 // Finish editing row
@@ -141,7 +159,7 @@ function row_cancel(row){
         table.deleteRow(row);
     // If id present, return the values to what they were before editing
     } else {
-        $.each(cells, function(i, c){c.restoreInitialValue();});
+        row.update(row.getData().old_data);
     }
     // Finish editing
     stop_editing(table);
@@ -309,14 +327,15 @@ var table = new Tabulator("#chemical-tabulator", {
     initialFilter:[],
     selectableRows: false,
     index: "id",
-    persistence: {
-        sort: false,
-        filter: false,
-        headerFilter: false,
-        group: true,
-        page: false,
-        columns: true,
-    },
+    validationMode: 'manual',
+    // persistence: {
+    //     sort: false,
+    //     filter: false,
+    //     headerFilter: false,
+    //     group: true,
+    //     page: false,
+    //     columns: true,
+    // },
     columns: [
         // Available
         {
@@ -353,7 +372,28 @@ var table = new Tabulator("#chemical-tabulator", {
             },
             editor: "input",
             headerFilter: "input",
-            headerFilterPlaceholder: "Filter"
+            headerFilterPlaceholder: "Filter",
+            // Header filter also searches names and aliases
+            headerFilterFunc: function (term, cell_val, row_data, filter_params){
+                if (row_data.name.toLowerCase().includes(term.toLowerCase())){
+                    return true;
+                } else {
+                    for (i in row_data.aliases){
+                        if (row_data.aliases[i].name.toLowerCase().includes(term.toLowerCase())){
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            },
+            // Display alias count in brackets after name
+            formatter: function(cell, formatterParams, onRendered){
+                if (is_selected(cell)){
+                    return cell.getData().name
+                } else {
+                    return cell.getData().name + (cell.getData().aliases.length ? ' (aliases: ' + cell.getData().aliases.length + ')' : "");
+                }
+            }
             
         // Formula
         }, {
@@ -726,7 +766,7 @@ var table = new Tabulator("#chemical-tabulator", {
             field: "actions", 
             width: 170, 
             // Depeding on whether a row is selected, if some other row is selected or if no row selected display apporpriate buttons
-            formatter: function formatter_buttons(cell, formatterParams, onRendered){
+            formatter: function (cell, formatterParams, onRendered){
                 if (cell.getRow().isSelected()){
                     div = $('<table>').attr('class', 'button-table').append($('<tbody>').append(
                         $('<tr>').append(
@@ -763,7 +803,7 @@ var table = new Tabulator("#chemical-tabulator", {
                 return div.prop('outerHTML');
             }, 
             // When the cell is clicked, check if or which button has been clicked and perform the right action
-            cellClick: function cellclick_action(e, cell){
+            cellClick: function(e, cell){
                 target = $(e.target);
                 if (target.hasClass('edit-button')) {
                     row_edit(cell.getRow());
@@ -779,12 +819,91 @@ var table = new Tabulator("#chemical-tabulator", {
             hozAlign: "center", 
             vertAlign: "middle", 
             resizable: false, 
-            frozen: true}
-    ],
+            frozen: true
+    }],
     initialSort: [
         {column: "name", dir: "asc"}
     ],
-    footerElement: $('<div>').append($('<span>').attr('id', 'chemical-row-count')).append($('<span>').attr('id', 'filtered-chemical-row-count')).prop('outerHTML')
+    footerElement: $('<div>').append($('<span>').attr('id', 'chemical-row-count')).append($('<span>').attr('id', 'filtered-chemical-row-count')).prop('outerHTML'),
+    rowFormatter: function(row, e) {
+        var chem_id = row.getData().id;
+        var subtable = $('<div>').attr('id', 'alias-subtable-'+chem_id).attr('class', 'subtable alias-subtable');
+        var subtable_tabulator = new Tabulator(subtable[0], {
+            layout: "fitColumns",
+            data: row.getData().aliases,
+            selectableRows: false,
+            rowHeight: 48,
+            placeholder: "No Aliases",
+            validationMode: 'manual',
+            columns: [{
+                title: "Alias",
+                field: "name",
+                vertAlign: "middle",
+                editor: "input",
+                validator: function(cell, value){
+                    if (value == null || value == ""){
+                        alert_user("You must specify an alias name.");
+                        return false;
+                    } else {
+                        return true;
+                    }
+                },
+            }, {
+                title: "", 
+                field: "actions", 
+                width: 100, 
+                // Display button to remove each alias
+                formatter: function (cell, formatterParams, onRendered){
+                    div = $('<table>').attr('class', 'button-table').append($('<tbody>').append(
+                        $('<tr>').append(
+                            $('<td>').append(
+                                $('<button>').
+                                attr('id', 'delete-alias-'+cell.getData().id).
+                                attr('class', 'delete-button table-cell-button').
+                                text('Remove')
+                            )
+                        )
+                    ));
+                    return div.prop('outerHTML');
+                }, 
+                // When the cell is clicked, check if the button itself was clicked and remove data
+                cellClick: function(e, cell){
+                    target = $(e.target);
+                    if (target.hasClass('delete-button')){
+                        var alias_cell_id = cell.getData().id;
+                        row.getData().aliases = row.getData().aliases.filter(function(a){return a.id != alias_cell_id});
+
+                        // TODO causes tabulator warning - how to get rid of it??
+                        cell.getTable().replaceData(row.getData().aliases);
+                    }
+                }, 
+                headerSort: false, 
+                hozAlign: "center", 
+                vertAlign: "middle", 
+                resizable: false
+            }]
+        });
+
+        // Hold of subtable contains add new alias button
+        var holder = $('<div>').attr('class', 'holder-for-subtable');
+        var add_button = $('<table>').append($('<tbody>').append($('<tr>').append($('<td>').append(
+            $('<button>').attr('id', 'add-alias-'+chem_id).attr('class', 'table-cell-button add-button').text('Add Alias').click(function(){
+                // Adds data to original row and reloads the subtable. Unique id required and ignored when saving
+                row.getData().aliases.push({id: Date.now(), name: null, chemical_id: row.getData().id});
+                subtable_tabulator.setData(row.getData().aliases);
+            })
+        ))));
+
+        // Add subtable to row element
+        $(row.getElement()).append(holder.append(add_button).append(subtable));
+
+        // Only display it when the row is selected
+        if (row.isSelected()){
+            holder.show();
+        } else {
+            holder.hide();
+        }
+      },
 });
 
 table.on("dataFiltered", update_chemical_count_filtered);
