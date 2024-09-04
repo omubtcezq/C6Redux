@@ -23,9 +23,8 @@ function row_edit(row){
     // Reformat rows to hide buttons from non-selected row
     all_rows = table.getRows();
     $.each(all_rows, function(i, r){r.reformat()});
-    // Reset values, this allows cancel to return to the old values
-    cells = row.getCells();
-    $.each(cells, function(i, c){c.setValue(c.getValue());});
+    // Save old values, this allows cancel to return to how it was
+    row.getData().old_data = $.extend(true, {}, row.getData());
 }
 
 // Save row being edited
@@ -67,6 +66,8 @@ function row_save(row){
                 // On success replace row with contents of returned new stock
                 success: function(returned_stock) {
                     table.updateRow(row, returned_stock);
+                    // Old data can be dropped
+                    delete row.getData().old_data
                     // Id needs to be manually updated
                     row.getData().id = returned_stock.id
                     // Update row count
@@ -100,6 +101,8 @@ function row_save(row){
                 // On success replace with contents of returned stock (shouldn't be different)
                 success: function(returned_stock) {
                     table.updateRow(stock.id, returned_stock);
+                    // Old data can be dropped
+                    delete row.getData().old_data
                     // Refresh filters
                     table.refreshFilter();
                     // Finish editing row
@@ -130,7 +133,7 @@ function row_cancel(row){
         table.deleteRow(row);
     // If id present, return the values to what they were before editing
     } else {
-        $.each(cells, function(i, c){c.restoreInitialValue();});
+        row.update(row.getData().old_data);
     }
     // Finish editing
     stop_editing(table);

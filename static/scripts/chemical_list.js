@@ -78,6 +78,8 @@ function row_save(row){
                 // On success replace row with contents of returned new chemical
                 success: function(returned_chemical) {
                     table.updateRow(row, returned_chemical);
+                    // Old data can be dropped
+                    delete row.getData().old_data
                     // Id needs to be manually updated
                     row.getData().id = returned_chemical.id
                     // Update row count
