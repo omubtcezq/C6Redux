@@ -176,6 +176,17 @@ async def get_use_of_chemical(*, session: Session=Depends(db.get_readonly_sessio
                                stock_count=stock_count)
     return counter
 
+@router.get("/phcurve_all", 
+            summary="Get a list of all pH curves",
+            response_description="List of all pH curves",
+            response_model=list[db.PhCurveRead])
+async def get_phcurves(*, session: Session=Depends(db.get_readonly_session)):
+    """
+    Get a list of all pH curves
+    """
+    statement = select(db.PhCurve)
+    curves = session.exec(statement).all()
+    return curves
 
 # HOPEFULLY TEMPORARY
 

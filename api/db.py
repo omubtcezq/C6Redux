@@ -267,6 +267,13 @@ class PhCurve(PhCurveBase, table=True):
     high_chemical: Chemical = Relationship(back_populates="high_chemical_phcurves", sa_relationship_kwargs={"foreign_keys": "[PhCurve.high_chemical_id]"})
     points: list["PhPoint"] = Relationship(back_populates="phcurve")
 
+class PhCurveRead(PhCurveBase):
+    id: int
+    chemical: ChemicalReadLite
+    low_chemical: ChemicalReadLite
+    high_chemical: ChemicalReadLite
+    points: list["PhPointRead"]
+
 # ================================== PhPoint ================================== #
 
 class PhPointBase(SQLModel):
@@ -277,6 +284,9 @@ class PhPointBase(SQLModel):
 class PhPoint(PhPointBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
     phcurve: PhCurve = Relationship(back_populates="points")
+
+class PhPointRead(PhPointBase):
+    id: int
 
 # ================================== Screen ================================== #
 

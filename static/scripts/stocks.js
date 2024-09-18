@@ -457,6 +457,10 @@ var table = new Tabulator("#stock-tabulator", {
                 } else {
                     return cell.getValue().name + (cell.getValue().aliases.length ? ' (aliases: ' + cell.getValue().aliases.length + ')' : "");
                 }
+            },
+            // Sorter should sort by chemical name
+            sorter: function(a, b, aRow, bRow, column, dir, sorterParams){
+                return a.name.localeCompare(b.name);
             }
 
         // Concentration
@@ -477,6 +481,7 @@ var table = new Tabulator("#stock-tabulator", {
                 }
             },
             editor: "number",
+            sorter: "number",
             headerFilter: "number",
             headerFilterPlaceholder: "Filter"
 
@@ -522,6 +527,7 @@ var table = new Tabulator("#stock-tabulator", {
                 }
             },
             editor: "number",
+            sorter: "number",
             headerFilter: "number",
             headerFilterPlaceholder: "Filter"
 
@@ -562,6 +568,7 @@ var table = new Tabulator("#stock-tabulator", {
                 }
             },
             editor: "number",
+            sorter: "number",
             headerFilter: "number",
             headerFilterPlaceholder: "Filter"
 
@@ -585,6 +592,7 @@ var table = new Tabulator("#stock-tabulator", {
                 }
             },
             editor: "number",
+            sorter: "number",
             headerFilter: "number",
             headerFilterPlaceholder: "Filter"
 
@@ -608,6 +616,7 @@ var table = new Tabulator("#stock-tabulator", {
                 }
             },
             editor: "number",
+            sorter: "number",
             headerFilter: "number",
             headerFilterPlaceholder: "Filter"
 
@@ -671,7 +680,11 @@ var table = new Tabulator("#stock-tabulator", {
                 return row_data.apiuser.username.toLowerCase().includes(term.toLowerCase());
             },
             // Format cell to display only the username from the apisuer object
-            formatter: function(cell, formatterParams, onRendered){return cell.getValue().username;}
+            formatter: function(cell, formatterParams, onRendered){return cell.getValue().username;},
+            // Sorter should sort by username name
+            sorter: function(a, b, aRow, bRow, column, dir, sorterParams){
+                return a.username.localeCompare(b.username);
+            }
 
         // Hazards
         }, {
@@ -726,7 +739,9 @@ var table = new Tabulator("#stock-tabulator", {
             // Format cell to display only the hazard names
             formatter: function(cell, formatterParams, onRendered){
                 return $.map(cell.getValue(), function(h){return h.name;}).join(',')
-            }
+            },
+            // No sorter should appear
+            headerSort: false
 
         // Comments
         }, {

@@ -335,6 +335,7 @@ var table = new Tabulator("#chemical-tabulator", {
     selectableRows: false,
     index: "id",
     validationMode: 'manual',
+    renderVerticalBuffer: 4800,
     // persistence: {
     //     sort: false,
     //     filter: false,
@@ -446,6 +447,7 @@ var table = new Tabulator("#chemical-tabulator", {
                 }
             },
             editor: "number",
+            sorter: "number",
             headerFilter: "number",
             headerFilterPlaceholder: "Filter"
 
@@ -472,6 +474,7 @@ var table = new Tabulator("#chemical-tabulator", {
                 }
             },
             editor: "number",
+            sorter: "number",
             headerFilter: "number",
             headerFilterPlaceholder: "Filter"
             
@@ -498,10 +501,11 @@ var table = new Tabulator("#chemical-tabulator", {
                 }
             },
             editor: "number",
+            sorter: "number",
             headerFilter: "number",
             headerFilterPlaceholder: "Filter"
             
-            // Density
+        // Density
         }, {
             title: "Density", 
             field: "density", 
@@ -521,6 +525,7 @@ var table = new Tabulator("#chemical-tabulator", {
                 }
             },
             editor: "number",
+            sorter: "number",
             headerFilter: "number",
             headerFilterPlaceholder: "Filter"
 
@@ -542,6 +547,7 @@ var table = new Tabulator("#chemical-tabulator", {
                 }
             },
             editor: "number",
+            sorter: "number",
             headerFilter: "number",
             headerFilterPlaceholder: "Filter"
             
@@ -565,6 +571,7 @@ var table = new Tabulator("#chemical-tabulator", {
                 }
             },
             editor: "number",
+            sorter: "number",
             headerFilter: "number",
             headerFilterPlaceholder: "Filter"
 
@@ -646,6 +653,7 @@ var table = new Tabulator("#chemical-tabulator", {
                 }
             },
             editor: "number",
+            sorter: "number",
             headerFilter: "number",
             headerFilterPlaceholder: "Filter"
 
@@ -691,6 +699,7 @@ var table = new Tabulator("#chemical-tabulator", {
                     }
                 },
                 editor: "number",
+                sorter: "number",
                 headerFilter: "number",
                 headerFilterPlaceholder: "Filter"
 
@@ -747,10 +756,11 @@ var table = new Tabulator("#chemical-tabulator", {
                     }
                 },
                 editor: "number",
+                sorter: "number",
                 headerFilter: "number",
                 headerFilterPlaceholder: "Filter"
 
-                // Precipitation Concentration Unit
+            // Precipitation Concentration Unit
             }, {
                 title: "Precipitation Concentration Unit", 
                 field: "frequentstock.precipitation_concentration_unit", 
@@ -861,7 +871,7 @@ var table = new Tabulator("#chemical-tabulator", {
                 editor: "input",
                 validator: function(cell, value){
                     if (value == null || value == ""){
-                        alert_user("You must specify an alias name.");
+                        alert_user("Chemical aliases must have a name specified.");
                         return false;
                     } else {
                         var all_data = row.getTable().getData();
@@ -922,7 +932,7 @@ var table = new Tabulator("#chemical-tabulator", {
             }]
         });
 
-        // Hold of subtable contains add new alias button
+        // Holder of subtable contains add new alias button
         var holder = $('<div>').attr('class', 'holder-for-subtable');
         var add_button = $('<table>').append($('<tbody>').append($('<tr>').append($('<td>').append(
             $('<button>').attr('id', 'add-alias-'+chem_id).attr('class', 'table-cell-button add-button').text('Add Alias').click(function(){
