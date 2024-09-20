@@ -274,19 +274,33 @@ class PhCurveRead(PhCurveBase):
     high_chemical: ChemicalReadLite
     points: list["PhPointRead"]
 
+class PhCurveUpdate(PhCurveBase):
+    id: int
+    points: list["PhPointUpdate"]
+
+class PhCurveCreate(PhCurveBase):
+    points: list["PhPointCreate"]
+
 # ================================== PhPoint ================================== #
 
 class PhPointBase(SQLModel):
-    phcurve_id: int = Field(foreign_key="phcurve.id")
     high_chemical_percentage: float
     result_ph: float
 
 class PhPoint(PhPointBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
+    phcurve_id: int = Field(foreign_key="phcurve.id")
     phcurve: PhCurve = Relationship(back_populates="points")
 
 class PhPointRead(PhPointBase):
     id: int
+    phcurve_id: int
+
+class PhPointUpdate(PhPointBase):
+    phcurve_id: int
+
+class PhPointCreate(PhPointBase):
+    pass
 
 # ================================== Screen ================================== #
 

@@ -52,6 +52,15 @@ function row_save(row){
 
     // Make expected data object
     var phcurve = $.extend(true, {}, row.getData());
+    // Existing chemical always referenced from curve, save and keep only id
+    phcurve.chemical_id = phcurve.chemical.id;
+    delete phcurve.chemical;
+    // Existing low end chemical always referenced from curve, save and keep only id
+    phcurve.low_chemical_id = phcurve.low_chemical.id;
+    delete phcurve.low_chemical;
+    // Existing high chemical always referenced from curve, save and keep only id
+    phcurve.high_chemical_id = phcurve.high_chemical.id;
+    delete phcurve.high_chemical;
     // Remove added property for button column
     delete phcurve.actions;
     // Remove ids from points (these are no longer db ids but rather tabulator ids)
@@ -393,6 +402,21 @@ var table = new Tabulator("#phcurve-tabulator", {
                     alert_user("You must select a chemical.");
                     return false;
                 } else {
+                    var all_data = cell.getTable().getData();
+                    var this_data = cell.getData();
+                    for (i in all_data){
+                        var looped_data = all_data[i];
+                        if (looped_data.id == this_data.id){
+                            continue;
+                        }
+                        if (looped_data.chemical.id == value.id && 
+                            Math.abs(looped_data.low_range - this_data.low_range) <= PH_MIN_DIFF && 
+                            Math.abs(looped_data.high_range - this_data.high_range) <= PH_MIN_DIFF){
+
+                            alert_user("A pH curve for the selected chemical and endpoints already exists.\nCannot have multiple curves for the same chemical with the same (within "+ PH_MIN_DIFF +" units) low and high endpoints.");
+                            return false;
+                        }
+                    }
                     return true;
                 }
             },
@@ -485,9 +509,8 @@ var table = new Tabulator("#phcurve-tabulator", {
                     return false;
                 // Check that non-HH curve has minimum point starting at (near) the pH
                 } else if (cell.getData().hh == 0) {
-                    var lowest_point = Math.min($.map(cell.getData().points, function(value, index){return value.result_ph}));
-                    // Note 1.2 different in pH considered same pH is copied from recipe logic in API
-                    if (Math.abs(cell.getData().low_range - lowest_point) > 1.2){
+                    var lowest_point = Math.min(...$.map(cell.getData().points, function(value, index){return value.result_ph}));
+                    if (Math.abs(cell.getData().low_range - lowest_point) > PH_MIN_DIFF){
                         alert_user("Low pH must be close to lowest pH point in curve.");
                         return false;
                     } else {
@@ -610,11 +633,10 @@ var table = new Tabulator("#phcurve-tabulator", {
                 } else if (cell.getData().low_range >= value) {
                     alert_user("High pH must be higher than low pH.");
                     return false;
-                // Check that non-HH curve has minimum point starting at (near) the pH
+                // Check that non-HH curve has maximum point ending at (near) the pH
                 } else if (cell.getData().hh == 0) {
-                    var highest_point = Math.max($.map(cell.getData().points, function(value, index){return value.result_ph}));
-                    // Note 1.2 different in pH considered same pH is copied from recipe logic in API
-                    if (Math.abs(cell.getData().high_range - highest_point) > 1.2){
+                    var highest_point = Math.max(...$.map(cell.getData().points, function(value, index){return value.result_ph}));
+                    if (Math.abs(cell.getData().high_range - highest_point) > PH_MIN_DIFF){
                         alert_user("High pH must be close to highest pH point in curve.");
                         return false;
                     } else {

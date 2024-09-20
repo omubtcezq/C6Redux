@@ -121,7 +121,7 @@ async def create_chemical(*, authorised_user: db.ApiUserRead=Depends(auth.get_au
     return chemical
 
 @router.delete("/delete", 
-               summary="Remove a chemical",
+               summary="Delete a chemical from the database",
                response_description="None")
 async def delete_chemical(*, authorised_user: db.ApiUserRead=Depends(auth.get_authorised_user), session: Session=Depends(db.get_write_session), chemical_id: int):
     """
@@ -187,6 +187,82 @@ async def get_phcurves(*, session: Session=Depends(db.get_readonly_session)):
     statement = select(db.PhCurve)
     curves = session.exec(statement).all()
     return curves
+
+@router.put("/phcurve_update", 
+            summary="Update a pH curve",
+            response_description="The updated pH curve",
+            response_model=db.PhCurveRead)
+async def update_phcurve(*, authorised_user: db.ApiUserRead=Depends(auth.get_authorised_user), session: Session=Depends(db.get_write_session), updated_phcurve: db.PhCurveUpdate):
+    """
+    Update a pH curve
+    """
+    # Add updated phcurve
+    phcurve = session.get(db.PhCurve, updated_phcurve.id).sqlmodel_update(updated_phcurve.model_dump(exclude_unset=True))
+    session.add(phcurve)
+    session.commit()
+    session.refresh(phcurve)
+
+    # Remove all phpoints and re-add new ones
+    for phpoint in phcurve.points:
+        session.delete(phpoint)
+    for new_point in updated_phcurve.points:
+        session.add(db.PhPoint().sqlmodel_update(new_point.model_dump(exclude_unset=True)))
+    session.commit()
+    session.refresh(phcurve)
+
+    # Log and return updated chemical
+    print("pH curve update performed by user: %s" % authorised_user.username)
+    return phcurve
+
+@router.post("/phcurve_create", 
+             summary="Create a new pH curve",
+             response_description="The new pH curve",
+             response_model=db.PhCurveRead)
+async def create_chemical(*, authorised_user: db.ApiUserRead=Depends(auth.get_authorised_user), session: Session=Depends(db.get_write_session), new_phcurve: db.PhCurveCreate):
+    """
+    Create a new pH curve
+    """
+    # Add phcurve and point information
+    phcurve = db.PhCurve().sqlmodel_update(new_phcurve.model_dump(exclude_unset=True))
+    session.add(phcurve)
+    session.commit()
+    session.refresh(phcurve)
+
+    # Remove all points and re-add new ones
+    for point in phcurve.points:
+        session.delete(point)
+    for new_point in new_phcurve.points:
+        session.add(db.PhPoint(phcurve_id=phcurve.id).sqlmodel_update(new_point.model_dump(exclude_unset=True)))
+    session.commit()
+    session.refresh(phcurve)
+
+    # Log and return new pH curve
+    print("pH curve creation performed by user: %s" % authorised_user.username)
+    return phcurve
+
+@router.delete("/phcurve_delete", 
+               summary="Delete a pH curve from the database",
+               response_description="None")
+async def delete_chemical(*, authorised_user: db.ApiUserRead=Depends(auth.get_authorised_user), session: Session=Depends(db.get_write_session), phcurve_id: int):
+    """
+    Delete a pH curve from the database
+    """
+
+    # Find the phcurve to remove
+    phcurve = session.get(db.PhCurve, phcurve_id)
+
+    # Remove all points
+    for point in phcurve.points:
+        session.delete(point)
+    session.commit()
+
+    session.delete(phcurve)
+    session.commit()
+
+    # Log and return
+    print("pH curve deletion performed by user: %s" % authorised_user.username)
+    return
+
 
 # HOPEFULLY TEMPORARY
 

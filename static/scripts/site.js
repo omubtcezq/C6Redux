@@ -1,12 +1,12 @@
 // Global js
 
 // Connection parameters
-// const API_ADDRESS = 'www.c6redux.au';
-// const API_PORT = '443';
-// let API_URL = 'https://'+API_ADDRESS+':'+API_PORT+'/api';
-const API_ADDRESS = 'localhost';
-const API_PORT = '8000';
-let API_URL = 'http://'+API_ADDRESS+':'+API_PORT+'/api';
+const API_ADDRESS = 'www.c6redux.au';
+const API_PORT = '443';
+let API_URL = 'https://'+API_ADDRESS+':'+API_PORT+'/api';
+// const API_ADDRESS = 'localhost';
+// const API_PORT = '8000';
+// let API_URL = 'http://'+API_ADDRESS+':'+API_PORT+'/api';
 
 // All units
 const ALL_UNITS = [
@@ -15,7 +15,9 @@ const ALL_UNITS = [
     'w/v',
     'mM',
     'mg/ml'
-]
+];
+// Different in pH considered the same
+const PH_MIN_DIFF = 1.2;
 
 
 // HOPEFULLY TEMPORARY
