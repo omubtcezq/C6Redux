@@ -343,7 +343,7 @@ var phpoints_formatter = function(cell, formatterParams, onRendered){
         graph_span.text($.map(curve, function(value, index){return value.result_ph}).join(','));
     // If HH curve, plot arbitrary HH curve (since there is no axis labels) and colour it differently
     } else {
-        graph_span.text($.map([10,20,30,40,50,60,70,80,90], function(value, index){return 1.5 + Math.log10(value/(100-value))}).join(','));
+        graph_span.text($.map([2.5,7.5,12.5,17.5,22.5,27.5,32.5,37.5,42.5,47.5,52.5,57.5,62.5,67.5,72.5,77.5,82.5,87.5,92.5,97.5], function(value, index){return 2 + Math.log10(value/(100-value))}).join(','));
         peity_options.fill = '#CEFDC6';
         peity_options.stroke = '#66F94D';
     }
