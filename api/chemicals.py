@@ -14,6 +14,10 @@ class ChemicalUseCount(BaseModel):
     screen_count: int
     stock_count: int
 
+# ============================================================================ #
+# API operations
+# ============================================================================ #
+
 router = APIRouter(
     prefix="/chemicals",
     tags=["Chemical Operations"]

@@ -9,6 +9,10 @@ import api.authentication as auth
 
 # TODO on update and delete of stock, check for factors that are no longer used (as stock or screen) and delete them from db
 
+# ============================================================================ #
+# API operations
+# ============================================================================ #
+
 router = APIRouter(
     prefix="/stocks",
     tags=["Stock Operations"]
