@@ -35,59 +35,61 @@
   <div id="site-content-stocks"></div>
   <div id="site-content-chemicals"></div>
 </div>
-<div id="login-popup" style="display: none;">
-  <form id="login-form">
-    <h2>Login</h2>
-    <p id="login-error-message"></p>
-    <input type="hidden" name="grant_type" value="password" />
-    <table id="login-input-table">
+<div id="popup-container" style="display: none;">
+  <div id="login-popup" style="display: none;">
+    <form id="login-form">
+      <h2>Login</h2>
+      <p id="login-error-message"></p>
+      <input type="hidden" name="grant_type" value="password" />
+      <table id="login-input-table">
+        <tbody>
+          <tr>
+            <td><label for="username-input">Username</label></td>
+            <td><input id="username-input" type="text" placeholder="Enter Username" name="username" required></td>
+          </tr>
+          <tr>
+            <td><label for="password-input">Password</label></td>
+            <td><input id="password-input" type="password" placeholder="Enter Password" name="password" required></td>
+          </tr>
+        </tbody>
+      </table>
+      <br/>
+      <table id="login-button-table" class="button-table">
+        <tbody>
+          <tr>
+            <td><button id="login-submit-button" type="submit" class="table-cell-button">Login</button></td>
+            <td><button id="login-cancel-button" type="button" class="table-cell-button">Cancel</button></td>
+          </tr>
+        </tbody>
+      </table>
+      <br/>
+    </form>
+  </div>
+  <div id="confirmation-popup" style="display: none;">
+    <h2>Please Confirm</h2>
+    <p id="confirmation-message"></p>
+    <table id="confirmation-button-table" class="button-table">
       <tbody>
         <tr>
-          <td><label for="username-input">Username</label></td>
-          <td><input id="username-input" type="text" placeholder="Enter Username" name="username" required></td>
-        </tr>
-        <tr>
-          <td><label for="password-input">Password</label></td>
-          <td><input id="password-input" type="password" placeholder="Enter Password" name="password" required></td>
+          <td><button id="confirmation-accept-button" class="table-cell-button">Proceed</button></td>
+          <td><button id="confirmation-cancel-button" class="table-cell-button">Cancel</button></td>
         </tr>
       </tbody>
     </table>
     <br/>
-    <table id="login-button-table" class="button-table">
+  </div>
+  <div id="information-popup" style="display: none;">
+    <h2>Notice</h2>
+    <p id="information-message"></p>
+    <table id="information-button-table" class="button-table">
       <tbody>
         <tr>
-          <td><button id="login-submit-button" type="submit" class="table-cell-button">Login</button></td>
-          <td><button id="login-cancel-button" type="button" class="table-cell-button">Cancel</button></td>
+          <td><button id="information-okay-button" class="table-cell-button">Okay</button></td>
         </tr>
       </tbody>
     </table>
     <br/>
-  </form>
-</div>
-<div id="confirmation-popup" style="display: none;">
-  <h2>Please Confirm</h2>
-  <p id="confirmation-message"></p>
-  <table id="confirmation-button-table" class="button-table">
-    <tbody>
-      <tr>
-        <td><button id="confirmation-accept-button" class="table-cell-button">Proceed</button></td>
-        <td><button id="confirmation-cancel-button" class="table-cell-button">Cancel</button></td>
-      </tr>
-    </tbody>
-  </table>
-  <br/>
-</div>
-<div id="information-popup" style="display: none;">
-  <h2>Notice</h2>
-  <p id="information-message"></p>
-  <table id="information-button-table" class="button-table">
-    <tbody>
-      <tr>
-        <td><button id="information-okay-button" class="table-cell-button">Okay</button></td>
-      </tr>
-    </tbody>
-  </table>
-  <br/>
+  </div>
 </div>
 </body>
 </html>

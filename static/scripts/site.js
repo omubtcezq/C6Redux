@@ -1,12 +1,12 @@
 // Global js
 
 // Connection parameters
-const API_ADDRESS = 'www.c6redux.au';
-const API_PORT = '443';
-let API_URL = 'https://'+API_ADDRESS+':'+API_PORT+'/api';
-// const API_ADDRESS = 'localhost';
-// const API_PORT = '8000';
-// let API_URL = 'http://'+API_ADDRESS+':'+API_PORT+'/api';
+// const API_ADDRESS = 'www.c6redux.au';
+// const API_PORT = '443';
+// let API_URL = 'https://'+API_ADDRESS+':'+API_PORT+'/api';
+const API_ADDRESS = 'localhost';
+const API_PORT = '8000';
+let API_URL = 'http://'+API_ADDRESS+':'+API_PORT+'/api';
 
 // All units
 const ALL_UNITS = [
@@ -123,6 +123,7 @@ function authorise_action(msg, action_needing_token){
         }
         // Display login dialog
         $("#login-popup").css("display", "block");
+        $('#popup-container').show();
         // Make submit action perform callback with token after sucessful login
         $('#login-submit-button').off("click");
         $('#login-submit-button').click(function() {
@@ -153,6 +154,7 @@ function confirm_action(msg, action){
     // Display message
     $('#confirmation-message').text(msg);
     $("#confirmation-popup").css("display", "block");
+    $('#popup-container').show();
     // Make accept perform callback action before calcelling the dialog
     $('#confirmation-accept-button').off("click");
     $('#confirmation-accept-button').click(function() {
@@ -166,6 +168,7 @@ function alert_user(msg){
     // Display message
     $('#information-message').text(msg);
     $("#information-popup").css("display", "block");
+    $('#popup-container').show();
 }
 
 // Local js for site functions
@@ -201,6 +204,7 @@ $("#login-form").submit(function(e) {
 // Login dialog cancel
 $('#login-cancel-button').click(function(){
     // Hide login
+    $('#popup-container').hide();
     $("#login-popup").css("display", "none");
     // Remove message
     $('#login-error-message').text('');
@@ -211,6 +215,7 @@ $('#confirmation-cancel-button').click(function(){
     // Remove accept action
     $('#confirmation-accept-button').off("click");
     // Hide confirmation dialog
+    $('#popup-container').hide();
     $("#confirmation-popup").css("display", "none");
     // Remove message
     $('#confirmation-message').text('');
@@ -219,6 +224,7 @@ $('#confirmation-cancel-button').click(function(){
 // Information dialog okay
 $('#information-okay-button').click(function(){
     // Hide dialog
+    $('#popup-container').hide();
     $("#information-popup").css("display", "none");
     // Remove message
     $('#information-message').text('');
