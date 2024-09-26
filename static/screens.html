@@ -1,68 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" href="styles/screens.css">
-  <script src="scripts/screens_ui.js"></script>
+  <script src="scripts/screens.js"></script>
 </head>
 <body>
 
-<h1>Screens</h1>
-<div>
-  <table id="screen-view-buttons-table" class="button-table">
+<div class="subpage-banner">
+<table class="button-table subpage-buttons-table button-table-wide">
     <tbody>
-      <tr>
-        <td><button id="all-screens" class="table-cell-button">View All Screens</button></td>
-        <td><button id="query-screens" class="table-cell-button">Query Screens</button></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-</br>
-<div id="query-container" style="display: none;">
-  <div id="query-head" class="section-title">Query Builder</div>
-  <div id="query-body">
-    <div id="query-body-top">
-      </br>
-      <div>
-        <label for="screen-name-search">Screen Name Search:</label></br>
-        <input id="screen-name-search" name="screen-name-search" placeholder="Name string search">
-      </div>
-      </br>
-      <div>
-        <label for="screen-owner-search">Screen Owner Search:</label></br>
-        <input id="screen-owner-search" name="screen-owner-search" placeholder="Owner string search">
-      </div>
-      </br>
-      <div>
-        Condition Search:</br>
-        <button id="button-search-by-condition">Search By Condition</button>
-      </div>
-    </div>
-    <div id="query-body-middle"></div>
-    <div id="query-body-bottom">
-      </br>
-      <div>
-        <button id="button-query">Search</button>
-      </div>
-    </div>
-  </div>
-</div>
-<p>Results:</p>
-<table id="screen-table">
-  <thead>
-    <tr id="screen-table-header">
-      <th>Name</th>
-      <th>Owner</th>
-      <th>Creation Date</th>
-      <th>Format Name</th>
-      <th>Format Rows</th>
-      <th>Format Cols</th>
-      <th>Comments</th>
-      <th>Relevant Wells</th>
-      <th>Action</th>
+    <tr>
+        <td><button id="screen-explorer-subpage-button" class="table-cell-button">Screen Explorer</button></td>
+        <td><button id="screen-editor-subpage-button" class="table-cell-button">Screen Editor</button></td>
+        <td><button id="recipes-subpage-button" class="table-cell-button">Recipes</button></td>
+        <td><button id="selected-wells-subpage-button" class="table-cell-button">Selected Wells</button></td>
     </tr>
-  </thead>
-  <tbody></tbody>
+    </tbody>
 </table>
+</div>
+<div id="screen-explorer-subpage" class="subpage-div"></div>
+<div id="screen-editor-subpage" class="subpage-div"></div>
+<div id="recipes-subpage" class="subpage-div"></div>
+<div id="selected-wells-subpage" class="subpage-div"></div>
+
 </body>
 </html>
