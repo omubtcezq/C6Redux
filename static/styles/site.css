@@ -171,7 +171,7 @@ button {
 
 /* Popup windows */
 
-#popup-container {
+.popup-container {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -179,9 +179,7 @@ button {
   left: 0;
 }
 
-#login-popup,
-#confirmation-popup,
-#information-popup {
+.popup {
   position: relative;
   width: fit-content;
   padding: 0 10px;
@@ -212,9 +210,7 @@ button {
   margin: auto;
 }
 
-#login-error-message,
-#confirmation-message,
-#information-message {
+.popup-message {
   color: rgb(0, 0, 0);
   white-space: pre-wrap;
 }

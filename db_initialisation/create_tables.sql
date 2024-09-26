@@ -180,6 +180,7 @@ create table phpoint (
 create table screen (
 	id int not null auto_increment,
 	name varchar(64),
+	available tinyint,
 	owned_by varchar(64),
 	creation_date datetime,
 	format_name varchar(64),

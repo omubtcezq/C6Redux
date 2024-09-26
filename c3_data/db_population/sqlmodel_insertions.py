@@ -269,6 +269,7 @@ def insert_screen(fpath):
             screen_xml = root[0]
         
         s_name = type_or_none(screen_xml.attrib['name'], str)
+        s_available = 1
         s_owned_by = type_or_none(screen_xml.attrib['username'], str)
         s_creation_date = type_or_none(screen_xml.attrib['design_date'], str) # xml correctly formats
         s_format_name = type_or_none(screen_xml[0].attrib['name'], str)
@@ -280,6 +281,7 @@ def insert_screen(fpath):
 
         # Add screen
         screen = db.Screen(name=s_name,
+                           available=s_available,
                            owned_by=s_owned_by,
                            creation_date=s_creation_date,
                            format_name=s_format_name,

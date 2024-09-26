@@ -308,6 +308,7 @@ class ScreenBase(SQLModel):
     name: str
 
 class ScreenBaseLarge(ScreenBase):
+    available: int
     owned_by: str
     creation_date: datetime | None
     format_name: str | None = Field(default=None)
@@ -320,9 +321,6 @@ class Screen(ScreenBaseLarge, table=True):
     frequentblock: Union["FrequentBlock", None] = Relationship(back_populates="screen")
     wells: list["Well"] = Relationship(back_populates="screen")
 
-class ScreenNew(ScreenBase):
-    pass
-
 # Read when screen names read
 class ScreenReadLite(ScreenBase):
     id: int
@@ -330,8 +328,9 @@ class ScreenReadLite(ScreenBase):
 # Read when screen list is read
 class ScreenRead(ScreenBaseLarge):
     id: int
+    frequentblock: Union["FrequentBlockRead", None]
 
-# Read when screen is read
+# Read when screen is viewed
 class ScreenContentsRead(ScreenBaseLarge):
     wells: list["WellRead"]
 

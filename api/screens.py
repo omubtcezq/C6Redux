@@ -4,10 +4,15 @@
 
 from sqlmodel import Session, select, case, col, func
 from fastapi import APIRouter, Depends
+from pydantic import BaseModel
 
 import api.db as db
 import api.recipes as recipes
 import api.screen_query as screen_query
+
+class QueryScreen(BaseModel):
+    screen: db.ScreenRead
+    well_match_counter: int
 
 # ============================================================================ #
 # API operations
@@ -45,14 +50,14 @@ async def get_screen_well_names(*, session: Session=Depends(db.get_readonly_sess
 @router.get("/all", 
             summary="Gets a list of all screens and the number of wells in each",
             response_description="List of all screens and the number of wells in each",
-            response_model=list[tuple[db.ScreenRead, int]])
+            response_model=list[QueryScreen])
 async def get_screens(*, session: Session=Depends(db.get_readonly_session)):
     """
     Gets a list of all screens and the number of wells in each
     """
     statement = select(db.Screen, func.count(db.Well.id)).join(db.Well).group_by(db.Screen).order_by(db.Screen.name)
     screens_counts = session.exec(statement).all()
-    return screens_counts
+    return [QueryScreen(screen=s, well_match_counter=c) for s,c in screens_counts]
 
 @router.get("/subsets", 
             summary="Gets a list of screens and the number of wells in each that contain only conditions found in the specified screen",

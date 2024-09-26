@@ -35,11 +35,11 @@
   <div id="site-content-stocks"></div>
   <div id="site-content-chemicals"></div>
 </div>
-<div id="popup-container" style="display: none;">
-  <div id="login-popup" style="display: none;">
+<div id="site-popup-container" class="popup-container" style="display: none;">
+  <div id="login-popup" class="popup" style="display: none;">
     <form id="login-form">
       <h2>Login</h2>
-      <p id="login-error-message"></p>
+      <p id="login-error-message" class="popup-message"></p>
       <input type="hidden" name="grant_type" value="password" />
       <table id="login-input-table">
         <tbody>
@@ -65,9 +65,9 @@
       <br/>
     </form>
   </div>
-  <div id="confirmation-popup" style="display: none;">
+  <div id="confirmation-popup" class="popup" style="display: none;">
     <h2>Please Confirm</h2>
-    <p id="confirmation-message"></p>
+    <p id="confirmation-message" class="popup-message"></p>
     <table id="confirmation-button-table" class="button-table">
       <tbody>
         <tr>
@@ -78,9 +78,9 @@
     </table>
     <br/>
   </div>
-  <div id="information-popup" style="display: none;">
+  <div id="information-popup" class="popup" style="display: none;">
     <h2>Notice</h2>
-    <p id="information-message"></p>
+    <p id="information-message" class="popup-message"></p>
     <table id="information-button-table" class="button-table">
       <tbody>
         <tr>

@@ -2,51 +2,55 @@
 <html>
 <head>
   <link rel="stylesheet" href="styles/screens.css">
-  <script src="scripts/screens_ui.js"></script>
+  <script src="scripts/screen_explorer.js"></script>
 </head>
 <body>
 
-<div>
-  <table id="screen-view-buttons-table" class="button-table">
-    <tbody>
-      <tr>
-        <td><button id="all-screens" class="table-cell-button">View All Screens</button></td>
-        <td><button id="query-screens" class="table-cell-button">Query Screens</button></td>
-      </tr>
-    </tbody>
-  </table>
+<div class="add-reload-banner">
+    <table class="button-table add-reload-header-buttons-table">
+        <tbody>
+        <tr>
+            <td><button id="query-screens" class="table-cell-button">Complex Query</button></td>
+            <td><button id="reload-all-screens-button" class="table-cell-button">Reload All Screens</button></td>
+        </tr>
+        </tbody>
+    </table>
 </div>
-</br>
-<div id="query-container" style="display: none;">
-  <div id="query-head" class="section-title">Query Builder</div>
-  <div id="query-body">
-    <div id="query-body-top">
-      </br>
-      <div>
-        <label for="screen-name-search">Screen Name Search:</label></br>
-        <input id="screen-name-search" name="screen-name-search" placeholder="Name string search">
-      </div>
-      </br>
-      <div>
-        <label for="screen-owner-search">Screen Owner Search:</label></br>
-        <input id="screen-owner-search" name="screen-owner-search" placeholder="Owner string search">
-      </div>
-      </br>
-      <div>
-        Condition Search:</br>
-        <button id="button-search-by-condition">Search By Condition</button>
-      </div>
-    </div>
-    <div id="query-body-middle"></div>
-    <div id="query-body-bottom">
-      </br>
-      <div>
-        <button id="button-query">Search</button>
-      </div>
-    </div>
-  </div>
+<div class="holder-for-tabulator">
+    <div id="screen-tabulator" class="object-for-tabulator"></div>
 </div>
-<p>Results:</p>
+<div id="screen-popup-container" class="popup-container" style="display: none;">
+    <div id="query-container" style="display: none;">
+    <div id="query-head" class="section-title">Query Builder</div>
+    <div id="query-body">
+        <div id="query-body-top">
+        </br>
+        <div>
+            <label for="screen-name-search">Screen Name Search:</label></br>
+            <input id="screen-name-search" name="screen-name-search" placeholder="Name string search">
+        </div>
+        </br>
+        <div>
+            <label for="screen-owner-search">Screen Owner Search:</label></br>
+            <input id="screen-owner-search" name="screen-owner-search" placeholder="Owner string search">
+        </div>
+        </br>
+        <div>
+            Condition Search:</br>
+            <button id="button-search-by-condition">Search By Condition</button>
+        </div>
+        </div>
+        <div id="query-body-middle"></div>
+        <div id="query-body-bottom">
+        </br>
+        <div>
+            <button id="button-query">Search</button>
+        </div>
+        </div>
+    </div>
+    </div>
+</div>
+<!-- <p>Results:</p>
 <table id="screen-table">
   <thead>
     <tr id="screen-table-header">
@@ -62,6 +66,6 @@
     </tr>
   </thead>
   <tbody></tbody>
-</table>
+</table> -->
 </body>
 </html>
