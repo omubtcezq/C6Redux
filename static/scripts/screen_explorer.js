@@ -5,7 +5,7 @@ $(document).ready(function() {
 
 // Header menu that allows the toggling of column visibilities
 var column_menu = function(e, column){
-    let columns_with_null_filter = ["rows", "cols", "comments"]
+    let columns_with_null_filter = ["screen.format_rows", "screen.format_cols", "screen.comments"]
     let menu = [];
     let columns = this.getColumns();
     let apply_null_filter_option = true;
