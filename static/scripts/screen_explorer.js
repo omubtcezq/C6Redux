@@ -119,7 +119,8 @@ var table = new Tabulator("#screen-tabulator", {
             headerMenu: column_menu,
             sorter: "number",
             headerFilter: "number",
-            headerFilterPlaceholder: "Filter"
+            headerFilterPlaceholder: "Filter",
+            visible: false
 
         // Available
         }, {

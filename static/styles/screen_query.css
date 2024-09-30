@@ -1,0 +1,130 @@
+/* Popup */
+#screen-query-popup {
+    position: relative;
+    width: fit-content;
+    padding: 0 10px;
+    min-width: 300px;
+    max-width: calc(100% - 40px);
+    margin: 0 auto;
+    top: 20%;
+    z-index: 10;
+    background-color: rgb(197, 170, 221);
+    text-align: center;
+    border: 1px solid #999
+}
+
+#screen-query-screen-search-table {
+    text-align: left;
+    margin: auto;
+}
+
+#screen-query-condition-search-button-table {
+    width: 100%;
+    max-width: 200px;
+    margin: auto;
+}
+
+#screen-query-button-table {
+    width: 100%;
+    max-width: 300px;
+    margin: auto;
+}
+
+#condition-query-button-table,
+#condition-query-cancel-button-table {
+    width: 100%;
+    max-width: 250px;
+    margin: auto;
+}
+
+#condition-query-logic-button-table {
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+}
+
+/* Logic headers */
+.section-title {
+    text-align: center;
+    padding: 5px;
+}
+
+.and-title, .or-title {
+    margin-bottom: 3px;
+}
+
+.and-title, 
+.or-title, 
+.not-title {
+    background-color: #9ABCEA;
+}
+
+/* Logic divs */
+.logic-div {
+    display: inline-block;
+    border: 1px solid rgb(153, 153, 153);
+    margin-left: 3px;
+    margin-right: 3px;
+    margin-bottom: 3px;
+    vertical-align: middle;
+    background-color: rgb(255, 255, 255);
+}
+
+.condition-div, .chemical-div {
+    display: inline-block;
+    font-size: 16px;
+    padding: 3px;
+    cursor: pointer;
+}
+
+.condition-div {
+    background-color: #FFEFDD;
+}
+
+.chemical-div {
+    background-color: #fffed9;
+}
+
+.selected-query-div {
+    background-color: #ffc47a;
+}
+
+/* Inputs for specifying condition */
+.input-table {
+    text-align: left;
+    width: 100%;
+    border: 0;
+    margin: auto;
+}
+
+.input-table > tr > td > label {
+    margin: 3px;
+}
+
+.input-wide {
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.input-conc {
+    box-sizing: border-box;
+    width: 69%;
+    margin-right: 1%;
+}
+
+.input-units {
+    box-sizing: border-box;
+    width: 30%;
+}
+
+/* JQuery UI styling */
+.ui-autocomplete {
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    text-align: left;
+}
+
+.ui-autocomplete-loading {
+    background: white url("../images/loading.gif") right center no-repeat;
+}

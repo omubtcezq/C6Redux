@@ -206,6 +206,7 @@ button {
 }
 
 #login-input-table {
+  text-align: left;
   width: 80%;
   margin: auto;
 }
