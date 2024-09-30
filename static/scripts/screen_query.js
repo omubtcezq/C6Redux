@@ -216,7 +216,7 @@ function append_condition_ref_field(cond_div){
 
     // Make screen reference selector a tabulator table with a single entry
     var table = new Tabulator('#condition-ref-tabulator-'+condition_id, {
-        data: [{id: 1, screen: {id: null, name: null}, well: {id: null, name: null}}],
+        data: [{id: 1, screen: {id: null, name: null}, well: {id: null, label: null}}],
         height: "100%",
         layout: "fitData",
         editorEmptyValue: null,
@@ -227,7 +227,8 @@ function append_condition_ref_field(cond_div){
             title: "Screen", 
             field: "screen", 
             vertAlign: "middle",
-            width: 200,
+            width: 280,
+            resizable: false,
             headerSort: false,
             editor: "list", 
             editorParams: {
@@ -257,27 +258,56 @@ function append_condition_ref_field(cond_div){
                 emptyValue: {id: null, name: null},
                 placeholderLoading: "Loading Screen List...",
                 placeholderEmpty: "No Screens Found",
-                autocomplete: true,
+                autocomplete: true
             },
             // Update the wells list when screen selected
             cellEdited: function(cell){
-                var row = cell.getRow();
-                cell.getRow().reformat();
+                cell.getRow().update({well: {id: null, label: null}});
             },
-            formatter: function(cell, formatterParams, onRendered){return cell.getValue().id ? cell.getValue().name : "<Search screens>";}
+            formatter: function(cell, formatterParams, onRendered){
+                if (cell.getValue().id){
+                    $(cell.getElement()).css('color', '#333');
+                    return cell.getValue().name;
+                } else {
+                    $(cell.getElement()).css('color', '#999');
+                    return "Search screens ...";
+                }
+            }
         }, {
             title: "Well", 
             field: "well", 
             vertAlign: "middle",
-            width: 200,
+            width: 160,
+            resizable: false,
             headerSort: false,
             editor: "list", 
             editorParams: {
-                values: [],
-                // Lookup: function(cell){
-                //     // Load users list from api
-                //     return 
-                // },
+                valuesLookup: function(cell){
+                    var screen_id = cell.getData().screen.id;
+                    if (screen_id){
+                        return new Promise(function(resolve, reject){
+                            $.ajax({
+                                url: API_URL+'/screens/wellNames?screen_id='+screen_id,
+                                success: function(data){
+                                    var options = [];
+                                    $.each(data, function(i,w){
+                                        // Value of cell is the well object (not just the name)
+                                        options.push({
+                                            label: w.label,
+                                            value: w,
+                                        });
+                                    })
+                                    resolve(options);
+                                },
+                                error: function(error){
+                                    reject(error);
+                                },
+                            });
+                        });
+                    } else {
+                        return [];
+                    }
+                },
                 sort: "asc",
                 emptyValue: {id: null, name: null},
                 placeholderLoading: "Loading Well List...",
@@ -285,103 +315,24 @@ function append_condition_ref_field(cond_div){
             },
             formatter: function(cell, formatterParams, onRendered){
                 if (cell.getData().screen.id == null){
-                    return "(Select a screen)"
+                    return "";
+                } else if (cell.getValue().id){
+                    $(cell.getElement()).css('color', '#333');
+                    return cell.getValue().label;
+                } else {
+                    $(cell.getElement()).css('color', '#999');
+                    return "Select well ...";
                 }
-                return cell.getValue().id ? cell.getValue().name : "<Select well>";
             },
             editable: function (cell) {
                 var is_editable = cell.getRow().getData().screen.id != null;
                 return is_editable;
+            },
+            cellEdited: function(cell){
+                query_update_inputs(false);
             }
         }]
     });
-    
-    // .append(
-    //     $('<table>').attr('class', 'input-table').append(
-    //         $('<tr>').append(
-    //             $('<td>').append(
-    //                 $('<label>').attr('for', 'screen-id'+condition_id).text('Screen Name')
-    //             )
-    //         ).append(
-    //             $('<td>').append(
-    //                 $('<input>').attr('id', 'screen-id'+condition_id)
-    //                 .attr('class', 'input-wide')
-    //                 .attr('name', 'screen-id'+condition_id)
-    //                 .attr('placeholder', 'Search screens')
-    //                 .attr('autocomplete-id', '')
-    //                 .autocomplete({
-    //                     source: function (request, response){
-    //                         if (SCREEN_NAMES == null){
-    //                             $.getJSON(API_URL+'/screens/names', function(screen_names){
-    //                                 SCREEN_NAMES = screen_names;
-    //                                 response(search_screen_names(request.term, SCREEN_NAMES));
-    //                             })
-    //                         } else {
-    //                             response(search_screen_names(request.term, SCREEN_NAMES));
-    //                         }
-    //                     },
-    //                     select: function(event, ui) {
-    //                         let well_dropdown = $(this).closest('.input-table').find('.input-location');
-    //                         well_dropdown.empty();
-    //                         well_dropdown.attr('disabled', 'disabled');
-    //                         let id = ui.item.id;
-    //                         if (id){
-    //                             $.getJSON(API_URL+'/screens/wellNames?screen_id='+id, function(wells){
-    //                                 $.each(wells, function(i, w){
-    //                                     well_dropdown.append(
-    //                                         $('<option>').attr('value', w.wellcondition_id)
-    //                                         .text(w.label)
-    //                                     )
-    //                                 })
-    //                                 well_dropdown.removeAttr('disabled');
-    //                             })
-    //                         }
-    //                     },
-    //                     change: function(event, ui){
-    //                         let well_dropdown = $(this).closest('.input-table').find('.input-location');
-    //                         if (ui.item){
-    //                             $(this).val(ui.item.value);
-    //                             $(this).attr('autocomplete-id', String(ui.item.id));
-    //                             query_update_inputs(false);
-    //                         } else {
-    //                             $(this).val('');
-    //                             $(this).attr('autocomplete-id', '');
-    //                             well_dropdown.empty();
-    //                             well_dropdown.append(
-    //                                 $('<option>').attr('value', '').
-    //                                 attr('selected', 'selected').
-    //                                 text('No screen selected')
-    //                             )
-    //                             well_dropdown.attr('disabled', 'disabled');
-    //                             query_update_inputs(false);
-    //                         }
-    //                     },
-    //                     minLength: 1
-    //                 })
-    //             )
-    //         )
-    //     ).append(
-    //         $('<tr>').append(
-    //             $('<td>').append(
-    //                 $('<label>').attr('for', 'wellcondition-id'+condition_id).text('Location')
-    //             )
-    //         ).append(
-    //             $('<td>').append(
-    //                 $('<select>').attr('id', 'wellcondition-id'+condition_id)
-    //                 .attr('class', 'input-wide input-location')
-    //                 .attr('name', 'wellcondition-id'+condition_id)
-    //                 .attr('disabled', 'disabled')
-    //                 .append(
-    //                     $('<option>').attr('value', '')
-    //                     .attr('selected', 'selected')
-    //                     .text('No screen selected')
-    //                 ).change(function () {
-    //                     query_update_inputs(false);
-    //                 })
-    //             )
-    //         )
-    //     )
-    // );
 }
 
 // Create div for specifiying a chemical
@@ -1127,7 +1078,7 @@ function query_update_conds(tree, alert_validation){
             tree.arg.id = null;
             query_update_chems(tree.arg.chems, alert_validation);
         } else {
-            tree.arg.id = $('select[name="wellcondition-id'+cond_id+'"]').val();
+            tree.arg.id = Tabulator.findTable('#condition-ref-tabulator-'+cond_id)[0].getRow(1).getData().well.id;
         }
 
         // Final validation matching API parser
