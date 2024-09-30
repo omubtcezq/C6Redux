@@ -142,7 +142,7 @@ function create_condition_div() {
                 cond.append(create_condition_chem_field(cond_id));
                 query_by_chemical_condition(cond, get_first_chemical_div_from_condition_div(cond));
             } else if ($(this).val() == 'ref'){
-                cond.append(create_condition_ref_field(cond_id));
+                append_condition_ref_field(cond);
                 query_by_reference_condition(cond);
             }
         })
@@ -202,98 +202,186 @@ function create_condition_chem_field(condition_id){
     return condition_field;
 }
 
-// Create field where condition is specified with reference information
-function create_condition_ref_field(condition_id){
+// Create and append field where condition is specified with reference information
+function append_condition_ref_field(cond_div){
+    // Get div id
+    let condition_id = get_condition_div_id(cond_div);
     // Create border and logical operators
     let condition_field = $('<fieldset>').attr('id', 'condition-fieldset'+condition_id).append(
         $('<legend>').text('equal the one in')
-    ).append(
-        $('<table>').attr('class', 'input-table').append(
-            $('<tr>').append(
-                $('<td>').append(
-                    $('<label>').attr('for', 'screen-id'+condition_id).text('Screen Name')
-                )
-            ).append(
-                $('<td>').append(
-                    $('<input>').attr('id', 'screen-id'+condition_id)
-                    .attr('class', 'input-wide')
-                    .attr('name', 'screen-id'+condition_id)
-                    .attr('placeholder', 'Search screens')
-                    .attr('autocomplete-id', '')
-                    .autocomplete({
-                        source: function (request, response){
-                            if (SCREEN_NAMES == null){
-                                $.getJSON(API_URL+'/screens/names', function(screen_names){
-                                    SCREEN_NAMES = screen_names;
-                                    response(search_screen_names(request.term, SCREEN_NAMES));
+    ).append($('<div>').attr('id', 'condition-ref-tabulator-'+condition_id));
+
+    // Instantiate the field and div that will hold tabulator table
+    cond_div.append(condition_field);
+
+    // Make screen reference selector a tabulator table with a single entry
+    var table = new Tabulator('#condition-ref-tabulator-'+condition_id, {
+        data: [{id: 1, screen: {id: null, name: null}, well: {id: null, name: null}}],
+        height: "100%",
+        layout: "fitData",
+        editorEmptyValue: null,
+        selectableRows: false,
+        index: "id",
+        validationMode: 'manual',
+        columns: [{
+            title: "Screen", 
+            field: "screen", 
+            vertAlign: "middle",
+            width: 200,
+            headerSort: false,
+            editor: "list", 
+            editorParams: {
+                valuesLookup: function(cell){
+                    // Load users list from api
+                    return new Promise(function(resolve, reject){
+                        $.ajax({
+                            url: API_URL+'/screens/names',
+                            success: function(data){
+                                var options = [];
+                                $.each(data, function(i,s){
+                                    // Value of cell is the screen object (not just the name)
+                                    options.push({
+                                        label: s.name,
+                                        value: s,
+                                    });
                                 })
-                            } else {
-                                response(search_screen_names(request.term, SCREEN_NAMES));
-                            }
-                        },
-                        select: function(event, ui) {
-                            let well_dropdown = $(this).closest('.input-table').find('.input-location');
-                            well_dropdown.empty();
-                            well_dropdown.attr('disabled', 'disabled');
-                            let id = ui.item.id;
-                            if (id){
-                                $.getJSON(API_URL+'/screens/wellNames?screen_id='+id, function(wells){
-                                    $.each(wells, function(i, w){
-                                        well_dropdown.append(
-                                            $('<option>').attr('value', w.wellcondition_id)
-                                            .text(w.label)
-                                        )
-                                    })
-                                    well_dropdown.removeAttr('disabled');
-                                })
-                            }
-                        },
-                        change: function(event, ui){
-                            let well_dropdown = $(this).closest('.input-table').find('.input-location');
-                            if (ui.item){
-                                $(this).val(ui.item.value);
-                                $(this).attr('autocomplete-id', String(ui.item.id));
-                                query_update_inputs(false);
-                            } else {
-                                $(this).val('');
-                                $(this).attr('autocomplete-id', '');
-                                well_dropdown.empty();
-                                well_dropdown.append(
-                                    $('<option>').attr('value', '').
-                                    attr('selected', 'selected').
-                                    text('No screen selected')
-                                )
-                                well_dropdown.attr('disabled', 'disabled');
-                                query_update_inputs(false);
-                            }
-                        },
-                        minLength: 1
-                    })
-                )
-            )
-        ).append(
-            $('<tr>').append(
-                $('<td>').append(
-                    $('<label>').attr('for', 'wellcondition-id'+condition_id).text('Location')
-                )
-            ).append(
-                $('<td>').append(
-                    $('<select>').attr('id', 'wellcondition-id'+condition_id)
-                    .attr('class', 'input-wide input-location')
-                    .attr('name', 'wellcondition-id'+condition_id)
-                    .attr('disabled', 'disabled')
-                    .append(
-                        $('<option>').attr('value', '')
-                        .attr('selected', 'selected')
-                        .text('No screen selected')
-                    ).change(function () {
-                        query_update_inputs(false);
-                    })
-                )
-            )
-        )
-    );
-    return condition_field;
+                                resolve(options);
+                            },
+                            error: function(error){
+                                reject(error);
+                            },
+                        });
+                    });
+                },
+                sort: "asc",
+                emptyValue: {id: null, name: null},
+                placeholderLoading: "Loading Screen List...",
+                placeholderEmpty: "No Screens Found",
+                autocomplete: true,
+            },
+            // Update the wells list when screen selected
+            cellEdited: function(cell){
+                var row = cell.getRow();
+                cell.getRow().reformat();
+            },
+            formatter: function(cell, formatterParams, onRendered){return cell.getValue().id ? cell.getValue().name : "<Search screens>";}
+        }, {
+            title: "Well", 
+            field: "well", 
+            vertAlign: "middle",
+            width: 200,
+            headerSort: false,
+            editor: "list", 
+            editorParams: {
+                values: [],
+                // Lookup: function(cell){
+                //     // Load users list from api
+                //     return 
+                // },
+                sort: "asc",
+                emptyValue: {id: null, name: null},
+                placeholderLoading: "Loading Well List...",
+                placeholderEmpty: "No Wells Found",
+            },
+            formatter: function(cell, formatterParams, onRendered){
+                if (cell.getData().screen.id == null){
+                    return "(Select a screen)"
+                }
+                return cell.getValue().id ? cell.getValue().name : "<Select well>";
+            },
+            editable: function (cell) {
+                var is_editable = cell.getRow().getData().screen.id != null;
+                return is_editable;
+            }
+        }]
+    });
+    
+    // .append(
+    //     $('<table>').attr('class', 'input-table').append(
+    //         $('<tr>').append(
+    //             $('<td>').append(
+    //                 $('<label>').attr('for', 'screen-id'+condition_id).text('Screen Name')
+    //             )
+    //         ).append(
+    //             $('<td>').append(
+    //                 $('<input>').attr('id', 'screen-id'+condition_id)
+    //                 .attr('class', 'input-wide')
+    //                 .attr('name', 'screen-id'+condition_id)
+    //                 .attr('placeholder', 'Search screens')
+    //                 .attr('autocomplete-id', '')
+    //                 .autocomplete({
+    //                     source: function (request, response){
+    //                         if (SCREEN_NAMES == null){
+    //                             $.getJSON(API_URL+'/screens/names', function(screen_names){
+    //                                 SCREEN_NAMES = screen_names;
+    //                                 response(search_screen_names(request.term, SCREEN_NAMES));
+    //                             })
+    //                         } else {
+    //                             response(search_screen_names(request.term, SCREEN_NAMES));
+    //                         }
+    //                     },
+    //                     select: function(event, ui) {
+    //                         let well_dropdown = $(this).closest('.input-table').find('.input-location');
+    //                         well_dropdown.empty();
+    //                         well_dropdown.attr('disabled', 'disabled');
+    //                         let id = ui.item.id;
+    //                         if (id){
+    //                             $.getJSON(API_URL+'/screens/wellNames?screen_id='+id, function(wells){
+    //                                 $.each(wells, function(i, w){
+    //                                     well_dropdown.append(
+    //                                         $('<option>').attr('value', w.wellcondition_id)
+    //                                         .text(w.label)
+    //                                     )
+    //                                 })
+    //                                 well_dropdown.removeAttr('disabled');
+    //                             })
+    //                         }
+    //                     },
+    //                     change: function(event, ui){
+    //                         let well_dropdown = $(this).closest('.input-table').find('.input-location');
+    //                         if (ui.item){
+    //                             $(this).val(ui.item.value);
+    //                             $(this).attr('autocomplete-id', String(ui.item.id));
+    //                             query_update_inputs(false);
+    //                         } else {
+    //                             $(this).val('');
+    //                             $(this).attr('autocomplete-id', '');
+    //                             well_dropdown.empty();
+    //                             well_dropdown.append(
+    //                                 $('<option>').attr('value', '').
+    //                                 attr('selected', 'selected').
+    //                                 text('No screen selected')
+    //                             )
+    //                             well_dropdown.attr('disabled', 'disabled');
+    //                             query_update_inputs(false);
+    //                         }
+    //                     },
+    //                     minLength: 1
+    //                 })
+    //             )
+    //         )
+    //     ).append(
+    //         $('<tr>').append(
+    //             $('<td>').append(
+    //                 $('<label>').attr('for', 'wellcondition-id'+condition_id).text('Location')
+    //             )
+    //         ).append(
+    //             $('<td>').append(
+    //                 $('<select>').attr('id', 'wellcondition-id'+condition_id)
+    //                 .attr('class', 'input-wide input-location')
+    //                 .attr('name', 'wellcondition-id'+condition_id)
+    //                 .attr('disabled', 'disabled')
+    //                 .append(
+    //                     $('<option>').attr('value', '')
+    //                     .attr('selected', 'selected')
+    //                     .text('No screen selected')
+    //                 ).change(function () {
+    //                     query_update_inputs(false);
+    //                 })
+    //             )
+    //         )
+    //     )
+    // );
 }
 
 // Create div for specifiying a chemical
