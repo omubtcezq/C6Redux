@@ -19,6 +19,25 @@
 </div>
 <div class="holder-for-tabulator">
     <div id="screen-tabulator" class="object-for-tabulator"></div>
+    <div id="screen-wells-view-div" style="display: none;">
+        <div id="screen-wells-view-header">
+            <h2 id="screen-wells-view-title"></h2>
+            <table id="screen-wells-view-button-table" class="button-table">
+                <tbody>
+                <tr>
+                    <td><button id="compare-screens-button" class="table-cell-button">Compare Screen</button></td>
+                    <td><button id="screen-subsets-button" class="table-cell-button">Screens Contained Within</button></td>
+                    <td><button id="screen-recipe-button" class="table-cell-button">Screen Recipe</button></td>
+                    <td><button id="screen-report-button" class="table-cell-button">Screen Report</button></td>
+                    <td><button id="hide-screen-view-button" class="table-cell-button">Hide Screen</button></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="holder-for-screen-view-tabulator">
+            <div id="screen-wells-view-tabulator" class="object-for-tabulator"></div>
+        </div>
+    </div>
 </div>
 <div id="screen-popup-container" class="popup-container" style="display: none;">
     <div id="screen-query-popup" style="display: none;">

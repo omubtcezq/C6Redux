@@ -1,6 +1,9 @@
 //# sourceURL=screen_explorer.js
 var screen_explorer = (function() {
 
+// Store query that produced screen list if there was one, so wells can be flagged
+let LAST_QUERY = null;
+
 // ========================================================================== //
 // Publicly accessible functions go here (note script needs to be loaded for them to be available)
 // ========================================================================== //
@@ -9,6 +12,7 @@ var public_functions = {};
 public_functions.screen_query = function (query_object){
     let screen_table = Tabulator.findTable('#screen-tabulator')[0];
     screen_table.setData(API_URL+'/screens/query', query_object, "POST");
+    LAST_QUERY = query_object.conds;
     screen_table.showColumn('well_match_counter');
     screen_table.setSort([
         {column:"screen.name", dir:"asc"},
@@ -102,6 +106,22 @@ function update_screen_count_filtered(filters, rows){
     } else {
         $('#filtered-screen-row-count').text('');
     }
+}
+
+function view_screen(cell){
+    cell.getTable().deselectRow();
+    cell.getRow().select();
+    $('#screen-tabulator').css('width', '50%');
+    $('#screen-wells-view-div').show();
+    $('#screen-wells-view-title').text(cell.getData().screen.name);
+}
+
+function hide_screen(){
+    let screen_table = Tabulator.findTable('#screen-tabulator')[0];
+    screen_table.deselectRow();
+    $('#screen-wells-view-div').hide();
+    $('#screen-tabulator').css('width', '100%');
+    $('#screen-wells-view-title').text('');
 }
 
 // ========================================================================== //
@@ -272,36 +292,21 @@ var table = new Tabulator("#screen-tabulator", {
             width: 90, 
             // Depeding on whether a row is selected, if some other row is selected or if no row selected display apporpriate button
             formatter: function (cell, formatterParams, onRendered){
-                if (cell.getRow().isSelected()){
-                    div = $('<table>').attr('class', 'button-table').append($('<tbody>').append(
-                        $('<tr>').append(
-                            $('<td>').append(
-                                $('<button>').
-                                attr('class', 'table-cell-button').
-                                text('Hide')
-                            )
-                        )))
-                } else if (cell.getTable().getSelectedRows().length == 0) {
-                    div = $('<table>').attr('class', 'button-table').append($('<tbody>').append(
-                        $('<tr>').append(
-                            $('<td>').append(
-                                $('<button>').
-                                attr('class', 'table-cell-button').
-                                text('View')
-                            )
-                        )))
-                } else {
-                    div = $('<div>');
-                }
+                div = $('<table>').attr('class', 'button-table').append($('<tbody>').append(
+                    $('<tr>').append(
+                        $('<td>').append(
+                            $('<button>').
+                            attr('class', 'view-button table-cell-button').
+                            text('View')
+                        )
+                    )));
                 return div.prop('outerHTML');
             }, 
             // When the cell is clicked, check if or which button has been clicked and perform the right action
             cellClick: function(e, cell){
                 target = $(e.target);
                 if (target.hasClass('view-button')) {
-                    view_screen(cell.getRow());
-                } else if (target.hasClass('hide-button')){
-                    hide_screen(cell.getRow());
+                    view_screen(cell);
                 }
             }, 
             headerSort: false, 
@@ -322,9 +327,14 @@ table.on("dataLoaded", update_screen_count_loaded);
 // Refresh button
 $('#reload-all-screens-button').click(function(){
     table.setData(API_URL+'/screens/all', {});
+    LAST_QUERY = null;
     table.hideColumn('well_match_counter');
     table.setSort([{column:"screen.name", dir:"asc"}]);
     table.clearFilter(true);
+});
+
+$('#hide-screen-view-button').click(function() {
+    hide_screen();
 });
 
 });
