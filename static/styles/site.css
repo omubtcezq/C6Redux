@@ -181,6 +181,7 @@ button {
   height: 100%;
   top: 0;
   left: 0;
+  z-index: 30;
 }
 
 .popup {
@@ -190,10 +191,11 @@ button {
   min-width: 300px;
   margin: 0 auto;
   top: 20%;
-  z-index: 10;
+  z-index: 40;
   background-color: rgb(197, 170, 221);
   text-align: center;
-  border: 1px solid #999
+  border: 1px solid #999;
+  box-shadow: 0px 0px 10px 1px black;
 }
 
 #login-button-table,

@@ -1,4 +1,13 @@
 /* Popup */
+#screen-popup-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 10;
+  }
+
 #screen-query-popup {
     position: relative;
     width: fit-content;
@@ -7,7 +16,7 @@
     max-width: calc(100% - 40px);
     margin: 0 auto;
     top: 20%;
-    z-index: 10;
+    z-index: 20;
     background-color: rgb(197, 170, 221);
     text-align: center;
     border: 1px solid #999

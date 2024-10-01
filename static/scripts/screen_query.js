@@ -1010,7 +1010,11 @@ function query_update_inputs(alert_validation){
     }
     // Then recurse into conditions/chemicals
     if (SCREEN_QUERY.conds){
-        query_update_conds(SCREEN_QUERY.conds, alert_validation);
+        let validation = query_update_conds(SCREEN_QUERY.conds, alert_validation);
+        // If condition fails validation, propagate it
+        if (!validation){
+            return false;
+        }
     }
     console.log('Q: ', SCREEN_QUERY);
 
@@ -1020,7 +1024,7 @@ function query_update_inputs(alert_validation){
         SCREEN_QUERY.owner_search == null &&
         SCREEN_QUERY.conds == null){
 
-        alert_user("Must query screens by at least a name, owner name or by conditions!");
+        alert_user("Must query screens by at least a name, owner name or by condition.");
         return false;
     // When not validating always pass
     } else {
@@ -1031,10 +1035,11 @@ function query_update_inputs(alert_validation){
 // Condition recursion for update
 function query_update_conds(tree, alert_validation){
     // Parse recursively, ending if validation alert occurs
+    let validated = false;
     if (tree.arg.op){
-        let validated = query_update_conds(tree.arg.arg_left);
+        validated = query_update_conds(tree.arg.arg_left);
         if (validated){
-            query_update_conds(tree.arg.arg_right);
+            validated = query_update_conds(tree.arg.arg_right);
         }
         return validated;
     // When in condition, read individual inputs
@@ -1049,7 +1054,11 @@ function query_update_conds(tree, alert_validation){
         // Recurse into chemicals
         if (tree.arg.chems){
             tree.arg.id = null;
-            query_update_chems(tree.arg.chems, alert_validation);
+            validated = query_update_chems(tree.arg.chems, alert_validation);
+            // If chemical validation fails, propagate fail
+            if (!validated){
+                return false;
+            }
         } else {
             tree.arg.id = Tabulator.findTable('#condition-ref-tabulator-'+cond_id)[0].getRow(1).getData().well.id;
         }
@@ -1071,10 +1080,11 @@ function query_update_conds(tree, alert_validation){
 // Chemical recursion for update
 function query_update_chems(tree, alert_validation){
     // Parse recursively, ending if validation alert occurs
+    let validated = false;
     if (tree.arg.op){
-        let validated = query_update_chems(tree.arg.arg_left);
+        validated = query_update_chems(tree.arg.arg_left);
         if (validated){
-            query_update_chems(tree.arg.arg_right);
+            validated = query_update_chems(tree.arg.arg_right);
         }
         return validated;
     // When in chemical, read individual inputs
