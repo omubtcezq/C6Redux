@@ -3,6 +3,7 @@
 """
 
 from sqlmodel import Session, select, case, col, func
+from sqlalchemy.orm import subqueryload
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 
@@ -55,7 +56,7 @@ async def get_screens(*, session: Session=Depends(db.get_readonly_session)):
     """
     Gets a list of all screens and the number of wells in each
     """
-    statement = select(db.Screen, func.count(db.Well.id)).join(db.Well).group_by(db.Screen).order_by(db.Screen.name)
+    statement = select(db.Screen, func.count(db.Well.id)).join(db.Well).group_by(db.Screen).order_by(db.Screen.name).options(subqueryload(db.Screen.frequentblock))
     screens_counts = session.exec(statement).all()
     return [QueryScreen(screen=s, well_match_counter=c) for s,c in screens_counts]
 
@@ -73,7 +74,8 @@ async def get_subset_screens(*, session: Session=Depends(db.get_readonly_session
     statement = select(db.Screen, func.count(db.Well.id)).join(db.Well).join(db.WellCondition)\
                 .where(db.Screen.id != screen_id)\
                 .group_by(db.Screen)\
-                .having(func.count(db.WellCondition.id) == func.sum(case((col(db.WellCondition.id).in_(screen_conditions), 1), else_=0)))
+                .having(func.count(db.WellCondition.id) == func.sum(case((col(db.WellCondition.id).in_(screen_conditions), 1), else_=0)))\
+                .options(subqueryload(db.Screen.frequentblock))
     # Execute and return
     screens_counts = session.exec(statement).all()
     return screens_counts
@@ -86,21 +88,21 @@ async def get_screen_wells(*, session: Session=Depends(db.get_readonly_session),
     """
     Gets list of wells given a screen id
     """
-    screen = session.get(db.Screen, screen_id)
+    screen = session.get(db.Screen, screen_id).options(subqueryload(db.Screen.wells))
     return screen.wells
 
 @router.post("/query", 
              summary="Gets a list of screens filtered by a query and the number of wells matching the query",
              response_description="List of screens filtered by provided query and the number of wells matching the query",
-             response_model=list[tuple[db.ScreenRead, int]])
+             response_model=list[QueryScreen])
 async def get_screens_query(*, session: Session=Depends(db.get_readonly_session), query: screen_query.ScreenQuery):
     """
     Gets a list of screens filtered by a query and the number of wells matching the query
     """
     # Parse Query for screens
-    statement = screen_query.parseScreenQuery(query)
+    statement = screen_query.parseScreenQuery(query).options(subqueryload(db.Screen.frequentblock))
     screens_counts = session.exec(statement).all()
-    return screens_counts
+    return [QueryScreen(screen=s, well_match_counter=c) for s,c in screens_counts]
 
 @router.post("/wellQuery", 
              summary="Gets list of wells given a screen id filtered by a query",
@@ -113,7 +115,7 @@ async def get_screen_wells_query(*, session: Session=Depends(db.get_readonly_ses
     # Parse Query for well ids
     well_ids = screen_query.parseWellQuery(well_query)
     # Filter screen wells for those in query
-    statement = select(db.Well).where(db.Well.screen_id == screen_id, col(db.Well.id).in_(well_ids)).order_by(db.Well.position_number)
+    statement = select(db.Well).where(db.Well.screen_id == screen_id, col(db.Well.id).in_(well_ids)).order_by(db.Well.position_number).options(subqueryload(db.Well.wellcondition))
     wells = session.exec(statement).all()
     return wells
 

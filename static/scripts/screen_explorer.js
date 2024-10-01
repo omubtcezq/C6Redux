@@ -1,7 +1,24 @@
 //# sourceURL=screen_explorer.js
-(function() {
-// Load once document is ready
-$(document).ready(function() {
+var screen_explorer = (function() {
+
+// ========================================================================== //
+// Publicly accessible functions go here (note script needs to be loaded for them to be available)
+// ========================================================================== //
+
+var public_functions = {};
+public_functions.screen_query = function (query_object){
+    let screen_table = Tabulator.findTable('#screen-tabulator')[0];
+    screen_table.setData(API_URL+'/screens/query', query_object, "POST");
+    screen_table.showColumn('well_match_counter');
+    screen_table.setSort([
+        {column:"screen.name", dir:"asc"},
+        {column:"well_match_counter", dir:"desc"}
+    ]);
+}
+
+// ========================================================================== //
+// Private functions
+// ========================================================================== //
 
 // Header menu that allows the toggling of column visibilities
 var column_menu = function(e, column){
@@ -87,9 +104,16 @@ function update_screen_count_filtered(filters, rows){
     }
 }
 
+// ========================================================================== //
+// Actions to perform once document is ready (e.g. create table and event handlers)
+// ========================================================================== //
+
+$(document).ready(function() {
+
 // Tabulator table
 var table = new Tabulator("#screen-tabulator", {
     ajaxURL: API_URL+"/screens/all",
+    ajaxContentType: 'json',
     height: "100%",
     layout: "fitData",
     movableColumns: true,
@@ -297,9 +321,14 @@ table.on("dataLoaded", update_screen_count_loaded);
 
 // Refresh button
 $('#reload-all-screens-button').click(function(){
-    table.setData();
+    table.setData(API_URL+'/screens/all', {});
+    table.hideColumn('well_match_counter');
+    table.setSort([{column:"screen.name", dir:"asc"}]);
     table.clearFilter(true);
 });
 
 });
+
+// Return public functions object for globally avilable functions
+return public_functions;
 })();

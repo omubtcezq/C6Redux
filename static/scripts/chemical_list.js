@@ -1,7 +1,15 @@
 //# sourceURL=chemical_list.js
-(function() {
-// Load once document is ready
-$(document).ready(function() {
+var chemicals = (function() {
+
+// ========================================================================== //
+// Publicly accessible functions go here (note script needs to be loaded for them to be available)
+// ========================================================================== //
+
+var public_functions = {};
+
+// ========================================================================== //
+// Private functions
+// ========================================================================== //
 
 // Remove selection and reformat rows to display edit and delete buttons
 function stop_editing(table){
@@ -321,6 +329,12 @@ function update_chemical_count_filtered(filters, rows){
         $('#filtered-chemical-row-count').text('');
     }
 }
+
+// ========================================================================== //
+// Actions to perform once document is ready (e.g. create table and event handlers)
+// ========================================================================== //
+
+$(document).ready(function() {
 
 // Tabulator table
 var table = new Tabulator("#chemical-tabulator", {
@@ -1001,4 +1015,7 @@ $('#reload-chemicals-button').click(function(){
 });
 
 });
+
+// Return public functions object for globally avilable functions
+return public_functions;
 })();

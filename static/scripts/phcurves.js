@@ -1,7 +1,15 @@
 //# sourceURL=phcurves.js
-(function() {
-// Load once document is ready
-$(document).ready(function() {
+var phcurves = (function() {
+
+// ========================================================================== //
+// Publicly accessible functions go here (note script needs to be loaded for them to be available)
+// ========================================================================== //
+
+var public_functions = {};
+
+// ========================================================================== //
+// Private functions
+// ========================================================================== //
 
 // Remove selection and reformat rows to display edit and delete buttons
 function stop_editing(table){
@@ -356,6 +364,12 @@ var phpoints_formatter = function(cell, formatterParams, onRendered){
     // Return span that is overridden by graph
     return graph_span.prop('outerHTML');
 };
+
+// ========================================================================== //
+// Actions to perform once document is ready (e.g. create table and event handlers)
+// ========================================================================== //
+
+$(document).ready(function() {
 
 // Tabulator table
 var table = new Tabulator("#phcurve-tabulator", {
@@ -999,4 +1013,7 @@ $('#reload-phcurves-button').click(function(){
 });
 
 });
+
+// Return public functions object for globally avilable functions
+return public_functions;
 })();

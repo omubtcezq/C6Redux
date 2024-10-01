@@ -19,59 +19,6 @@ const ALL_UNITS = [
 // Different in pH considered the same
 const PH_MIN_DIFF = 1.2;
 
-
-// HOPEFULLY TEMPORARY
-
-
-// Cached screen names lists
-let SCREEN_NAMES = null;
-// Search over screen names
-function search_screen_names(term, screen_names){
-    let out = [];
-    // String match screens names only
-    $.each(screen_names, function(i, s){
-        if (s.name.toLowerCase().includes(term.toLowerCase())){
-            out.push({
-                'value': s.name,
-                'label': s.name,
-                'id': s.id
-            });
-        }
-    });
-    return out;
-}
-
-// Cached chemical names list
-let CHEMICAL_NAMES = null;
-// Search over chemical name
-function search_chemical_names(term, chemical_names){
-    let out = [];
-    // String match chemicals and aliases
-    $.each(chemical_names, function(i, c){
-        if (c.name.toLowerCase().includes(term.toLowerCase())){
-            out.push({
-                'value': c.name,
-                'label': c.name,
-                'id': c.id
-            });
-        } else {
-            for (i in c.aliases){
-                if (c.aliases[i].name.toLowerCase().includes(term.toLowerCase())){
-                    out.push({
-                        'value': c.name,
-                        'label': c.name + " (alias: " + c.aliases[i].name + ")",
-                        'id': c.id
-                    });
-                    break;
-                }
-            }
-        }
-    });
-    return out;
-}
-
-
-
 // Function that allows setting up of subpage buttons.
 // Variable subpages should be in the form:
 // [{
@@ -174,7 +121,10 @@ function alert_user(msg){
 // Local js for site functions
 (function() {
 
-// Load once document is ready
+// ========================================================================== //
+// Actions to perform once document is ready (e.g. event handlers)
+// ========================================================================== //
+
 $(document).ready(function() {
 
 // Set up banner subpage buttons

@@ -3,6 +3,7 @@
 """
 
 from sqlmodel import Session, select, or_
+from sqlalchemy.orm import subqueryload
 from fastapi import APIRouter, Depends
 import api.db as db
 import api.authentication as auth
@@ -26,7 +27,9 @@ async def get_stocks(*, session: Session=Depends(db.get_readonly_session)):
     """
     Get a list of all stocks
     """
-    statement = select(db.Stock).order_by(db.Stock.available.desc(), db.Stock.name)
+    statement = select(db.Stock).order_by(db.Stock.available.desc(), db.Stock.name).options(subqueryload(db.Stock.factor).subqueryload(db.Factor.chemical).subqueryload(db.Chemical.aliases),
+                                                                                            subqueryload(db.Stock.apiuser),
+                                                                                            subqueryload(db.Stock.hazards))
     stocks = session.exec(statement).all()
     return stocks
 

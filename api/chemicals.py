@@ -3,6 +3,7 @@
 """
 
 from sqlmodel import Session, select, func
+from sqlalchemy.orm import subqueryload
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 import api.db as db
@@ -31,7 +32,7 @@ async def get_chemical_names(*, session: Session=Depends(db.get_readonly_session
     """
     Get a list of all chemical names
     """
-    statement = select(db.Chemical)
+    statement = select(db.Chemical).options(subqueryload(db.Chemical.aliases))
     chemicals = session.exec(statement).all()
     return chemicals
 
@@ -43,7 +44,7 @@ async def get_chemicals(*, session: Session=Depends(db.get_readonly_session)):
     """
     Get a list of all chemicals including frequent slock information
     """
-    statement = select(db.Chemical)
+    statement = select(db.Chemical).options(subqueryload(db.Chemical.aliases), subqueryload(db.Chemical.frequentstock))
     chemicals = session.exec(statement).all()
     return chemicals
 
@@ -188,7 +189,10 @@ async def get_phcurves(*, session: Session=Depends(db.get_readonly_session)):
     """
     Get a list of all pH curves
     """
-    statement = select(db.PhCurve)
+    statement = select(db.PhCurve).options(subqueryload(db.PhCurve.chemical).subqueryload(db.Chemical.aliases), 
+                                           subqueryload(db.PhCurve.low_chemical).subqueryload(db.Chemical.aliases),
+                                           subqueryload(db.PhCurve.high_chemical).subqueryload(db.Chemical.aliases),
+                                           subqueryload(db.PhCurve.points))
     curves = session.exec(statement).all()
     return curves
 
@@ -266,18 +270,3 @@ async def delete_chemical(*, authorised_user: db.ApiUserRead=Depends(auth.get_au
     # Log and return
     print("pH curve deletion performed by user: %s" % authorised_user.username)
     return
-
-
-# HOPEFULLY TEMPORARY
-
-@router.get("/chemical", 
-            summary="Get single chemical properties",
-            response_description="Single chemical properties",
-            response_model=db.ChemicalRead)
-async def get_chemical(*, session: Session=Depends(db.get_readonly_session), chemical_id: int):
-    """
-    Get single chemical properties
-    """
-    statement = select(db.Chemical).where(db.Chemical.id == chemical_id)
-    chemical = session.exec(statement).first()
-    return chemical

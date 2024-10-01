@@ -87,44 +87,10 @@
 
 .selected-query-div {
     background-color: #ffc47a;
+    box-shadow: 0px 0px 10px 1px black;
 }
 
-/* Inputs for specifying condition */
-.input-table {
-    text-align: left;
-    width: 100%;
-    border: 0;
-    margin: auto;
-}
-
-.input-table > tr > td > label {
-    margin: 3px;
-}
-
-.input-wide {
-    box-sizing: border-box;
-    width: 100%;
-}
-
-.input-conc {
-    box-sizing: border-box;
-    width: 69%;
-    margin-right: 1%;
-}
-
-.input-units {
-    box-sizing: border-box;
-    width: 30%;
-}
-
-/* JQuery UI styling */
-.ui-autocomplete {
-    max-height: 300px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    text-align: left;
-}
-
-.ui-autocomplete-loading {
-    background: white url("../images/loading.gif") right center no-repeat;
+/* Tabulator divs */
+.chemical-search-tabulator {
+    margin: 9px;
 }

@@ -1,7 +1,5 @@
 //# sourceURL=screen_query.js
-(function() {
-// Load once document is ready
-$(document).ready(function() {
+var screen_query = (function() {
 
 // Counter for identifying condition and chemical divs in recursive query
 let CONDITION_ID_COUNTER = 0;
@@ -14,70 +12,11 @@ let SCREEN_QUERY = {
     'conds': null
 };
 
-// Show complex query popup
-$('#query-screens-button').click(function(){
-    $("#screen-query-popup").css("display", "block");
-    $('#screen-popup-container').show();
-    
-});
+// ========================================================================== //
+// Publicly accessible functions go here (note script needs to be loaded for them to be available)
+// ========================================================================== //
 
-// Cancel (hide) complex query popup
-$('#screen-query-cancel-button').click(function(){
-    $("#screen-query-popup").css("display", "none");
-    $('#screen-popup-container').hide();
-});
-
-// Screen name/owner inputs
-$('#screen-name-search').change(function(){
-    query_update_inputs(false);
-});
-$('#screen-owner-search').change(function(){
-    query_update_inputs(false);
-});
-
-// Perform search
-$('#screen-query-search-button').click(function(){
-    query_screens();
-});
-
-// Start condition search
-$('#condition-query-button').click(function(){
-    $('#condition-query-button-table').css('display', 'none');
-    $('#condition-query-header').css('display', 'block');
-
-    // Create condition search tree
-    let cond_div = create_condition_div();
-    let chem_div = get_first_chemical_div_from_condition_div(cond_div)
-    chem_div.click();
-    query_init(cond_div, chem_div);
-    $('#condition-query-div').append(
-        create_logic_div().append(cond_div)
-    );
-});
-
-// Cancel condition search
-$('#condition-query-cancel-button').click(function() {
-    $('#condition-query-header').css('display', 'none');
-    $('#condition-query-button-table').css('display', 'table');
-
-    // Destroy condition search tree
-    query_empty();
-    $('#condition-query-div').empty();
-});
-
-// Condition / chemical logic operations
-$('#condition-query-and-button').click(function() {
-    binop_query('and');
-});
-$('#condition-query-or-button').click(function() {
-    binop_query('or');
-});
-$('#condition-query-not-button').click(function() {
-    not_query();
-});
-$('#condition-query-remove-button').click(function() {
-    remove_query();
-});
+var public_functions = {};
 
 // ========================================================================== //
 // Query div navigation helpers
@@ -120,7 +59,7 @@ function create_logic_div() {
 }
 
 // Create a div for specifiying a condition
-function create_condition_div() {
+function append_condition_div(parent_div) {
     // Create radio check for ALL or SOME quantifier
     let condition_div = $('<div>').attr('class', 'condition-div').attr('id', 'condition-div'+CONDITION_ID_COUNTER).append(
         $('<div>').attr('class', 'section-title').text('CONDITION')
@@ -139,7 +78,8 @@ function create_condition_div() {
             cond_id = get_condition_div_id(cond);
             cond.children().last().remove();
             if ($(this).val() == 'chem'){
-                cond.append(create_condition_chem_field(cond_id));
+                //cond.append(create_condition_chem_field(cond_id));
+                append_condition_chem_field(cond);
                 query_by_chemical_condition(cond, get_first_chemical_div_from_condition_div(cond));
             } else if ($(this).val() == 'ref'){
                 append_condition_ref_field(cond);
@@ -177,29 +117,32 @@ function create_condition_div() {
         $('.chemical-div').removeClass('selected-query-div');
         $(this).addClass('selected-query-div');
     });
+    // Init condition div before adding field. Needs to be done first for tabulator tables
+    parent_div.append(condition_div);
     // Init condition as being specified by chemical
-    let condition_field = create_condition_chem_field(CONDITION_ID_COUNTER);
-    condition_div.append(condition_field);
+    append_condition_chem_field(condition_div);
 
     CONDITION_ID_COUNTER += 1;
     return condition_div;
 }
 
 // Create field where condition is specified with chemical information
-function create_condition_chem_field(condition_id){
+function append_condition_chem_field(cond_div){
+    // Get condition div id
+    let condition_id = get_condition_div_id(cond_div);
     // Create border and logical operators
     let condition_field = $('<fieldset>').attr('id', 'condition-fieldset'+condition_id)
     .attr('class', 'condition-chem-field').append(
         $('<legend>').text('meet the following')
     );
+    // Append field to condition div
+    cond_div.append(condition_field);
     // Initialise with a chemical
-    let chem_div = create_chemical_div();
+    let logic_div = create_logic_div();
     condition_field.append(
-        $('<div>').attr('id', 'chemical-query'+condition_id).append(
-            create_logic_div().append(chem_div)
-        )
+        $('<div>').attr('id', 'chemical-query'+condition_id).append(logic_div)
     );
-    return condition_field;
+    append_chemical_div(logic_div);
 }
 
 // Create and append field where condition is specified with reference information
@@ -227,8 +170,7 @@ function append_condition_ref_field(cond_div){
             title: "Screen", 
             field: "screen", 
             vertAlign: "middle",
-            width: 280,
-            resizable: false,
+            width: 160,
             headerSort: false,
             editor: "list", 
             editorParams: {
@@ -258,7 +200,8 @@ function append_condition_ref_field(cond_div){
                 emptyValue: {id: null, name: null},
                 placeholderLoading: "Loading Screen List...",
                 placeholderEmpty: "No Screens Found",
-                autocomplete: true
+                autocomplete: true,
+                listOnEmpty: true
             },
             // Update the wells list when screen selected
             cellEdited: function(cell){
@@ -277,7 +220,7 @@ function append_condition_ref_field(cond_div){
             title: "Well", 
             field: "well", 
             vertAlign: "middle",
-            width: 160,
+            width: 100,
             resizable: false,
             headerSort: false,
             editor: "list", 
@@ -333,10 +276,12 @@ function append_condition_ref_field(cond_div){
             }
         }]
     });
+    // Return field even if it is already appended
+    return condition_field;
 }
 
 // Create div for specifiying a chemical
-function create_chemical_div(){
+function append_chemical_div(parent_div){
     // Chemical id from drop down
     let chemical_div = $('<div>').attr('class', 'chemical-div')
     .attr('id', 'chemical-div'+CHEMICAL_ID_COUNTER).append(
@@ -363,123 +308,149 @@ function create_chemical_div(){
     ).append(
         $('<label>').attr('for', 'chemical-quant-a'+CHEMICAL_ID_COUNTER).text('All')
     ).append(' chemicals in the condition are').append(
-        $('<table>').attr('class', 'input-table').append(
-            // Name search
-            $('<tr>').append(
-                $('<td>').append(
-                    $('<label>').attr('for', 'chemical-id'+CHEMICAL_ID_COUNTER).text('Chemical')
-                )
-            ).append(
-                $('<td>').append(
-                    $('<input>').attr('id', 'chemical-id'+CHEMICAL_ID_COUNTER)
-                    .attr('class', 'input-wide')
-                    .attr('name', 'chemical-id'+CHEMICAL_ID_COUNTER)
-                    .attr('placeholder', 'Search chemicals')
-                    .attr('autocomplete-id', '')
-                    .autocomplete({
-                        source: function (request, response){
-                            if (CHEMICAL_NAMES == null){
-                                $.getJSON(API_URL+'/chemicals/names', function(chemical_names){
-                                    CHEMICAL_NAMES = chemical_names;
-                                    response(search_chemical_names(request.term, CHEMICAL_NAMES));
-                                })
-                            } else {
-                                response(search_chemical_names(request.term, CHEMICAL_NAMES));
-                            }
-                        },
-                        select: function(event, ui) {
-                            let unit_dropdown = $(this).closest('.input-table').find('.input-units');
-                            let id = ui.item.id;
-                            if (id){
-                                $.getJSON(API_URL+'/chemicals/chemical?chemical_id='+id, function(chemical){
-                                    for (i in ALL_UNITS){
-                                        if (ALL_UNITS[i] == chemical.unit){
-                                            unit_dropdown.val(ALL_UNITS[i]);
-                                            unit_dropdown.change();
-                                        }
-                                    }
-                                })
-                            }
-                        },
-                        change: function(event,ui){
-                            let unit_dropdown = $(this).closest('.input-table').find('.input-units');
-                            if (ui.item){
-                                $(this).val(ui.item.value);
-                                $(this).attr('autocomplete-id', String(ui.item.id));
-                                query_update_inputs(false);
-                            } else {
-                                $(this).val('');
-                                $(this).attr('autocomplete-id', '');
-                                unit_dropdown.val(ALL_UNITS[0]);
-                                unit_dropdown.change();
-                                query_update_inputs(false);
-                            }
-                        },
-                        minLength: 1
-                    })
-                )
-            )
-        ).append(
-            // Concentration and unit search
-            $('<tr>').append(
-                $('<td>').append(
-                    $('<label>').attr('for', 'chemical-conc'+CHEMICAL_ID_COUNTER).text('Concentration')
-                )
-            ).append(
-                $('<td>').append(
-                    $('<input>').attr('id', 'chemical-conc'+CHEMICAL_ID_COUNTER)
-                    .attr('class', 'input-conc')
-                    .attr('name', 'chemical-conc'+CHEMICAL_ID_COUNTER)
-                    .attr('type', 'number')
-                    .attr('min', '0')
-                    .attr('placeholder', 'Range: [0, inf)')
-                    .change(function(){
-                        if ($(this).val() < 0){
-                            $(this).val('');
-                        }
-                        query_update_inputs(false);
-                    })
-                ).append(
-                    $('<select>').attr('id', 'chemical-units'+CHEMICAL_ID_COUNTER)
-                    .attr('class', 'input-units')
-                    .attr('name', 'chemical-units'+CHEMICAL_ID_COUNTER).append(
-                        ALL_UNITS.map(function(u){
-                            let o = $('<option>').attr('value', u).
-                                    text(u);
-                            return o;
-                        })
-                    ).
-                    change(function(){
-                        query_update_inputs(false);
-                    })
-                )
-            )
-        ).
-        // pH Search
-        append(
-            $('<tr>').append(
-                $('<td>').append(
-                    $('<label>').attr('for', 'chemical-ph'+CHEMICAL_ID_COUNTER).text('pH')
-                )
-            ).append(
-                $('<td>').append(
-                    $('<input>').attr('id', 'chemical-ph'+CHEMICAL_ID_COUNTER)
-                    .attr('class', 'input-wide')
-                    .attr('name', 'chemical-ph'+CHEMICAL_ID_COUNTER)
-                    .attr('type', 'number')
-                    .attr('min', '0')
-                    .attr('max', '0')
-                    .attr('placeholder', 'Range: [0, 14]')
-                    .change(function(){
-                        if ($(this).val() < 0 || $(this).val() > 14){
-                            $(this).val('');
-                        }
-                        query_update_inputs(false);
-                    })
-                )
-            )
-        )
+        $('<div>').attr('id', 'chemical-search-tabulator-'+CHEMICAL_ID_COUNTER).attr('class', 'chemical-search-tabulator')
     );
+    
+    // Append chemical div before tabulator table created
+    parent_div.append(chemical_div);
+
+    // Make chemical selector a tabulator table with a single entries
+    var table = new Tabulator('#chemical-search-tabulator-'+CHEMICAL_ID_COUNTER, {
+        data: [{id: 1, chemical: {id: null, name: null, aliases: [], unit: null}, concentration: null, unit: ALL_UNITS[0], ph: null}],
+        height: "100%",
+        layout: "fitData",
+        editorEmptyValue: null,
+        selectableRows: false,
+        index: "id",
+        validationMode: 'manual',
+        columns: [{
+            title: "Chemical", 
+            field: "chemical", 
+            vertAlign: "middle",
+            width: 160,
+            headerSort: false,
+            editor: "list", 
+            editorParams: {
+                // Load chemical list from api, formatting to show numbers of aliases
+                valuesLookup:function(cell){
+                    return new Promise(function(resolve, reject){
+                        $.ajax({
+                            url: API_URL+'/chemicals/names',
+                            success: function(data){
+                                var options = [];
+                                $.each(data, function(i,c){
+                                    // Value of chemical cell is the actional chemical object (not just its name)
+                                    options.push({
+                                        label: c.name + (c.aliases.length ? ' (aliases: ' + c.aliases.length + ')' : ""),
+                                        value: c,
+                                    });
+                                })
+                                resolve(options);
+                            },
+                            error: function(error){
+                                reject(error);
+                            },
+                        });
+                    });
+                },
+                sort: "asc",
+                emptyValue: {id: null, name: null, aliases: [], unit: null},
+                placeholderLoading: "Loading Chemical List...",
+                placeholderEmpty: "No Chemicals Found",
+                autocomplete:true,
+                // Search through names and aliases
+                filterFunc: function(term, label, value, item){
+                    if (value.name.toLowerCase().includes(term.toLowerCase())){
+                        return true;
+                    } else {
+                        for (i in value.aliases){
+                            if (value.aliases[i].name.toLowerCase().includes(term.toLowerCase())){
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
+                },
+                filterDelay:100,
+                listOnEmpty:true,
+            },
+            // Update the units and concentration inputs when chemical is changed
+            cellEdited: function(cell){
+                    var chemical = cell.getValue();
+                    var unit_ind = $.inArray(chemical.unit, ALL_UNITS);
+                    var row = cell.getRow();
+                    var unit_cell = row.getCell('unit');
+                    var conc_cell = row.getCell('concentration');
+                    // New units found
+                    if (unit_ind != -1){
+                        unit_cell.setValue(ALL_UNITS[unit_ind]);
+                    // New units not found
+                    } else {
+                        unit_cell.setValue(ALL_UNITS[0]);
+                    }
+                    // Reset concentration
+                    conc_cell.setValue(null);
+                    // Update query
+                    query_update_inputs(false);
+            },
+            // Display only name and alias count from the chemical object in the cell
+            formatter: function(cell, formatterParams, onRendered){
+                if (cell.getValue().id){
+                    $(cell.getElement()).css('color', '#333');
+                    return cell.getValue().name + (cell.getValue().aliases.length ? ' (aliases: ' + cell.getValue().aliases.length + ')' : "");
+                } else {
+                    $(cell.getElement()).css('color', '#999');
+                    return "Search chemicals ...";
+                }
+            },
+            // Sorter should sort by chemical name
+            sorter: function(a, b, aRow, bRow, column, dir, sorterParams){
+                return a.name.localeCompare(b.name);
+            }
+
+        // Concentration
+        }, , {
+            title: "Concentration", 
+            field: "concentration", 
+            hozAlign: "right", 
+            vertAlign: "middle",
+            resizable: false,
+            width: 110,
+            headerSort: false,
+            editor: "number",
+            cellEdited: function(cell){
+                query_update_inputs(false);
+            }
+
+        // Unit
+        }, {
+            title: "Unit", 
+            field: "unit", 
+            vertAlign: "middle",
+            resizable: false,
+            width: 80,
+            headerSort: false,
+            editor: "list",
+            editorParams: {values: ALL_UNITS},
+            cellEdited: function(cell){
+                query_update_inputs(false);
+            }
+
+        // pH
+        }, {
+            title: "pH", 
+            field: "ph", 
+            hozAlign: "right", 
+            vertAlign: "middle",
+            resizable: false,
+            width: 80,
+            headerSort: false,
+            editor: "number",
+            cellEdited: function(cell){
+                query_update_inputs(false);
+            }
+        }]
+    });
 
     chemical_div.click(function (e) {
         e.stopPropagation();
@@ -489,6 +460,7 @@ function create_chemical_div(){
     });
 
     CHEMICAL_ID_COUNTER += 1;
+    // returnchemical div even if it is already appended
     return chemical_div;
 }
 
@@ -554,8 +526,6 @@ function binop_condition(binop, cond_div){
     // Create new logiv div with selected and new conditions
     let op_logic = create_logic_div();
     let new_cond_logic = create_logic_div();
-    let new_cond_div = create_condition_div();
-    let new_chem_div = get_first_chemical_div_from_condition_div(new_cond_div);
     let binop_str = null;
     let binop_cls = null;
     if (binop == 'and'){
@@ -571,7 +541,7 @@ function binop_condition(binop, cond_div){
         // Appending selected condition logic will move it from current position
         cond_logic
     ).append(
-        new_cond_logic.append(new_cond_div)
+        new_cond_logic
     );
     // Insert according to which side was selected ot being with
     if (insert_right){
@@ -579,6 +549,8 @@ function binop_condition(binop, cond_div){
     } else {
         op_logic.insertBefore(logic_parent.children().last());
     }
+    let new_cond_div = append_condition_div(new_cond_logic);
+    let new_chem_div = get_first_chemical_div_from_condition_div(new_cond_div);
     // Update query tree object
     query_binop_condition(cond_div, new_cond_div, new_chem_div, binop);
 }
@@ -652,7 +624,6 @@ function binop_chemical(binop, chem_div){
     // Create new logiv div with selected and new chemicals
     let op_logic = create_logic_div();
     let new_chem_logic = create_logic_div();
-    let new_chem_div = create_chemical_div();
     let binop_str = null;
     let binop_cls = null;
     if (binop == 'and'){
@@ -668,7 +639,7 @@ function binop_chemical(binop, chem_div){
         // Appending selected chemical logic will move it from current position
         chem_logic
     ).append(
-        new_chem_logic.append(new_chem_div)
+        new_chem_logic
     );
     // Insert according to which side was selected ot being with
     if (insert_right){
@@ -676,6 +647,8 @@ function binop_chemical(binop, chem_div){
     } else {
         op_logic.insertBefore(logic_parent.children().last());
     }
+    // Add chemical div with tabulator table after other divs are instatiated
+    let new_chem_div = append_chemical_div(new_chem_logic);
     // Update query tree object
     query_binop_chemical(cond_div, chem_div, new_chem_div, binop);
 }
@@ -1086,7 +1059,7 @@ function query_update_conds(tree, alert_validation){
             tree.arg.id == null &&
             tree.arg.chems == null){
                 
-            alert_user("Must specify condition exclusively either by reference or by chemicals!");
+            alert_user("Must specify condition exclusively either by reference or by chemical.");
             return false;
         // When not validating always continue parsing
         } else {
@@ -1108,43 +1081,41 @@ function query_update_chems(tree, alert_validation){
     } else {
         let chem_div = tree.arg.q_chemical_div;
         let chem_id = get_chemical_div_id(chem_div);
+        let chem_data = Tabulator.findTable('#chemical-search-tabulator-'+chem_id)[0].getRow(1).getData();
         if ($('input[name="chemical-quant'+chem_id+'"]:checked').val() == 'a'){
             tree.arg.universal_quantification = true;
         } else {
             tree.arg.universal_quantification = false;
         }
+        // No UI for chemical name search yet
         tree.arg.name_search = null;
-        if ($('input[name="chemical-id'+chem_id+'"]').val() == ''){
-            tree.arg.id = null;
+        // Chemical id
+        tree.arg.id = chem_data.chemical.id;
+        // If concentration specified get both concentration and unit
+        if (chem_data.concentration){
+            tree.arg.conc = chem_data.concentration;
+            tree.arg.units = chem_data.unit;
+        // Otherwise neither
         } else {
-            tree.arg.id = $('input[name="chemical-id'+chem_id+'"]').attr('autocomplete-id');
-        }
-        if ($('input[name="chemical-conc'+chem_id+'"]').val() == ''){
             tree.arg.conc = null;
             tree.arg.units = null;
-        } else {
-            tree.arg.conc = $('input[name="chemical-conc'+chem_id+'"]').val();
-            tree.arg.units = $('select[name="chemical-units'+chem_id+'"]').val();
         }
-        if ($('input[name="chemical-ph'+chem_id+'"]').val() == ''){
-            tree.arg.ph = null;
-        } else {
-            tree.arg.ph = $('input[name="chemical-ph'+chem_id+'"]').val();
-        }
+        // pH
+        tree.arg.ph = chem_data.ph;
 
         // Final validation matching API parser
         if (alert_validation){
             if (tree.arg.id == null &&
                 tree.arg.name_search == null){
 
-                alert_user("Must specify chemical!");
+                alert_user("Must specify chemical.");
                 return false;
             } else if (tree.arg.id == null &&
                 tree.arg.name_search == null &&
                 tree.arg.conc == null &&
                 tree.arg.ph == null){
 
-                alert_user("Must specify chemical with at least name, concentration and unit, or ph!");
+                alert_user("Must specify chemical with at least name, concentration and unit, or ph.");
                 return false
             } else {
                 return true;
@@ -1163,27 +1134,13 @@ function query_screens(){
     if (!validated){
         return;
     }
-    // If no errors, clear currently displayed screens and query API
-    let api_query = JSON.stringify(SCREEN_QUERY, query_drop_extra);
-    screen_table_body = $('#screen-table > tbody');
-    screen_table_body.empty();
-    $.ajax({
-        type: 'POST',
-        url: API_URL+'/screens/query', 
-        data: api_query, 
-        // Display returned screens
-        success: function(data) {
-            let api_well_query = null;
-            if (SCREEN_QUERY.conds){
-                api_well_query = JSON.stringify($.extend(true, {}, SCREEN_QUERY.conds), query_drop_extra);
-            }
-            
-            // TODO
-            //display_screens(data, api_well_query);
-        }, 
-        dataType: 'json',
-        contentType: 'application/json'
-    });
+    
+    // If validated, make new query object without helper keys and pass it the screens script public function
+    let api_query_object = JSON.parse(JSON.stringify(SCREEN_QUERY, query_drop_extra));
+    screen_explorer.screen_query(api_query_object);
+
+    // Hide complex query popup
+    $('#screen-query-cancel-button').click();
 }
 
 // Replacer function to drop query object keys not needed for API call
@@ -1197,5 +1154,80 @@ function query_drop_extra(key, value){
     }
 }
 
+// ========================================================================== //
+// Actions to perform once document is ready (e.g. event handlers)
+// ========================================================================== //
+
+$(document).ready(function() {
+
+// Show complex query popup
+$('#query-screens-button').click(function(){
+    $("#screen-query-popup").css("display", "block");
+    $('#screen-popup-container').show();
+    
 });
+
+// Cancel (hide) complex query popup
+$('#screen-query-cancel-button').click(function(){
+    $("#screen-query-popup").css("display", "none");
+    $('#screen-popup-container').hide();
+});
+
+// Screen name/owner inputs
+$('#screen-name-search').change(function(){
+    query_update_inputs(false);
+});
+$('#screen-owner-search').change(function(){
+    query_update_inputs(false);
+});
+
+// Perform search
+$('#screen-query-search-button').click(function(){
+    query_screens();
+});
+
+// Start condition search
+$('#condition-query-button').click(function(){
+    $('#condition-query-button-table').css('display', 'none');
+    $('#condition-query-header').css('display', 'block');
+
+    // Create condition search tree
+    let logic_div = create_logic_div();
+    $('#condition-query-div').append(
+        logic_div
+    );
+    let cond_div = append_condition_div(logic_div);
+    let chem_div = get_first_chemical_div_from_condition_div(cond_div);
+    chem_div.click();
+    query_init(cond_div, chem_div);
+});
+
+// Cancel condition search
+$('#condition-query-cancel-button').click(function() {
+    $('#condition-query-header').css('display', 'none');
+    $('#condition-query-button-table').css('display', 'table');
+
+    // Destroy condition search tree
+    query_empty();
+    $('#condition-query-div').empty();
+});
+
+// Condition / chemical logic operations
+$('#condition-query-and-button').click(function() {
+    binop_query('and');
+});
+$('#condition-query-or-button').click(function() {
+    binop_query('or');
+});
+$('#condition-query-not-button').click(function() {
+    not_query();
+});
+$('#condition-query-remove-button').click(function() {
+    remove_query();
+});
+
+});
+
+// Return public functions object for globally avilable functions
+return public_functions;
 })();
