@@ -108,6 +108,7 @@ function update_screen_count_filtered(filters, rows){
     }
 }
 
+// Viewing a screen
 function view_screen(cell){
     cell.getTable().deselectRow();
     cell.getRow().select();
@@ -116,6 +117,7 @@ function view_screen(cell){
     $('#screen-wells-view-title').text(cell.getData().screen.name);
 }
 
+// Cancelling the viewing of a screen
 function hide_screen(){
     let screen_table = Tabulator.findTable('#screen-tabulator')[0];
     screen_table.deselectRow();
