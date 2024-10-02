@@ -83,6 +83,9 @@ class WellConditionClause(BaseModel):
     # Help with matching
     model_config = ConfigDict(extra='forbid')
 
+class WellQuery(BaseModel):
+    conds: WellConditionClause | None = None
+
 class ScreenQuery(BaseModel):
     #only_available: bool = False # TODO implement
     name_search: str | None = None
@@ -91,12 +94,6 @@ class ScreenQuery(BaseModel):
 
     # To help with matching, don't allow extra params that might make another class match
     model_config = ConfigDict(extra='forbid')
-    # Check that some form of screen identification is provided for query
-    @model_validator(mode='after')
-    def check_name_or_conditions(self):
-        if self.name_search == None and self.owner_search == None and self.conds == None:
-            raise ValueError("Must specify screens by at least a name, owner name or by conditions!")
-        return self
 
 # Rebuild the classes with self reference (not sure if this is makes a difference)
 ChemicalBinOp.model_rebuild()
@@ -114,7 +111,7 @@ def parseScreenQuery(query: ScreenQuery):
         clauses.append(col(db.Screen.owned_by).contains(query.owner_search))
     # Screen grouped and filtered by screens and conditions that meet query clauses
     if query.conds != None:
-        well_ids = parseWellQuery(query.conds)
+        well_ids = parseWellQuery(query)
         clauses.append(col(db.Well.id).in_(well_ids))
         screens_counts = select(db.Screen, func.count(db.Well.id)).join(db.Well).where(*clauses).group_by(db.Screen).order_by(db.Screen.name)
     # Screen filtered by screen clauses only
@@ -122,16 +119,17 @@ def parseScreenQuery(query: ScreenQuery):
         screens_counts = select(db.Screen, func.count(db.Well.id)).join(db.Well).where(*clauses).group_by(db.Screen).order_by(db.Screen.name)
     return screens_counts
 
-def parseWellQuery(query: WellConditionClause):
-    # Create clause tree for conditions
-    if type(query.arg) == WellConditionBinOp:
-        cond_clause = parseWellConditionBinOp(query.arg)
-    else:
-        cond_clause = parseWellConditionPred(query.arg)
-    # Handle negation
-    if query.negate:
-        cond_clause = not_(cond_clause)
-    cond_clause
+def parseWellQuery(query: WellQuery):
+    cond_clause = True
+    if query.conds:
+        # Create clause tree for conditions
+        if type(query.conds.arg) == WellConditionBinOp:
+            cond_clause = parseWellConditionBinOp(query.conds.arg)
+        else:
+            cond_clause = parseWellConditionPred(query.conds.arg)
+        # Handle negation
+        if query.conds.negate:
+            cond_clause = not_(cond_clause)
     # Select only well ids for later 'in' clauses
     well_ids = select(db.Well.id).join(db.WellCondition).group_by(db.Well.id).having(cond_clause)
     return well_ids

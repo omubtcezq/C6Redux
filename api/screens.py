@@ -4,7 +4,7 @@
 
 from sqlmodel import Session, select, case, col, func
 from sqlalchemy.orm import subqueryload
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 from pydantic import BaseModel
 
 import api.db as db
@@ -14,6 +14,10 @@ import api.screen_query as screen_query
 class QueryScreen(BaseModel):
     screen: db.ScreenRead
     well_match_counter: int
+
+class QueryWell(BaseModel):
+    well: db.WellRead
+    query_match: bool
 
 # ============================================================================ #
 # API operations
@@ -49,16 +53,16 @@ async def get_screen_well_names(*, session: Session=Depends(db.get_readonly_sess
     return wells
 
 @router.get("/all", 
-            summary="Gets a list of all screens and the number of wells in each",
-            response_description="List of all screens and the number of wells in each",
-            response_model=list[QueryScreen])
+            summary="Gets a list of all screens",
+            response_description="List of all screens",
+            response_model=list[db.ScreenRead])
 async def get_screens(*, session: Session=Depends(db.get_readonly_session)):
     """
-    Gets a list of all screens and the number of wells in each
+    Gets a list of all screens
     """
-    statement = select(db.Screen, func.count(db.Well.id)).join(db.Well).group_by(db.Screen).order_by(db.Screen.name).options(subqueryload(db.Screen.frequentblock))
-    screens_counts = session.exec(statement).all()
-    return [QueryScreen(screen=s, well_match_counter=c) for s,c in screens_counts]
+    statement = select(db.Screen).join(db.Well).group_by(db.Screen).order_by(db.Screen.name).options(subqueryload(db.Screen.frequentblock))
+    screens = session.exec(statement).all()
+    return screens
 
 @router.get("/subsets", 
             summary="Gets a list of screens and the number of wells in each that contain only conditions found in the specified screen",
@@ -88,36 +92,42 @@ async def get_screen_wells(*, session: Session=Depends(db.get_readonly_session),
     """
     Gets list of wells given a screen id
     """
-    screen = session.get(db.Screen, screen_id).options(subqueryload(db.Screen.wells))
+    screen = session.get(db.Screen, screen_id).options(subqueryload(db.Screen.wells).subqueryload(db.Well.wellcondition).subqueryload(db.WellCondition.factors))
     return screen.wells
 
 @router.post("/query", 
-             summary="Gets a list of screens filtered by a query and the number of wells matching the query",
-             response_description="List of screens filtered by provided query and the number of wells matching the query",
+             summary="Gets a list of screen query objects including the number of matching wells filtered by a query",
+             response_description="List of screen query objects including number of matching wells filtered by provided query",
              response_model=list[QueryScreen])
 async def get_screens_query(*, session: Session=Depends(db.get_readonly_session), query: screen_query.ScreenQuery):
     """
-    Gets a list of screens filtered by a query and the number of wells matching the query
+    List of screen query objects including number of matching wells filtered by provided query
     """
     # Parse Query for screens
-    statement = screen_query.parseScreenQuery(query).options(subqueryload(db.Screen.frequentblock))
+    if query:
+        statement = screen_query.parseScreenQuery(query).options(subqueryload(db.Screen.frequentblock))
+    else:
+        statement = select(db.Screen, func.count(db.Well.id)).join(db.Well).group_by(db.Screen).order_by(db.Screen.name).options(subqueryload(db.Screen.frequentblock))
     screens_counts = session.exec(statement).all()
     return [QueryScreen(screen=s, well_match_counter=c) for s,c in screens_counts]
 
 @router.post("/wellQuery", 
-             summary="Gets list of wells given a screen id filtered by a query",
-             response_description="List of wells in specified screen filtered by provided query",
-             response_model=list[db.WellRead])
-async def get_screen_wells_query(*, session: Session=Depends(db.get_readonly_session), screen_id: int, well_query: screen_query.WellConditionClause):
+             summary="Gets list of well query objects for a given screen each flagged whether it meets the passed condition query",
+             response_description="List of well query objects for specified screen flagged if meeting provided query",
+             response_model=list[QueryWell])
+async def get_screen_wells_query(*, session: Session=Depends(db.get_readonly_session), screen_id: int, well_query: screen_query.WellQuery):
     """
-    Gets list of wells given a screen id filtered by a query
+    List of well query objects for specified screen flagged if meeting provided query
     """
-    # Parse Query for well ids
-    well_ids = screen_query.parseWellQuery(well_query)
+    if well_query.conds:
+        # Parse Query for well ids
+        well_ids = screen_query.parseWellQuery(well_query)
+    else:
+        well_ids = []
     # Filter screen wells for those in query
-    statement = select(db.Well).where(db.Well.screen_id == screen_id, col(db.Well.id).in_(well_ids)).order_by(db.Well.position_number).options(subqueryload(db.Well.wellcondition))
-    wells = session.exec(statement).all()
-    return wells
+    statement = select(db.Well, case((col(db.Well.id).in_(well_ids), 0), else_=1)).where(db.Well.screen_id == screen_id).order_by(db.Well.position_number).options(subqueryload(db.Well.wellcondition).subqueryload(db.WellCondition.factors).subqueryload(db.Factor.chemical).subqueryload(db.Chemical.aliases))
+    wells_flags = session.exec(statement).all()
+    return [QueryWell(well=w, query_match=True if not f else False) for w,f in wells_flags]
 
 @router.get("/conditionRecipe", 
              summary="Creates a recipe for making a condition specified by id",
