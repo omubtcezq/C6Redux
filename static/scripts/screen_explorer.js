@@ -2,7 +2,7 @@
 var screen_explorer = (function() {
 
 // Store query that produced screen list if there was one, so wells can be flagged
-let LAST_QUERY = null;
+var LAST_QUERY = null;
 
 // ========================================================================== //
 // Publicly accessible functions go here (note script needs to be loaded for them to be available)
@@ -10,6 +10,7 @@ let LAST_QUERY = null;
 
 var public_functions = {};
 public_functions.screen_query = function (query_object){
+    hide_screen();
     let screen_table = Tabulator.findTable('#screen-tabulator')[0];
     screen_table.setData(API_URL+'/screens/query', query_object, "POST");
     LAST_QUERY = query_object;
@@ -26,7 +27,7 @@ public_functions.screen_query = function (query_object){
 
 // Header menu that allows the toggling of column visibilities for both screen and well tables
 var column_menu = function(e, column){
-    let columns_with_null_filter = ["screen.format_rows", "screen.format_cols", "screen.comments", "wellcondition.ph"]
+    let columns_with_null_filter = ["screen.format_rows", "screen.format_cols", "screen.comments", "factor.ph"]
     let menu = [];
     let columns = this.getColumns();
     let apply_null_filter_option = true;
@@ -108,12 +109,12 @@ function update_screen_count_filtered(filters, rows){
     }
 }
 
-// Function for custom footer to show number of wells when data loaded
+// Function for custom footer to show number of factors when data loaded
 function update_well_count_loaded(data){
-    $('#well-row-count').text(data.length + ' Screens');
+    $('#well-row-count').text(data.length + ' Factors');
 }
 
-// Function for custom footer to show number of wells when filter run
+// Function for custom footer to show number of factors when filter run
 function update_well_count_filtered(filters, rows){
     if (filters.length > 0){
         $('#filtered-well-row-count').text(' (' + rows.length + ' Shown)');
@@ -127,10 +128,11 @@ function view_screen(cell){
     cell.getTable().deselectRow();
     cell.getRow().select();
     $('#screen-tabulator').css('width', '50%');
+    $('#screen-tabulator').css('margin-right', '10px');
     $('#screen-wells-view-div').show();
     $('#screen-wells-view-title').text(cell.getData().screen.name);
     let well_table = Tabulator.findTable('#screen-wells-view-tabulator')[0];
-    well_table.setData(API_URL+'/screens/wellQuery?screen_id='+cell.getData().screen.id, LAST_QUERY ? LAST_QUERY.conds : null, "POST");
+    well_table.setData(API_URL+'/screens/factorQuery?screen_id='+cell.getData().screen.id, LAST_QUERY, "POST");
 }
 
 // Cancelling the viewing of a screen
@@ -139,6 +141,7 @@ function hide_screen(){
     screen_table.deselectRow();
     $('#screen-wells-view-div').hide();
     $('#screen-tabulator').css('width', '100%');
+    $('#screen-tabulator').css('margin-right', '0');
     $('#screen-wells-view-title').text('');
 }
 
@@ -162,11 +165,11 @@ var screen_table = new Tabulator("#screen-tabulator", {
     rowHeight: 48,
     editorEmptyValue: null,
     placeholderHeaderFilter: "No Matching Screens",
+    placeholder:"No Screens",
     initialFilter:[],
     selectableRows: false,
     index: "screen.id",
     validationMode: 'manual',
-    renderVerticalBuffer: 4800,
     // persistence: {
     //     sort: false,
     //     filter: false,
@@ -180,6 +183,7 @@ var screen_table = new Tabulator("#screen-tabulator", {
         {
             title: "Wells Matching Query", 
             field: "well_match_counter", 
+            hozAlign: "right",
             vertAlign: "middle",
             width: 205,
             headerMenu: column_menu,
@@ -261,6 +265,7 @@ var screen_table = new Tabulator("#screen-tabulator", {
             }, {
                 title: "Rows", 
                 field: "screen.format_rows", 
+                hozAlign: "right",
                 vertAlign: "middle",
                 width: 95,
                 headerMenu: column_menu,
@@ -272,6 +277,7 @@ var screen_table = new Tabulator("#screen-tabulator", {
             }, {
                 title: "Columns", 
                 field: "screen.format_cols", 
+                hozAlign: "right",
                 vertAlign: "middle",
                 width: 125,
                 headerMenu: column_menu,
@@ -288,6 +294,7 @@ var screen_table = new Tabulator("#screen-tabulator", {
             columns: [{
                 title: "Reservoir Volume", 
                 field: "screen.frequentblock.reservoir_volume", 
+                hozAlign: "right",
                 vertAlign: "middle",
                 width: 175,
                 headerMenu: column_menu,
@@ -299,6 +306,7 @@ var screen_table = new Tabulator("#screen-tabulator", {
             }, {
                 title: "Solution Volume", 
                 field: "screen.frequentblock.solution_volume", 
+                hozAlign: "right",
                 vertAlign: "middle",
                 width: 170,
                 headerMenu: column_menu,
@@ -351,16 +359,17 @@ var well_table = new Tabulator("#screen-wells-view-tabulator", {
     data: [],
     ajaxContentType: 'json',
     height: "100%",
-    layout: "fitData",
+    layout: "fitDataStretch",
     movableColumns: true,
     rowHeight: 48,
     editorEmptyValue: null,
     placeholderHeaderFilter: "No Matching Wells",
+    placeholder:"No Wells",
     initialFilter:[],
     selectableRows: false,
     index: "id",
     validationMode: 'manual',
-    renderVerticalBuffer: 4800,
+    renderVerticalBuffer: 7800,
     // persistence: {
     //     sort: false,
     //     filter: false,
@@ -375,21 +384,39 @@ var well_table = new Tabulator("#screen-wells-view-tabulator", {
             title: "Well", 
             field: "well.label", 
             vertAlign: "middle",
-            width: 205,
+            width: 85,
+            headerSort: false,
             headerMenu: column_menu,
             sorter: function(a, b, aRow, bRow, column, dir, sorterParams){
                 return aRow.getData().well.position_number - bRow.getData().well.position_number;
             },
             headerFilter: "input",
-            headerFilterPlaceholder: "Filter"
+            headerFilterPlaceholder: "Filter",
+            visible: false
+        
+        // Meets query
+        }, {
+            title: "Matches query", 
+            field: "query_match", 
+            hozAlign: "center", 
+            vertAlign: "middle",
+            width: 105,
+            headerSort: false,
+            headerMenu: column_menu,
+            headerFilter:"tickCross", 
+            // Header filter only makes sense if it only looks for checkbox (otherwise can't be disabled)
+            headerFilterEmptyCheck: function(value){return !value;},
+            formatter: "tickCross",
+            visible: false
 
         // Chemical
         }, {
             title: "Chemical", 
-            field: "chemical.name", 
+            field: "factor.chemical", 
             vertAlign: "middle",
-            width: 350,
+            width: 300,
             headerMenu: column_menu,
+            headerSort: false,
             headerFilter: "input",
             headerFilterPlaceholder: "Filter",
             // Header filter also searches names and aliases
@@ -421,22 +448,24 @@ var well_table = new Tabulator("#screen-wells-view-tabulator", {
         // Concentration
         }, {
             title: "Concentration", 
-            field: "concentration", 
+            field: "factor.concentration", 
             hozAlign: "right", 
             vertAlign: "middle",
             width: 105,
             headerMenu: column_menu,
             sorter: "number",
+            headerSort: false,
             headerFilter: "number",
             headerFilterPlaceholder: "Filter"
             
         // Unit
         }, {
             title: "Unit", 
-            field: "unit", 
+            field: "factor.unit", 
             vertAlign: "middle",
             width: 85,
             headerMenu: column_menu,
+            headerSort: false,
             headerFilter: "list",
             headerFilterParams: {values: ALL_UNITS},
             headerFilterPlaceholder: "Filter"
@@ -450,56 +479,91 @@ var well_table = new Tabulator("#screen-wells-view-tabulator", {
             width: 75,
             headerMenu: column_menu,
             sorter: "number",
+            headerSort: false,
             headerFilter: "number",
             headerFilterPlaceholder: "Filter"
-
-        // Action buttons
-        }, {
-            title: "", 
-            field: "actions", 
-            width: 90, 
-            // Depeding on whether a row is selected, if some other row is selected or if no row selected display apporpriate button
-            formatter: function (cell, formatterParams, onRendered){
-                div = $('<table>').attr('class', 'button-table').append($('<tbody>').append(
-                    $('<tr>').append(
-                        $('<td>').append(
-                            $('<button>').
-                            attr('class', 'select-button table-cell-button').
-                            text('Select')
-                        )
-                    )));
-                return div.prop('outerHTML');
-            }, 
-            // When the cell is clicked, check if or which button has been clicked and perform the right action
-            cellClick: function(e, cell){
-                target = $(e.target);
-                if (target.hasClass('view-button')) {
-                    // TODO
-                }
-            }, 
-            headerSort: false, 
-            hozAlign: "center", 
-            vertAlign: "middle", 
-            resizable: false, 
-            frozen: true
-    }],
-    initialSort: [
-        {column: "chemical.name", dir: "asc"}
+        }
     ],
-    groupBy: "wellcondition.label",
-    footerElement: $('<div>').append($('<span>').attr('id', 'well-row-count')).append($('<span>').attr('id', 'filtered-well-row-count')).prop('outerHTML'),
+    initialSort: [
+        {column: "factor.chemical", dir: "asc"},
+        {column: "well.label", dir: "asc"},
+        {column: "query_match", dir: "desc"}
+    ],
+    groupBy: function(data){
+        return data.well.label;
+    },
+    groupStartOpen:function(value, count, data, group){
+        if (data.length >= 1 && data[0].query_match === false){
+            return false;
+        } else {
+            return true;
+        }
+    },
+    groupHeader:function(value, count, data, group){
+        let label = $('<div>').css('display', 'inline-block');
+        if (data.length >= 1 && data[0].query_match === true){
+            label.text(value + " [Matches query]");
+            label.attr('class', 'well-matching-query');
+        } else if (data.length >= 1 && data[0].query_match === false) {
+            label.text(value + " [Does not match query]");
+            label.attr('class', 'well-not-matching-query');
+        } else {
+            label.text(value);
+        }
+
+        let div = $('<table>').attr('class', 'screen-well-header-button-table button-table').append($('<tbody>').append(
+            $('<tr>').append(
+                $('<td>').append(
+                    $('<button>').
+                    attr('class', 'select-button table-cell-button').
+                    text('Select')
+                )
+            ).append(
+                $('<td>').append(
+                    $('<button>').
+                    attr('class', 'recipe-button table-cell-button').
+                    text('Recipe')
+                )
+            )));
+        return label.prop('outerHTML') + div.prop('outerHTML');
+    },
+    footerElement: $('<div>').append($('<span>').attr('id', 'well-row-count')).append($('<span>').attr('id', 'filtered-well-row-count')).prop('outerHTML')
 });
+
+// cellClick: function(e, cell){
+//     target = $(e.target);
+//     if (target.hasClass('view-button')) {
+//         // TODO
+//     }
+// }, 
 
 well_table.on("dataFiltered", update_well_count_filtered);
 well_table.on("dataLoaded", update_well_count_loaded);
 
 // Refresh button
 $('#reload-all-screens-button').click(function(){
+    hide_screen();
     screen_table.setData(API_URL+'/screens/query', null, "POST");
     LAST_QUERY = null;
     screen_table.hideColumn('well_match_counter');
     screen_table.setSort([{column:"screen.name", dir:"asc"}]);
     screen_table.clearFilter(true);
+});
+
+$('#compare-screens-button').click(function() {
+    alert_user("Getting there! 🔎");
+});
+
+$('#screen-subsets-button').click(function() {
+    alert_user("TODO! 👨‍💻");
+});
+
+$('#screen-recipe-button').click(function() {
+    alert_user("Soon to be implemented! 🚴‍♂️");
+});
+
+$('#screen-report-button').click(function() {
+    alert_user("Not yet there! 💁‍♂️");
 });
 
 $('#hide-screen-view-button').click(function() {

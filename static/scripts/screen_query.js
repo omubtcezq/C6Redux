@@ -1060,7 +1060,7 @@ function query_update_conds(tree, alert_validation){
                 return false;
             }
         } else {
-            tree.arg.id = Tabulator.findTable('#condition-ref-tabulator-'+cond_id)[0].getRow(1).getData().well.id;
+            tree.arg.id = Tabulator.findTable('#condition-ref-tabulator-'+cond_id)[0].getRow(1).getData().well.wellcondition_id;
         }
 
         // Final validation matching API parser

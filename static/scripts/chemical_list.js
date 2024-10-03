@@ -345,6 +345,7 @@ var table = new Tabulator("#chemical-tabulator", {
     rowHeight: 48,
     editorEmptyValue: null,
     placeholderHeaderFilter: "No Matching Chemicals",
+    placeholder:"No Chemicals",
     initialFilter:[],
     selectableRows: false,
     index: "id",

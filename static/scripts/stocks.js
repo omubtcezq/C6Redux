@@ -292,6 +292,7 @@ var table = new Tabulator("#stock-tabulator", {
     rowHeight: 48,
     editorEmptyValue: null,
     placeholderHeaderFilter: "No Matching Stocks",
+    placeholder:"No Stocks",
     initialFilter:[],
     selectableRows: false,
     index: "id",

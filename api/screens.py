@@ -15,9 +15,10 @@ class QueryScreen(BaseModel):
     screen: db.ScreenRead
     well_match_counter: int
 
-class QueryWell(BaseModel):
-    well: db.WellRead
-    query_match: bool
+class QueryFactor(BaseModel):
+    factor: db.FactorRead
+    well: db.WellReadLite
+    query_match: bool | None
 
 # ============================================================================ #
 # API operations
@@ -111,23 +112,24 @@ async def get_screens_query(*, session: Session=Depends(db.get_readonly_session)
     screens_counts = session.exec(statement).all()
     return [QueryScreen(screen=s, well_match_counter=c) for s,c in screens_counts]
 
-@router.post("/wellQuery", 
+@router.post("/factorQuery", 
              summary="Gets list of well query objects for a given screen each flagged whether it meets the passed condition query",
              response_description="List of well query objects for specified screen flagged if meeting provided query",
-             response_model=list[QueryWell])
-async def get_screen_wells_query(*, session: Session=Depends(db.get_readonly_session), screen_id: int, well_query: screen_query.WellQuery):
+             response_model=list[QueryFactor])
+async def get_screen_factors_query(*, session: Session=Depends(db.get_readonly_session), screen_id: int, well_query: screen_query.WellQuery):
     """
     List of well query objects for specified screen flagged if meeting provided query
     """
     if well_query.conds:
         # Parse Query for well ids
-        well_ids = screen_query.parseWellQuery(well_query)
+        well_ids = screen_query.parseRelevantWellQuery(well_query)
+        statement = select(db.Well, case((col(db.Well.id).in_(well_ids), 1), else_=0)).where(db.Well.screen_id == screen_id).order_by(db.Well.position_number).options(subqueryload(db.Well.wellcondition).subqueryload(db.WellCondition.factors).subqueryload(db.Factor.chemical).subqueryload(db.Chemical.aliases))
+        wells_flags = session.exec(statement).all()
+        return [QueryFactor(factor=f, well=w, query_match=True if m else False) for w,m in wells_flags for f in w.wellcondition.factors]
     else:
-        well_ids = []
-    # Filter screen wells for those in query
-    statement = select(db.Well, case((col(db.Well.id).in_(well_ids), 0), else_=1)).where(db.Well.screen_id == screen_id).order_by(db.Well.position_number).options(subqueryload(db.Well.wellcondition).subqueryload(db.WellCondition.factors).subqueryload(db.Factor.chemical).subqueryload(db.Chemical.aliases))
-    wells_flags = session.exec(statement).all()
-    return [QueryWell(well=w, query_match=True if not f else False) for w,f in wells_flags]
+        statement = select(db.Well).where(db.Well.screen_id == screen_id).order_by(db.Well.position_number).options(subqueryload(db.Well.wellcondition).subqueryload(db.WellCondition.factors).subqueryload(db.Factor.chemical).subqueryload(db.Chemical.aliases))
+        wells = session.exec(statement).all()
+        return [QueryFactor(factor=f, well=w, query_match=None) for w in wells for f in w.wellcondition.factors]
 
 @router.get("/conditionRecipe", 
              summary="Creates a recipe for making a condition specified by id",

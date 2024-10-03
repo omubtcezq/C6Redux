@@ -231,6 +231,7 @@ button {
 
 #screen-wells-view-div {
   width: 50%;
+  margin-left: 10px;
 }
 
 #screen-wells-view-header {
@@ -256,5 +257,17 @@ button {
 }
 
 #screen-wells-view-button-table > tbody > tr > td > button {
-  height: 100%;
+  height: calc(100% - 8px);
+}
+
+.screen-well-header-button-table {
+  max-width: 200px;
+}
+
+.well-matching-query {
+  color: rgb(45, 194, 20);
+}
+
+.well-not-matching-query {
+  color: rgb(206, 21, 21);
 }

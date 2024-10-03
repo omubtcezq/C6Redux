@@ -380,6 +380,7 @@ var table = new Tabulator("#phcurve-tabulator", {
     rowHeight: 48,
     editorEmptyValue: null,
     placeholderHeaderFilter: "No Matching Curves",
+    placeholder:"No Curves",
     initialFilter:[],
     selectableRows: false,
     index: "id",
