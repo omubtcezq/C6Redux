@@ -127,8 +127,8 @@ function update_well_count_filtered(filters, rows){
 function view_screen(cell){
     cell.getTable().deselectRow();
     cell.getRow().select();
-    $('#screen-tabulator').css('width', '50%');
-    $('#screen-tabulator').css('margin-right', '10px');
+    $('#screens-half-div').css('width', '50%');
+    $('#screens-half-div').css('padding-right', '10px');
     $('#screen-wells-view-div').show();
     $('#screen-wells-view-title').text(cell.getData().screen.name);
     let well_table = Tabulator.findTable('#screen-wells-view-tabulator')[0];
@@ -140,8 +140,8 @@ function hide_screen(){
     let screen_table = Tabulator.findTable('#screen-tabulator')[0];
     screen_table.deselectRow();
     $('#screen-wells-view-div').hide();
-    $('#screen-tabulator').css('width', '100%');
-    $('#screen-tabulator').css('margin-right', '0');
+    $('#screens-half-div').css('width', '100%');
+    $('#screens-half-div').css('padding-right', '0');
     $('#screen-wells-view-title').text('');
 }
 
@@ -530,6 +530,7 @@ var well_table = new Tabulator("#screen-wells-view-tabulator", {
     footerElement: $('<div>').append($('<span>').attr('id', 'well-row-count')).append($('<span>').attr('id', 'filtered-well-row-count')).prop('outerHTML')
 });
 
+// Use for headerlick event needed to capture grouped factors' buttons (select / recipe)
 // cellClick: function(e, cell){
 //     target = $(e.target);
 //     if (target.hasClass('view-button')) {
