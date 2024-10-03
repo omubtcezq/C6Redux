@@ -123,6 +123,16 @@ function update_well_count_filtered(filters, rows){
     }
 }
 
+// Function for when a well recipe button is pressed
+function condition_recipe(factor_group){
+
+}
+
+// Function for when a well is selected
+function select_condition(factor_group){
+    alert_user("In the works! 🏗");
+}
+
 // Viewing a screen
 function view_screen(cell){
     cell.getTable().deselectRow();
@@ -530,16 +540,18 @@ var well_table = new Tabulator("#screen-wells-view-tabulator", {
     footerElement: $('<div>').append($('<span>').attr('id', 'well-row-count')).append($('<span>').attr('id', 'filtered-well-row-count')).prop('outerHTML')
 });
 
-// Use for headerlick event needed to capture grouped factors' buttons (select / recipe)
-// cellClick: function(e, cell){
-//     target = $(e.target);
-//     if (target.hasClass('view-button')) {
-//         // TODO
-//     }
-// }, 
-
+// Event handlers that don't go in the table definition above
 well_table.on("dataFiltered", update_well_count_filtered);
 well_table.on("dataLoaded", update_well_count_loaded);
+well_table.on("groupClick", function (e, group){
+    target = $(e.target);
+        if (target.hasClass('select-button')) {
+            select_condition(group);
+        }
+        if (target.hasClass('recipe-button')) {
+            condition_recipe(group);
+        }
+});
 
 // Refresh button
 $('#reload-all-screens-button').click(function(){
