@@ -19,7 +19,8 @@
 }
 
 #recipes-button-table {
-    margin: 0 auto;
+    /* top margin: (200 - 146) / 2 */
+    margin: 27px 0 auto;
     max-width: 250px;
 }
 
