@@ -1,6 +1,40 @@
 /* Recipe selection header */
 
+#recipes-header {
+    display: flex;
+    height: 200px;
+}
+
+.recipe-input-title {
+    box-sizing: border-box;
+    height: 70px;
+    margin: 0;
+    padding: 20px 0;
+}
+
+#recipe-input-button-div {
+    display: inline-block;
+    max-width: 300px;
+    margin: 0 20px;
+}
+
 #recipes-button-table {
     margin: 0 auto;
     max-width: 250px;
+}
+
+.recipe-input-div {
+    display: inline-block;
+    max-width: 800px;
+    margin: 0 auto;
+    width: calc(100% - 290px);
+}
+
+.create-recipe-button-table {
+    margin: 0 auto;
+    max-width: 200px;
+}
+
+.holder-for-recipe-input-tabulator {
+    width: 100%;
 }

@@ -7,14 +7,42 @@
 <body>
 
 <div id="recipes-header">
-    <table id="recipes-button-table" class="button-table">
-        <tbody>
-        <tr><td><button id="screen-recipe-button" class="table-cell-button">Screen Recipe</button></td></tr>
-        <tr><td><button id="selected-wells-recipe-button" class="table-cell-button">Selected Wells' Recipes</button></td></tr>
-        <tr><td><button id="screen-well-recipe-button" class="table-cell-button">Well Recipe</button></td></tr>
-        <tr><td><button id="custom-condition-recipe-button" class="table-cell-button">Custom Condition Recipe</button></td></tr>
-        </tbody>
-    </table>
+    <div id="recipe-input-button-div">
+        <table id="recipes-button-table" class="button-table">
+            <tbody>
+            <tr><td><button id="screen-recipe-button" class="table-cell-button">Screen Recipe</button></td></tr>
+            <tr><td><button id="selected-wells-recipe-button" class="table-cell-button">Selected Wells' Recipes</button></td></tr>
+            <tr><td><button id="screen-well-recipe-button" class="table-cell-button">Well Recipe</button></td></tr>
+            <tr><td><button id="custom-condition-recipe-button" class="table-cell-button">Custom Condition Recipe</button></td></tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="recipe-from-screen-input" class="recipe-input-div" style="display: none;">Not just yet! 🛠</div>
+    <div id="recipe-from-selected-wells-input" class="recipe-input-div" style="display: none;">To be constructed! 🦺</div>
+    <div id="recipe-from-screen-well-input" class="recipe-input-div">
+        <h2 class="recipe-input-title">Select a Well</h2>
+        <div class="holder-for-recipe-input-tabulator">
+            <div id="recipe-screen-well-select-tabulator" class="object-for-tabulator"></div>
+        </div>
+        <br/>
+        <table class="button-table create-recipe-button-table">
+            <tbody>
+            <tr><td><button id="recipe-from-screen-button" class="table-cell-button">Generate Recipe</button></td></tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="recipe-from-custom-condition-input" class="recipe-input-div" style="display: none;">
+        <h2 class="recipe-input-title">Create a Condition</h2>
+        <div class="holder-for-recipe-input-tabulator">
+            <div id="recipe-custom-condition-tabulator" class="object-for-tabulator"></div>
+        </div>
+        <br/>
+        <table class="button-table create-recipe-button-table">
+            <tbody>
+            <tr><td><button id="recipe-from-custom-condition-button" class="table-cell-button">Generate Recipe</button></td></tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 <div id="holder-for-recipes-tabulator">
     <div id="recipes-tabulator" class="object-for-tabulator"></div>
