@@ -14,6 +14,9 @@ import api.db as db
 # Recipe generation type model
 # ============================================================================ #
 
+class CustomCondition(BaseModel):
+    factors: list[db.FactorCreate]
+
 class StockVolume(BaseModel):
     stock: db.StockReadRecipe
     volume: float
@@ -28,10 +31,37 @@ class Recipe(BaseModel):
 # Recipe generation
 # ============================================================================ #
 
+def make_custom_condition_recipe(session: Session, custom_condition: CustomCondition):
+    # Find new stock factor
+    condition_factors = []
+
+    for f in custom_condition.factors:
+        factor_search_stmnt = select(db.Factor).where(db.Factor.chemical_id == f.chemical_id, 
+                                                    db.Factor.concentration == f.concentration,
+                                                    db.Factor.unit == f.unit,
+                                                    db.Factor.ph == f.ph)
+        factor = session.exec(factor_search_stmnt).first()
+        # If cannot be found, create a new factor for stock
+        if not factor:
+            factor = db.Factor(chemical_id = f.chemical_id, 
+                            concentration = f.concentration,
+                            unit = f.unit,
+                            ph = f.ph)
+            # No need to add factor to the session since we are only interested in it temporarily
+            # session.add(factor)
+            # session.commit()
+            # session.refresh(factor)
+        condition_factors.append(factor)
+    
+    return make_recipe_for_factors(session, condition_factors)
+
 def make_condition_recipe(session: Session, condition_id: int):
     well_condition = session.get(db.WellCondition, condition_id)
+    return make_recipe_for_factors(session, well_condition.factors)
+
+def make_recipe_for_factors(session: Session, factors: list[db.Factor]):
     possible_stocks = {}
-    for f in well_condition.factors:
+    for f in factors:
         possible_stocks[f.id] = []
 
         # Search for stocks of the factor chemical

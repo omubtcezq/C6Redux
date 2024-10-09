@@ -8,6 +8,7 @@ site_functions.CONTENT_PROVIDERS.recipes = (function() {
 var public_functions = {};
 // Select and display recipe given a condition id
 public_functions.screen_well_recipe = function (screen_well){
+    $("#screen-well-recipe-button").click();
     let screen_well_table = Tabulator.findTable('#recipe-screen-well-select-tabulator')[0];
     let screen = screen_well.screen;
     let well = screen_well.well;
@@ -221,11 +222,220 @@ var screen_well_table = new Tabulator('#recipe-screen-well-select-tabulator', {
         editable: function (cell) {
             var is_editable = cell.getRow().getData().screen.id != null;
             return is_editable;
-        },
-        cellEdited: function(cell){
-            // TODO
         }
     }]
+});
+
+var custom_condition_table = new Tabulator('#recipe-custom-condition-tabulator', {
+    data: [],
+    height: "100%",
+    layout: "fitColumns",
+    movableColumns: true,
+    rowHeight: 48,
+    editorEmptyValue: null,
+    placeholder:"No Factors",
+    initialFilter:[],
+    selectableRows: false,
+    index: "id",
+    validationMode: 'manual',
+    // persistence: {
+    //     sort: false,
+    //     filter: false,
+    //     headerFilter: false,
+    //     group: true,
+    //     page: false,
+    //     columns: true,
+    // },
+    columns: [
+    // Chemical
+    {
+        title: "Chemical", 
+        field: "chemical", 
+        vertAlign: "middle",
+        editable: true,
+        validator: function(cell, value){
+            // Check that the chemical object is there and that it has an id for a valid chemical
+            if (value == null || value == "" || value.id == null || value.id == ""){
+                site_functions.alert_user("All factors must have a selected chemical.");
+                return false;
+            } else {
+                return true;
+            }
+        },
+        editor: "list", 
+        editorParams: {
+            // Load chemical list from api, formatting to show numbers of aliases
+            valuesLookup:function(cell){
+                return new Promise(function(resolve, reject){
+                    $.ajax({
+                        url: site_functions.API_URL+'/chemicals/names',
+                        success: function(data){
+                            var options = [];
+                            $.each(data, function(i,c){
+                                // Value of chemical cell is the actional chemical object (not just its name)
+                                options.push({
+                                    label: c.name + (c.aliases.length ? ' (aliases: ' + c.aliases.length + ')' : ""),
+                                    value: c,
+                                });
+                            })
+                            resolve(options);
+                        },
+                        error: function(error){
+                            reject(error);
+                        },
+                    });
+                });
+            },
+            sort: "asc",
+            emptyValue: {id: null, name: null, aliases: [], unit: null},
+            placeholderLoading: "Loading Chemical List...",
+            placeholderEmpty: "No Chemicals Found",
+            autocomplete:true,
+            // Search through names and aliases
+            filterFunc: function(term, label, value, item){
+                if (value.name.toLowerCase().includes(term.toLowerCase())){
+                    return true;
+                } else {
+                    for (i in value.aliases){
+                        if (value.aliases[i].name.toLowerCase().includes(term.toLowerCase())){
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            },
+            filterDelay:100,
+            listOnEmpty:true,
+        },
+        // Update the units and concentration inputs when chemical is changed
+        cellEdited: function(cell){
+                var chemical = cell.getValue();
+                var old_chemical = cell.getOldValue();
+                // Different chemical
+                if (chemical.id != old_chemical.id){
+                    var unit_ind = $.inArray(chemical.unit, site_functions.ALL_UNITS);
+                    var old_unit_ind = $.inArray(old_chemical.unit, site_functions.ALL_UNITS);
+                    // Different units
+                    if (unit_ind != old_unit_ind){
+                        var row = cell.getRow();
+                        var unit_cell = row.getCell('unit');
+                        var conc_cell = row.getCell('concentration');
+                        // New units found
+                        if (unit_ind != -1){
+                            unit_cell.setValue(site_functions.ALL_UNITS[unit_ind]);
+                        // New units not found
+                        } else {
+                            unit_cell.setValue(site_functions.ALL_UNITS[0]);
+                        }
+                        // Reset concentration
+                        conc_cell.setValue(null);
+                        conc_cell.edit();
+
+                    }
+                }
+        },
+        // Display only name and alias count from the chemical object in the cell
+        formatter: function(cell, formatterParams, onRendered){
+            if (cell.getValue().name == null){
+                return "";
+            } else {
+                return cell.getValue().name + (cell.getValue().aliases.length ? ' (aliases: ' + cell.getValue().aliases.length + ')' : "");
+            }
+        },
+        // Sorter should sort by chemical name
+        sorter: function(a, b, aRow, bRow, column, dir, sorterParams){
+            return a.name.localeCompare(b.name);
+        }
+
+    // Concentration
+    }, {
+        title: "Concentration", 
+        field: "concentration", 
+        hozAlign: "right", 
+        vertAlign: "middle",
+        width: 105,
+        editable: true,
+        validator: function(cell, value){
+            if (value == null || value == "" || typeof value !== "number" || value <= 0){
+                site_functions.alert_user("All concentrations must be positive numbers.");
+                return false;
+            } else {
+                return true;
+            }
+        },
+        editor: "number",
+        sorter: "number"
+
+    // Unit
+    }, {
+        title: "Unit", 
+        field: "unit", 
+        vertAlign: "middle",
+        width: 85,
+        editable: true,
+        validator: function(cell, value){
+            if (value == null || value == ""){
+                site_functions.alert_user("All units must be specified.");
+                return false;
+            } else {
+                return true;
+            }
+        },
+        editor: "list",
+        editorParams: {values: site_functions.ALL_UNITS}
+
+    // pH
+    }, {
+        title: "pH", 
+        field: "ph", 
+        hozAlign: "right", 
+        vertAlign: "middle",
+        width: 75,
+        editable: true,
+        validator: function(cell, value){
+            if (value == null){
+                return true;
+            } else if (typeof value !== "number" || value < 0 || value > 14){
+                site_functions.alert_user("All pH values must be between 0 and 14.");
+                return false;
+            } else {
+                return true;
+            }
+        },
+        editor: "number",
+        sorter: "number"
+    
+    // Action buttons
+    }, {
+    title: "", 
+    field: "actions", 
+    width: 100, 
+    // Depeding on whether a row is selected, if some other row is selected or if no row selected display apporpriate buttons
+    formatter: function (cell, formatterParams, onRendered){
+        div = $('<table>').attr('class', 'button-table').append($('<tbody>').append(
+            $('<tr>').append(
+                $('<td>').append(
+                    $('<button>').
+                    attr('id', 'delete-alias-'+cell.getData().id).
+                    attr('class', 'delete-button table-cell-button').
+                    text('Remove')
+                )
+            )
+        ));
+        return div.prop('outerHTML');
+    }, 
+    // When the cell is clicked, check if the button itself was clicked and remove data
+    cellClick: function(e, cell){
+        target = $(e.target);
+        if (target.hasClass('delete-button')){
+            cell.getRow().delete();
+        }
+    }, 
+    headerSort: false, 
+    hozAlign: "center", 
+    vertAlign: "middle", 
+    resizable: false, 
+    frozen: true}]
 });
 
 // Recipe table
@@ -248,6 +458,7 @@ var recipe_table = new Tabulator("#recipes-tabulator", {
         }
         return data;
     },
+    ajaxContentType: 'json',
     height: "100%",
     layout: "fitColumns",
     movableColumns: true,
@@ -358,8 +569,31 @@ $("#recipe-from-screen-well-button").click(function(){
     }
 });
 
+$('#add-custom-condition-factor-button').click(function(){
+    custom_condition_table.addRow({chemical: {id: null, name: null, aliases: [], unit: null}, concentration: null, unit: null, ph: null});
+});
+
 $("#recipe-from-custom-condition-button").click(function(){
-    site_functions.alert_user("Coming next! 🚀");
+    let rows = custom_condition_table.getRows();
+    // Validate all cells (one by one so that only a single error popup is triggered)
+    for (i in rows){
+        let cells = rows[i].getCells();
+        for (j in cells){
+            if (cells[j].validate() !== true){
+                return;
+            }
+        }
+    }
+    // Modify data to only send chemical_id since that's all that's needed
+    let factors = [];
+    for (i in rows){
+        let f = $.extend(true, {}, rows[i].getData());
+        f.chemical_id = f.chemical.id;
+        delete f.chemical;
+        factors.push(f);
+    }
+    // Make API call
+    recipe_table.setData(site_functions.API_URL+'/screens/customConditionRecipe', {factors: factors}, "POST");
 });
 
 // Recipe input buttons

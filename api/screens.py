@@ -135,32 +135,21 @@ async def get_screen_factors_query(*, session: Session=Depends(db.get_readonly_s
              summary="Creates a recipe for making a condition specified by id",
              response_description="Stocks and their volumes required to make the specified condition",
              response_model=recipes.Recipe)
-async def get_screen_wells(*, session: Session=Depends(db.get_readonly_session), condition_id: int):
+async def get_condition_recipe(*, session: Session=Depends(db.get_readonly_session), condition_id: int):
     """
     Creates a recipe for making a condition specified by id
     """
-    # TEMP hijack
-    # stmnt = select(db.WellCondition).order_by(db.WellCondition.id)
-    # wellconditions = session.exec(stmnt).all()
-    # total = 0
-    # no_factor_stocks = 0
-    # failed_factors = []
-    # all_overflow = 0
-    # for wc in wellconditions:
-    #     r = make_condition_recipe(session, wc.id)
-    #     total += 1
-    #     if not r.success:
-    #         if r.msg == 'Could not find any combination of stocks that did not overflow!':
-    #             all_overflow += 1
-    #         else:
-    #             no_factor_stocks += 1
-    #             failed_factors.append(int(r.msg))
-    # print('\n\nTOTAL:', total)
-    # print('NO STOCKS FOR A FACTOR:', no_factor_stocks)
-    # print('ALL STOCKS OVERFLOW:', all_overflow, '\n\n')
-    # print(failed_factors, '\n\n')
-
     return recipes.make_condition_recipe(session, condition_id)
+
+@router.post("/customConditionRecipe", 
+             summary="Creates a recipe for making a condition specified by list of new factors",
+             response_description="Stocks and their volumes required to make the specified condition",
+             response_model=recipes.Recipe)
+async def get_custom_condition_recipe(*, session: Session=Depends(db.get_readonly_session), custom_condition: recipes.CustomCondition):
+    """
+    Creates a recipe for making a condition specified by list of new factors
+    """
+    return recipes.make_custom_condition_recipe(session, custom_condition)
 
 # @router.get("/export", 
 #             summary="Download a list of all screens",
