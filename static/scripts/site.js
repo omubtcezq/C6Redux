@@ -8,9 +8,11 @@ var DEBUG = false;
 if (DEBUG){
     var API_ADDRESS = 'localhost';
     var API_PORT = '8000';
+    var API_URL = 'http://'+API_ADDRESS+':'+API_PORT+'/api';
 } else {
     var API_ADDRESS = 'www.c6redux.au';
     var API_PORT = '443';
+    var API_URL = 'https://'+API_ADDRESS+':'+API_PORT+'/api';
 }
 
 // Content request used to click through tabs when passing message through site
@@ -40,7 +42,7 @@ let CONTENT_TREE = {
 var public_functions = {};
 
 // Connection parameters
-public_functions.API_URL = 'http://'+API_ADDRESS+':'+API_PORT+'/api';
+public_functions.API_URL = API_URL;
 
 // All units
 public_functions.ALL_UNITS = [
