@@ -1,5 +1,5 @@
 //# sourceURL=screen_explorer.js
-var screen_explorer = (function() {
+site_functions.CONTENT_PROVIDERS.screen_explorer = (function() {
 
 // Store query that produced screen list if there was one, so wells can be flagged
 var LAST_QUERY = null;
@@ -12,7 +12,7 @@ var public_functions = {};
 public_functions.screen_query = function (query_object){
     hide_screen();
     let screen_table = Tabulator.findTable('#screen-tabulator')[0];
-    screen_table.setData(API_URL+'/screens/query', query_object, "POST");
+    screen_table.setData(site_functions.API_URL+'/screens/query', query_object, "POST");
     LAST_QUERY = query_object;
     screen_table.showColumn('well_match_counter');
     screen_table.setSort([
@@ -125,12 +125,32 @@ function update_well_count_filtered(filters, rows){
 
 // Function for when a well recipe button is pressed
 function condition_recipe(factor_group){
-
+    let rows = factor_group.getRows();
+    if (rows.length == 0){
+        site_functions.alert_user("No factors in the the condition.");
+    } else {
+        let ff = rows[0].getData();
+        let screen_table = Tabulator.findTable('#screen-tabulator')[0];
+        let all_screen_data = screen_table.getData();
+        let screen = null;
+        for (i in all_screen_data){
+            if (all_screen_data[i].screen.id == ff.well.screen_id){
+                screen = all_screen_data[i].screen;
+                break;
+            }
+        }
+        if (screen){
+            let well = ff.well;
+            site_functions.request_content('recipes', 'screen_well_recipe', {screen: screen, well: well});
+        } else {
+            site_functions.alert_user("Error finding well screen. Try searching reipce manually.");
+        }
+    }
 }
 
 // Function for when a well is selected
 function select_condition(factor_group){
-    alert_user("In the works! 🏗");
+    site_functions.alert_user("In the works! 🏗");
 }
 
 // Viewing a screen
@@ -138,11 +158,10 @@ function view_screen(cell){
     cell.getTable().deselectRow();
     cell.getRow().select();
     $('#screens-half-div').css('width', '50%');
-    $('#screens-half-div').css('padding-right', '10px');
     $('#screen-wells-view-div').show();
     $('#screen-wells-view-title').text(cell.getData().screen.name);
     let well_table = Tabulator.findTable('#screen-wells-view-tabulator')[0];
-    well_table.setData(API_URL+'/screens/factorQuery?screen_id='+cell.getData().screen.id, LAST_QUERY, "POST");
+    well_table.setData(site_functions.API_URL+'/screens/factorQuery?screen_id='+cell.getData().screen.id, LAST_QUERY, "POST");
 }
 
 // Cancelling the viewing of a screen
@@ -151,7 +170,6 @@ function hide_screen(){
     screen_table.deselectRow();
     $('#screen-wells-view-div').hide();
     $('#screens-half-div').css('width', '100%');
-    $('#screens-half-div').css('padding-right', '0');
     $('#screen-wells-view-title').text('');
 }
 
@@ -163,7 +181,7 @@ $(document).ready(function() {
 
 // Tabulator table
 var screen_table = new Tabulator("#screen-tabulator", {
-    ajaxURL: API_URL+"/screens/query",
+    ajaxURL: site_functions.API_URL+"/screens/query",
     ajaxParams: function(){
         return null;
     },
@@ -369,7 +387,7 @@ var well_table = new Tabulator("#screen-wells-view-tabulator", {
     data: [],
     ajaxContentType: 'json',
     height: "100%",
-    layout: "fitDataStretch",
+    layout: "fitColumns",
     movableColumns: true,
     rowHeight: 48,
     editorEmptyValue: null,
@@ -424,7 +442,6 @@ var well_table = new Tabulator("#screen-wells-view-tabulator", {
             title: "Chemical", 
             field: "factor.chemical", 
             vertAlign: "middle",
-            width: 300,
             headerMenu: column_menu,
             headerSort: false,
             headerFilter: "input",
@@ -477,7 +494,7 @@ var well_table = new Tabulator("#screen-wells-view-tabulator", {
             headerMenu: column_menu,
             headerSort: false,
             headerFilter: "list",
-            headerFilterParams: {values: ALL_UNITS},
+            headerFilterParams: {values: site_functions.ALL_UNITS},
             headerFilterPlaceholder: "Filter"
 
         // pH
@@ -556,7 +573,7 @@ well_table.on("groupClick", function (e, group){
 // Refresh button
 $('#reload-all-screens-button').click(function(){
     hide_screen();
-    screen_table.setData(API_URL+'/screens/query', null, "POST");
+    screen_table.setData(site_functions.API_URL+'/screens/query', null, "POST");
     LAST_QUERY = null;
     screen_table.hideColumn('well_match_counter');
     screen_table.setSort([{column:"screen.name", dir:"asc"}]);
@@ -564,23 +581,35 @@ $('#reload-all-screens-button').click(function(){
 });
 
 $('#compare-screens-button').click(function() {
-    alert_user("Getting there! 🔎");
+    site_functions.alert_user("Getting there! 🔎");
 });
 
 $('#screen-subsets-button').click(function() {
-    alert_user("TODO! 👨‍💻");
+    site_functions.alert_user("TODO! 👨‍💻");
 });
 
-$('#screen-recipe-button').click(function() {
-    alert_user("Soon to be implemented! 🚴‍♂️");
+$('#screen-make-recipe-button').click(function() {
+    site_functions.alert_user("Soon to be implemented! 🚴‍♂️");
 });
 
 $('#screen-report-button').click(function() {
-    alert_user("Not yet there! 💁‍♂️");
+    site_functions.alert_user("Not yet there! 💁‍♂️");
 });
 
 $('#hide-screen-view-button').click(function() {
     hide_screen();
+});
+
+// Propagate message passing after tables have loaded
+Promise.all([
+    new Promise(function(resolve, reject){
+        screen_table.on('tableBuilt', resolve);
+    }), 
+    new Promise(function(resolve, reject){
+        well_table.on('tableBuilt', resolve);
+    })
+]).then(function(){
+    site_functions.propagate_message_passing();
 });
 
 });

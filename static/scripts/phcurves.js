@@ -1,5 +1,5 @@
 //# sourceURL=phcurves.js
-var phcurves = (function() {
+site_functions.CONTENT_PROVIDERS.phcurves = (function() {
 
 // ========================================================================== //
 // Publicly accessible functions go here (note script needs to be loaded for them to be available)
@@ -89,7 +89,7 @@ function row_save(row){
         to_authorise = function(auth_token){
             $.ajax({
                 type: 'POST',
-                url: API_URL+'/chemicals/phcurve_create', 
+                url: site_functions.API_URL+'/chemicals/phcurve_create', 
                 data: JSON.stringify(phcurve), 
                 headers: {"Authorization": "Bearer " + auth_token},
                 // On success replace row with contents of returned new phcurve
@@ -110,27 +110,27 @@ function row_save(row){
                 error: function(xhr, status, error){
                     if (xhr.status == 401) {
                         msg = 'Please log in again';
-                        authorise_action(msg, to_authorise);
+                        site_functions.authorise_action(msg, to_authorise);
                     }
                 },
                 dataType: 'json',
                 contentType: 'application/json'
             });
         }
-        authorise_action(null, to_authorise);
+        site_functions.authorise_action(null, to_authorise);
     // Otherwise updating an existing phcurve
     } else {
         // First see how many places the phcurve's chemical is used
         $.ajax({
             type: 'GET',
-            url: API_URL+'/chemicals/useOfChemical?chemical_id=' + phcurve.chemical_id,
+            url: site_functions.API_URL+'/chemicals/useOfChemical?chemical_id=' + phcurve.chemical_id,
             success: function(counter){
                 // Function to authorise and make api call
                 edit_call = function (){
                     to_authorise = function(auth_token){
                         $.ajax({
                             type: 'PUT',
-                            url: API_URL+'/chemicals/phcurve_update', 
+                            url: site_functions.API_URL+'/chemicals/phcurve_update', 
                             data: JSON.stringify(phcurve), 
                             headers: {"Authorization": "Bearer " + auth_token},
                             // On success replace with contents of returned phcurve (shouldn't be different)
@@ -147,21 +147,21 @@ function row_save(row){
                             error: function(xhr, status, error){
                                 if (xhr.status == 401) {
                                     msg = 'Please log in again';
-                                    authorise_action(msg, to_authorise);
+                                    site_functions.authorise_action(msg, to_authorise);
                                 }
                             },
                             dataType: 'json',
                             contentType: 'application/json'
                         });
                     }
-                    authorise_action(null, to_authorise);
+                    site_functions.authorise_action(null, to_authorise);
                 };
                 // If the phcurve's chemical is not used anywhere, perform the edit
                 if (counter.well_count == 0 && counter.stock_count == 0){
                     edit_call();
                 // Otherwise warn the user about all the places the chemical is used before editing
                 } else {
-                    confirm_action("The chemical whose pH curve you wish to edit is used in:\n" + 
+                    site_functions.confirm_action("The chemical whose pH curve you wish to edit is used in:\n" + 
                                    counter.condition_count + (counter.condition_count==1 ? " condition," : " conditions,") + " " +
                                    counter.well_count + (counter.well_count==1 ? " well," : " wells,") + " " +
                                    counter.screen_count + (counter.screen_count==1 ? " screen and" : " screens and") + " " +
@@ -197,14 +197,14 @@ function row_delete(row){
     // First see how many places the chemical is used
     $.ajax({
         type: 'GET',
-        url: API_URL+'/chemicals/useOfChemical?chemical_id=' + phcurve_to_remove.chemical_id,
+        url: site_functions.API_URL+'/chemicals/useOfChemical?chemical_id=' + phcurve_to_remove.chemical_id,
         success: function(counter){
             // Function to authorise and make api call
             delete_call = function (){
                 to_authorise = function(auth_token){
                     $.ajax({
                         type: 'DELETE',
-                        url: API_URL+'/chemicals/phcurve_delete?phcurve_id='+phcurve_to_remove.id,
+                        url: site_functions.API_URL+'/chemicals/phcurve_delete?phcurve_id='+phcurve_to_remove.id,
                         headers: {"Authorization": "Bearer " + auth_token},
                         // On success remove phcurve
                         success: function() {
@@ -218,21 +218,21 @@ function row_delete(row){
                         error: function(xhr, status, error){
                             if (xhr.status == 401) {
                                 msg = 'Please log in again';
-                                authorise_action(msg, to_authorise);
+                                site_functions.authorise_action(msg, to_authorise);
                             }
                         },
                         dataType: 'json',
                         contentType: 'application/json'
                     });
                 }
-                authorise_action(null, to_authorise);
+                site_functions.authorise_action(null, to_authorise);
             };
             // If the phcurve's chemical is not used anywhere, perform the delete
             if (counter.well_count == 0 && counter.stock_count == 0){
-                confirm_action("This will delete the selected pH curve from the database.", delete_call);
+                site_functions.confirm_action("This will delete the selected pH curve from the database.", delete_call);
             // Otherwise warn the user about all the places the chemical is used before deleting
             } else {
-                confirm_action("The chemical whose pH curve you wish to delete is used in:\n" +
+                site_functions.confirm_action("The chemical whose pH curve you wish to delete is used in:\n" +
                                 counter.condition_count + (counter.condition_count==1 ? " condition," : " conditions,") + " " +
                                 counter.well_count + (counter.well_count==1 ? " well," : " wells,") + " " +
                                 counter.screen_count + (counter.screen_count==1 ? " screen and" : " screens and") + " " +
@@ -373,7 +373,7 @@ $(document).ready(function() {
 
 // Tabulator table
 var table = new Tabulator("#phcurve-tabulator", {
-    ajaxURL: API_URL+"/chemicals/phcurve_all",
+    ajaxURL: site_functions.API_URL+"/chemicals/phcurve_all",
     height: "100%",
     layout: "fitColumns",
     movableColumns: true,
@@ -414,7 +414,7 @@ var table = new Tabulator("#phcurve-tabulator", {
             validator: function(cell, value){
                 // Check that the chemical object is there and that it has an id for a valid chemical
                 if (value == null || value == "" || value.id == null || value.id == ""){
-                    alert_user("You must select a chemical.");
+                    site_functions.alert_user("You must select a chemical.");
                     return false;
                 } else {
                     var all_data = cell.getTable().getData();
@@ -425,10 +425,10 @@ var table = new Tabulator("#phcurve-tabulator", {
                             continue;
                         }
                         if (looped_data.chemical.id == value.id && 
-                            Math.abs(looped_data.low_range - this_data.low_range) <= PH_MIN_DIFF && 
-                            Math.abs(looped_data.high_range - this_data.high_range) <= PH_MIN_DIFF){
+                            Math.abs(looped_data.low_range - this_data.low_range) <= site_functions.PH_MIN_DIFF && 
+                            Math.abs(looped_data.high_range - this_data.high_range) <= site_functions.PH_MIN_DIFF){
 
-                            alert_user("A pH curve for the selected chemical and endpoints already exists.\nCannot have multiple curves for the same chemical with the same (within "+ PH_MIN_DIFF +" units) low and high endpoints.");
+                            site_functions.alert_user("A pH curve for the selected chemical and endpoints already exists.\nCannot have multiple curves for the same chemical with the same (within "+ site_functions.PH_MIN_DIFF +" units) low and high endpoints.");
                             return false;
                         }
                     }
@@ -441,7 +441,7 @@ var table = new Tabulator("#phcurve-tabulator", {
                 valuesLookup:function(cell){
                     return new Promise(function(resolve, reject){
                         $.ajax({
-                            url: API_URL+'/chemicals/names',
+                            url: site_functions.API_URL+'/chemicals/names',
                             success: function(data){
                                 var options = [];
                                 $.each(data, function(i,c){
@@ -520,13 +520,13 @@ var table = new Tabulator("#phcurve-tabulator", {
             validator: function(cell, value){
                 // Check pH is valid
                 if (value == null || typeof value !== "number" || value < 0 || value > 14){
-                    alert_user("Low pH must be between 0 and 14.");
+                    site_functions.alert_user("Low pH must be between 0 and 14.");
                     return false;
                 // Check that non-HH curve has minimum point starting at (near) the pH
                 } else if (cell.getData().hh == 0) {
                     var lowest_point = Math.min(...$.map(cell.getData().points, function(value, index){return value.result_ph}));
-                    if (Math.abs(cell.getData().low_range - lowest_point) > PH_MIN_DIFF){
-                        alert_user("Low pH must be close to lowest pH point in curve.");
+                    if (Math.abs(cell.getData().low_range - lowest_point) > site_functions.PH_MIN_DIFF){
+                        site_functions.alert_user("Low pH must be close to lowest pH point in curve.");
                         return false;
                     } else {
                         return true;
@@ -551,7 +551,7 @@ var table = new Tabulator("#phcurve-tabulator", {
             validator: function(cell, value){
                 // Check that the chemical object is there and that it has an id for a valid chemical
                 if (value == null || value == "" || value.id == null || value.id == ""){
-                    alert_user("You must select a chemical.");
+                    site_functions.alert_user("You must select a chemical.");
                     return false;
                 } else {
                     return true;
@@ -563,7 +563,7 @@ var table = new Tabulator("#phcurve-tabulator", {
                 valuesLookup:function(cell){
                     return new Promise(function(resolve, reject){
                         $.ajax({
-                            url: API_URL+'/chemicals/names',
+                            url: site_functions.API_URL+'/chemicals/names',
                             success: function(data){
                                 var options = [];
                                 $.each(data, function(i,c){
@@ -642,17 +642,17 @@ var table = new Tabulator("#phcurve-tabulator", {
             validator: function(cell, value){
                 // CHeck pH is valid
                 if (value == null || typeof value !== "number" || value < 0 || value > 14){
-                    alert_user("High pH must be between 0 and 14.");
+                    site_functions.alert_user("High pH must be between 0 and 14.");
                     return false;
                 // Check high pH is higher than low pH
                 } else if (cell.getData().low_range >= value) {
-                    alert_user("High pH must be higher than low pH.");
+                    site_functions.alert_user("High pH must be higher than low pH.");
                     return false;
                 // Check that non-HH curve has maximum point ending at (near) the pH
                 } else if (cell.getData().hh == 0) {
                     var highest_point = Math.max(...$.map(cell.getData().points, function(value, index){return value.result_ph}));
-                    if (Math.abs(cell.getData().high_range - highest_point) > PH_MIN_DIFF){
-                        alert_user("High pH must be close to highest pH point in curve.");
+                    if (Math.abs(cell.getData().high_range - highest_point) > site_functions.PH_MIN_DIFF){
+                        site_functions.alert_user("High pH must be close to highest pH point in curve.");
                         return false;
                     } else {
                         return true;
@@ -677,7 +677,7 @@ var table = new Tabulator("#phcurve-tabulator", {
             validator: function(cell, value){
                 // Check that the chemical object is there and that it has an id for a valid chemical
                 if (value == null || value == "" || value.id == null || value.id == ""){
-                    alert_user("You must select a chemical.");
+                    site_functions.alert_user("You must select a chemical.");
                     return false;
                 } else {
                     return true;
@@ -689,7 +689,7 @@ var table = new Tabulator("#phcurve-tabulator", {
                 valuesLookup:function(cell){
                     return new Promise(function(resolve, reject){
                         $.ajax({
-                            url: API_URL+'/chemicals/names',
+                            url: site_functions.API_URL+'/chemicals/names',
                             success: function(data){
                                 var options = [];
                                 $.each(data, function(i,c){
@@ -775,7 +775,7 @@ var table = new Tabulator("#phcurve-tabulator", {
             validator: function(cell, value){
                 // Check that the chemical object is there and that it has an id for a valid chemical
                 if (value == 0 && cell.getData().points.length == 0){
-                    alert_user("The pH curve must contain points if it is not a Hendersen Hasslebalch curve.");
+                    site_functions.alert_user("The pH curve must contain points if it is not a Hendersen Hasslebalch curve.");
                     return false;
                 } else {
                     return true;
@@ -867,7 +867,7 @@ var table = new Tabulator("#phcurve-tabulator", {
                 vertAlign: "middle",
                 validator: function(cell, value){
                     if (value == null || value == "" || typeof value !== "number" || value < 0 || value > 100){
-                        alert_user("Percentages in points of curve must be between 0 and 100.");
+                        site_functions.alert_user("Percentages in points of curve must be between 0 and 100.");
                         return false;
                     } else {
                         return true;
@@ -889,7 +889,7 @@ var table = new Tabulator("#phcurve-tabulator", {
                 vertAlign: "middle",
                 validator: function(cell, value){
                     if (value == null || typeof value !== "number" || value < 0 || value > 14){
-                        alert_user("pH points of curve must be between 0 and 14.");
+                        site_functions.alert_user("pH points of curve must be between 0 and 14.");
                         return false;
                     } else {
                         return true;
@@ -1011,6 +1011,15 @@ $('#add-phcurve-button').click(function(){
 $('#reload-phcurves-button').click(function(){
     table.setData();
     table.clearFilter(true);
+});
+
+// Propagate message passing after tables have loaded
+Promise.all([
+    new Promise(function(resolve, reject){
+        table.on('tableBuilt', resolve);
+    })
+]).then(function(){
+    site_functions.propagate_message_passing();
 });
 
 });

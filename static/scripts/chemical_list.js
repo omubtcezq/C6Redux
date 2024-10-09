@@ -1,5 +1,5 @@
 //# sourceURL=chemical_list.js
-var chemicals = (function() {
+site_functions.CONTENT_PROVIDERS.chemical_list = (function() {
 
 // ========================================================================== //
 // Publicly accessible functions go here (note script needs to be loaded for them to be available)
@@ -80,7 +80,7 @@ function row_save(row){
         to_authorise = function(auth_token){
             $.ajax({
                 type: 'POST',
-                url: API_URL+'/chemicals/create', 
+                url: site_functions.API_URL+'/chemicals/create', 
                 data: JSON.stringify(chemical), 
                 headers: {"Authorization": "Bearer " + auth_token},
                 // On success replace row with contents of returned new chemical
@@ -101,27 +101,27 @@ function row_save(row){
                 error: function(xhr, status, error){
                     if (xhr.status == 401) {
                         msg = 'Please log in again';
-                        authorise_action(msg, to_authorise);
+                        site_functions.authorise_action(msg, to_authorise);
                     }
                 },
                 dataType: 'json',
                 contentType: 'application/json'
             });
         }
-        authorise_action(null, to_authorise);
+        site_functions.authorise_action(null, to_authorise);
     // Otherwise updating an existing chemical
     } else {
         // First see how many places the chemical is used
         $.ajax({
             type: 'GET',
-            url: API_URL+'/chemicals/useOfChemical?chemical_id=' + chemical.id,
+            url: site_functions.API_URL+'/chemicals/useOfChemical?chemical_id=' + chemical.id,
             success: function(counter){
                 // Function to authorise and make api call
                 edit_call = function (){
                     to_authorise = function(auth_token){
                         $.ajax({
                             type: 'PUT',
-                            url: API_URL+'/chemicals/update', 
+                            url: site_functions.API_URL+'/chemicals/update', 
                             data: JSON.stringify(chemical), 
                             headers: {"Authorization": "Bearer " + auth_token},
                             // On success replace with contents of returned chemical (shouldn't be different)
@@ -138,21 +138,21 @@ function row_save(row){
                             error: function(xhr, status, error){
                                 if (xhr.status == 401) {
                                     msg = 'Please log in again';
-                                    authorise_action(msg, to_authorise);
+                                    site_functions.authorise_action(msg, to_authorise);
                                 }
                             },
                             dataType: 'json',
                             contentType: 'application/json'
                         });
                     }
-                    authorise_action(null, to_authorise);
+                    site_functions.authorise_action(null, to_authorise);
                 };
                 // If the chemical is not used anywhere, perform the edit
                 if (counter.well_count == 0 && counter.stock_count == 0){
                     edit_call();
                 // Otherwise warn the user about all the places the chemical is used before editing
                 } else {
-                    confirm_action("The chemical you wish to edit is used in:\n" + 
+                    site_functions.confirm_action("The chemical you wish to edit is used in:\n" + 
                                    counter.condition_count + (counter.condition_count==1 ? " condition," : " conditions,") + " " +
                                    counter.well_count + (counter.well_count==1 ? " well," : " wells,") + " " +
                                    counter.screen_count + (counter.screen_count==1 ? " screen and" : " screens and") + " " +
@@ -188,14 +188,14 @@ function row_delete(row){
     // First see how many places the chemical is used
     $.ajax({
         type: 'GET',
-        url: API_URL+'/chemicals/useOfChemical?chemical_id=' + chemical_id_to_remove,
+        url: site_functions.API_URL+'/chemicals/useOfChemical?chemical_id=' + chemical_id_to_remove,
         success: function(counter){
             // Function to authorise and make api call
             delete_call = function (){
                 to_authorise = function(auth_token){
                     $.ajax({
                         type: 'DELETE',
-                        url: API_URL+'/chemicals/delete?chemical_id='+chemical_id_to_remove,
+                        url: site_functions.API_URL+'/chemicals/delete?chemical_id='+chemical_id_to_remove,
                         headers: {"Authorization": "Bearer " + auth_token},
                         // On success remove chemical
                         success: function() {
@@ -209,21 +209,21 @@ function row_delete(row){
                         error: function(xhr, status, error){
                             if (xhr.status == 401) {
                                 msg = 'Please log in again';
-                                authorise_action(msg, to_authorise);
+                                site_functions.authorise_action(msg, to_authorise);
                             }
                         },
                         dataType: 'json',
                         contentType: 'application/json'
                     });
                 }
-                authorise_action(null, to_authorise);
+                site_functions.authorise_action(null, to_authorise);
             };
             // If the chemical is not used anywhere, perform the delete
             if (counter.well_count == 0 && counter.stock_count == 0){
-                confirm_action("This will delete the selected chemical from the database.", delete_call);
+                site_functions.confirm_action("This will delete the selected chemical from the database.", delete_call);
             // Otherwise warn the user about all the places the chemical is used and do not allow removal
             } else {
-                alert_user("The chemical you wish to delete is used in:\n" + 
+                site_functions.alert_user("The chemical you wish to delete is used in:\n" + 
                            counter.condition_count + (counter.condition_count==1 ? " condition," : " conditions,") + " " +
                            counter.well_count + (counter.well_count==1 ? " well," : " wells,") + " " +
                            counter.screen_count + (counter.screen_count==1 ? " screen and" : " screens and") + " " +
@@ -338,7 +338,7 @@ $(document).ready(function() {
 
 // Tabulator table
 var table = new Tabulator("#chemical-tabulator", {
-    ajaxURL: API_URL+"/chemicals/all",
+    ajaxURL: site_functions.API_URL+"/chemicals/all",
     height: "100%",
     layout: "fitData",
     movableColumns: true,
@@ -387,7 +387,7 @@ var table = new Tabulator("#chemical-tabulator", {
             editable: is_selected,
             validator: function(cell, value){
                 if (value == null || value == ""){
-                    alert_user("You must specify a chemical name.");
+                    site_functions.alert_user("You must specify a chemical name.");
                     return false;
                 } else {
                     var all_data = cell.getTable().getData();
@@ -398,7 +398,7 @@ var table = new Tabulator("#chemical-tabulator", {
                             continue;
                         }
                         if (looped_data.name == value){
-                            alert_user("A chemical with the same name already exists.\nCannot have multiple chemicals of the same name.");
+                            site_functions.alert_user("A chemical with the same name already exists.\nCannot have multiple chemicals of the same name.");
                             return false;
                         }
                     }
@@ -455,7 +455,7 @@ var table = new Tabulator("#chemical-tabulator", {
                 if (value == null){
                     return true;
                 } else if (typeof value !== "number" || value < 0 || value > 14){
-                    alert_user("pKas must be either null or between 0 and 14.");
+                    site_functions.alert_user("pKas must be either null or between 0 and 14.");
                     return false;
                 } else {
                     return true;
@@ -479,10 +479,10 @@ var table = new Tabulator("#chemical-tabulator", {
                 if (value == null){
                     return true;
                 } else if (typeof value !== "number" || value < 0 || value > 14){
-                    alert_user("pKas must be either null or between 0 and 14.");
+                    site_functions.alert_user("pKas must be either null or between 0 and 14.");
                     return false;
                 } else if (cell.getData().pka1 == null){
-                    alert_user("pKa1 must not be null if entering pKa2.");
+                    site_functions.alert_user("pKa1 must not be null if entering pKa2.");
                     return false;
                 } else {
                     return true;
@@ -506,10 +506,10 @@ var table = new Tabulator("#chemical-tabulator", {
                 if (value == null){
                     return true;
                 } else if (typeof value !== "number" || value < 0 || value > 14){
-                    alert_user("pKas must be either null or between 0 and 14.");
+                    site_functions.alert_user("pKas must be either null or between 0 and 14.");
                     return false;
                 } else if (cell.getData().pka1 == null || cell.getData().pka2 == null){
-                    alert_user("pKa1 and pKa2 must not be null if entering pKa3.");
+                    site_functions.alert_user("pKa1 and pKa2 must not be null if entering pKa3.");
                     return false;
                 } else {
                     return true;
@@ -533,7 +533,7 @@ var table = new Tabulator("#chemical-tabulator", {
                 if (value == null){
                     return true;
                 } else if (typeof value !== "number" || value <= 0){
-                    alert_user("Density must be greater than 0.");
+                    site_functions.alert_user("Density must be greater than 0.");
                     return false;
                 } else {
                     return true;
@@ -555,7 +555,7 @@ var table = new Tabulator("#chemical-tabulator", {
             editable: is_selected,
             validator: function(cell, value){
                 if (value == null || typeof value !== "number" || value <= 0){
-                    alert_user("You must specify a positive molecular weight.");
+                    site_functions.alert_user("You must specify a positive molecular weight.");
                     return false;
                 } else {
                     return true;
@@ -579,7 +579,7 @@ var table = new Tabulator("#chemical-tabulator", {
                 if (value == null){
                     return true;
                 } else if (typeof value !== "number" || value <= 0){
-                    alert_user("Solubility must be greater than 0.");
+                    site_functions.alert_user("Solubility must be greater than 0.");
                     return false;
                 } else {
                     return true;
@@ -600,16 +600,16 @@ var table = new Tabulator("#chemical-tabulator", {
             editable: is_selected,
             validator: function(cell, value){
                 if (value == null || value == ""){
-                    alert_user("You must specify a unit.");
+                    site_functions.alert_user("You must specify a unit.");
                     return false;
                 } else {
                     return true;
                 }
             },
             editor: "list",
-            editorParams: {values: ALL_UNITS},
+            editorParams: {values: site_functions.ALL_UNITS},
             headerFilter: "list",
-            headerFilterParams: {values: ALL_UNITS},
+            headerFilterParams: {values: site_functions.ALL_UNITS},
             headerFilterPlaceholder: "Filter"
             
         // Ions
@@ -661,7 +661,7 @@ var table = new Tabulator("#chemical-tabulator", {
                 if (value == null){
                     return true;
                 } else if (typeof value !== "number" || value <= 0){
-                    alert_user("Critical Micelle Concentration must be greater than 0.");
+                    site_functions.alert_user("Critical Micelle Concentration must be greater than 0.");
                     return false;
                 } else {
                     return true;
@@ -704,10 +704,10 @@ var table = new Tabulator("#chemical-tabulator", {
                     if (conc_is_null && unit_is_null){
                         return true;
                     } else if (!conc_is_null && unit_is_null){
-                        alert_user("Frequent stock concentration is missing its unit.");
+                        site_functions.alert_user("Frequent stock concentration is missing its unit.");
                         return false;
                     } else if (conc_is_null || typeof value !== "number" || value <= 0){
-                        alert_user("Frequent stock concentration must be greater than 0.");
+                        site_functions.alert_user("Frequent stock concentration must be greater than 0.");
                         return false;
                     } else {
                         return true;
@@ -734,16 +734,16 @@ var table = new Tabulator("#chemical-tabulator", {
                     } else if (!unit_is_null && conc_is_null) {
                         return true; // Pass validation because concentration won't and one needs to to allow changing
                     } else if (unit_is_null){
-                        alert_user("Frequent stock unit is required if its concentration is given.");
+                        site_functions.alert_user("Frequent stock unit is required if its concentration is given.");
                         return false;
                     } else {
                         return true;
                     }
                 },
                 editor: "list",
-                editorParams: {values: ALL_UNITS, clearable: true},
+                editorParams: {values: site_functions.ALL_UNITS, clearable: true},
                 headerFilter: "list",
-                headerFilterParams: {values: ALL_UNITS},
+                headerFilterParams: {values: site_functions.ALL_UNITS},
                 headerFilterPlaceholder: "Filter"
 
             // Precipitation Concentration
@@ -761,10 +761,10 @@ var table = new Tabulator("#chemical-tabulator", {
                     if (precip_conc_is_null && precip_conc_unit_is_null){
                         return true;
                     } else if (!precip_conc_is_null && precip_conc_unit_is_null) {
-                        alert_user("Stock precipitation concentration is missing its unit.");
+                        site_functions.alert_user("Stock precipitation concentration is missing its unit.");
                         return false;
                     } else if (precip_conc_is_null || typeof value !== "number" || value <= 0){
-                        alert_user("Stock precipitation concentration must be greater than 0.");
+                        site_functions.alert_user("Stock precipitation concentration must be greater than 0.");
                         return false;
                     } else {
                         return true;
@@ -791,16 +791,16 @@ var table = new Tabulator("#chemical-tabulator", {
                     } else if (!precip_conc_unit_is_null && precip_conc_is_null){
                         return true; // Pass validation because concentration won't and one needs to to allow changing
                     } else if (precip_conc_unit_is_null){
-                        alert_user("Stock precipitation unit is required if its concentration is given.");
+                        site_functions.alert_user("Stock precipitation unit is required if its concentration is given.");
                         return false;
                     } else {
                         return true;
                     }
                 },
                 editor: "list",
-                editorParams: {values: ALL_UNITS, clearable: true},
+                editorParams: {values: site_functions.ALL_UNITS, clearable: true},
                 headerFilter: "list",
-                headerFilterParams: {values: ALL_UNITS},
+                headerFilterParams: {values: site_functions.ALL_UNITS},
                 headerFilterPlaceholder: "Filter"
             }],
 
@@ -886,7 +886,7 @@ var table = new Tabulator("#chemical-tabulator", {
                 editor: "input",
                 validator: function(cell, value){
                     if (value == null || value == ""){
-                        alert_user("Chemical aliases must have a name specified.");
+                        site_functions.alert_user("Chemical aliases must have a name specified.");
                         return false;
                     } else {
                         var all_data = row.getTable().getData();
@@ -894,7 +894,7 @@ var table = new Tabulator("#chemical-tabulator", {
                         for (i in all_data){
                             var chemical = all_data[i];
                             if (chemical.name == value){
-                                alert_user("Chemical "+chemical.name+" is named the same as a given alias.\nCannot name alises the same as an existing chemical.");
+                                site_functions.alert_user("Chemical "+chemical.name+" is named the same as a given alias.\nCannot name alises the same as an existing chemical.");
                                 return false;
                             }
                             for (j in chemical.aliases){
@@ -903,7 +903,7 @@ var table = new Tabulator("#chemical-tabulator", {
                                     continue;
                                 }
                                 if (alias.name == value){
-                                    alert_user("Chemical "+chemical.name+" has the same alias as one given.\nCannot have multiple aliases of the same name.");
+                                    site_functions.alert_user("Chemical "+chemical.name+" has the same alias as one given.\nCannot have multiple aliases of the same name.");
                                     return false;
                                 }
                             }
@@ -985,7 +985,7 @@ $('#add-chemical-button').click(function(){
         density: null,
         molecular_weight: null,
         solubility: null,
-        unit: ALL_UNITS[0],
+        unit: site_functions.ALL_UNITS[0],
         ions: null,
         monomer: null,
         chemical_abstracts_db_id: null,
@@ -1013,6 +1013,15 @@ $('#add-chemical-button').click(function(){
 $('#reload-chemicals-button').click(function(){
     table.setData();
     table.clearFilter(true);
+});
+
+// Propagate message passing after tables have loaded
+Promise.all([
+    new Promise(function(resolve, reject){
+        table.on('tableBuilt', resolve);
+    })
+]).then(function(){
+    site_functions.propagate_message_passing();
 });
 
 });

@@ -221,9 +221,16 @@ button {
 /* Screens specific */
 
 #screens-and-wells-holder {
-  display: flex;
   height: 100%;
   width: 100%;
+}
+
+
+#screens-half-div,
+#screen-wells-view-div {
+  display: inline-block;
+  vertical-align: top;
+  box-sizing: border-box;
 }
 
 #screens-half-div {
@@ -231,15 +238,10 @@ button {
   height: 100%;
 }
 
-#screens-half-div,
 #screen-wells-view-div {
-  display: inline-block;
-  box-sizing: border-box;
-}
-
-#screen-wells-view-div {
-  width: 50%;
-  padding-left: 10px;
+  width: calc(50% - 20px);
+  margin-left: 20px;
+  height: 100%;
 }
 
 #screen-wells-view-header {

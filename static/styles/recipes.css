@@ -1,8 +1,38 @@
 /* Recipe selection header */
 
-#recipes-header {
-    display: flex;
-    height: 200px;
+#recipes-top-div {
+    height: 100%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+#recipes-sidebar {
+    display: inline-block;
+    vertical-align: top;
+    height: 100%;
+    max-width: 500px;
+    width: 50%;
+    margin-right: 20px;
+}
+
+#holder-for-recipes-tabulator {
+    display: inline-block;
+    vertical-align: top;
+    height: 100%;
+    width: max(calc(50% - 20px), calc(100% - 520px));
+}
+
+#recipe-input-button-div {
+    height: 150px;
+}
+
+#recipes-button-table {
+    max-width: 250px;
+    margin: auto;
+}
+
+.recipe-input-div {
+    height: calc(100% - 150px);
 }
 
 .recipe-input-title {
@@ -12,30 +42,11 @@
     padding: 20px 0;
 }
 
-#recipe-input-button-div {
-    display: inline-block;
-    max-width: 300px;
-    margin: 0 20px;
-}
-
-#recipes-button-table {
-    /* top margin: (200 - 146) / 2 */
-    margin: 27px 0 auto;
-    max-width: 250px;
-}
-
-.recipe-input-div {
-    display: inline-block;
-    max-width: 800px;
-    margin: 0 auto;
-    width: calc(100% - 290px);
+.holder-for-recipe-input-tabulator {
+    width: 100%;
 }
 
 .create-recipe-button-table {
     margin: 0 auto;
     max-width: 200px;
-}
-
-.holder-for-recipe-input-tabulator {
-    width: 100%;
 }

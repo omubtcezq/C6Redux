@@ -1,5 +1,5 @@
 //# sourceURL=stocks.js
-var stocks = (function() {
+site_functions.CONTENT_PROVIDERS.stocks = (function() {
 
 // ========================================================================== //
 // Publicly accessible functions go here (note script needs to be loaded for them to be available)
@@ -68,7 +68,7 @@ function row_save(row){
         to_authorise = function(auth_token){
             $.ajax({
                 type: 'POST',
-                url: API_URL+'/stocks/create', 
+                url: site_functions.API_URL+'/stocks/create', 
                 data: JSON.stringify(stock), 
                 headers: {"Authorization": "Bearer " + auth_token},
                 // On success replace row with contents of returned new stock
@@ -89,21 +89,21 @@ function row_save(row){
                 error: function(xhr, status, error){
                     if (xhr.status == 401) {
                         msg = 'Please log in again';
-                        authorise_action(msg, to_authorise);
+                        site_functions.authorise_action(msg, to_authorise);
                     }
                 },
                 dataType: 'json',
                 contentType: 'application/json'
             });
         }
-        authorise_action(null, to_authorise);
+        site_functions.authorise_action(null, to_authorise);
     // Otherwise updating an existing stock
     } else {
         // Authorise and make api call
         to_authorise = function(auth_token){
             $.ajax({
                 type: 'PUT',
-                url: API_URL+'/stocks/update', 
+                url: site_functions.API_URL+'/stocks/update', 
                 data: JSON.stringify(stock), 
                 headers: {"Authorization": "Bearer " + auth_token},
                 // On success replace with contents of returned stock (shouldn't be different)
@@ -120,14 +120,14 @@ function row_save(row){
                 error: function(xhr, status, error){
                     if (xhr.status == 401) {
                         msg = 'Please log in again';
-                        authorise_action(msg, to_authorise);
+                        site_functions.authorise_action(msg, to_authorise);
                     }
                 },
                 dataType: 'json',
                 contentType: 'application/json'
             });
         }
-        authorise_action(null, to_authorise);
+        site_functions.authorise_action(null, to_authorise);
     }
 }
 
@@ -152,11 +152,11 @@ function row_delete(row){
     var table = row.getTable();
     var stock_id_to_remove = row.getData().id;
     // Confirm, authorise and make api call
-    confirm_action("This will delete the selected stock from the database.", function (){
+    site_functions.confirm_action("This will delete the selected stock from the database.", function (){
         to_authorise = function(auth_token){
             $.ajax({
                 type: 'DELETE',
-                url: API_URL+'/stocks/delete?stock_id='+stock_id_to_remove,
+                url: site_functions.API_URL+'/stocks/delete?stock_id='+stock_id_to_remove,
                 headers: {"Authorization": "Bearer " + auth_token},
                 // On success remove stock
                 success: function() {
@@ -170,14 +170,14 @@ function row_delete(row){
                 error: function(xhr, status, error){
                     if (xhr.status == 401) {
                         msg = 'Please log in again';
-                        authorise_action(msg, to_authorise);
+                        site_functions.authorise_action(msg, to_authorise);
                     }
                 },
                 dataType: 'json',
                 contentType: 'application/json'
             });
         }
-        authorise_action(null, to_authorise);
+        site_functions.authorise_action(null, to_authorise);
     });
 }
 
@@ -285,7 +285,7 @@ $(document).ready(function() {
 
 // Tabulator table
 var table = new Tabulator("#stock-tabulator", {
-    ajaxURL: API_URL+"/stocks/all",
+    ajaxURL: site_functions.API_URL+"/stocks/all",
     height: "100%",
     layout: "fitData",
     movableColumns: true,
@@ -333,7 +333,7 @@ var table = new Tabulator("#stock-tabulator", {
             editable: is_selected,
             validator: function(cell, value){
                 if (value == null || value == ""){
-                    alert_user("You must specify a stock name.");
+                    site_functions.alert_user("You must specify a stock name.");
                     return false;
                 } else {
                     var all_data = cell.getTable().getData();
@@ -344,13 +344,13 @@ var table = new Tabulator("#stock-tabulator", {
                             continue;
                         }
                         if (looped_data.name == value){
-                            alert_user("A stock with the same name already exists.\nCannot have multiple stocks of the same name.");
+                            site_functions.alert_user("A stock with the same name already exists.\nCannot have multiple stocks of the same name.");
                             return false;
                         } else if (looped_data.factor.chemical.id == this_data.factor.chemical.id && 
                                    looped_data.factor.concentration == this_data.factor.concentration && 
                                    looped_data.factor.unit == this_data.factor.unit && 
                                    looped_data.factor.ph == this_data.factor.ph){
-                            alert_user("Stock: "+looped_data.name+" has the same concentration, unit and ph.\nCannot have multiple stocks of the same chemical factor.");
+                            site_functions.alert_user("Stock: "+looped_data.name+" has the same concentration, unit and ph.\nCannot have multiple stocks of the same chemical factor.");
                             return false;
                         }
                     }
@@ -372,7 +372,7 @@ var table = new Tabulator("#stock-tabulator", {
             validator: function(cell, value){
                 // Check that the chemical object is there and that it has an id for a valid chemical
                 if (value == null || value == "" || value.id == null || value.id == ""){
-                    alert_user("You must select a chemical.");
+                    site_functions.alert_user("You must select a chemical.");
                     return false;
                 } else {
                     return true;
@@ -384,7 +384,7 @@ var table = new Tabulator("#stock-tabulator", {
                 valuesLookup:function(cell){
                     return new Promise(function(resolve, reject){
                         $.ajax({
-                            url: API_URL+'/chemicals/names',
+                            url: site_functions.API_URL+'/chemicals/names',
                             success: function(data){
                                 var options = [];
                                 $.each(data, function(i,c){
@@ -429,8 +429,8 @@ var table = new Tabulator("#stock-tabulator", {
                     var old_chemical = cell.getOldValue();
                     // Different chemical
                     if (chemical.id != old_chemical.id){
-                        var unit_ind = $.inArray(chemical.unit, ALL_UNITS);
-                        var old_unit_ind = $.inArray(old_chemical.unit, ALL_UNITS);
+                        var unit_ind = $.inArray(chemical.unit, site_functions.ALL_UNITS);
+                        var old_unit_ind = $.inArray(old_chemical.unit, site_functions.ALL_UNITS);
                         // Different units
                         if (unit_ind != old_unit_ind){
                             var row = cell.getRow();
@@ -438,10 +438,10 @@ var table = new Tabulator("#stock-tabulator", {
                             var conc_cell = row.getCell('factor.concentration');
                             // New units found
                             if (unit_ind != -1){
-                                unit_cell.setValue(ALL_UNITS[unit_ind]);
+                                unit_cell.setValue(site_functions.ALL_UNITS[unit_ind]);
                             // New units not found
                             } else {
-                                unit_cell.setValue(ALL_UNITS[0]);
+                                unit_cell.setValue(site_functions.ALL_UNITS[0]);
                             }
                             // Reset concentration
                             conc_cell.setValue(null);
@@ -489,7 +489,7 @@ var table = new Tabulator("#stock-tabulator", {
             editable: is_selected,
             validator: function(cell, value){
                 if (value == null || value == "" || typeof value !== "number" || value <= 0){
-                    alert_user("You must specify a positive concentration.");
+                    site_functions.alert_user("You must specify a positive concentration.");
                     return false;
                 } else {
                     return true;
@@ -510,16 +510,16 @@ var table = new Tabulator("#stock-tabulator", {
             editable: is_selected,
             validator: function(cell, value){
                 if (value == null || value == ""){
-                    alert_user("You must specify a unit.");
+                    site_functions.alert_user("You must specify a unit.");
                     return false;
                 } else {
                     return true;
                 }
             },
             editor: "list",
-            editorParams: {values: ALL_UNITS},
+            editorParams: {values: site_functions.ALL_UNITS},
             headerFilter: "list",
-            headerFilterParams: {values: ALL_UNITS},
+            headerFilterParams: {values: site_functions.ALL_UNITS},
             headerFilterPlaceholder: "Filter"
 
         // pH
@@ -535,7 +535,7 @@ var table = new Tabulator("#stock-tabulator", {
                 if (value == null){
                     return true;
                 } else if (typeof value !== "number" || value < 0 || value > 14){
-                    alert_user("pH must be between 0 and 14.");
+                    site_functions.alert_user("pH must be between 0 and 14.");
                     return false;
                 } else {
                     return true;
@@ -576,7 +576,7 @@ var table = new Tabulator("#stock-tabulator", {
                 if (value == null){
                     return true;
                 } else if (typeof value !== "number" || value <= 0){
-                    alert_user("Viscosity must be greater than 0.");
+                    site_functions.alert_user("Viscosity must be greater than 0.");
                     return false;
                 } else {
                     return true;
@@ -600,7 +600,7 @@ var table = new Tabulator("#stock-tabulator", {
                 if (value == null){
                     return true;
                 } else if (typeof value !== "number" || value <= 0){
-                    alert_user("Volatility must be greater than 0.");
+                    site_functions.alert_user("Volatility must be greater than 0.");
                     return false;
                 } else {
                     return true;
@@ -624,7 +624,7 @@ var table = new Tabulator("#stock-tabulator", {
                 if (value == null){
                     return true;
                 } else if (typeof value !== "number" || value <= 0){
-                    alert_user("Density must be greater than 0.");
+                    site_functions.alert_user("Density must be greater than 0.");
                     return false;
                 } else {
                     return true;
@@ -646,7 +646,7 @@ var table = new Tabulator("#stock-tabulator", {
             validator: function(cell, value){
                 // Check that the chemical object is there and that it has an id for a valid chemical
                 if (value == null || value == "" || value.id == null || value.id == ""){
-                    alert_user("You must specify a creator.");
+                    site_functions.alert_user("You must specify a creator.");
                     return false;
                 } else {
                     return true;
@@ -658,7 +658,7 @@ var table = new Tabulator("#stock-tabulator", {
                     // Load users list from api
                     return new Promise(function(resolve, reject){
                         $.ajax({
-                            url: API_URL+'/stocks/users',
+                            url: site_functions.API_URL+'/stocks/users',
                             success: function(data){
                                 var options = [];
                                 $.each(data, function(i,u){
@@ -715,7 +715,7 @@ var table = new Tabulator("#stock-tabulator", {
                     return new Promise(function(resolve, reject){
                         // Load users list from api
                         $.ajax({
-                            url: API_URL+'/stocks/hazards',
+                            url: site_functions.API_URL+'/stocks/hazards',
                             success: function(data){
                                 var options = [];
                                 $.each(data, function(i,h){
@@ -856,7 +856,7 @@ $('#add-stock-button').click(function(){
                 unit: null
             },
             concentration: null,
-            unit: ALL_UNITS[0],
+            unit: site_functions.ALL_UNITS[0],
             ph: null
         },
         polar: 0,
@@ -885,6 +885,15 @@ $('#add-stock-button').click(function(){
 $('#reload-stocks-button').click(function(){
     table.setData();
     table.clearFilter(true);
+});
+
+// Propagate message passing after tables have loaded
+Promise.all([
+    new Promise(function(resolve, reject){
+        table.on('tableBuilt', resolve);
+    })
+]).then(function(){
+    site_functions.propagate_message_passing();
 });
 
 });

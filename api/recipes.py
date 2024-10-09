@@ -3,6 +3,7 @@
 """
 
 from sqlmodel import Session, select
+from sqlalchemy.orm import subqueryload
 from pydantic import BaseModel
 from itertools import product
 from collections import Counter
@@ -34,7 +35,7 @@ def make_condition_recipe(session: Session, condition_id: int):
         possible_stocks[f.id] = []
 
         # Search for stocks of the factor chemical
-        stocks_for_factor_stmnt = select(db.Stock).join(db.Factor).where(db.Factor.chemical_id == f.chemical_id)
+        stocks_for_factor_stmnt = select(db.Stock).join(db.Factor).where(db.Factor.chemical_id == f.chemical_id).options(subqueryload(db.Stock.factor).subqueryload(db.Factor.chemical).subqueryload(db.Chemical.aliases))
         stocks_for_factor = session.exec(stocks_for_factor_stmnt).all()
         #print('\n\n', stocks_for_factor, '\n\n')
         for s in stocks_for_factor:
@@ -67,9 +68,9 @@ def make_condition_recipe(session: Session, condition_id: int):
                 if f.ph >= phcurve.low_range and f.ph <= phcurve.high_range:
                     suitable_curve = True
                     # Get low and high ph stocks
-                    stocks_for_low_chemical_stmnt = select(db.Stock).join(db.Factor).where(db.Factor.chemical_id == phcurve.low_chemical.id)
+                    stocks_for_low_chemical_stmnt = select(db.Stock).join(db.Factor).where(db.Factor.chemical_id == phcurve.low_chemical.id).options(subqueryload(db.Stock.factor).subqueryload(db.Factor.chemical).subqueryload(db.Chemical.aliases))
                     stocks_for_low_chemical = session.exec(stocks_for_low_chemical_stmnt).all()
-                    stocks_for_high_chemical_stmnt = select(db.Stock).join(db.Factor).where(db.Factor.chemical_id == phcurve.high_chemical.id)
+                    stocks_for_high_chemical_stmnt = select(db.Stock).join(db.Factor).where(db.Factor.chemical_id == phcurve.high_chemical.id).options(subqueryload(db.Stock.factor).subqueryload(db.Factor.chemical).subqueryload(db.Chemical.aliases))
                     stocks_for_high_chemical = session.exec(stocks_for_high_chemical_stmnt).all()
                     #print('\n',f.id,'\n',stocks_for_low_chemical,'\n\n', stocks_for_high_chemical)
                     # Store suitable stocks for the low ph stock

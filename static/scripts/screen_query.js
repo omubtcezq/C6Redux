@@ -1,5 +1,5 @@
 //# sourceURL=screen_query.js
-var screen_query = (function() {
+site_functions.CONTENT_PROVIDERS.screen_query = (function() {
 
 // Counter for identifying condition and chemical divs in recursive query
 let CONDITION_ID_COUNTER = 0;
@@ -178,7 +178,7 @@ function append_condition_ref_field(cond_div){
                     // Load users list from api
                     return new Promise(function(resolve, reject){
                         $.ajax({
-                            url: API_URL+'/screens/names',
+                            url: site_functions.API_URL+'/screens/names',
                             success: function(data){
                                 var options = [];
                                 $.each(data, function(i,s){
@@ -230,7 +230,7 @@ function append_condition_ref_field(cond_div){
                     if (screen_id){
                         return new Promise(function(resolve, reject){
                             $.ajax({
-                                url: API_URL+'/screens/wellNames?screen_id='+screen_id,
+                                url: site_functions.API_URL+'/screens/wellNames?screen_id='+screen_id,
                                 success: function(data){
                                     var options = [];
                                     $.each(data, function(i,w){
@@ -316,7 +316,7 @@ function append_chemical_div(parent_div){
 
     // Make chemical selector a tabulator table with a single entries
     var table = new Tabulator('#chemical-search-tabulator-'+CHEMICAL_ID_COUNTER, {
-        data: [{id: 1, chemical: {id: null, name: null, aliases: [], unit: null}, concentration: null, unit: ALL_UNITS[0], ph: null}],
+        data: [{id: 1, chemical: {id: null, name: null, aliases: [], unit: null}, concentration: null, unit: site_functions.ALL_UNITS[0], ph: null}],
         height: "100%",
         layout: "fitData",
         editorEmptyValue: null,
@@ -335,7 +335,7 @@ function append_chemical_div(parent_div){
                 valuesLookup:function(cell){
                     return new Promise(function(resolve, reject){
                         $.ajax({
-                            url: API_URL+'/chemicals/names',
+                            url: site_functions.API_URL+'/chemicals/names',
                             success: function(data){
                                 var options = [];
                                 $.each(data, function(i,c){
@@ -377,16 +377,16 @@ function append_chemical_div(parent_div){
             // Update the units and concentration inputs when chemical is changed
             cellEdited: function(cell){
                     var chemical = cell.getValue();
-                    var unit_ind = $.inArray(chemical.unit, ALL_UNITS);
+                    var unit_ind = $.inArray(chemical.unit, site_functions.ALL_UNITS);
                     var row = cell.getRow();
                     var unit_cell = row.getCell('unit');
                     var conc_cell = row.getCell('concentration');
                     // New units found
                     if (unit_ind != -1){
-                        unit_cell.setValue(ALL_UNITS[unit_ind]);
+                        unit_cell.setValue(site_functions.ALL_UNITS[unit_ind]);
                     // New units not found
                     } else {
-                        unit_cell.setValue(ALL_UNITS[0]);
+                        unit_cell.setValue(site_functions.ALL_UNITS[0]);
                     }
                     // Reset concentration
                     conc_cell.setValue(null);
@@ -431,7 +431,7 @@ function append_chemical_div(parent_div){
             width: 80,
             headerSort: false,
             editor: "list",
-            editorParams: {values: ALL_UNITS},
+            editorParams: {values: site_functions.ALL_UNITS},
             cellEdited: function(cell){
                 query_update_inputs(false);
             }
@@ -1024,7 +1024,7 @@ function query_update_inputs(alert_validation){
         SCREEN_QUERY.owner_search == null &&
         SCREEN_QUERY.conds == null){
 
-        alert_user("Must query screens by at least a name, owner name or by condition.");
+        site_functions.alert_user("Must query screens by at least a name, owner name or by condition.");
         return false;
     // When not validating always pass
     } else {
@@ -1068,7 +1068,7 @@ function query_update_conds(tree, alert_validation){
             tree.arg.id == null &&
             tree.arg.chems == null){
                 
-            alert_user("Must specify condition exclusively either by reference or by chemical.");
+            site_functions.alert_user("Must specify condition exclusively either by reference or by chemical.");
             return false;
         // When not validating always continue parsing
         } else {
@@ -1118,14 +1118,14 @@ function query_update_chems(tree, alert_validation){
             if (tree.arg.id == null &&
                 tree.arg.name_search == null){
 
-                alert_user("Must specify chemical.");
+                site_functions.alert_user("Must specify chemical.");
                 return false;
             } else if (tree.arg.id == null &&
                 tree.arg.name_search == null &&
                 tree.arg.conc == null &&
                 tree.arg.ph == null){
 
-                alert_user("Must specify chemical with at least name, concentration and unit, or ph.");
+                site_functions.alert_user("Must specify chemical with at least name, concentration and unit, or ph.");
                 return false
             } else {
                 return true;
@@ -1147,7 +1147,7 @@ function query_screens(){
     
     // If validated, make new query object without helper keys and pass it the screens script public function
     let api_query_object = JSON.parse(JSON.stringify(SCREEN_QUERY, query_drop_extra));
-    screen_explorer.screen_query(api_query_object);
+    site_functions.request_content("screen_explorer", "screen_query", api_query_object);
 
     // Hide complex query popup
     $('#screen-query-cancel-button').click();
@@ -1235,6 +1235,9 @@ $('#condition-query-not-button').click(function() {
 $('#condition-query-remove-button').click(function() {
     remove_query();
 });
+
+// Propagate message passing after everything loaded
+site_functions.propagate_message_passing();
 
 });
 

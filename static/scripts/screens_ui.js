@@ -41,7 +41,7 @@ let SCREEN_QUERY = {
 $('#all-screens').click(function(){
     screen_table_body = $('#screen-table > tbody');
     screen_table_body.empty();
-    $.getJSON(API_URL+'/screens/all', function(data) {
+    $.getJSON(site_functions.API_URL+'/screens/all', function(data) {
         display_screens(data, null);
     });
 })
@@ -96,13 +96,13 @@ function load_screen_wells(screen_id, well_query_string, row){
     // If not, get screen contents and display them
     } else {
         if (!well_query_string){
-            $.getJSON(API_URL+'/screens/wells?screen_id='+screen_id, function(data){
+            $.getJSON(site_functions.API_URL+'/screens/wells?screen_id='+screen_id, function(data){
                 display_wells(data, screen_id, row)
             });
         } else {
             $.ajax({
                 type: 'POST',
-                url: API_URL+'/screens/wellQuery?screen_id='+screen_id, 
+                url: site_functions.API_URL+'/screens/wellQuery?screen_id='+screen_id, 
                 data: well_query_string, 
                 // Display returned screens
                 success: function(data) {
@@ -178,7 +178,7 @@ function display_wells(well_data, screen_id, row){
                 $('<div>').append(
                     $('<button>').attr('id', 'subset-screens-button-'+screen_id).text('Search')
                     .click(function(){
-                        $.getJSON(API_URL+'/screens/subsets?screen_id='+screen_id, function(data){
+                        $.getJSON(site_functions.API_URL+'/screens/subsets?screen_id='+screen_id, function(data){
                             let thead = $('<thead>').append($('<tr>').append(
                                 $('<th>').text('Screen name')
                             ).append(
@@ -269,7 +269,7 @@ function generate_recipe(wellcondition_id, row){
         $('#generate-condition-recipe-button'+wellcondition_id).text('Recipe');
     // If not, get recipe and display it
     } else {
-        $.getJSON(API_URL+'/screens/conditionRecipe?condition_id='+wellcondition_id, function(data){
+        $.getJSON(site_functions.API_URL+'/screens/conditionRecipe?condition_id='+wellcondition_id, function(data){
             display_recipe(data, wellcondition_id, row)
         });
     }
@@ -689,7 +689,7 @@ function create_condition_ref_field(condition_id){
                     autocomplete({
                         source: function (request, response){
                             if (SCREEN_NAMES == null){
-                                $.getJSON(API_URL+'/screens/names', function(screen_names){
+                                $.getJSON(site_functions.API_URL+'/screens/names', function(screen_names){
                                     SCREEN_NAMES = screen_names;
                                     response(search_screen_names(request.term, SCREEN_NAMES));
                                 })
@@ -703,7 +703,7 @@ function create_condition_ref_field(condition_id){
                             well_dropdown.attr('disabled', 'disabled');
                             let id = ui.item.id;
                             if (id){
-                                $.getJSON(API_URL+'/screens/wellNames?screen_id='+id, function(wells){
+                                $.getJSON(site_functions.API_URL+'/screens/wellNames?screen_id='+id, function(wells){
                                     $.each(wells, function(i, w){
                                         well_dropdown.append(
                                             $('<option>').attr('value', w.wellcondition_id)
@@ -836,7 +836,7 @@ function create_chemical_div(){
                     autocomplete({
                         source: function (request, response){
                             if (CHEMICAL_NAMES == null){
-                                $.getJSON(API_URL+'/chemicals/names', function(chemical_names){
+                                $.getJSON(site_functions.API_URL+'/chemicals/names', function(chemical_names){
                                     CHEMICAL_NAMES = chemical_names;
                                     response(search_chemical_names(request.term, CHEMICAL_NAMES));
                                 })
@@ -848,10 +848,10 @@ function create_chemical_div(){
                             let unit_dropdown = $(this).closest('.input-table').find('.input-units');
                             let id = ui.item.id;
                             if (id){
-                                $.getJSON(API_URL+'/chemicals/chemical?chemical_id='+id, function(chemical){
-                                    for (i in ALL_UNITS){
-                                        if (ALL_UNITS[i] == chemical.unit){
-                                            unit_dropdown.val(ALL_UNITS[i]);
+                                $.getJSON(site_functions.API_URL+'/chemicals/chemical?chemical_id='+id, function(chemical){
+                                    for (i in site_functions.ALL_UNITS){
+                                        if (site_functions.ALL_UNITS[i] == chemical.unit){
+                                            unit_dropdown.val(site_functions.ALL_UNITS[i]);
                                             unit_dropdown.change();
                                         }
                                     }
@@ -867,7 +867,7 @@ function create_chemical_div(){
                             } else {
                                 $(this).val('');
                                 $(this).attr('autocomplete-id', '');
-                                unit_dropdown.val(ALL_UNITS[0]);
+                                unit_dropdown.val(site_functions.ALL_UNITS[0]);
                                 unit_dropdown.change();
                                 query_update_inputs(false);
                             }
@@ -904,7 +904,7 @@ function create_chemical_div(){
                     attr('class', 'input-units').
                     attr('name', 'chemical-units'+CHEMICAL_ID_COUNTER).
                     append(
-                        ALL_UNITS.map(function(u){
+                        site_functions.ALL_UNITS.map(function(u){
                             let o = $('<option>').attr('value', u).
                                     text(u);
                             return o;
@@ -1619,7 +1619,7 @@ function query_update_inputs(alert_validation){
         SCREEN_QUERY.owner_search == null &&
         SCREEN_QUERY.conds == null){
 
-        alert_user("Must query screens by at least a name, owner name or by conditions!");
+        site_functions.alert_user("Must query screens by at least a name, owner name or by conditions!");
         return false;
     // When not validating always pass
     } else {
@@ -1657,7 +1657,7 @@ function query_update_conds(tree, alert_validation){
             tree.arg.id == null &&
             tree.arg.chems == null){
                 
-            alert_user("Must specify condition exclusively either by reference or by chemicals!");
+            site_functions.alert_user("Must specify condition exclusively either by reference or by chemicals!");
             return false;
         // When not validating always continue parsing
         } else {
@@ -1707,14 +1707,14 @@ function query_update_chems(tree, alert_validation){
             if (tree.arg.id == null &&
                 tree.arg.name_search == null){
 
-                alert_user("Must specify chemical!");
+                site_functions.alert_user("Must specify chemical!");
                 return false;
             } else if (tree.arg.id == null &&
                 tree.arg.name_search == null &&
                 tree.arg.conc == null &&
                 tree.arg.ph == null){
 
-                alert_user("Must specify chemical with at least name, concentration and unit, or ph!");
+                site_functions.alert_user("Must specify chemical with at least name, concentration and unit, or ph!");
                 return false
             } else {
                 return true;
@@ -1739,7 +1739,7 @@ function query_screens(){
     screen_table_body.empty();
     $.ajax({
         type: 'POST',
-        url: API_URL+'/screens/query', 
+        url: site_functions.API_URL+'/screens/query', 
         data: api_query, 
         // Display returned screens
         success: function(data) {
