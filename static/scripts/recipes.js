@@ -115,6 +115,7 @@ $(document).ready(function() {
 var screen_well_table = new Tabulator('#recipe-screen-well-select-tabulator', {
     data: [{id: 1, screen: {id: null, name: null}, well: {id: null, label: null}}],
     layout: "fitColumns",
+    rowHeight: 48,
     editorEmptyValue: null,
     selectableRows: false,
     index: "id",
@@ -230,7 +231,6 @@ var custom_condition_table = new Tabulator('#recipe-custom-condition-tabulator',
     data: [],
     height: "100%",
     layout: "fitColumns",
-    movableColumns: true,
     rowHeight: 48,
     editorEmptyValue: null,
     placeholder:"No Factors",
@@ -337,8 +337,10 @@ var custom_condition_table = new Tabulator('#recipe-custom-condition-tabulator',
         // Display only name and alias count from the chemical object in the cell
         formatter: function(cell, formatterParams, onRendered){
             if (cell.getValue().name == null){
-                return "";
+                $(cell.getElement()).css('color', '#999');
+                return "Search chemicals ...";
             } else {
+                $(cell.getElement()).css('color', '#333');
                 return cell.getValue().name + (cell.getValue().aliases.length ? ' (aliases: ' + cell.getValue().aliases.length + ')' : "");
             }
         },
