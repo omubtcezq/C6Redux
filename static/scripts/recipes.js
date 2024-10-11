@@ -575,8 +575,16 @@ $('#add-custom-condition-factor-button').click(function(){
     custom_condition_table.addRow({chemical: {id: null, name: null, aliases: [], unit: null}, concentration: null, unit: null, ph: null});
 });
 
+$('#remove-all-custom-condition-factor-button').click(function(){
+    custom_condition_table.setData([]);
+});
+
 $("#recipe-from-custom-condition-button").click(function(){
     let rows = custom_condition_table.getRows();
+    if (rows.length == 0){
+        site_functions.alert_user("You must add at least one factor in custom condition.");
+        return;
+    }
     // Validate all cells (one by one so that only a single error popup is triggered)
     for (i in rows){
         let cells = rows[i].getCells();
