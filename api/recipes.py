@@ -44,13 +44,11 @@ def make_custom_condition_recipe(session: Session, custom_condition: CustomCondi
         # If cannot be found, create a new factor for stock
         if not factor:
             factor = db.Factor(chemical_id = f.chemical_id, 
-                            concentration = f.concentration,
-                            unit = f.unit,
-                            ph = f.ph)
+                               chemical = session.get(db.Chemical, f.chemical_id),
+                               concentration = f.concentration,
+                               unit = f.unit,
+                               ph = f.ph)
             # No need to add factor to the session since we are only interested in it temporarily
-            # session.add(factor)
-            # session.commit()
-            # session.refresh(factor)
         condition_factors.append(factor)
     
     return make_recipe_for_factors(session, condition_factors)
