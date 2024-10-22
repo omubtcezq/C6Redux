@@ -2,7 +2,7 @@
 
 """
 
-from sqlmodel import Session, select, func
+from sqlmodel import Session, select, distinct, func
 from sqlalchemy.orm import subqueryload
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
@@ -167,10 +167,10 @@ async def get_use_of_chemical(*, session: Session=Depends(db.get_readonly_sessio
     """
     Get a count of wells, wellconditions, screens and stocks that use a specific chemical
     """
-    condition_count_stmnt = select(func.count(db.WellCondition.id)).join(db.WellCondition_Factor_Link).join(db.Factor).where(db.Factor.chemical_id == chemical_id)
-    well_count_stmnt = select(func.count(db.Well.id)).join(db.WellCondition).join(db.WellCondition_Factor_Link).join(db.Factor).where(db.Factor.chemical_id == chemical_id)
-    screen_count_stmnt = select(func.count(db.Screen.id)).join(db.Well).join(db.WellCondition).join(db.WellCondition_Factor_Link).join(db.Factor).where(db.Factor.chemical_id == chemical_id)
-    stock_count_stmnt = select(func.count(db.Stock.id)).join(db.Factor).where(db.Factor.chemical_id == chemical_id)
+    condition_count_stmnt = select(func.count(distinct(db.WellCondition.id))).join(db.WellCondition_Factor_Link).join(db.Factor).where(db.Factor.chemical_id == chemical_id)
+    well_count_stmnt = select(func.count(distinct(db.Well.id))).join(db.WellCondition).join(db.WellCondition_Factor_Link).join(db.Factor).where(db.Factor.chemical_id == chemical_id)
+    screen_count_stmnt = select(func.count(distinct(db.Screen.id))).join(db.Well).join(db.WellCondition).join(db.WellCondition_Factor_Link).join(db.Factor).where(db.Factor.chemical_id == chemical_id)
+    stock_count_stmnt = select(func.count(distinct(db.Stock.id))).join(db.Factor).where(db.Factor.chemical_id == chemical_id)
     condition_count = session.exec(condition_count_stmnt).one()
     well_count = session.exec(well_count_stmnt).one()
     screen_count = session.exec(screen_count_stmnt).one()

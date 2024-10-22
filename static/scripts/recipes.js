@@ -20,6 +20,10 @@ public_functions.screen_well_recipe = function (screen_well){
 // Private functions
 // ========================================================================== //
 
+// Go to stocks tab and filter stocks by the selected on here
+function view_stock(row){
+    site_functions.request_content('stocks', 'filter_stock', row.getData().stock);
+}
 
 // Header menu that allows the toggling of column visibilities
 var column_menu = function(e, column){
@@ -418,7 +422,6 @@ var custom_condition_table = new Tabulator('#recipe-custom-condition-tabulator',
             $('<tr>').append(
                 $('<td>').append(
                     $('<button>').
-                    attr('id', 'delete-alias-'+cell.getData().id).
                     attr('class', 'delete-button table-cell-button').
                     text('Remove')
                 )
@@ -520,7 +523,7 @@ var recipe_table = new Tabulator("#recipes-tabulator", {
         }, {
             title: "", 
             field: "actions", 
-            width: 150, 
+            width: 90, 
             // Depeding on whether a row is selected, if some other row is selected or if no row selected display apporpriate buttons
             formatter: function (cell, formatterParams, onRendered){
                 if (cell.getData().stock.name != 'Water'){
@@ -529,7 +532,7 @@ var recipe_table = new Tabulator("#recipes-tabulator", {
                             $('<td>').append(
                                 $('<button>').
                                 attr('class', 'view-stock-button table-cell-button').
-                                text('View Stock')
+                                text('Stock')
                             )
                         )));
                 } else {
@@ -541,13 +544,13 @@ var recipe_table = new Tabulator("#recipes-tabulator", {
             cellClick: function(e, cell){
                 target = $(e.target);
                 if (target.hasClass('view-stock-button')) {
-                    site_functions.alert_user("Coming soon! 🛳");
+                    view_stock(cell.getRow());
                 }
             }, 
             headerSort: false, 
             hozAlign: "center", 
             vertAlign: "middle", 
-            resizable: false, 
+            resizable: true, 
             frozen: true}
     ],
     initialSort: [

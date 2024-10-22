@@ -18,6 +18,21 @@
 <div class="holder-for-tabulator">
     <div id="chemical-tabulator" class="object-for-tabulator"></div>
 </div>
-
+<div id="chemical-list-popup-container" class="popup-container" style="display: none;">
+    <div id="chemical-details-popup" class="popup" style="display: none;">
+      <h2 id="chemical-details-title"></h2>
+      <p id="chemical-details-message" class="popup-message"></p>
+      <table id="chemical-details-button-table" class="button-table">
+        <tbody>
+          <tr>
+            <td><button id="chemical-details-screens-button" class="table-cell-button">Screens</button></td>
+            <td><button id="chemical-details-stocks-button" class="table-cell-button">Stocks</button></td>
+            <td><button id="chemical-details-close-button" class="table-cell-button">Close</button></td>
+          </tr>
+        </tbody>
+      </table>
+      <br/>
+    </div>
+  </div>
 </body>
 </html>

@@ -6,10 +6,26 @@ site_functions.CONTENT_PROVIDERS.stocks = (function() {
 // ========================================================================== //
 
 var public_functions = {};
+// Filter table on stock
+public_functions.filter_stock = function (stock){
+    let table = Tabulator.findTable('#stock-tabulator')[0];
+    table.clearFilter(true);
+    table.setFilter('id', '=', stock.id);
+}
+public_functions.filter_chemical = function (chemical){
+    let table = Tabulator.findTable('#stock-tabulator')[0];
+    table.clearFilter(true);
+    table.setFilter(filter_stocks_by_chemical, chemical);
+}
 
 // ========================================================================== //
 // Private functions
 // ========================================================================== //
+
+// Custom filter for chemical
+function filter_stocks_by_chemical(data, chemical){
+    return data.factor.chemical.id == chemical.id;
+}
 
 // Remove selection and reformat rows to display edit and delete buttons
 function stop_editing(table){
@@ -179,6 +195,11 @@ function row_delete(row){
         }
         site_functions.authorise_action(null, to_authorise);
     });
+}
+
+// Go to chemical tab and filter chemicals by the selected on here
+function view_chemical(row){
+    site_functions.request_content('chemical_list', 'filter_chemical', row.getData().factor.chemical);
 }
 
 // Check if a cell is in the currently selected row
@@ -774,12 +795,18 @@ var table = new Tabulator("#stock-tabulator", {
         }, {
             title: "", 
             field: "actions", 
-            width: 170, 
+            width: 330, 
             // Depeding on whether a row is selected, if some other row is selected or if no row selected display apporpriate buttons
             formatter: function (cell, formatterParams, onRendered){
                 if (cell.getRow().isSelected()){
                     div = $('<table>').attr('class', 'button-table').append($('<tbody>').append(
                         $('<tr>').append(
+                            $('<td>').append(
+                                $('<button>').
+                                attr('class', 'view-chem-button table-cell-button').
+                                text('Chemical')
+                            )
+                        ).append(
                             $('<td>').append(
                                 $('<button>').
                                 attr('class', 'save-button table-cell-button').
@@ -795,6 +822,12 @@ var table = new Tabulator("#stock-tabulator", {
                 } else if (cell.getTable().getSelectedRows().length == 0) {
                     div = $('<table>').attr('class', 'button-table').append($('<tbody>').append(
                         $('<tr>').append(
+                            $('<td>').append(
+                                $('<button>').
+                                attr('class', 'view-chem-button table-cell-button').
+                                text('Chemical')
+                            )
+                        ).append(
                             $('<td>').append(
                                 $('<button>').
                                 attr('class', 'edit-button table-cell-button').
@@ -823,12 +856,14 @@ var table = new Tabulator("#stock-tabulator", {
                     row_save(cell.getRow());
                 } else if (target.hasClass('cancel-button')){
                     row_cancel(cell.getRow());
+                } else if (target.hasClass('view-chem-button')){
+                    view_chemical(cell.getRow());
                 }
             }, 
             headerSort: false, 
             hozAlign: "center", 
             vertAlign: "middle", 
-            resizable: false, 
+            resizable: true, 
             frozen: true}
     ],
     initialSort: [

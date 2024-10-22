@@ -843,7 +843,7 @@ var table = new Tabulator("#phcurve-tabulator", {
             headerSort: false, 
             hozAlign: "center", 
             vertAlign: "middle", 
-            resizable: false, 
+            resizable: true, 
             frozen: true
     }],
     initialSort: [

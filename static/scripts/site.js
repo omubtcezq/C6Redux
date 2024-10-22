@@ -166,17 +166,26 @@ public_functions.alert_user = function(msg){
 
 // Pass parameters to provider if loaded, otherwise save request and click through
 public_functions.request_content = function(provider, method, params){
+    // First call, create content request and begin walking down path of buttons
     if (!CONTENT_REQUEST){
         let path = find_path_to_provider(provider).slice(2);
         CONTENT_REQUEST = {path: path.slice(1), provider: provider, method: method, params: params};
         path[0].button.click();
+    // No more buttons
     } else if (CONTENT_REQUEST.path.length == 0){
+        // Reset request
         CONTENT_REQUEST = null;
+        // If at final page and method exists, perform it
         if (site_functions.CONTENT_PROVIDERS[provider] && site_functions.CONTENT_PROVIDERS[provider][method]){
             site_functions.CONTENT_PROVIDERS[provider][method](params);
+        // If at final page and there is no method, request was simply to change tab, do nothing
+        } else if (site_functions.CONTENT_PROVIDERS[provider] && method === null){
+            return;
+        // Otherwise there is an error
         } else {
             site_functions.alert_user("Error performing action. Try doing it manually.");
         }
+    // Normal operation continues down path of buttons
     } else {
         let button = CONTENT_REQUEST.path[0].button;
         CONTENT_REQUEST.path = CONTENT_REQUEST.path.slice(1);

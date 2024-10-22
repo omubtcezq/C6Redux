@@ -173,6 +173,11 @@ function hide_screen(){
     $('#screen-wells-view-title').text('');
 }
 
+// Go to chemical tab and filter chemicals by the selected on here
+function view_chemical(row){
+    site_functions.request_content('chemical_list', 'filter_chemical', row.getData().factor.chemical);
+}
+
 // ========================================================================== //
 // Actions to perform once document is ready (e.g. create table and event handlers)
 // ========================================================================== //
@@ -370,7 +375,7 @@ var screen_table = new Tabulator("#screen-tabulator", {
             headerSort: false, 
             hozAlign: "center", 
             vertAlign: "middle", 
-            resizable: false, 
+            resizable: true, 
             frozen: true
     }],
     initialSort: [
@@ -509,8 +514,37 @@ var well_table = new Tabulator("#screen-wells-view-tabulator", {
             headerSort: false,
             headerFilter: "number",
             headerFilterPlaceholder: "Filter"
-        }
-    ],
+
+        // Action buttons
+        }, {
+            title: "", 
+            field: "actions", 
+            width: 120, 
+            // Depeding on whether a row is selected, if some other row is selected or if no row selected display apporpriate button
+            formatter: function (cell, formatterParams, onRendered){
+                div = $('<table>').attr('class', 'button-table').append($('<tbody>').append(
+                    $('<tr>').append(
+                        $('<td>').append(
+                            $('<button>').
+                            attr('class', 'view-chem-button table-cell-button').
+                            text('Chemical')
+                        )
+                    )));
+                return div.prop('outerHTML');
+            }, 
+            // When the cell is clicked, check if or which button has been clicked and perform the right action
+            cellClick: function(e, cell){
+                target = $(e.target);
+                if (target.hasClass('view-chem-button')) {
+                    view_chemical(cell.getRow());
+                }
+            }, 
+            headerSort: false, 
+            hozAlign: "center", 
+            vertAlign: "middle", 
+            resizable: true, 
+            frozen: true
+    }],
     initialSort: [
         {column: "factor.chemical", dir: "asc"},
         {column: "well.label", dir: "asc"},

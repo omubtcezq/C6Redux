@@ -6,6 +6,12 @@ site_functions.CONTENT_PROVIDERS.chemical_list = (function() {
 // ========================================================================== //
 
 var public_functions = {};
+// Filter table on chemical
+public_functions.filter_chemical = function (chemical){
+    let table = Tabulator.findTable('#chemical-tabulator')[0];
+    table.clearFilter(true);
+    table.setFilter('id', '=', chemical.id);
+}
 
 // ========================================================================== //
 // Private functions
@@ -232,6 +238,97 @@ function row_delete(row){
             }
         }
     });
+}
+
+// Show popup with chemical details
+function view_chemical_details(row){
+    let chemical = row.getData();
+    $.ajax({
+        type: 'GET',
+        url: site_functions.API_URL+'/chemicals/useOfChemical?chemical_id=' + chemical.id,
+        success: function(counter){
+            // Title
+            $('#chemical-details-title').text(chemical.name);
+            // Msg
+            $('#chemical-details-message').text(
+                "Chemical is used in:\n" + 
+                counter.condition_count + (counter.condition_count==1 ? " condition," : " conditions,") + " " +
+                counter.well_count + (counter.well_count==1 ? " well," : " wells,") + " " +
+                counter.screen_count + (counter.screen_count==1 ? " screen and" : " screens and") + " " +
+                counter.stock_count + (counter.stock_count==1 ? " stock." : " stocks.")
+            );
+
+            // Enable screens button and remove click event
+            $('#chemical-details-screens-button').off("click");
+            $('#chemical-details-screens-button').removeAttr('disabled');
+            // If screens exist, add click event
+            if (counter.screen_count > 0){
+                $('#chemical-details-screens-button').click(function(){
+                    let chem_query = {
+                        "name_search": null,
+                        "owner_search":null, 
+                        "conds": {
+                            "negate": false,
+                            "arg": {
+                                "universal_quantification": false,
+                                "id": null,
+                                "chems": {
+                                    "negate": false,
+                                    "arg": {
+                                        "universal_quantification": false,
+                                        "name_search": null,
+                                        "id": chemical.id,
+                                        "conc": null,
+                                        "units": null,
+                                        "ph": null
+                                    }
+                                }
+                            }
+                        }
+                    };
+                    site_functions.request_content('screen_explorer', 'screen_query', chem_query);
+                    hide_chemical_details();
+                });
+            // If screens don't exist disable button
+            } else {
+                $('#chemical-details-screens-button').attr('disabled', 'disabled');
+            }
+
+            // Enable stocks button and remove click event
+            $('#chemical-details-stocks-button').off("click");
+            $('#chemical-details-stocks-button').removeAttr('disabled');
+            // If stocks exist, add click event
+            if (counter.stock_count > 0){
+                $('#chemical-details-stocks-button').click(function(){
+                    site_functions.request_content('stocks', 'filter_chemical', chemical);
+                    hide_chemical_details();
+                });
+            // If stocks don't exist disable button
+            } else {
+                $('#chemical-details-stocks-button').attr('disabled', 'disabled');
+            }
+
+            // Show popup
+            $("#chemical-details-popup").css("display", "block");
+            $('#chemical-list-popup-container').show();
+        }
+    });
+}
+
+// Hide and reset popup with chemical details
+function hide_chemical_details(){
+    // Hide popup
+    $("#chemical-details-popup").css("display", "none");
+    $('#chemical-list-popup-container').hide();
+    // Reset text
+    $('#chemical-details-title').text('');
+    $('#chemical-details-message').text();
+    // Cancel click handlers
+    $('#chemical-details-screens-button').off("click");
+    $('#chemical-details-stocks-button').off("click");
+    // Enable buttons
+    $('#chemical-details-screens-button').removeAttr('disabled');
+    $('#chemical-details-stocks-button').removeAttr('disabled');
 }
 
 // Check if a cell is in the currently selected row
@@ -808,12 +905,18 @@ var table = new Tabulator("#chemical-tabulator", {
         }, {
             title: "", 
             field: "actions", 
-            width: 170, 
+            width: 290, 
             // Depeding on whether a row is selected, if some other row is selected or if no row selected display apporpriate buttons
             formatter: function (cell, formatterParams, onRendered){
                 if (cell.getRow().isSelected()){
                     div = $('<table>').attr('class', 'button-table').append($('<tbody>').append(
                         $('<tr>').append(
+                            $('<td>').append(
+                                $('<button>').
+                                attr('class', 'view-chem-details-button table-cell-button').
+                                text('See Use')
+                            )
+                        ).append(
                             $('<td>').append(
                                 $('<button>').
                                 attr('class', 'save-button table-cell-button').
@@ -829,6 +932,12 @@ var table = new Tabulator("#chemical-tabulator", {
                 } else if (cell.getTable().getSelectedRows().length == 0) {
                     div = $('<table>').attr('class', 'button-table').append($('<tbody>').append(
                         $('<tr>').append(
+                            $('<td>').append(
+                                $('<button>').
+                                attr('class', 'view-chem-details-button table-cell-button').
+                                text('See Use')
+                            )
+                        ).append(
                             $('<td>').append(
                                 $('<button>').
                                 attr('class', 'edit-button table-cell-button').
@@ -857,12 +966,14 @@ var table = new Tabulator("#chemical-tabulator", {
                     row_save(cell.getRow());
                 } else if (target.hasClass('cancel-button')){
                     row_cancel(cell.getRow());
+                } else if (target.hasClass('view-chem-details-button')){
+                    view_chemical_details(cell.getRow());
                 }
             }, 
             headerSort: false, 
             hozAlign: "center", 
             vertAlign: "middle", 
-            resizable: false, 
+            resizable: true, 
             frozen: true
     }],
     initialSort: [
@@ -1013,6 +1124,11 @@ $('#add-chemical-button').click(function(){
 $('#reload-chemicals-button').click(function(){
     table.setData();
     table.clearFilter(true);
+});
+
+// Hide popup button
+$('#chemical-details-close-button').click(function(){
+    hide_chemical_details();
 });
 
 // Propagate message passing after tables have loaded

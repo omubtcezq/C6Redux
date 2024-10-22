@@ -220,13 +220,20 @@ button {
   white-space: pre-wrap;
 }
 
+/* Chemical list popup */
+
+#chemical-details-button-table {
+  width: 100%;
+  max-width: 300px;
+  margin: auto;
+}
+
 /* Screens specific */
 
 #screens-and-wells-holder {
   height: 100%;
   width: 100%;
 }
-
 
 #screens-half-div,
 #screen-wells-view-div {
