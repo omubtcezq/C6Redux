@@ -1,6 +1,9 @@
 // Global js namespace for site functions
 var site_functions = (function() {
 
+// UI version number
+var UI_VERSION = "v0.1.0";
+
 // Debug flag for API URL
 var DEBUG = false;
 
@@ -261,6 +264,18 @@ subpages = [{
     click_on_init: false
 }];
 public_functions.init_subpage_buttons("root", subpages);
+
+// Write UI and API version numbers beside title
+$('#ui-version').text("ui-"+UI_VERSION);
+$.ajax({
+    url: API_URL+'/api_version',
+    success: function(version_str){
+        $('#api-version').text('api-'+version_str);
+    },
+    error: function(error){
+        public_functions.alert_user("Error connecting to API! Site functions may not work.");
+    },
+});
 
 // Remove login submission default action
 $("#login-form").submit(function(e) {

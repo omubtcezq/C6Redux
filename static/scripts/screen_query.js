@@ -86,7 +86,7 @@ function append_condition_div(parent_div) {
                 query_by_reference_condition(cond);
             }
         })
-    ).append($('</br>')).append(
+    ).append($('<br/>')).append(
         $('<input>').attr('type', 'radio')
         .attr('name', 'condition-quant'+CONDITION_ID_COUNTER)
         .attr('id', 'condition-quant-e'+CONDITION_ID_COUNTER)
@@ -109,7 +109,7 @@ function append_condition_div(parent_div) {
     append(
         $('<label>').attr('for', 'condition-quant-a'+CONDITION_ID_COUNTER)
         .text('All')
-    ).append(' conditions in the screen').append($('</br>'))
+    ).append(' conditions in the screen').append($('<br/>'))
     // Make condition selectable
     .click(function () {
         // Remove selection from all other conditions and chemicals

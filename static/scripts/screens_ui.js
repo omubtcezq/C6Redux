@@ -553,7 +553,7 @@ function create_condition_div() {
             }
         })
     ).
-    append($('</br>')).
+    append($('<br/>')).
     append(
         $('<input>').attr('type', 'radio').
         attr('name', 'condition-quant'+CONDITION_ID_COUNTER).
@@ -582,7 +582,7 @@ function create_condition_div() {
         text('All')
     ).
     append(' conditions in the screen').
-    append($('</br>')).
+    append($('<br/>')).
     // Make condition selectable
     click(function () {
         $('.condition-div').removeClass('selected-condition');
