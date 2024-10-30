@@ -273,7 +273,7 @@ $.ajax({
         $('#api-version').text('api-'+version_str);
     },
     error: function(error){
-        public_functions.alert_user("Error connecting to API! Site functions may not work.");
+        public_functions.alert_user("Error connecting to API. Site functions may not work.");
     },
 });
 
