@@ -2,7 +2,7 @@
 var site_functions = (function() {
 
 // UI version number
-var UI_VERSION = "v0.1.0";
+var UI_VERSION = "v0.2.1";
 
 // Debug flag for API URL
 var DEBUG = false;
@@ -27,14 +27,14 @@ let CONTENT_TREE = {
         screens: {
             screen_explorer: {},
             screen_editor: {},
-            recipes: {},
             selected_wells: {}
         },
         stocks: {},
         chemicals: {
             chemical_list: {},
             phcurves: {}
-        }
+        },
+        recipes: {}
     }
 }
 
@@ -261,6 +261,12 @@ subpages = [{
     button_id: "site-banner-chemicals-buttons",
     content_id: "site-content-chemicals",
     content_html: "chemicals.html",
+    click_on_init: false
+}, {
+    content_name: "recipes",
+    button_id: "site-banner-recipes-button",
+    content_id: "site-content-recipes",
+    content_html: "recipes.html",
     click_on_init: false
 }];
 public_functions.init_subpage_buttons("root", subpages);

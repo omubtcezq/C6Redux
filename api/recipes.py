@@ -58,9 +58,30 @@ def make_condition_recipe(session: Session, condition_id: int):
     return make_recipe_for_factors(session, well_condition.factors)
 
 def make_recipe_for_factors(session: Session, factors: list[db.Factor]):
+    # Return object
+    recipe = Recipe(success=False, msg="", stocks=None, water=None)
+
+    # Cannot make recipe when condition contains same chemical at different concentrations
+    duplicates = set()
+    for i,f1 in enumerate(factors):
+        for j,f2 in enumerate(factors):
+            if i == j:
+                continue
+            if f1.chemical_id == f2.chemical_id and f1.ph == f2.ph:
+                duplicates.add('%s%s' % (f1.chemical.name, '' if not f1.ph else ' pH %s' % str(f1.ph)))
+                break
+    if len(duplicates) > 0:
+        recipe.success = False
+        recipe.msg = 'The following chemical%s been repeated in the condition (only a single concentration is possible):' % (' has' if len(duplicates) == 1 else 's have')
+        for f_string in duplicates:
+            recipe.msg += '\n%s' % f_string
+        return recipe
+
+    # Search for stocks
     possible_stocks = {}
     for f in factors:
-        possible_stocks[f.id] = []
+        factor_hash_string = '%s %s%s%s' % (f.chemical.name, str(f.concentration), f.unit, '' if not f.ph else ' pH %s' % str(f.ph))
+        possible_stocks[factor_hash_string] = []
 
         # Search for stocks of the factor chemical
         stocks_for_factor_stmnt = select(db.Stock).join(db.Factor).where(db.Factor.chemical_id == f.chemical_id).options(subqueryload(db.Stock.factor).subqueryload(db.Factor.chemical).subqueryload(db.Chemical.aliases))
@@ -73,7 +94,7 @@ def make_recipe_for_factors(session: Session, factors: list[db.Factor]):
                 # Match units and concentration
                 stock_vol = stock_volume(s.factor, f.concentration, f.unit, 1)
                 if stock_vol:
-                    possible_stocks[f.id].append([{"stock": s, "volume": stock_vol}])
+                    possible_stocks[factor_hash_string].append([{"stock": s, "volume": stock_vol}])
                 # Fails if overflow or incompatible units
                 else:
                     continue
@@ -83,7 +104,7 @@ def make_recipe_for_factors(session: Session, factors: list[db.Factor]):
                 if abs(f.ph - s.factor.ph) <= 0.2:
                     stock_vol = stock_volume(s.factor, f.concentration, f.unit, 1)
                     if stock_vol:
-                        possible_stocks[f.id].append([{"stock": s, "volume": stock_vol}])
+                        possible_stocks[factor_hash_string].append([{"stock": s, "volume": stock_vol}])
                     # Fails if overflow or incompatible units
                     else:
                         continue
@@ -150,7 +171,7 @@ def make_recipe_for_factors(session: Session, factors: list[db.Factor]):
                                             stocks.append({"stock": low_s, "volume": low_stock_vol})
                                         if high_stock_vol > 0:
                                             stocks.append({"stock": high_s, "volume": high_stock_vol})
-                                        possible_stocks[f.id].append(stocks)
+                                        possible_stocks[factor_hash_string].append(stocks)
 
             # Next, check if chemical meets default henderson haselbalch interpolation
             hh_pka = None
@@ -199,7 +220,7 @@ def make_recipe_for_factors(session: Session, factors: list[db.Factor]):
                                         stocks.append({"stock": low_s, "volume": low_stock_vol})
                                     if high_stock_vol > 0:
                                         stocks.append({"stock": high_s, "volume": high_stock_vol})
-                                    possible_stocks[f.id].append(stocks)
+                                    possible_stocks[factor_hash_string].append(stocks)
             
             # If no suitable curve found and no suitable HH interpretation, assume salt with specified ph
             if not suitable_curve and not hh_pka:
@@ -208,22 +229,21 @@ def make_recipe_for_factors(session: Session, factors: list[db.Factor]):
                     if s.factor.ph == None or abs(s.factor.ph - 7) <= 0.2:
                         stock_vol = stock_volume(s.factor, f.concentration, f.unit, 1)
                         if stock_vol:
-                            possible_stocks[f.id].append([{"stock": s, "volume": stock_vol}])
+                            possible_stocks[factor_hash_string].append([{"stock": s, "volume": stock_vol}])
                         # Fails if overflow or incompatible units
                         else:
                             continue
 
-    # Return object
-    recipe = Recipe(success=False, msg="", stocks=None, water=None)
     # Check if factors had no possible stocks
-    if any([not stocks for stocks in possible_stocks.values()]):
+    empty_factors = []
+    for factor_hash_string in possible_stocks:
+        if len(possible_stocks[factor_hash_string]) == 0:
+            empty_factors.append(factor_hash_string)
+    if len(empty_factors) > 0:
         recipe.success = False
-        recipe.msg = 'Could not find any valid stocks for some factors in the condition!'
-        # TEMP hijack
-        # for factor_id,stocks in possible_stocks.items():
-        #     if stocks == []:
-        #         recipe.msg = '%d' % factor_id
-        #print('\n\n',possible_stocks,'\n\n')
+        recipe.msg = 'Could not find any valid stocks for the following condition factor%s:' % ('' if len(empty_factors) == 1 else 's')
+        for factor_hash_string in empty_factors:
+            recipe.msg += '\n%s' % factor_hash_string
         return recipe
     # Check if all possible recipes overflowed
     stocks = choose_stocks_condition(possible_stocks)
@@ -265,19 +285,19 @@ def unit_conversion(conc, unit, density, desired_unit):
 def choose_stocks_condition(possible_stocks):
     #print('\n\n',possible_stocks,'\n\n')
     # Sort possible stocks for each factor by concentration
-    for factor_id in possible_stocks.keys():
+    for f in possible_stocks.keys():
         # Convert stock units to match first stock of the factor for sorting
         def converted_conc_key(stock_option): 
             new_conc = unit_conversion(stock_option[0]["stock"].factor.concentration, 
                                        stock_option[0]["stock"].factor.unit, 
                                        stock_option[0]["stock"].factor.chemical.density if stock_option[0]["stock"].factor.chemical.density else 1, 
-                                       possible_stocks[factor_id][0][0]["stock"].factor.unit)
+                                       possible_stocks[f][0][0]["stock"].factor.unit)
             # If conversion not possible, this is an error. Simply return 
             # concentration to not break the sorting operation
             if not new_conc:
                 new_conc = stock_option[0]["stock"].factor.concentration
             return new_conc
-        possible_stocks[factor_id] = sorted(possible_stocks[factor_id], key=converted_conc_key)
+        possible_stocks[f] = sorted(possible_stocks[f], key=converted_conc_key)
 
     # All possible combinations of possible stocks for the condition
     stock_choices = product(*possible_stocks.values())
@@ -321,7 +341,18 @@ def choose_stocks_condition(possible_stocks):
 
     # If a valid combination of stocks is found, return stock list
     if found:
-        return all_stocks
+        # In case any stock is repeated, combine them here
+        final_stocks = []
+        for s in all_stocks:
+            merged = False
+            for final_s in final_stocks:
+                if s["stock"].id == final_s["stock"].id:
+                    final_s["volume"] += s["volume"]
+                    merged = True
+                    break
+            if not merged:
+                final_stocks.append(s)
+        return final_stocks
     # None if all stock combinations overflow
     else:
         return None

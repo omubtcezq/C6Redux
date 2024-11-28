@@ -17,12 +17,6 @@ subpages = [{
     content_html: "screen_editor.html",
     click_on_init: false
 }, {
-    content_name: "recipes",
-    button_id: "recipes-subpage-button",
-    content_id: "recipes-subpage",
-    content_html: "recipes.html",
-    click_on_init: false
-}, {
     content_name: "selected_wells",
     button_id: "selected-wells-subpage-button",
     content_id: "selected-wells-subpage",

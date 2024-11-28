@@ -914,6 +914,7 @@ var table = new Tabulator("#chemical-tabulator", {
                             $('<td>').append(
                                 $('<button>').
                                 attr('class', 'view-chem-details-button table-cell-button').
+                                attr('disabled', 'disabled').
                                 text('See Use')
                             )
                         ).append(

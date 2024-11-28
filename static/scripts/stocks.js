@@ -804,6 +804,7 @@ var table = new Tabulator("#stock-tabulator", {
                             $('<td>').append(
                                 $('<button>').
                                 attr('class', 'view-chem-button table-cell-button').
+                                attr('disabled', 'disabled').
                                 text('Chemical')
                             )
                         ).append(
