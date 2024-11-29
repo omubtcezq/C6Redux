@@ -9,7 +9,7 @@ import api.chemicals as chemicals
 import api.authentication as authentication
 
 API_TITLE = "C6Redux_API"
-API_VERSION = "v0.1.3"
+API_VERSION = "v0.1.5"
 API_SUMMARY = "API providing reimplementation of key functions from defunct protein crystallography website C6."
 API_DESCRIPTION = """
 # API Functions
