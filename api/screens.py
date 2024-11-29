@@ -151,6 +151,16 @@ async def get_custom_condition_recipe(*, session: Session=Depends(db.get_readonl
     """
     return recipes.make_custom_condition_recipe(session, custom_condition)
 
+@router.post("/customConditionCustomStocksRecipe", 
+             summary="Creates a recipe for making a condition specified by list of new condition factors using only stocks specified by a list of new stock factors",
+             response_description="Stocks from the specified list of new stock factors and their volumes required to make the specified condition",
+             response_model=recipes.Recipe)
+async def get_custom_condition_custom_stocks_recipe(*, session: Session=Depends(db.get_readonly_session), custom_condition: recipes.CustomCondition, custom_stocks: recipes.CustomStocks):
+    """
+    Creates a recipe for making a condition specified by list of new condition factors using only stocks specified by a list of new stock factors
+    """
+    return recipes.make_custom_condition_custom_stocks_recipe(session, custom_condition, custom_stocks)
+
 # @router.get("/export", 
 #             summary="Download a list of all screens",
 #             response_description="File containing list of all screens")

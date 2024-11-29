@@ -173,7 +173,12 @@ class Factor(FactorBase, table=True):
     stocks: list["Stock"] = Relationship(back_populates="factor")
     wellconditions: list["WellCondition"] = Relationship(back_populates="factors", link_model=WellCondition_Factor_Link)
 
-# Read when screen is read, and when recipe generated
+# Read when recipe generated
+class FactorReadRecipe(FactorBase):
+    id: int | None
+    chemical: ChemicalReadLite
+
+# Read when screen is read
 class FactorRead(FactorBase):
     id: int
     chemical: ChemicalReadLite
@@ -196,17 +201,19 @@ class Stock_Hazard_Link(SQLModel, table=True):
 # ================================== Stock =================================== #
 
 class StockBase(SQLModel):
+    name: str
+    available: int
+
+class StockBaseLarge(StockBase):
     factor_id: int = Field(foreign_key="factor.id")
     apiuser_id: int = Field(foreign_key="apiuser.id")
-    name: str
     polar: int | None = Field(default=None)
     viscosity: int | None = Field(default=None)
     volatility: int | None = Field(default=None)
     density: float | None = Field(default=None)
-    available: int
     comments: str | None = Field(default=None)
 
-class Stock(StockBase, table=True):
+class Stock(StockBaseLarge, table=True):
     id: int | None = Field(default=None, primary_key=True)
     factor: Factor = Relationship(back_populates="stocks")
     apiuser: ApiUser = Relationship(back_populates="stocks")
@@ -214,25 +221,25 @@ class Stock(StockBase, table=True):
 
 # Read when recipe generated
 class StockReadRecipe(StockBase):
-    id: int
-    factor: FactorRead
+    id: int | None
+    factor: FactorReadRecipe
 
 # Read when stocks read
-class StockRead(StockBase):
+class StockRead(StockBaseLarge):
     id: int
     factor: FactorReadAlias
     apiuser: ApiUserRead
     hazards: list["HazardRead"]
 
 # Use when updating stock
-class StockUpdate(StockBase):
+class StockUpdate(StockBaseLarge):
     id: int
     factor_id: None
     factor: FactorCreate
     hazards: list["HazardRead"]
 
 # Use when creating a stock
-class StockCreate(StockBase):
+class StockCreate(StockBaseLarge):
     factor_id: None
     factor: FactorCreate
     hazards: list["HazardRead"]

@@ -14,6 +14,9 @@ import api.db as db
 # Recipe generation type model
 # ============================================================================ #
 
+class CustomStocks(BaseModel):
+    factors: list[db.FactorCreate]
+
 class CustomCondition(BaseModel):
     factors: list[db.FactorCreate]
 
@@ -31,33 +34,71 @@ class Recipe(BaseModel):
 # Recipe generation
 # ============================================================================ #
 
-def make_custom_condition_recipe(session: Session, custom_condition: CustomCondition):
-    # Find new stock factor
-    condition_factors = []
-
-    for f in custom_condition.factors:
-        factor_search_stmnt = select(db.Factor).where(db.Factor.chemical_id == f.chemical_id, 
-                                                    db.Factor.concentration == f.concentration,
-                                                    db.Factor.unit == f.unit,
-                                                    db.Factor.ph == f.ph)
-        factor = session.exec(factor_search_stmnt).first()
-        # If cannot be found, create a new factor for stock
-        if not factor:
-            factor = db.Factor(chemical_id = f.chemical_id, 
-                               chemical = session.get(db.Chemical, f.chemical_id),
-                               concentration = f.concentration,
-                               unit = f.unit,
-                               ph = f.ph)
-            # No need to add factor to the session since we are only interested in it temporarily
-        condition_factors.append(factor)
-    
-    return make_recipe_for_factors(session, condition_factors)
-
 def make_condition_recipe(session: Session, condition_id: int):
     well_condition = session.get(db.WellCondition, condition_id)
-    return make_recipe_for_factors(session, well_condition.factors)
+    return make_recipe_for_factors(session, well_condition.factors, None)
 
-def make_recipe_for_factors(session: Session, factors: list[db.Factor]):
+def custom_condition_factor_list(session: Session, custom_condition: CustomCondition):
+    # Custom condition factors
+    condition_factors = []
+    # Looped the passed factors
+    for f in custom_condition.factors:
+        # Create temporary fator (no need to add to session)
+        factor = db.Factor(chemical_id = f.chemical_id, 
+                            chemical = session.get(db.Chemical, f.chemical_id),
+                            concentration = f.concentration,
+                            unit = f.unit,
+                            ph = f.ph)
+
+        condition_factors.append(factor)
+    return condition_factors
+
+def custom_stocks_stock_list(session: Session, custom_stocks: CustomStocks):
+    # Custom stocks
+    stocks = []
+    # Looped the passed stock factors
+    for f in custom_stocks.factors:
+        # Create temporary factor (no need to add to session)
+        factor = db.Factor(chemical_id = f.chemical_id, 
+                        chemical = session.get(db.Chemical, f.chemical_id),
+                        concentration = f.concentration,
+                        unit = f.unit,
+                        ph = f.ph)
+
+        # Create a custom stock from the factor
+        stock_name = "[Custom Stock] %s %s%s%s" % (factor.chemical.name, str(factor.concentration), factor.unit, '' if not factor.ph else ' pH%s' % str(factor.ph))
+        stock = db.Stock(name=stock_name,
+                         factor=factor,
+                         available=1)
+        stocks.append(stock)
+    return stocks
+
+def make_custom_condition_recipe(session: Session, custom_condition: CustomCondition):
+    # Get factor list for custom condition
+    condition_factors = custom_condition_factor_list(session, custom_condition)
+    # Make recipe for factor list
+    return make_recipe_for_factors(session, condition_factors, None)
+
+def make_custom_condition_custom_stocks_recipe(session: Session, custom_condition: CustomCondition, custom_stocks: CustomStocks):
+    # Get factor list for custom condition
+    condition_factors = custom_condition_factor_list(session, custom_condition)
+    # Get stock list for custom stocks
+    stocks = custom_stocks_stock_list(session, custom_stocks)
+    # Make recipe for factor list with custom stocks
+    return make_recipe_for_factors(session, condition_factors, stocks)
+
+def get_stocks_of_chemical_from_db_or_list(session: Session, chemical_id: int, custom_stocks: list[db.Stock] | None):
+    if custom_stocks == None:
+        stocks_stmnt = select(db.Stock).join(db.Factor).where(db.Factor.chemical_id == chemical_id).options(subqueryload(db.Stock.factor).subqueryload(db.Factor.chemical).subqueryload(db.Chemical.aliases))
+        stocks = session.exec(stocks_stmnt).all()
+    else:
+        stocks = []
+        for s in custom_stocks:
+            if s.factor.chemical_id == chemical_id:
+                stocks.append(s)
+    return stocks
+
+def make_recipe_for_factors(session: Session, factors: list[db.Factor], custom_stocks: list[db.Stock] | None):
     # Return object
     recipe = Recipe(success=False, msg="", stocks=None, water=None)
 
@@ -84,8 +125,7 @@ def make_recipe_for_factors(session: Session, factors: list[db.Factor]):
         possible_stocks[factor_hash_string] = []
 
         # Search for stocks of the factor chemical
-        stocks_for_factor_stmnt = select(db.Stock).join(db.Factor).where(db.Factor.chemical_id == f.chemical_id).options(subqueryload(db.Stock.factor).subqueryload(db.Factor.chemical).subqueryload(db.Chemical.aliases))
-        stocks_for_factor = session.exec(stocks_for_factor_stmnt).all()
+        stocks_for_factor = get_stocks_of_chemical_from_db_or_list(session, f.chemical_id, custom_stocks)
         #print('\n\n', stocks_for_factor, '\n\n')
         for s in stocks_for_factor:
 
@@ -117,10 +157,8 @@ def make_recipe_for_factors(session: Session, factors: list[db.Factor]):
                 if f.ph >= phcurve.low_range and f.ph <= phcurve.high_range:
                     suitable_curve = True
                     # Get low and high ph stocks
-                    stocks_for_low_chemical_stmnt = select(db.Stock).join(db.Factor).where(db.Factor.chemical_id == phcurve.low_chemical.id).options(subqueryload(db.Stock.factor).subqueryload(db.Factor.chemical).subqueryload(db.Chemical.aliases))
-                    stocks_for_low_chemical = session.exec(stocks_for_low_chemical_stmnt).all()
-                    stocks_for_high_chemical_stmnt = select(db.Stock).join(db.Factor).where(db.Factor.chemical_id == phcurve.high_chemical.id).options(subqueryload(db.Stock.factor).subqueryload(db.Factor.chemical).subqueryload(db.Chemical.aliases))
-                    stocks_for_high_chemical = session.exec(stocks_for_high_chemical_stmnt).all()
+                    stocks_for_low_chemical = get_stocks_of_chemical_from_db_or_list(session, phcurve.low_chemical.id, custom_stocks)
+                    stocks_for_high_chemical = get_stocks_of_chemical_from_db_or_list(session, phcurve.high_chemical.id, custom_stocks)
                     #print('\n',f.id,'\n',stocks_for_low_chemical,'\n\n', stocks_for_high_chemical)
                     # Store suitable stocks for the low ph stock
                     seen_concs = {}
@@ -233,6 +271,8 @@ def make_recipe_for_factors(session: Session, factors: list[db.Factor]):
                         # Fails if overflow or incompatible units
                         else:
                             continue
+    
+    # print('\n\n', possible_stocks, '\n\n')
 
     # Check if factors had no possible stocks
     empty_factors = []
@@ -246,17 +286,17 @@ def make_recipe_for_factors(session: Session, factors: list[db.Factor]):
             recipe.msg += '\n%s' % factor_hash_string
         return recipe
     # Check if all possible recipes overflowed
-    stocks = choose_stocks_condition(possible_stocks)
-    if not stocks:
+    final_stocks = choose_stocks_condition(possible_stocks)
+    if not final_stocks:
         recipe.success = False
         recipe.msg = 'Could not find any combination of stocks that did not overflow!'
     # Return stocks and remaining water volume
     else:
         recipe.success = True
         recipe.msg = ''
-        recipe.stocks = [StockVolume(stock=sv["stock"], volume=round(sv["volume"], 3)) for sv in stocks]
+        recipe.stocks = [StockVolume(stock=sv["stock"], volume=round(sv["volume"], 3)) for sv in final_stocks]
         # Water volume computed from rounded volumes to avoid rounding overflow
-        recipe.water = round(1-sum(round(sv["volume"], 3) for sv in stocks), 3)
+        recipe.water = round(1-sum(round(sv["volume"], 3) for sv in final_stocks), 3)
     return recipe
 
 def unit_conversion(conc, unit, density, desired_unit):
@@ -346,7 +386,11 @@ def choose_stocks_condition(possible_stocks):
         for s in all_stocks:
             merged = False
             for final_s in final_stocks:
-                if s["stock"].id == final_s["stock"].id:
+                # Check if stocks are the same by checking their factors (since custom temporary stocks will have null ids)
+                if s["stock"].factor.chemical_id == final_s["stock"].factor.chemical_id and \
+                    s["stock"].factor.concentration == final_s["stock"].factor.concentration and \
+                    s["stock"].factor.unit == final_s["stock"].factor.unit and \
+                    s["stock"].factor.ph == final_s["stock"].factor.ph:
                     final_s["volume"] += s["volume"]
                     merged = True
                     break

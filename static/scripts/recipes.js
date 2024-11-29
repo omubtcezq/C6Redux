@@ -231,7 +231,7 @@ var screen_well_table = new Tabulator('#recipe-screen-well-select-tabulator', {
     }]
 });
 
-var custom_condition_table = new Tabulator('#recipe-custom-condition-tabulator', {
+var custom_factors_tabulator_setup = {
     data: [],
     height: "100%",
     layout: "fitColumns",
@@ -441,7 +441,10 @@ var custom_condition_table = new Tabulator('#recipe-custom-condition-tabulator',
     vertAlign: "middle", 
     resizable: false, 
     frozen: true}]
-});
+}
+var custom_condition_table = new Tabulator('#recipe-custom-condition-tabulator', custom_factors_tabulator_setup);
+var custom_stocks_table = new Tabulator('#recipe-custom-stock-tabulator', custom_factors_tabulator_setup);
+
 
 // Recipe table
 var recipe_table = new Tabulator("#recipes-tabulator", {
@@ -526,7 +529,7 @@ var recipe_table = new Tabulator("#recipes-tabulator", {
             width: 90, 
             // Depeding on whether a row is selected, if some other row is selected or if no row selected display apporpriate buttons
             formatter: function (cell, formatterParams, onRendered){
-                if (cell.getData().stock.name != 'Water'){
+                if (cell.getData().stock.id != null){
                     div = $('<table>').attr('class', 'button-table').append($('<tbody>').append(
                         $('<tr>').append(
                             $('<td>').append(
@@ -582,15 +585,24 @@ $('#remove-all-custom-condition-factor-button').click(function(){
     custom_condition_table.setData([]);
 });
 
+$('#add-custom-stock-factor-button').click(function(){
+    custom_stocks_table.addRow({chemical: {id: null, name: null, aliases: [], unit: null}, concentration: null, unit: null, ph: null});
+});
+
+$('#remove-all-custom-stock-factor-button').click(function(){
+    custom_stocks_table.setData([]);
+});
+
 $("#recipe-from-custom-condition-button").click(function(){
-    let rows = custom_condition_table.getRows();
-    if (rows.length == 0){
+    // Get the custom condition factors
+    let condition_rows = custom_condition_table.getRows();
+    if (condition_rows.length == 0){
         site_functions.alert_user("You must add at least one factor in custom condition.");
         return;
     }
     // Validate all cells (one by one so that only a single error popup is triggered)
-    for (i in rows){
-        let cells = rows[i].getCells();
+    for (i in condition_rows){
+        let cells = condition_rows[i].getCells();
         for (j in cells){
             if (cells[j].validate() !== true){
                 return;
@@ -599,14 +611,60 @@ $("#recipe-from-custom-condition-button").click(function(){
     }
     // Modify data to only send chemical_id since that's all that's needed
     let factors = [];
-    for (i in rows){
-        let f = $.extend(true, {}, rows[i].getData());
+    for (i in condition_rows){
+        let f = $.extend(true, {}, condition_rows[i].getData());
         f.chemical_id = f.chemical.id;
         delete f.chemical;
         factors.push(f);
     }
-    // Make API call
-    recipe_table.setData(site_functions.API_URL+'/screens/customConditionRecipe', {factors: factors}, "POST");
+
+    // If custom stocks are also given, get the stock factors as well
+    if (using_custom_stocks){
+        let stock_rows = custom_stocks_table.getRows();
+        if (stock_rows.length == 0){
+            site_functions.alert_user("You must add at least one factor in custom stocks.");
+            return;
+        }
+        // Validate all cells (one by one so that only a single error popup is triggered)
+        for (i in stock_rows){
+            let cells = stock_rows[i].getCells();
+            for (j in cells){
+                if (cells[j].validate() !== true){
+                    return;
+                }
+            }
+        }
+        // Modify data to only send chemical_id since that's all that's needed
+        let stocks = [];
+        for (i in stock_rows){
+            let f = $.extend(true, {}, stock_rows[i].getData());
+            f.chemical_id = f.chemical.id;
+            delete f.chemical;
+            stocks.push(f);
+        }
+        // Make API call with custom condition and custom stocks
+        recipe_table.setData(site_functions.API_URL+'/screens/customConditionCustomStocksRecipe', {custom_condition: {factors: factors}, custom_stocks: {factors: stocks}}, "POST");
+    
+    // If not, make recipe with default stored stocks
+    } else {
+        // Make API call with only custom condition
+        recipe_table.setData(site_functions.API_URL+'/screens/customConditionRecipe', {factors: factors}, "POST");
+    }
+});
+
+// Custom condition custom stocks display
+var using_custom_stocks = false;
+$('#use-custom-stocks-button').click(function(){
+    if (!using_custom_stocks){
+        $('#custom-stocks-div').show();
+        $('#use-custom-stocks-button').text('Use Stored Stocks');
+        using_custom_stocks = true;
+    } else {
+        custom_stocks_table.setData([]);
+        $('#custom-stocks-div').hide();
+        $('#use-custom-stocks-button').text('Use Custom Stocks');
+        using_custom_stocks = false;
+    }
 });
 
 // Recipe input buttons
