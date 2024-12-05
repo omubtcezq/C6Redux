@@ -93,7 +93,7 @@ async def get_screen_wells(*, session: Session=Depends(db.get_readonly_session),
     """
     Gets list of wells given a screen id
     """
-    screen = session.get(db.Screen, screen_id).options(subqueryload(db.Screen.wells).subqueryload(db.Well.wellcondition).subqueryload(db.WellCondition.factors))
+    screen = session.get(db.Screen, screen_id)#.options(subqueryload(db.Screen.wells).subqueryload(db.Well.wellcondition).subqueryload(db.WellCondition.factors))
     return screen.wells
 
 @router.post("/query", 
