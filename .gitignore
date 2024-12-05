@@ -1,5 +1,6 @@
 __pycache__/*
 api/__pycache__/*
+api/api.ini
 logs/*
 deployment/*
 run/*
