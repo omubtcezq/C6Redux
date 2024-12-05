@@ -7,7 +7,7 @@ from fastapi.staticfiles import StaticFiles
 import api.c6redux_api
 
 # Whole app serves static html/css/js front end as well as the api it queries
-app = FastAPI(title="C6Redux")
+app = FastAPI(title="C6Redux", docs_url=None, redoc_url=None, openapi_url=None)
 
 # Api is mounted on /api, the rest is static
 app.mount("/api", api.c6redux_api.app)

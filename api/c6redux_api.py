@@ -9,7 +9,8 @@ import api.chemicals as chemicals
 import api.authentication as authentication
 
 API_TITLE = "C6Redux_API"
-API_VERSION = "v0.1.5"
+API_VERSION = "v0.1.6"
+API_DISPLAY_URL = "https://www.c6redux.au/api"
 API_SUMMARY = "API providing reimplementation of key functions from defunct protein crystallography website C6."
 API_DESCRIPTION = """
 # API Functions
@@ -49,6 +50,10 @@ app = FastAPI(title = API_TITLE,
               summary = API_SUMMARY,
               description = API_DESCRIPTION,
               version = API_VERSION,
+              servers=[
+                  {"url": API_DISPLAY_URL}
+              ],
+              root_path_in_servers = False,
               contact = {
                   "name": "Dr Marko Ristic",
                   "url": "https://github.com/omubtcezq/C6Redux"
