@@ -5,7 +5,7 @@ var site_functions = (function() {
 var UI_VERSION = "v0.2.1";
 
 // Debug flag for API URL
-var DEBUG = false;
+var DEBUG = true;
 
 // API connection parameters
 if (DEBUG){
@@ -38,6 +38,9 @@ let CONTENT_TREE = {
     }
 }
 
+// Selected conditions are a global site phenomenon (mostly since recipes and screens both use it)
+let SELECTED_CONDITIONS = [];
+
 // ========================================================================== //
 // Publicly accessible functions go here (note script needs to be loaded for them to be available)
 // ========================================================================== //
@@ -61,6 +64,28 @@ public_functions.PH_MIN_DIFF = 1.2;
 
 // Message passing between dynamically loaded pages
 public_functions.CONTENT_PROVIDERS = {};
+
+// Functions for managing selected screen wells (titled: selected conditions)
+public_functions.get_selected_conditions = function(){
+    return SELECTED_CONDITIONS;
+}
+public_functions.add_selected_condition = function(well){
+    SELECTED_CONDITIONS.push(well);
+    return;
+}
+public_functions.remove_selected_condition = function(well){
+    for (i in SELECTED_CONDITIONS){
+        if (SELECTED_CONDITIONS[i].id == well.id){
+            SELECTED_CONDITIONS.splice(i, 1);
+            break;
+        }
+    }
+    return;
+}
+public_functions.clear_selected_conditions = function() {
+    SELECTED_CONDITIONS = [];
+    return;
+}
 
 // Function that allows setting up of subpage buttons. Handles message propagation for already loaded pages
 public_functions.init_subpage_buttons = function(parent_content_name, subpages){

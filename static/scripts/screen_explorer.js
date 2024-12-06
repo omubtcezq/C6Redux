@@ -149,8 +149,31 @@ function condition_recipe(factor_group){
 }
 
 // Function for when a well is selected
-function select_condition(factor_group){
-    site_functions.alert_user("In the works! 🏗");
+function select_condition(factor_group, target){
+    let rows = factor_group.getRows();
+    if (rows.length == 0){
+        site_functions.alert_user("Empty condition, nothing to add.");
+    } else {
+        let ff = rows[0].getData();
+        site_functions.add_selected_condition(ff.well);
+        target.removeClass('select-button');
+        target.text('Deselect');
+        target.addClass('delete-button');
+    }
+}
+
+// Function for when a well is unselected
+function remove_condition(factor_group, target){
+    let rows = factor_group.getRows();
+    if (rows.length == 0){
+        site_functions.alert_user("Empty condition, nothing to remove.");
+    } else {
+        let ff = rows[0].getData();
+        site_functions.remove_selected_condition(ff.well);
+        target.removeClass('delete-button');
+        target.text('Select');
+        target.addClass('select-button');
+    }
 }
 
 // Viewing a screen
@@ -572,19 +595,48 @@ var well_table = new Tabulator("#screen-wells-view-tabulator", {
             label.text(value);
         }
 
+        let selected_condition_button = null;
+        let recipe_button = null;
+        // If no factors in condition, don't allow selecting it or generating recipe
+        if (group.getRows().length == 0){
+            recipe_button = $('<button>').
+            attr('class', 'recipe-button table-cell-button').
+            attr('disabled', 'disabled').
+            text('Recipe');
+            selected_condition_button = $('<button>').
+            attr('class', 'select-button table-cell-button').
+            attr('disabled', 'disabled').
+            text('Select');
+        // Otherwise allow recipe generation and check if already selected
+        } else {
+            recipe_button = $('<button>').
+            attr('class', 'recipe-button table-cell-button').
+            text('Recipe');
+            select_conditions = site_functions.get_selected_conditions();
+            // If already selected, allow deselecting it
+            let found = false;
+            for (i in select_conditions){
+                if (select_conditions[i].id == group.getRows()[0].getData().well.id){
+                    selected_condition_button = $('<button>').
+                    attr('class', 'delete-button table-cell-button').
+                    text('Deselect');
+                    found = true;
+                    break;
+                }
+            }
+            // If not already selected, allow selecting it
+            if (!found){
+                selected_condition_button = $('<button>').
+                attr('class', 'select-button table-cell-button').
+                text('Select');
+            }
+        }
+
         let div = $('<table>').attr('class', 'screen-well-header-button-table button-table').append($('<tbody>').append(
             $('<tr>').append(
-                $('<td>').append(
-                    $('<button>').
-                    attr('class', 'select-button table-cell-button').
-                    text('Select')
-                )
+                $('<td>').append(selected_condition_button)
             ).append(
-                $('<td>').append(
-                    $('<button>').
-                    attr('class', 'recipe-button table-cell-button').
-                    text('Recipe')
-                )
+                $('<td>').append(recipe_button)
             )));
         return label.prop('outerHTML') + div.prop('outerHTML');
     },
@@ -597,9 +649,10 @@ well_table.on("dataLoaded", update_well_count_loaded);
 well_table.on("groupClick", function (e, group){
     target = $(e.target);
         if (target.hasClass('select-button')) {
-            select_condition(group);
-        }
-        if (target.hasClass('recipe-button')) {
+            select_condition(group, target);
+        } else if (target.hasClass('delete-button')) {
+            remove_condition(group, target);
+        } else if (target.hasClass('recipe-button')) {
             condition_recipe(group);
         }
 });
