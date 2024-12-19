@@ -6,7 +6,40 @@
 </head>
 <body>
 
-<div>Working on it! 🏃‍♂️</div>
+
+<div id="screen-editor-top-div">
+    <div id="screen-editor-sidebar">
+        <div id="screen-editor-type-button-div">
+            <table id="screen-editor-type-button-table" class="button-table">
+                <tbody>
+                <tr>
+                <td><button id="automatic-editor-button" class="table-cell-button">Automatic</button></td>
+                <td><button id="manual-editor-button" class="table-cell-button">Manual</button></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="automatic-editor-div" class="screen-editor-type-div" style="display: none;">
+            <h2 class="editor-title">Select a Well</h2>
+            <table class="button-table screen-editor-button-table">
+                <tbody>
+                <tr><td><button id="screen-editor-automatic-generate-button" class="table-cell-button">Generate From Selected Wells</button></td></tr>
+                </tbody>
+            </table>
+            <h2 class="editor-title">Chemical Factors</h2>
+            <table class="button-table screen-editor-button-table">
+                <tbody>
+                <tr><td><button id="screen-editor-automatic-generate-button" class="table-cell-button">Generate From Selected Wells</button></td></tr>
+                <tr><td><button id="screen-editor-automatic-generate-button" class="table-cell-button">Generate From Selected Wells</button></td></tr>
+                <tr><td><button id="screen-editor-automatic-generate-button" class="table-cell-button">Generate From Selected Wells</button></td></tr>
+                </tbody>
+            </table>
+            <h2 class="editor-title">Additive</h2>
+        </div>
+        <div id="manual-editor-div" class="screen-editor-type-div" style="display: none;">
+        </div>
+    </div><div id="screen-editor-current-design-div"></div>
+</div>
 
 </body>
 </html>
