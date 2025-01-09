@@ -1,0 +1,30 @@
+#screen-editor-top-div {
+    height: 100%;
+    width: 100%;
+}
+
+#screen-editor-sidebar {
+    display: inline-block;
+    vertical-align: top;
+    height: 100%;
+    max-width: 700px;
+    width: 50%;
+    margin-right: 20px;
+}
+
+#screen-editor-current-design-div {
+    display: inline-block;
+    vertical-align: top;
+    height: 100%;
+    width: max(calc(50% - 20px), calc(100% - 720px));
+}
+
+#screen-editor-type-button-table {
+    max-width: 350px;
+    margin: auto;
+}
+
+.screen-editor-button-table {
+    max-width: 300px;
+    margin: 0 auto;
+}
