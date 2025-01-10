@@ -20,24 +20,28 @@
             </table>
         </div>
         <div id="automatic-editor-div" class="screen-editor-type-div" style="display: none;">
-            </br>
+            <br/>
             <table class="button-table screen-editor-button-table">
                 <tbody>
                 <tr><td><button id="screen-editor-automatic-generate-button" class="table-cell-button">Generate From Selected Wells</button></td></tr>
                 </tbody>
             </table>
-            <h2 class="editor-title">Chemical Factors</h2>
+            <h2 class="editor-title">Chemical Groups</h2>
             <table class="button-table screen-editor-button-table">
                 <tbody>
                 <tr>
-                    <td><button id="screen-editor-automatic-add-chemical" class="table-cell-button">Add Chemical</button></td>
-                    <td><button id="screen-editor-automatic-add-group" class="table-cell-button">Add Group</button></td>
+                    <td><button id="screen-editor-automatic-add-chemical-button" class="table-cell-button">Add Chemical</button></td>
+                    <td><button id="screen-editor-automatic-add-group-button" class="table-cell-button">Add Group</button></td>
                 </tr>
-                <tr><td colspan="2"><button id="screen-editor-automatic-randomise" class="table-cell-button">Randomise</button></td></tr>
+                <tr><td colspan="2"><button id="screen-editor-automatic-randomise-button" class="table-cell-button">Re-Randomise</button></td></tr>
                 </tbody>
             </table>
+            <br/>
+            <div class="holder-for-automatic-editor-tabulator">
+                <div id="automatic-chemical-groups-tabulator" class="object-for-tabulator"></div>
+            </div>
             <h2 class="editor-title">Additive</h2>
-            <div class="holder-for-automatic-additive-tabulator">
+            <div class="holder-for-automatic-editor-tabulator">
                 <div id="automatic-additive-tabulator" class="object-for-tabulator"></div>
             </div>
         </div>

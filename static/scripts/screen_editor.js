@@ -11,6 +11,19 @@ var public_functions = {};
 // Private functions
 // ========================================================================== //
 
+var group_colours = [
+    {id: 0, name: "tab:blue", colour: "#1f77b4"}, 
+    {id: 1, name: "tab:orange", colour: "#ff7f0e"},
+    {id: 2, name: "tab:green", colour: "#2ca02c"},
+    {id: 3, name: "tab:red", colour: "#d62728"},
+    {id: 4, name: "tab:purple", colour: "#9467bd"},
+    {id: 5, name: "tab:brown", colour: "#8c564b"},
+    {id: 6, name: "tab:pink", colour: "#e377c2"},
+    {id: 7, name: "tab:gray", colour: "#7f7f7f"},
+    {id: 8, name: "tab:olive", colour: "#bcbd22"},
+    {id: 9, name: "tab:cyan", colour: "#17becf"}
+]
+
 
 // ========================================================================== //
 // Actions to perform once document is ready (e.g. create table and event handlers)
@@ -65,7 +78,7 @@ var additive_table = new Tabulator('#automatic-additive-tabulator', {
         },
         // Update the wells list when screen selected
         cellEdited: function(cell){
-            cell.getRow().reformat();
+            cell.getRow().update();
         },
         formatter: function(cell, formatterParams, onRendered){
             if (cell.getValue().id){
@@ -98,6 +111,140 @@ var additive_table = new Tabulator('#automatic-additive-tabulator', {
             return is_editable;
         }
     }]
+});
+
+// Tabulator table
+var chemical_group_table = new Tabulator("#automatic-chemical-groups-tabulator", {
+    data: [],
+    height: "100%",
+    layout: "fitColumns",
+    movableColumns: true,
+    rowHeight: 48,
+    editorEmptyValue: null,
+    placeholder: "No Chemical Groups",
+    initialFilter: [],
+    selectableRows: false,
+    index: "id",
+    validationMode: 'manual',
+    renderVerticalBuffer: 7800,
+    // persistence: {
+    //     sort: false,
+    //     filter: false,
+    //     headerFilter: false,
+    //     group: true,
+    //     page: false,
+    //     columns: true,
+    // },
+    columns: [
+        // Well name
+        {
+            title: "Factor Group", 
+            field: "factor_group", 
+            vertAlign: "middle",
+            width: 125,
+            headerSort: true
+        
+        // Colour
+        }, {
+            title: "Colour", 
+            field: "colour", 
+            vertAlign: "middle",
+            width: 55,
+            headerSort: false,
+            formatter: "color"
+
+        // Chemical Order (previously Location)
+        }, {
+            title: "Chemical Order", 
+            field: "chemical_order", 
+            vertAlign: "middle",
+            width: 140,
+            editor: "list",
+            editorParams: {values: [{value: {id: "uniform_random", label: "Uniform Random"}, label: "Uniform Random"}, 
+                                    {value: {id: "column", label: "Column"}, label: "Column"}, 
+                                    {value: {id: "row", label: "Row"}, label: "Row"},
+                                    {value: {id: "quadrant", label: "Quadrant"}, label: "Quadrant"}]},
+            formatter: function(cell, formatterParams, onRendered){
+                return cell.getValue() ? cell.getValue().label : "";
+            }
+            
+        // Varied Attribute Order (previously Vary By)
+        }, {
+            title: "Varied Attribute Order", 
+            field: "varied_attribute_order", 
+            vertAlign: "middle",
+            width: 130,
+            editor: "list",
+            editorParams: {values: [{value: {id: "gaussian_random", label: "Gaussian Random"}, label: "Gaussian Random"}, 
+                                    {value: {id: "uniform_random", label: "Uniform Random"}, label: "Uniform Random"}, 
+                                    {value: {id: "gaussian_random_sorted", label: "Gaussian Random (Sorted)"}, label: "Gaussian Random (Sorted)"}, 
+                                    {value: {id: "uniform_random_sorted", label: "Uniform Random (Sorted)"}, label: "Uniform Random (Sorted)"}, 
+                                    {value: {id: "well", label: "Well"}, label: "Well"}, 
+                                    {value: {id: "column", label: "Column"}, label: "Column"}, 
+                                    {value: {id: "row", label: "Row"}, label: "Row"},
+                                    {value: {id: "quadrant", label: "Quadrant"}, label: "Quadrant"},
+                                    {value: {id: "half", label: "Half"}, label: "Half"},
+                                    {value: {id: "fixed", label: "Fixed"}, label: "Fixed"}]},
+            formatter: function(cell, formatterParams, onRendered){
+                return cell.getValue() ? cell.getValue().label : "";
+            }
+
+        // Well Coverage
+        }, {
+            title: "Screen Coverage (%)", 
+            field: "screen_coverage", 
+            hozAlign: "right", 
+            vertAlign: "middle",
+            editable: false,
+            sorter: "number",
+            formatter: function(cell, formatterParams, onRendered){
+                return cell.getValue() + '%';
+            },
+
+        // Action buttons
+        }, {
+            title: "", 
+            field: "actions", 
+            width: 105, 
+            // Depeding on whether a row is selected, if some other row is selected or if no row selected display apporpriate button
+            formatter: function (cell, formatterParams, onRendered){
+                div = $('<table>').attr('class', 'button-table').append($('<tbody>').append(
+                    $('<tr>').append(
+                        $('<td>').append(
+                            $('<button>').
+                            attr('class', 'delete-button table-cell-button').
+                            text('Remove')
+                        )
+                    )));
+                return div.prop('outerHTML');
+            }, 
+            // When the cell is clicked, check if or which button has been clicked and perform the right action
+            cellClick: function(e, cell){
+                target = $(e.target);
+                if (target.hasClass('delete-button')) {
+                    //view_chemical(cell.getRow());
+                }
+            }, 
+            headerSort: false, 
+            hozAlign: "center", 
+            vertAlign: "middle", 
+            resizable: false, 
+            frozen: true
+    }],
+    initialSort: [
+        {column: "factor_group", dir: "asc"}
+    ]
+});
+
+$('#screen-editor-automatic-add-group-button').click(function(){
+    var num_groups = chemical_group_table.getData().length;
+    chemical_group_table.addRow({id: num_groups+1, 
+                                 factor_group: "New Group", 
+                                 colour: group_colours[num_groups % group_colours.length].colour, 
+                                 chemical_order: {value: "random", label: "Uniform Random"}, 
+                                 varied_attribute_order: {value: "gaussian_random", label: "Gaussian Random"}, 
+                                 screen_coverage: 0,
+                                 chemicals: []});
 });
 
 $("#automatic-editor-button").click(function(){
