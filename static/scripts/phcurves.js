@@ -851,6 +851,11 @@ var table = new Tabulator("#phcurve-tabulator", {
     ],
     footerElement: $('<div>').append($('<span>').attr('id', 'phcurve-row-count')).append($('<span>').attr('id', 'filtered-phcurve-row-count')).prop('outerHTML'),
     rowFormatter: function(row, e) {
+        // If row isn't selected, don't create and display the suptable
+        if (!row.isSelected()){
+            return;
+        }
+
         var phcurve_id = row.getData().id;
         var subtable = $('<div>').attr('id', 'phpoint-subtable-'+phcurve_id).attr('class', 'subtable phpoint-subtable');
         var subtable_tabulator = new Tabulator(subtable[0], {
@@ -955,13 +960,7 @@ var table = new Tabulator("#phcurve-tabulator", {
         // Add subtable to row element
         $(row.getElement()).append(holder.append(add_button).append(subtable));
 
-        // Only display it when the row is selected
-        if (row.isSelected() && row.getData().hh == 0){
-            holder.show();
-        } else {
-            holder.hide();
-        }
-      },
+    }
 });
 
 table.on("dataFiltered", update_phcurve_count_filtered);

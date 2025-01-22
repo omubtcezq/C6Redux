@@ -982,6 +982,11 @@ var table = new Tabulator("#chemical-tabulator", {
     ],
     footerElement: $('<div>').append($('<span>').attr('id', 'chemical-row-count')).append($('<span>').attr('id', 'filtered-chemical-row-count')).prop('outerHTML'),
     rowFormatter: function(row, e) {
+        // If row isn't selected, don't create and display the suptable
+        if (!row.isSelected()){
+            return;
+        }
+
         var chem_id = row.getData().id;
         var subtable = $('<div>').attr('id', 'alias-subtable-'+chem_id).attr('class', 'subtable alias-subtable');
         var subtable_tabulator = new Tabulator(subtable[0], {
@@ -1072,13 +1077,7 @@ var table = new Tabulator("#chemical-tabulator", {
         // Add subtable to row element
         $(row.getElement()).append(holder.append(add_button).append(subtable));
 
-        // Only display it when the row is selected
-        if (row.isSelected()){
-            holder.show();
-        } else {
-            holder.hide();
-        }
-      },
+    }
 });
 
 table.on("dataFiltered", update_chemical_count_filtered);

@@ -7,16 +7,24 @@
     display: inline-block;
     vertical-align: top;
     height: 100%;
-    max-width: 700px;
-    width: 50%;
-    margin-right: 20px;
+    width: calc(50% - 10px);
+    margin-right: 10px;
 }
 
 #screen-editor-current-design-div {
     display: inline-block;
     vertical-align: top;
     height: 100%;
-    width: max(calc(50% - 20px), calc(100% - 720px));
+    width: calc(50% - 10px);
+    margin-left: 10px;
+}
+
+#screen-editor-type-button-div {
+    height: 40px;
+}
+
+#screen-editor-automatic-generate-button-div {
+    height: 60px;
 }
 
 #screen-editor-type-button-table {
@@ -29,6 +37,30 @@
     margin: 0 auto;
 }
 
-.holder-for-screen-editor-tabulator {
+.holder-for-automatic-editor-tabulatortabulator {
     width: 100%;
+}
+
+#holder-for-factor-group-tabulator {
+    height: calc(100% - 110px);
+}
+
+.editor-title {
+    box-sizing: border-box;
+    height: 70px;
+    margin: 0;
+    padding: 20px 0;
+}
+
+#automatic-editor-div{
+    padding-top: 10px;
+    height: calc(100% - 50px);
+}
+
+#automatic-editor-factor-groups-div{
+    height: calc(100% - 205px);
+}
+
+#automatic-editor-additive-div{
+    height: 145px;
 }

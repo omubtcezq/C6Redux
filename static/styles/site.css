@@ -182,6 +182,8 @@ button {
   padding: 15px;
   margin: auto;
   background: rgb(221, 221, 221);
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #aaa;
 }
 
 .subtable {

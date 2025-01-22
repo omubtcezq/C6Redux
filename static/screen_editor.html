@@ -20,29 +20,34 @@
             </table>
         </div>
         <div id="automatic-editor-div" class="screen-editor-type-div" style="display: none;">
-            <br/>
-            <table class="button-table screen-editor-button-table">
-                <tbody>
-                <tr><td><button id="screen-editor-automatic-generate-button" class="table-cell-button">Generate From Selected Wells</button></td></tr>
-                </tbody>
-            </table>
-            <h2 class="editor-title">Chemical Groups</h2>
-            <table class="button-table screen-editor-button-table">
-                <tbody>
-                <tr>
-                    <td><button id="screen-editor-automatic-add-chemical-button" class="table-cell-button">Add Chemical</button></td>
-                    <td><button id="screen-editor-automatic-add-group-button" class="table-cell-button">Add Group</button></td>
-                </tr>
-                <tr><td colspan="2"><button id="screen-editor-automatic-randomise-button" class="table-cell-button">Re-Randomise</button></td></tr>
-                </tbody>
-            </table>
-            <br/>
-            <div class="holder-for-automatic-editor-tabulator">
-                <div id="automatic-chemical-groups-tabulator" class="object-for-tabulator"></div>
+            <div id="screen-editor-automatic-generate-button-div">
+                <table class="button-table screen-editor-button-table">
+                    <tbody>
+                    <tr><td><button id="screen-editor-automatic-generate-button" class="table-cell-button">Generate From Selected Wells<br>(<input type="checkbox">Include Original)</button></td></tr>
+                    </tbody>
+                </table>
             </div>
-            <h2 class="editor-title">Additive</h2>
-            <div class="holder-for-automatic-editor-tabulator">
-                <div id="automatic-additive-tabulator" class="object-for-tabulator"></div>
+            <div id="automatic-editor-factor-groups-div">
+                <h2 class="editor-title">Factor Groups</h2>
+                <div class="add-reload-banner">
+                    <table class="button-table add-reload-header-buttons-table">
+                        <tbody>
+                        <tr>
+                            <td><button id="screen-editor-automatic-add-group-button" class="table-cell-button add-button">Add Group</button></td>
+                            <td><button id="screen-editor-automatic-randomise-button" class="table-cell-button">Re-Randomise</button></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="holder-for-factor-group-tabulator" class="holder-for-automatic-editor-tabulator">
+                    <div id="automatic-factor-groups-tabulator" class="object-for-tabulator"></div>
+                </div>
+            </div>
+            <div id="automatic-editor-additive-div">
+                <h2 class="editor-title">Additive</h2>
+                <div class="holder-for-automatic-editor-tabulator">
+                    <div id="automatic-additive-tabulator" class="object-for-tabulator"></div>
+                </div>
             </div>
         </div>
         <div id="manual-editor-div" class="screen-editor-type-div" style="display: none;">
