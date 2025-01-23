@@ -155,7 +155,7 @@ function select_condition(factor_group, target){
         site_functions.alert_user("Empty condition, nothing to add.");
     } else {
         let ff = rows[0].getData();
-        site_functions.add_selected_condition(ff.well);
+        site_functions.add_selected_well(ff.well);
         target.removeClass('select-button');
         target.text('Deselect');
         target.addClass('delete-button');
@@ -169,7 +169,7 @@ function remove_condition(factor_group, target){
         site_functions.alert_user("Empty condition, nothing to remove.");
     } else {
         let ff = rows[0].getData();
-        site_functions.remove_selected_condition(ff.well);
+        site_functions.remove_selected_well(ff.well);
         target.removeClass('delete-button');
         target.text('Select');
         target.addClass('select-button');
@@ -612,7 +612,7 @@ var well_table = new Tabulator("#screen-wells-view-tabulator", {
             recipe_button = $('<button>').
             attr('class', 'recipe-button table-cell-button').
             text('Recipe');
-            select_conditions = site_functions.get_selected_conditions();
+            select_conditions = site_functions.get_selected_wells();
             // If already selected, allow deselecting it
             let found = false;
             for (i in select_conditions){

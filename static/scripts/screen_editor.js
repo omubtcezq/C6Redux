@@ -12,16 +12,16 @@ var public_functions = {};
 // ========================================================================== //
 
 var group_colours = [
-    {id: 0, label: "", name: "Blue", value: "#1f77b4"}, 
-    {id: 1, label: "", name: "Orange", value: "#ff7f0e"},
-    {id: 2, label: "", name: "Green", value: "#2ca02c"},
-    {id: 3, label: "", name: "Red", value: "#d62728"},
-    {id: 4, label: "", name: "Purple", value: "#9467bd"},
-    {id: 5, label: "", name: "Brown", value: "#8c564b"},
-    {id: 6, label: "", name: "Pink", value: "#e377c2"},
-    {id: 7, label: "", name: "Gray", value: "#7f7f7f"},
-    {id: 8, label: "", name: "Olive", value: "#bcbd22"},
-    {id: 9, label: "", name: "Cyan", value: "#17becf"}
+    {id: "Blue", label: "", value: "#1f77b4"}, 
+    {id: "Orange", label: "", value: "#ff7f0e"},
+    {id: "Green", label: "", value: "#2ca02c"},
+    {id: "Red", label: "", value: "#d62728"},
+    {id: "Purple", label: "", value: "#9467bd"},
+    {id: "Brown", label: "", value: "#8c564b"},
+    {id: "Pink", label: "", value: "#e377c2"},
+    {id: "Gray", label: "", value: "#7f7f7f"},
+    {id: "Olive", label: "", value: "#bcbd22"},
+    {id: "Cyan", label: "", value: "#17becf"}
 ];
 
 var chemical_order_options = [
@@ -31,16 +31,18 @@ var chemical_order_options = [
     {value: {id: "quadrant", label: "By Quadrants"}, label: "By Quadrants"}
 ];
 
-var varied_attribute_distribution_options = [
-    {value: {id: "gaussian", label: "Gaussian"}, label: "Gaussian"}, 
+var varied_distribution_options = [
+    {value: {id: "gaussian", label: "Trunc. Gaussian"}, label: "Trunc. Gaussian"}, 
     {value: {id: "uniform", label: "Uniform"}, label: "Uniform"}, 
-    {value: {id: "gaussian_sorted", label: "Gaussian (Sorted)"}, label: "Gaussian (Sorted)"}, 
-    {value: {id: "uniform_sorted", label: "Uniform (Sorted)"}, label: "Uniform (Sorted)"}, 
-    {value: {id: "well", label: "Stepwise (Well)"}, label: "Stepwise (Well)"}, 
-    {value: {id: "column", label: "Stepwise (Column)"}, label: "Stepwise (Column)"}, 
-    {value: {id: "row", label: "Stepwise (Row)"}, label: "Stepwise (Row)"},
-    {value: {id: "quadrant", label: "Stepwise (Quadrant)"}, label: "Stepwise (Quadrant)"},
-    {value: {id: "half", label: "Stepwise (Half)"}, label: "Stepwise (Half)"}
+    {value: {id: "stepwise", label: "Stepwise"}, label: "Stepwise"}
+];
+
+var varied_grouping_options = [
+    {value: {id: "none", label: "No Grouping"}, label: "No Grouping"}, 
+    {value: {id: "column", label: "By Columns"}, label: "By Columns"}, 
+    {value: {id: "row", label: "By Rows"}, label: "By Rows"},
+    {value: {id: "quadrant", label: "By Quadrants"}, label: "By Quadrants"},
+    {value: {id: "half", label: "By Halves"}, label: "By Halves"}
 ];
 
 var factor_vary_options = [
@@ -48,6 +50,11 @@ var factor_vary_options = [
     {value: {id: 'ph', label: 'pH'}, label: 'pH'},
     {value: {id: 'none', label: 'None'}, label: 'None'}
 ];
+
+// UI fix for editing checkbox. Lets the whole cell be the toggle
+function cellclick_flip_tick(e, cell){
+    cell.setValue(!cell.getValue());
+}
 
 function add_factor_to_group(row){
     // Adds data to original row and reloads the subtable. Unique id required and ignored when saving
@@ -58,7 +65,6 @@ function add_factor_to_group(row){
         unit: site_functions.ALL_UNITS[0],
         ph: null,
         vary: factor_vary_options[0].value,
-        mean: null,
         min: null,
         max: null,
         relative_coverage: 1
@@ -66,6 +72,21 @@ function add_factor_to_group(row){
     let group_id = row.getData().id;
     let subtable_tabulator = Tabulator.findTable('#editor-group-subtable-'+group_id)[0];
     subtable_tabulator.setData(row.getData().factors);
+}
+
+create_factor_groups_from_selected_wells = function(){
+    var selected_wells = site_functions.get_selected_wells();
+    if (selected_wells.length == 0){
+        site_functions.alert_user("No wells selected.");
+        return;
+    }
+    for (var i = 0; i < selected_wells.length; i++){
+        var well = selected_wells[i];
+        // TODO detect the types of factor groups
+        // for (var j = 0; j < well.wellcondition.factors.length; j++){
+            
+        // }
+    }
 }
 
 
@@ -144,7 +165,7 @@ var additive_table = new Tabulator('#automatic-additive-tabulator', {
     }]
 });
 
-// Tabulator table
+// Factor group tabulator table
 var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
     data: [],
     height: "100%",
@@ -206,28 +227,58 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
                 return cell.getValue() ? cell.getValue().label : "";
             }
             
-        // Varied Attribute Distribution (previously Vary By)
+        // Varied Attribute Distribution
         }, {
-            title: "Varied Attribute Distribution", 
-            field: "varied_attribute_distribution", 
-            vertAlign: "middle",
-            width: 185,
-            editor: "list",
-            editorParams: {values: varied_attribute_distribution_options},
-            formatter: function(cell, formatterParams, onRendered){
-                return cell.getValue() ? cell.getValue().label : "";
-            }
+            title:"Varied Attribute",
+            headerHozAlign : "center", 
+            // Distribution
+            columns: [{
+                title: "Distribution", 
+                field: "varied_distribution", 
+                vertAlign: "middle",
+                width: 115,
+                editor: "list",
+                editorParams: {values: varied_distribution_options},
+                formatter: function(cell, formatterParams, onRendered){
+                    return cell.getValue() ? cell.getValue().label : "";
+                }
 
+            // Order
+            }, {
+                title: "Grouping", 
+                field: "varied_grouping", 
+                vertAlign: "middle",
+                width: 100,
+                editor: "list",
+                editorParams: {values: varied_grouping_options},
+                formatter: function(cell, formatterParams, onRendered){
+                    return cell.getValue() ? cell.getValue().label : "";
+                }
+
+            // Sorted
+            }, {
+                title: "Sorted", 
+                field: "varied_sorted", 
+                hozAlign: "center", 
+                vertAlign: "middle",
+                width: 76,
+                // Rather than allowing editing, use the better UI for checkbox editing instead
+                cellClick: cellclick_flip_tick,
+                formatter: "tickCross",
+                editable: false
+            }]
+            
         // Well Coverage
         }, {
-            title: "Screen Coverage", 
-            field: "screen_coverage", 
-            width: 150,
+            title: "Coverage of wells", 
+            field: "well_coverage", 
+            width: 77,
             hozAlign: "right", 
             vertAlign: "middle",
             editable: false,
             sorter: "number",
             formatter: function(cell, formatterParams, onRendered){
+                $(cell.getElement()).css('color', '#999');
                 return cell.getValue() + '%';
             },
 
@@ -275,6 +326,8 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
     rowFormatter: function(row, e) {
         var group_id = row.getData().id;
         var subtable = $('<div>').attr('id', 'editor-group-subtable-'+group_id).attr('class', 'subtable editor-group-subtable');
+
+        // Factor in factrog group tabulator subtable
         var subtable_tabulator = new Tabulator(subtable[0], {
             //height: "100%",
             layout: "fitColumns",
@@ -490,60 +543,7 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
                 formatter: function(cell, formatterParams, onRendered){
                     return cell.getValue() ? cell.getValue().label : "";
                 }
-            
-            // Mean
-            }, {
-                title: "Mean Varied", 
-                field: "mean", 
-                hozAlign: "right", 
-                vertAlign: "middle",
-                width: 85,
-                editable: true,
-                validator: function(cell, value){
-                    // Ignore mean if no protperty is being varied
-                    if (cell.getRow().getData().vary.id == 'none'){
-                        return true;
-                    }
 
-                    // Get row and parent table row data
-                    var factor_group_data = row.getData();
-                    var factor_data = cell.getRow().getData();
-
-                    // If the varied attribute distribution is not gaussian, then the mean is irrelevant
-                    if (factor_group_data.varied_attribute_distribution.id != 'gaussian' && factor_group_data.varied_attribute_distribution.id != 'gaussian_sorted'){
-                        return true;
-                    }
-                    
-                    // Errors for mean concentration
-                    if (cell.getRow().getData().vary.id == 'concentration'){
-                        if (value == null || value == "" || typeof value !== "number" || value <= 0){
-                            site_functions.alert_user("Mean concentration must be a positive number.");
-                            return false;
-                        } else if (factor_data.min >= value || factor_data.max <= value){
-                            site_functions.alert_user("Mean concentration must be between minimum and maximum.");
-                            return false;
-                        } else {
-                            return true;
-                        }
-                    
-                    // Errors for mean pH
-                    } else if (cell.getRow().getData().vary.id == 'ph'){
-                        if (value == null){
-                            return true;
-                        } else if (typeof value !== "number" || value < 0 || value > 14){
-                            site_functions.alert_user("Mean pH value must be between 0 and 14.");
-                            return false;
-                        } else if (factor_data.min >= value || factor_data.max <= value){
-                            site_functions.alert_user("Mean pH must be between minimum and maximum.");
-                            return false;
-                        }  else {
-                            return true;
-                        }
-                    }
-                },
-                editor: "number",
-                sorter: "number"
-            
             // Min
             }, {
                 title: "Min Varied", 
@@ -680,15 +680,124 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
     }
 });
 
+
+var current_editor_details_table = new Tabulator('#current-editor-details-tabulator', {
+    data: [{id: 1, apiuser: {id: null, username: null}, size: 96, name: 'New Screen ' + new Date(Date.now()).toLocaleString().split(',')[0]}],
+    layout: "fitColumns",
+    rowHeight: 48,
+    editorEmptyValue: null,
+    selectableRows: false,
+    index: "id",
+    validationMode: 'manual',
+    // Name
+    columns: [{
+        title: "Name", 
+        field: "name", 
+        vertAlign: "middle",
+        headerSort: false,
+        editor: "input",
+        editable: true
+
+    // Creator
+    }, {
+        title: "Creator", 
+        field: "apiuser", 
+        vertAlign: "middle",
+        width: 135,
+        editable: true,
+        validator: function(cell, value){
+            // Check that the chemical object is there and that it has an id for a valid chemical
+            if (value == null || value == "" || value.id == null || value.id == ""){
+                site_functions.alert_user("You must specify a creator.");
+                return false;
+            } else {
+                return true;
+            }
+        },
+        headerSort: false,
+        editor: "list", 
+        editorParams: {
+            valuesLookup: function(cell){
+                // Load users list from api
+                return new Promise(function(resolve, reject){
+                    $.ajax({
+                        url: site_functions.API_URL+'/stocks/users',
+                        success: function(data){
+                            var options = [];
+                            $.each(data, function(i,u){
+                                // Value of creator cell is the actional apiuser object (not just the username)
+                                options.push({
+                                    label: u.username,
+                                    value: u,
+                                });
+                            })
+                            resolve(options);
+                        },
+                        error: function(error){
+                            reject(error);
+                        },
+                    });
+                });
+            },
+            sort: "asc",
+            emptyValue: {id: null, username: null},
+            placeholderLoading: "Loading User List...",
+            placeholderEmpty: "No Users Found",
+            autocomplete: true,
+            // Filter through username
+            filterFunc: function(term, label, value, item){
+                return value.username.toLowerCase().includes(term.toLowerCase());
+            },
+            filterDelay:100,
+            listOnEmpty:true,
+        },
+        // Format cell to display only the username from the apisuer object
+        formatter: function(cell, formatterParams, onRendered){
+            if (cell.getValue().id){
+                $(cell.getElement()).css('color', '#333');
+                return cell.getValue().username;
+            } else {
+                $(cell.getElement()).css('color', '#999');
+                return "Select a user ...";
+            }
+            
+        }
+    
+    // Size
+    }, {
+        title: "Size", 
+        field: "size", 
+        vertAlign: "middle",
+        width: 80,
+        editable: true,
+        validator: function(cell, value){
+            if (value == null || value == ""){
+                site_functions.alert_user("Must Choose option for new screen size.");
+                return false;
+            } else {
+                return true;
+            }
+        },
+        headerSort: false,
+        editor: "list",
+        editorParams: {values: [24, 48, 96]},
+        editorEmptyValue: 96
+    }]
+});
+
 $('#screen-editor-automatic-add-group-button').click(function(){
     var num_groups = factor_group_table.getData().length;
-    factor_group_table.addRow({id: Date.now(), 
-                                 factor_group: "Group " + (num_groups+1), 
-                                 colour: group_colours[num_groups % group_colours.length].value, 
-                                 chemical_order: chemical_order_options[0].value, 
-                                 varied_attribute_distribution: varied_attribute_distribution_options[0].value, 
-                                 screen_coverage: 0,
-                                 factors: []});
+    factor_group_table.addRow({
+        id: Date.now(), 
+        factor_group: "Group " + (num_groups+1), 
+        colour: group_colours[num_groups % group_colours.length].value, 
+        chemical_order: chemical_order_options[0].value, 
+        varied_distribution: varied_distribution_options[0].value, 
+        varied_grouping: varied_grouping_options[0].value,
+        sorted: false,
+        well_coverage: 0,
+        factors: []
+    });
 });
 
 $("#automatic-editor-button").click(function(){
@@ -712,6 +821,9 @@ $("#manual-editor-button").click(function(){
 });
 
 $("#automatic-editor-button").click();
+
+// Generate automatic screen from selected wells button
+$('#screen-editor-automatic-generate-button').click(create_factor_groups_from_selected_wells);
 
 
 // Propagate message passing after tables have loaded

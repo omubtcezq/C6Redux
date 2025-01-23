@@ -11,7 +11,7 @@
     margin-right: 10px;
 }
 
-#screen-editor-current-design-div {
+#current-editor-div {
     display: inline-block;
     vertical-align: top;
     height: 100%;
@@ -23,7 +23,7 @@
     height: 40px;
 }
 
-#screen-editor-automatic-generate-button-div {
+#screen-editor-automatic-generate-div {
     height: 60px;
 }
 
@@ -32,12 +32,12 @@
     margin: auto;
 }
 
-.screen-editor-button-table {
-    max-width: 300px;
+#automatic-generate-button-table {
+    max-width: 390px;
     margin: 0 auto;
 }
 
-.holder-for-automatic-editor-tabulatortabulator {
+.holder-for-automatic-editor-tabulator {
     width: 100%;
 }
 
