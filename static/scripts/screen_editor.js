@@ -74,7 +74,7 @@ function add_factor_to_group(row){
     subtable_tabulator.setData(row.getData().factors);
 }
 
-create_factor_groups_from_selected_wells = function(){
+function create_factor_groups_from_selected_wells(){
     var selected_wells = site_functions.get_selected_wells();
     if (selected_wells.length == 0){
         site_functions.alert_user("No wells selected.");
@@ -89,6 +89,74 @@ create_factor_groups_from_selected_wells = function(){
     }
 }
 
+function create_screen_display(parent_element_id, element_id, rows, cols){
+    // Tabulator columns
+    var col_details = []
+    for (var c = 0; c < cols; c++){
+        col_details.push({
+            title: c+1, 
+            field: c.toString(),
+            formatter: condition_formatter,
+            headerSort: false,
+            headerHozAlign: "center",
+            editable: false,
+            resizable: false,
+            tooltip: cell_tooltip
+        });
+    }
+    // Tabulator data (fixed, only cell wellconditions will change)
+    var letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    var all_data = []
+    for (var r = 0; r < rows; r++){
+        var row_data = {row_id: r, row_letter: letters[r]};
+        for (var c = 0; c < cols; c++){
+            row_data[c.toString()] = {col_id: c, wellcondition: null};
+        }
+        all_data.push(row_data);
+    }
+    // Row height and table width
+    var row_height = Math.round((8/rows)*48);
+    var table_width = (cols+1)*Math.round((row_height+1)*1.25) + 2;
+    $(parent_element_id).css('width', table_width);
+    $(parent_element_id).css('margin', 'auto');
+
+
+    var screen_display_tabulator = new Tabulator(element_id, {
+        data: all_data,
+        layout:"fitColumns",
+        resizableColumnFit: true,
+        headerVisible: true,
+        columns: col_details,
+        rowHeight: row_height,
+        selectableRows: false,
+        validationMode: 'manual',
+        rowFormatter: row_formatter,
+        rowHeader: {field: 'row_letter', formatter: row_header_formatter, headerSort: false, hozAlign: "center", vertAlign: 'middle', resizable: false}
+    });
+}
+
+function row_formatter(row){
+    row.getElement().style.backgroundColor = "#fff";
+    row.getElement().style.borderTop = "1px solid #aaa";
+}
+
+function row_header_formatter(cell, formatterParams, onRendered){
+    var span = $('<span>').text(cell.getValue());
+    span.css('font-weight', '700');
+    span.css('color', '#555');
+    return span.prop('outerHTML');
+}
+
+function condition_formatter(cell, formatterParams, onRendered){
+
+    return '';
+}
+
+function cell_tooltip(e, cell, onRendered){
+    if (cell.getData().wellcondition == null){
+        return "Empty Well";
+    }
+}
 
 // ========================================================================== //
 // Actions to perform once document is ready (e.g. create table and event handlers)
@@ -660,7 +728,12 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
             cellClick: function(e, cell){
                 target = $(e.target);
                 if (target.hasClass('delete-button')){
-                    cell.getRow().delete();
+                    // Remove factor from group table
+                    row.getData().factors = row.getData().factors.filter(function(f){
+                        return f.id != cell.getRow().getData().id;
+                    });
+                    // Remove factor from display table
+                    cell.getTable().setData(row.getData().factors);
                 }
             }, 
             headerSort: false, 
@@ -679,6 +752,8 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
         
     }
 });
+
+create_screen_display('#holder-for-current-editor-tabulator', '#current-editor-tabulator', 8, 12);
 
 
 var current_editor_details_table = new Tabulator('#current-editor-details-tabulator', {
@@ -784,6 +859,8 @@ var current_editor_details_table = new Tabulator('#current-editor-details-tabula
         editorEmptyValue: 96
     }]
 });
+
+
 
 $('#screen-editor-automatic-add-group-button').click(function(){
     var num_groups = factor_group_table.getData().length;

@@ -19,11 +19,21 @@
     margin-left: 10px;
 }
 
+#current-editor-header {
+    height: 145px;
+}
+
+#current-editor-body {
+    padding: 20px 0;
+    width: 100%;
+}
+
 #screen-editor-type-button-div {
     height: 40px;
 }
 
-#screen-editor-automatic-generate-div {
+#screen-editor-automatic-generate-div,
+#screen-editor-save-div {
     height: 60px;
 }
 
@@ -33,6 +43,11 @@
 }
 
 #automatic-generate-button-table {
+    max-width: 390px;
+    margin: 0 auto;
+}
+
+#save-button-table {
     max-width: 390px;
     margin: 0 auto;
 }
