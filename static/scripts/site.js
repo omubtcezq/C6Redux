@@ -342,6 +342,19 @@ $('#information-okay-button').click(function(){
     $('#information-message').text('');
 });
 
+// About us popup open
+$('#site-about-us-button').click(function(){
+    $("#about-us-popup").css("display", "block");
+    $('#site-popup-container').show();
+});
+
+// About us dialog close
+$('#about-us-close-button').click(function(){
+    // Hide dialog
+    $('#site-popup-container').hide();
+    $("#about-us-popup").css("display", "none");
+});
+
 });
 
 // Return public functions object for globally avilable functions

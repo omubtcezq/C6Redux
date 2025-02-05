@@ -11,6 +11,8 @@ var public_functions = {};
 // Private functions
 // ========================================================================== //
 
+const MAX_FACTOR_GROUPS = 10;
+
 var group_colours = [
     {id: "Blue", label: "", value: "#1f77b4"}, 
     {id: "Orange", label: "", value: "#ff7f0e"},
@@ -120,7 +122,7 @@ function create_screen_display(parent_element_id, element_id, rows, cols){
     $(parent_element_id).css('width', table_width);
     $(parent_element_id).css('margin', 'auto');
 
-
+    // The table
     var screen_display_tabulator = new Tabulator(element_id, {
         data: all_data,
         layout:"fitColumns",
@@ -128,10 +130,22 @@ function create_screen_display(parent_element_id, element_id, rows, cols){
         headerVisible: true,
         columns: col_details,
         rowHeight: row_height,
-        selectableRows: false,
         validationMode: 'manual',
         rowFormatter: row_formatter,
-        rowHeader: {field: 'row_letter', formatter: row_header_formatter, headerSort: false, hozAlign: "center", vertAlign: 'middle', resizable: false}
+        rowHeader: {field: 'row_letter', formatter: row_header_formatter, headerSort: false, hozAlign: "center", vertAlign: 'middle', resizable: false},
+        selectableRange:1,
+        selectableRangeColumns:true,
+        selectableRangeRows:true,
+        selectableRangeClearCells:true,
+        clipboard:true,
+        clipboardCopyStyled:false,
+        clipboardCopyConfig:{
+            rowHeaders:false,
+            columnHeaders:false,
+        },
+        clipboardCopyRowRange:"range",
+        clipboardPasteParser:"range",
+        clipboardPasteAction:"range"
     });
 }
 
@@ -141,14 +155,11 @@ function row_formatter(row){
 }
 
 function row_header_formatter(cell, formatterParams, onRendered){
-    var span = $('<span>').text(cell.getValue());
-    span.css('font-weight', '700');
-    span.css('color', '#555');
-    return span.prop('outerHTML');
+    $(cell.getElement()).css('font-weight', '700');
+    return cell.getValue();
 }
 
 function condition_formatter(cell, formatterParams, onRendered){
-
     return '';
 }
 
@@ -395,6 +406,15 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
         var group_id = row.getData().id;
         var subtable = $('<div>').attr('id', 'editor-group-subtable-'+group_id).attr('class', 'subtable editor-group-subtable');
 
+        // var other_subtable_ids = [];
+        // for (var i=0; i<MAX_FACTOR_GROUPS; i++){
+        //     if (i != group_id){
+        //         other_subtable_ids.push('#editor-group-subtable-'+i);
+        //     }
+        // }
+
+        // console.log(other_subtable_ids);
+
         // Factor in factrog group tabulator subtable
         var subtable_tabulator = new Tabulator(subtable[0], {
             //height: "100%",
@@ -407,6 +427,11 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
             selectableRows: false,
             index: "id",
             validationMode: 'manual',
+            // movableRows: true,
+            // moveableRowsConnectedTables: other_subtable_ids,
+            // movableRowsReceiver: "add",
+            // movableRowsSender: "delete",
+            // rowHeader:{headerSort:false, resizable: false, minWidth:30, width:30, rowHandle:true, formatter:"handle"},
             // persistence: {
             //     sort: false,
             //     filter: false,
@@ -863,11 +888,30 @@ var current_editor_details_table = new Tabulator('#current-editor-details-tabula
 
 
 $('#screen-editor-automatic-add-group-button').click(function(){
+    // Limit number of factor groups (ideally to allow for movable rows between them)
     var num_groups = factor_group_table.getData().length;
+    if (num_groups >= MAX_FACTOR_GROUPS){
+        site_functions.alert_user("The maximum number of factor groups ("+MAX_FACTOR_GROUPS+") has been reached.");
+        return;
+    }
+    // Find the next available id
+    for (var next_id = 0; next_id < MAX_FACTOR_GROUPS; next_id++){
+        var found = false;
+        for (var g = 0; g < num_groups; g++){
+            if (factor_group_table.getData()[g].id == next_id){
+                found = true;
+                break;
+            }
+        }
+        if (!found){
+            break;
+        }
+    }
+    // Create new group
     factor_group_table.addRow({
-        id: Date.now(), 
-        factor_group: "Group " + (num_groups+1), 
-        colour: group_colours[num_groups % group_colours.length].value, 
+        id: next_id, 
+        factor_group: "Group " + (next_id+1), 
+        colour: group_colours[next_id % group_colours.length].value, 
         chemical_order: chemical_order_options[0].value, 
         varied_distribution: varied_distribution_options[0].value, 
         varied_grouping: varied_grouping_options[0].value,

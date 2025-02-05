@@ -62,11 +62,18 @@ html, body {
 }
 
 #site-details {
-  line-height: 75px;
   width: 30%;
-  text-align: right;
-  font-size: 12px;
   padding-right: 30px;
+}
+
+#site-about-us-button-table {
+  height: 100%;
+  margin-left: auto;
+  max-width: 70px;
+}
+
+#site-about-us-button {
+  font-size: 12px;
 }
 
 #site-banner-button-table {
@@ -173,6 +180,10 @@ button {
   box-sizing: border-box;
 }
 
+.screen-design-tabulator > .tabulator-tableholder {
+  overflow: hidden;
+}
+
 .tabulator-menu {
   text-align: left;
 }
@@ -227,7 +238,8 @@ button {
   margin: auto;
 }
 
-#information-button-table {
+#information-button-table,
+#about-us-button-table {
   width: 100%;
   max-width: 150px;
   margin: auto;
