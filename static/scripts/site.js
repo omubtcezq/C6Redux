@@ -26,7 +26,7 @@ let CONTENT_TREE = {
     root: {
         screens: {
             screen_explorer: {},
-            screen_editor: {},
+            screen_maker: {},
             selected_wells: {}
         },
         stocks: {},

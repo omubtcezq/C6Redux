@@ -11,10 +11,10 @@ subpages = [{
     content_html: "screen_explorer.html",
     click_on_init: true
 }, {
-    content_name: "screen_editor",
-    button_id: "screen-editor-subpage-button",
-    content_id: "screen-editor-subpage",
-    content_html: "screen_editor.html",
+    content_name: "screen_maker",
+    button_id: "screen-maker-subpage-button",
+    content_id: "screen-maker-subpage",
+    content_html: "screen_maker.html",
     click_on_init: false
 }, {
     content_name: "selected_wells",

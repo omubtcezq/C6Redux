@@ -1,5 +1,5 @@
-//# sourceURL=screen_editor.js
-site_functions.CONTENT_PROVIDERS.screen_editor = (function() {
+//# sourceURL=screen_maker.js
+site_functions.CONTENT_PROVIDERS.screen_maker = (function() {
 
 // ========================================================================== //
 // Publicly accessible functions go here (note script needs to be loaded for them to be available)
@@ -72,7 +72,7 @@ function add_factor_to_group(row){
         relative_coverage: 1
     });
     let group_id = row.getData().id;
-    let subtable_tabulator = Tabulator.findTable('#editor-group-subtable-'+group_id)[0];
+    let subtable_tabulator = Tabulator.findTable('#maker-group-subtable-'+group_id)[0];
     subtable_tabulator.setData(row.getData().factors);
 }
 
@@ -82,13 +82,24 @@ function create_factor_groups_from_selected_wells(){
         site_functions.alert_user("No wells selected.");
         return;
     }
-    for (var i = 0; i < selected_wells.length; i++){
-        var well = selected_wells[i];
-        // TODO detect the types of factor groups
-        // for (var j = 0; j < well.wellcondition.factors.length; j++){
-            
-        // }
-    }
+    // TODO do this in API instead (will allow later API bot to do it as well)
+    // var primary_factors = [];
+    // var buffer_factors = [];
+    // var salt_factors = [];
+    // var polymer_factors = [];
+    // for (var i = 0; i < selected_wells.length; i++){
+    //     var well = selected_wells[i];
+    //     for (var j = 0; j < well.wellcondition.factors.length; j++){
+    //         var cond = well.wellcondition.factors[j];
+    //         var primary_factor = null;
+    //         for (var k=0; k<cond.factors.length; k++){
+    //             var factor = cond.factors[k];
+    //             if (factor.chemical.ph){
+
+    //             }
+    //         }
+    //     }
+    // }
 }
 
 function create_screen_display(parent_element_id, element_id, rows, cols){
@@ -267,7 +278,7 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
     //     columns: true,
     // },
     columns: [
-        // Well name
+        // Name
         {
             title: "Factor Group", 
             field: "factor_group", 
@@ -404,12 +415,12 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
     ],
     rowFormatter: function(row, e) {
         var group_id = row.getData().id;
-        var subtable = $('<div>').attr('id', 'editor-group-subtable-'+group_id).attr('class', 'subtable editor-group-subtable');
+        var subtable = $('<div>').attr('id', 'maker-group-subtable-'+group_id).attr('class', 'subtable maker-group-subtable');
 
         // var other_subtable_ids = [];
         // for (var i=0; i<MAX_FACTOR_GROUPS; i++){
         //     if (i != group_id){
-        //         other_subtable_ids.push('#editor-group-subtable-'+i);
+        //         other_subtable_ids.push('#maker-group-subtable-'+i);
         //     }
         // }
 
@@ -778,10 +789,10 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
     }
 });
 
-create_screen_display('#holder-for-current-editor-tabulator', '#current-editor-tabulator', 8, 12);
+create_screen_display('#holder-for-current-maker-tabulator', '#current-maker-tabulator', 8, 12);
 
 
-var current_editor_details_table = new Tabulator('#current-editor-details-tabulator', {
+var current_maker_details_table = new Tabulator('#current-maker-details-tabulator', {
     data: [{id: 1, apiuser: {id: null, username: null}, size: 96, name: 'New Screen ' + new Date(Date.now()).toLocaleString().split(',')[0]}],
     layout: "fitColumns",
     rowHeight: 48,
@@ -887,7 +898,7 @@ var current_editor_details_table = new Tabulator('#current-editor-details-tabula
 
 
 
-$('#screen-editor-automatic-add-group-button').click(function(){
+$('#screen-maker-automatic-add-group-button').click(function(){
     // Limit number of factor groups (ideally to allow for movable rows between them)
     var num_groups = factor_group_table.getData().length;
     if (num_groups >= MAX_FACTOR_GROUPS){
@@ -921,30 +932,30 @@ $('#screen-editor-automatic-add-group-button').click(function(){
     });
 });
 
-$("#automatic-editor-button").click(function(){
+$("#automatic-maker-button").click(function(){
     // Buttons
-    $("#manual-editor-button").removeAttr("disabled");
-    $("#automatic-editor-button").attr("disabled", "disabled");
+    $("#manual-maker-button").removeAttr("disabled");
+    $("#automatic-maker-button").attr("disabled", "disabled");
 
     // Sections
-    $("#manual-editor-div").hide();
-    $("#automatic-editor-div").show();
+    $("#manual-maker-div").hide();
+    $("#automatic-maker-div").show();
 });
 
-$("#manual-editor-button").click(function(){
+$("#manual-maker-button").click(function(){
     // Buttons
-    $("#automatic-editor-button").removeAttr("disabled");
-    $("#manual-editor-button").attr("disabled", "disabled");
+    $("#automatic-maker-button").removeAttr("disabled");
+    $("#manual-maker-button").attr("disabled", "disabled");
 
     // Sections
-    $("#automatic-editor-div").hide();
-    $("#manual-editor-div").show();
+    $("#automatic-maker-div").hide();
+    $("#manual-maker-div").show();
 });
 
-$("#automatic-editor-button").click();
+$("#automatic-maker-button").click();
 
 // Generate automatic screen from selected wells button
-$('#screen-editor-automatic-generate-button').click(create_factor_groups_from_selected_wells);
+$('#screen-maker-automatic-generate-button').click(create_factor_groups_from_selected_wells);
 
 
 // Propagate message passing after tables have loaded

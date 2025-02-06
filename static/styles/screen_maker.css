@@ -1,9 +1,9 @@
-#screen-editor-top-div {
+#screen-maker-top-div {
     height: 100%;
     width: 100%;
 }
 
-#screen-editor-sidebar {
+#screen-maker-sidebar {
     display: inline-block;
     vertical-align: top;
     height: 100%;
@@ -11,7 +11,7 @@
     margin-right: 10px;
 }
 
-#current-editor-div {
+#current-maker-div {
     display: inline-block;
     vertical-align: top;
     height: 100%;
@@ -19,25 +19,25 @@
     margin-left: 10px;
 }
 
-#current-editor-header {
+#current-maker-header {
     height: 145px;
 }
 
-#current-editor-body {
+#current-maker-body {
     padding: 20px 0;
     width: 100%;
 }
 
-#screen-editor-type-button-div {
+#screen-maker-type-button-div {
     height: 40px;
 }
 
-#screen-editor-automatic-generate-div,
-#screen-editor-save-div {
+#screen-maker-automatic-generate-div,
+#screen-maker-save-div {
     height: 60px;
 }
 
-#screen-editor-type-button-table {
+#screen-maker-type-button-table {
     max-width: 350px;
     margin: auto;
 }
@@ -52,7 +52,7 @@
     margin: 0 auto;
 }
 
-.holder-for-automatic-editor-tabulator {
+.holder-for-automatic-maker-tabulator {
     width: 100%;
 }
 
@@ -60,22 +60,22 @@
     height: calc(100% - 110px);
 }
 
-.editor-title {
+.maker-title {
     box-sizing: border-box;
     height: 70px;
     margin: 0;
     padding: 20px 0;
 }
 
-#automatic-editor-div{
+#automatic-maker-div{
     padding-top: 10px;
     height: calc(100% - 50px);
 }
 
-#automatic-editor-factor-groups-div{
+#automatic-maker-factor-groups-div{
     height: calc(100% - 205px);
 }
 
-#automatic-editor-additive-div{
+#automatic-maker-additive-div{
     height: 145px;
 }

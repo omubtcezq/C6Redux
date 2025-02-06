@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="styles/screen_maker.css">
+    <script src="scripts/screen_maker.js"></script>
+</head>
+<body>
+
+
+<div id="screen-maker-top-div">
+    <div id="screen-maker-sidebar">
+        <div id="screen-maker-type-button-div">
+            <table id="screen-maker-type-button-table" class="button-table">
+                <tbody>
+                <tr>
+                <td><button id="automatic-maker-button" class="table-cell-button">Automatic</button></td>
+                <td><button id="manual-maker-button" class="table-cell-button">Manual</button></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="automatic-maker-div" class="screen-maker-type-div" style="display: none;">
+            <div id="screen-maker-automatic-generate-div">
+                <table id="automatic-generate-button-table" class="button-table">
+                    <tbody>
+                    <tr><td><button id="screen-maker-automatic-generate-button" class="table-cell-button">Generate From Selected Wells</button></td></tr>
+                    <tr><td><input type="checkbox">Include Selected Well Conditions in New Screen</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="automatic-maker-factor-groups-div">
+                <h2 class="maker-title">Factor Groups</h2>
+                <div class="add-reload-banner">
+                    <table class="button-table add-reload-header-buttons-table">
+                        <tbody>
+                        <tr>
+                            <td><button id="screen-maker-automatic-add-group-button" class="table-cell-button add-button">Add Group</button></td>
+                            <td><button id="screen-maker-automatic-randomise-button" class="table-cell-button">Re-Randomise</button></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="holder-for-factor-group-tabulator" class="holder-for-automatic-maker-tabulator">
+                    <div id="automatic-factor-groups-tabulator" class="object-for-tabulator"></div>
+                </div>
+            </div>
+            <div id="automatic-maker-additive-div">
+                <h2 class="maker-title">Additive</h2>
+                <div class="holder-for-automatic-maker-tabulator">
+                    <div id="automatic-additive-tabulator" class="object-for-tabulator"></div>
+                </div>
+            </div>
+        </div>
+        <div id="manual-maker-div" class="screen-maker-type-div" style="display: none;">
+        </div>
+    </div><div id="current-maker-div">
+        <div id="current-maker-header">
+            <h2 class="maker-title">New Screen</h2>
+            <div id="holder-for-current-maker-details-tabulator">
+                <div id="current-maker-details-tabulator" class="object-for-tabulator"></div>
+            </div>
+        </div><div id="current-maker-body">
+            <div id="holder-for-current-maker-tabulator">
+                <div id="current-maker-tabulator" class="object-for-tabulator screen-design-tabulator"></div>
+            </div>
+        </div><div id="screen-maker-save-div">
+            <table id="save-button-table" class="button-table">
+                <tbody>
+                <tr><td><button id="screen-maker-save-button" class="table-cell-button">Save<br><input type="checkbox">Check That Required Stocks Are Available</button></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
