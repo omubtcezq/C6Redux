@@ -8,7 +8,7 @@ import os
 import sys
 
 # Consider the above api folder for importing sqlmodel classes
-sys.path.append(os.path.join(sys.path[0], '..'))
+sys.path.append(os.path.join(sys.path[0], '../..'))
 
 from sqlmodel import Session, create_engine, select, or_, and_, not_, case, col, func
 import api.db as db
@@ -22,6 +22,7 @@ SCREEN_FOLDER_PATHS = ['c3_data/c3_screens', 'c3_data/commercial_screens', 'c3_d
 PH_CURVES_FPATH = 'c3_data/manual_ph_curve_data.json'
 PH_CURVES_SQL_FPATH = 'c3_data/PH_CURVE.json'
 PH_POINTS_FPATH = 'c3_data/PH_POINT.json'
+MISSING_MW_FPATH = 'c3_data/chemical_with_missing_MW.xlsx'
 
 #==============================================================================#
 # HELPERS
@@ -549,6 +550,48 @@ def add_ph_curves():
                 session.commit()
 
 #==============================================================================#
+# MOLECULAR WEIGHT
+#==============================================================================#
+
+def add_missing_mw_data():
+    # Get session
+    with Session(engine) as session:
+
+        # Parse file
+        wb = px.load_workbook(MISSING_MW_FPATH)
+        l2n = lambda x: px.utils.cell.column_index_from_string(x)-1
+
+        # Loop chemicals
+        for row in wb['Sheet1'].iter_rows(min_row=2, max_row=102):
+            c_id = type_or_none(row[l2n('A')].value, int)
+            c_name = type_or_none(row[l2n('B')].value, str)
+            c_mw = type_or_none(row[l2n('E')].value, float)
+
+            # Skip when molecular weight is None
+            if not c_mw:
+                continue
+
+            # Get chemical matches seen chemicals or chemical aliases
+            chem = session.get(db.Chemical, c_id)
+            # Double check chemical name is correct
+            if chem.name != c_name:
+                print('Chemical name mismatch! ID: %d, Excel: %s, DB: %s' % (c_id, c_name, chem.name))
+                continue
+            
+            # Double check no molecular weight in db
+            if chem.molecular_weight:
+                print('Chemical already has a molecular weight saved! ID: %d, Name: %s' % (c_id, c_name))
+                continue
+            
+            # Set mw
+            print('Add molectular weight %lf to Chemical ID: %d, Name: %s' % (c_mw, c_id, c_name))
+            chem.molecular_weight = c_mw
+            session.add(chem)
+        
+        # Commit all updates
+        session.commit()
+
+#==============================================================================#
 # Main
 #==============================================================================#
 
@@ -562,7 +605,9 @@ def add_ph_curves():
 # add_monomer_data()
 # print('\nAdding ph curves\n')
 # add_ph_curves()
-print('\nAdding api users\n')
-add_api_users()
+# print('\nAdding api users\n')
+# add_api_users()
+print('\nAdding missing molecular weights\n')
+add_missing_mw_data()
 
 # insert_screen('c3_data/other_screens/Design_SG2_Mol_dim.xml')
