@@ -186,8 +186,6 @@ function cell_tooltip(e, cell, onRendered){
 
 $(document).ready(function() {
 
-site_functions.alert_user("'Screen Maker' is in live development and available only for the purporses of UI feedback.")
-
 // Additive and percentage is a tabulator screen selector with a single entry
 var additive_table = new Tabulator('#automatic-additive-tabulator', {
     data: [{id: 1, screen: {id: null, name: null}, dilution: 0}],
