@@ -2,10 +2,10 @@
 var site_functions = (function() {
 
 // UI version number
-var UI_VERSION = "v0.2.1";
+var UI_VERSION = "v0.3.0";
 
 // Debug flag for API URL
-var DEBUG = true;
+var DEBUG = false;
 
 // API connection parameters
 if (DEBUG){
