@@ -6,10 +6,12 @@ from sqlmodel import Session, select, case, col, func
 from sqlalchemy.orm import subqueryload
 from fastapi import APIRouter, Depends, Query
 from pydantic import BaseModel
+from typing import Annotated
 
 import api.db as db
 import api.recipes as recipes
 import api.screen_query as screen_query
+import api.screen_maker as screen_maker
 
 class QueryScreen(BaseModel):
     screen: db.ScreenRead
@@ -160,6 +162,17 @@ async def get_custom_condition_custom_stocks_recipe(*, session: Session=Depends(
     Creates a recipe for making a condition specified by list of new condition factors using only stocks specified by a list of new stock factors
     """
     return recipes.make_custom_condition_custom_stocks_recipe(session, custom_condition, custom_stocks)
+
+@router.get("/automaticScreenMakerFactorGroups", 
+             summary="Creates groups of factors and instructions on how to vary them for generating an automatic optimisation screen from a list of selected well ids",
+             response_description="Groups of factors and how to vary them for automatic optimisation from the conditions of the supplied well ids",
+             response_model=list[screen_maker.AutoScreenMakerFactorGroup])
+async def get_custom_condition_custom_stocks_recipe(*, session: Session=Depends(db.get_readonly_session), well_ids: Annotated[list[int], Query()]):
+    """
+    Creates groups of factors and instructions on how to vary them for generating an automatic optimisation screen from a list of selected well ids
+    """
+    return screen_maker.make_factor_groups_from_well_ids(session, well_ids)
+
 
 # @router.get("/export", 
 #             summary="Download a list of all screens",

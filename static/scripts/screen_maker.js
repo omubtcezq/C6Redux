@@ -82,24 +82,16 @@ function create_factor_groups_from_selected_wells(){
         site_functions.alert_user("No wells selected.");
         return;
     }
-    // TODO do this in API instead (will allow later API bot to do it as well)
-    // var primary_factors = [];
-    // var buffer_factors = [];
-    // var salt_factors = [];
-    // var polymer_factors = [];
-    // for (var i = 0; i < selected_wells.length; i++){
-    //     var well = selected_wells[i];
-    //     for (var j = 0; j < well.wellcondition.factors.length; j++){
-    //         var cond = well.wellcondition.factors[j];
-    //         var primary_factor = null;
-    //         for (var k=0; k<cond.factors.length; k++){
-    //             var factor = cond.factors[k];
-    //             if (factor.chemical.ph){
-
-    //             }
-    //         }
-    //     }
-    // }
+    var query_str = ''
+    for (i=0; i<selected_wells.length; i++){
+        if (query_str){
+            query_str += '&'
+        }
+        query_str = query_str+'well_ids='+selected_wells[i].id
+    }
+    $.getJSON(site_functions.API_URL+'/screens/automaticScreenMakerFactorGroups?'+query_str, function(data){
+        console.log(data)
+    });
 }
 
 function create_screen_display(parent_element_id, element_id, rows, cols){
