@@ -100,7 +100,7 @@ def make_factor_groups_from_well_ids(session: Session, well_ids: list[int]):
             elif f.chemical.ions:
                 salt_factors.append(f)
             # Search for polymers
-            elif f.chemical.monomer or f.chemical.name.stratswith('PEG'):
+            elif f.chemical.monomer or f.chemical.name.startswith('PEG'):
                 polymer_factors.append(f)
             # Search for liquids
             elif f.unit == 'v/v':
@@ -144,8 +144,8 @@ def factor_group_varying_conc_from_factors(name, factors, min_multiplier, max_mu
                                                             ph=f.ph, 
                                                             relative_coverage=1, 
                                                             vary=FactorVary.concentration, 
-                                                            varied_min=min_multiplier*avg_conc, 
-                                                            varied_max=max_multiplier*avg_conc))
+                                                            varied_min=round(min_multiplier*avg_conc, 3), 
+                                                            varied_max=round(max_multiplier*avg_conc, 3)))
             continue
 
         # When units differ, avg units convertible to w/v
@@ -165,8 +165,8 @@ def factor_group_varying_conc_from_factors(name, factors, min_multiplier, max_mu
                                                             ph=f.ph, 
                                                             relative_coverage=1, 
                                                             vary=FactorVary.concentration, 
-                                                            varied_min=min_multiplier*avg_conc_best_unit, 
-                                                            varied_max=max_multiplier*avg_conc_best_unit))
+                                                            varied_min=round(min_multiplier*avg_conc_best_unit, 3), 
+                                                            varied_max=round(max_multiplier*avg_conc_best_unit, 3)))
         # No units convertible, arbitrarily take first factor conc as mean
         else:
             f = grouped_factors[k][0]
@@ -176,8 +176,8 @@ def factor_group_varying_conc_from_factors(name, factors, min_multiplier, max_mu
                                                             ph=f.ph, 
                                                             relative_coverage=1, 
                                                             vary=FactorVary.concentration, 
-                                                            varied_min=min_multiplier*f.concentration, 
-                                                            varied_max=max_multiplier*f.concentration))
+                                                            varied_min=round(min_multiplier*f.concentration, 3), 
+                                                            varied_max=round(max_multiplier*f.concentration, 3)))
     
     # Make automatic group and return
     g = AutoScreenMakerFactorGroup(name=name, 
@@ -191,6 +191,7 @@ def factor_group_varying_conc_from_factors(name, factors, min_multiplier, max_mu
 def factor_group_buffer_from_factors(name, factors):
     # Merging duplicates
     grouped_factors = {}
+    curve_lookup = {}
     # When varying ph, chemical and (curve xor hh pka) need to be the same
     for f in factors:
         # Arbitrarily only consider the first curve, highly unlikely for there to be more, fine to make new groups in this case
@@ -198,19 +199,35 @@ def factor_group_buffer_from_factors(name, factors):
         hh_pka = None
         if len(curves) == 0:
             hh_pka = unbs.get_henderson_hasselbalch_pka_relevant_to_buffer(f)
-            curve = curves[0]
+            curve_id = None
         else:
-            curve = curves[0]
+            curve_id = curves[0].id
+            curve_lookup[curve_id] = curves[0]
 
-        if (f.chemical.id, curve.id, hh_pka) in grouped_factors.keys():
-            grouped_factors[(f.chemical.id, curve.id, hh_pka)].append(f)
+        if (f.chemical.id, curve_id, hh_pka) in grouped_factors.keys():
+            grouped_factors[(f.chemical.id, curve_id, hh_pka)].append(f)
         else:
-            grouped_factors[(f.chemical.id, curve.id, hh_pka)] = [f]
+            grouped_factors[(f.chemical.id, curve_id, hh_pka)] = [f]
     
     # Processing duplicates
     auto_group_factors = []
     for k in grouped_factors.keys():
-        avg_ph = sum([f.ph for f in grouped_factors[k]]) / len(grouped_factors[k])
+        # If pka in key, use it for the ph
+        if k[2]:
+            ph_to_use = k[2]
+            ph_bottom = ph_to_use - BUFFER_PH_VARY_MIN_OFFSET
+            ph_top = ph_to_use + BUFFER_PH_VARY_MAX_OFFSET
+        # If not then curve is, use it for ph
+        else:
+            ph_to_use = sum([f.ph for f in grouped_factors[k]]) / len(grouped_factors[k])
+            curve = curve_lookup[k[1]]
+            ph_bottom = ph_to_use - BUFFER_PH_VARY_MIN_OFFSET
+            if ph_bottom < curve.low_range:
+                ph_bottom = curve.low_range
+            ph_top = ph_to_use + BUFFER_PH_VARY_MAX_OFFSET
+            if ph_top > curve.high_range:
+                ph_top = curve.high_range
+
         f = grouped_factors[k][0]
         if f.chemical.unit == 'M' or f.chemical.unit == 'mM':
             best_unit = 'M'
@@ -224,8 +241,8 @@ def factor_group_buffer_from_factors(name, factors):
                                                         ph=None, 
                                                         relative_coverage=1, 
                                                         vary=FactorVary.ph, 
-                                                        varied_min=avg_ph - BUFFER_PH_VARY_MIN_OFFSET, 
-                                                        varied_max=avg_ph + BUFFER_PH_VARY_MAX_OFFSET))
+                                                        varied_min=round(ph_bottom, 3), 
+                                                        varied_max=round(ph_top,3)))
 
     # Make automatic group and return
     g = AutoScreenMakerFactorGroup(name=name, 

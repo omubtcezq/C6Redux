@@ -53,6 +53,16 @@ var factor_vary_options = [
     {value: {id: 'none', label: 'None'}, label: 'None'}
 ];
 
+// Get value from id for the annoying dropdown lists
+function value_from_id(id, options){
+    for (var i=0; i<options.length; i++){
+        if (options[i].value.id == id){
+            return options[i].value;
+        }
+    }
+    return null;
+}
+
 // UI fix for editing checkbox. Lets the whole cell be the toggle
 function cellclick_flip_tick(e, cell){
     cell.setValue(!cell.getValue());
@@ -67,8 +77,8 @@ function add_factor_to_group(row){
         unit: site_functions.ALL_UNITS[0],
         ph: null,
         vary: factor_vary_options[0].value,
-        min: null,
-        max: null,
+        varied_min: null,
+        varied_max: null,
         relative_coverage: 1
     });
     let group_id = row.getData().id;
@@ -85,12 +95,27 @@ function create_factor_groups_from_selected_wells(){
     var query_str = ''
     for (i=0; i<selected_wells.length; i++){
         if (query_str){
-            query_str += '&'
+            query_str += '&';
         }
-        query_str = query_str+'well_ids='+selected_wells[i].id
+        query_str = query_str+'well_ids='+selected_wells[i].id;
     }
     $.getJSON(site_functions.API_URL+'/screens/automaticScreenMakerFactorGroups?'+query_str, function(data){
-        console.log(data)
+        console.log(data);
+        for (var i=0; i<data.length; i++){
+            var g = data[i];
+            g.colour = group_colours[i % group_colours.length].value;
+            g.well_coverage = 0;
+            // Fix dropdown displays
+            g.chemical_order = value_from_id(g.chemical_order, chemical_order_options);
+            g.varied_distribution = value_from_id(g.varied_distribution, varied_distribution_options);
+            g.varied_grouping = value_from_id(g.varied_grouping, varied_grouping_options);
+            for (var j=0; j<g.factors.length; j++){
+                var f = g.factors[j];
+                f.vary = value_from_id(f.vary, factor_vary_options);
+            }
+        }
+        let factor_group_table = Tabulator.findTable("#automatic-factor-groups-tabulator")[0];
+        factor_group_table.setData(data);
     });
 }
 
@@ -273,7 +298,7 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
         // Name
         {
             title: "Factor Group", 
-            field: "factor_group", 
+            field: "name", 
             vertAlign: "middle",
             headerSort: true,
             editor: "input"
@@ -403,7 +428,7 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
             frozen: true
     }],
     initialSort: [
-        {column: "factor_group", dir: "asc"}
+        {column: "name", dir: "asc"}
     ],
     rowFormatter: function(row, e) {
         var group_id = row.getData().id;
@@ -643,7 +668,7 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
             // Min
             }, {
                 title: "Min Varied", 
-                field: "min", 
+                field: "varied_min", 
                 hozAlign: "right", 
                 vertAlign: "middle",
                 width: 80,
@@ -690,7 +715,7 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
             // Max
             }, {
                 title: "Max Varied", 
-                field: "max", 
+                field: "varied_max", 
                 hozAlign: "right", 
                 vertAlign: "middle",
                 width: 80,
@@ -913,7 +938,7 @@ $('#screen-maker-automatic-add-group-button').click(function(){
     // Create new group
     factor_group_table.addRow({
         id: next_id, 
-        factor_group: "Group " + (next_id+1), 
+        name: "Group " + (next_id+1), 
         colour: group_colours[next_id % group_colours.length].value, 
         chemical_order: chemical_order_options[0].value, 
         varied_distribution: varied_distribution_options[0].value, 
