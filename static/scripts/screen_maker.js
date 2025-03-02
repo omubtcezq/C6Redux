@@ -111,6 +111,7 @@ function create_factor_groups_from_selected_wells(){
             g.varied_grouping = value_from_id(g.varied_grouping, varied_grouping_options);
             for (var j=0; j<g.factors.length; j++){
                 var f = g.factors[j];
+                f.id = i+"_"+j;
                 f.vary = value_from_id(f.vary, factor_vary_options);
             }
         }
