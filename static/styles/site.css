@@ -180,10 +180,6 @@ button {
   box-sizing: border-box;
 }
 
-.screen-design-tabulator > .tabulator-tableholder {
-  overflow: hidden;
-}
-
 .tabulator-menu {
   text-align: left;
 }

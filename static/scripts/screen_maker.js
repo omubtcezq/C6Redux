@@ -100,9 +100,9 @@ function create_factor_groups_from_selected_wells(){
         query_str = query_str+'well_ids='+selected_wells[i].id;
     }
     $.getJSON(site_functions.API_URL+'/screens/automaticScreenMakerFactorGroups?'+query_str, function(data){
-        console.log(data);
         for (var i=0; i<data.length; i++){
             var g = data[i];
+            g.id = i;
             g.colour = group_colours[i % group_colours.length].value;
             g.well_coverage = 0;
             // Fix dropdown displays
@@ -144,15 +144,13 @@ function create_screen_display(parent_element_id, element_id, rows, cols){
         }
         all_data.push(row_data);
     }
-    // Row height and table width
+    // Row height, keeps table roughly the same height as a 96 well table with 48px rows
     var row_height = Math.round((8/rows)*48);
-    var table_width = (cols+1)*Math.round((row_height+1)*1.25) + 2;
-    $(parent_element_id).css('width', table_width);
-    $(parent_element_id).css('margin', 'auto');
 
     // The table
     var screen_display_tabulator = new Tabulator(element_id, {
         data: all_data,
+        maxHeight: "100%",
         layout:"fitColumns",
         resizableColumnFit: true,
         headerVisible: true,
@@ -175,6 +173,11 @@ function create_screen_display(parent_element_id, element_id, rows, cols){
         clipboardPasteParser:"range",
         clipboardPasteAction:"range"
     });
+}
+
+function update_automatic_screen_display(screen_display_table_id, factor_group_table_id, include_selection_conditions_checkbox_id){
+    // TODO: Update the screen display table based on the factor groups
+    // Also check if initial conditions need to be included
 }
 
 function row_formatter(row){
@@ -437,10 +440,10 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
         // var other_subtable_ids = [];
         // for (var i=0; i<MAX_FACTOR_GROUPS; i++){
         //     if (i != group_id){
-        //         other_subtable_ids.push('#maker-group-subtable-'+i);
+        //         other_subtable_ids.push("#maker-group-subtable-"+i);
         //     }
         // }
-
+        // console.log("table ", group_id);
         // console.log(other_subtable_ids);
 
         // Factor in factrog group tabulator subtable
@@ -455,11 +458,12 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
             selectableRows: false,
             index: "id",
             validationMode: 'manual',
-            // movableRows: true,
+            movableRows: true,
             // moveableRowsConnectedTables: other_subtable_ids,
             // movableRowsReceiver: "add",
             // movableRowsSender: "delete",
             // rowHeader:{headerSort:false, resizable: false, minWidth:30, width:30, rowHandle:true, formatter:"handle"},
+
             // persistence: {
             //     sort: false,
             //     filter: false,
@@ -796,7 +800,7 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
             frozen: true}]
         });
 
-        // Holder of subtable contains add new alias button
+        // Holder of subtable
         var holder = $('<div>').attr('class', 'holder-for-subtable');
         holder.css('background', row.getData().colour);
         
@@ -806,9 +810,10 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
     }
 });
 
+// Current design tabulator table
 create_screen_display('#holder-for-current-maker-tabulator', '#current-maker-tabulator', 8, 12);
 
-
+// Current design details tabulator table (on edit changes the current design table created above)
 var current_maker_details_table = new Tabulator('#current-maker-details-tabulator', {
     data: [{id: 1, apiuser: {id: null, username: null}, size: 96, name: 'New Screen ' + new Date(Date.now()).toLocaleString().split(',')[0]}],
     layout: "fitColumns",
@@ -909,12 +914,24 @@ var current_maker_details_table = new Tabulator('#current-maker-details-tabulato
         headerSort: false,
         editor: "list",
         editorParams: {values: [24, 48, 96]},
-        editorEmptyValue: 96
+        editorEmptyValue: 96,
+        cellEdited:function(cell){
+            // Destroy old table
+            Tabulator.findTable("#current-maker-tabulator")[0].destroy();
+            // Make new one depending on size
+            var size = cell.getValue();
+            if (size == 24){
+                create_screen_display('#holder-for-current-maker-tabulator', '#current-maker-tabulator', 4, 6);
+            } else if (size == 48){
+                create_screen_display('#holder-for-current-maker-tabulator', '#current-maker-tabulator', 6, 8);
+            } else {
+                create_screen_display('#holder-for-current-maker-tabulator', '#current-maker-tabulator', 8, 12);
+            }
+        }
     }]
 });
 
-
-
+// Buttons
 $('#screen-maker-automatic-add-group-button').click(function(){
     // Limit number of factor groups (ideally to allow for movable rows between them)
     var num_groups = factor_group_table.getData().length;
@@ -969,6 +986,7 @@ $("#manual-maker-button").click(function(){
     $("#manual-maker-div").show();
 });
 
+// Default start in automatic screen maker
 $("#automatic-maker-button").click();
 
 // Generate automatic screen from selected wells button

@@ -23,9 +23,10 @@
     height: 145px;
 }
 
-#current-maker-body {
-    padding: 20px 0;
-    width: 100%;
+#holder-for-current-maker-tabulator {
+    width: min(100%, 750px);
+    height: min(calc(100% - 245px), 420px);
+    margin: 20px auto;
 }
 
 #screen-maker-type-button-div {
