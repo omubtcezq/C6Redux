@@ -175,9 +175,18 @@ function create_screen_display(parent_element_id, element_id, rows, cols){
     });
 }
 
-function update_automatic_screen_display(screen_display_table_id, factor_group_table_id, include_selection_conditions_checkbox_id){
+function set_required_regeneration_of_current_screen_from_automatic(){
+    $('#current-maker-tabulator-automatic-update-popup').show();
+}
+
+function generate_current_screen_from_automatic(){
     // TODO: Update the screen display table based on the factor groups
     // Also check if initial conditions need to be included
+
+    // screen_display_table_id, factor_group_table_id, include_selection_conditions_checkbox_id
+
+    // Hide the popup requesting regeneration if it case it's up
+    $('#current-maker-tabulator-automatic-update-popup').hide();
 }
 
 function row_formatter(row){
@@ -274,6 +283,9 @@ var additive_table = new Tabulator('#automatic-additive-tabulator', {
         editorEmptyValue: 0
     }]
 });
+
+// When additive is changed require regeneration
+additive_table.on("dataChanged", set_required_regeneration_of_current_screen_from_automatic);
 
 // Factor group tabulator table
 var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
@@ -800,6 +812,10 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
             frozen: true}]
         });
 
+        // When subtable is change or reset (on adding or removing of factor) request regeneration
+        subtable_tabulator.on("dataChanged", set_required_regeneration_of_current_screen_from_automatic);
+        subtable_tabulator.on("dataProcessed", set_required_regeneration_of_current_screen_from_automatic);
+
         // Holder of subtable
         var holder = $('<div>').attr('class', 'holder-for-subtable');
         holder.css('background', row.getData().colour);
@@ -809,6 +825,9 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
         
     }
 });
+
+// When factor group is changed require regeneration
+factor_group_table.on("dataChanged", set_required_regeneration_of_current_screen_from_automatic);
 
 // Current design tabulator table
 create_screen_display('#holder-for-current-maker-tabulator', '#current-maker-tabulator', 8, 12);
@@ -991,6 +1010,12 @@ $("#automatic-maker-button").click();
 
 // Generate automatic screen from selected wells button
 $('#screen-maker-automatic-generate-button').click(create_factor_groups_from_selected_wells);
+
+// Regenerate screen from automatic factor groups
+$('#current-maker-tabulator-automatic-update-popup-button').click(generate_current_screen_from_automatic);
+
+// When toggling the inclusion of selected condition in auotmatic design require regeneration
+$('#screen-maker-automatic-include-selected-checkbox').click(set_required_regeneration_of_current_screen_from_automatic);
 
 
 // Propagate message passing after tables have loaded
