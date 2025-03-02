@@ -24,7 +24,7 @@
                 <table id="automatic-generate-button-table" class="button-table">
                     <tbody>
                     <tr><td><button id="screen-maker-automatic-generate-button" class="table-cell-button">Generate From Selected Wells</button></td></tr>
-                    <tr><td><input type="checkbox">Include Selected Well Conditions in New Screen</td></tr>
+                    <tr><td><input id ="screen-maker-automatic-include-selected-checkbox" type="checkbox">Include Selected Well Conditions in New Screen</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -60,10 +60,12 @@
                 <div id="current-maker-details-tabulator" class="object-for-tabulator"></div>
             </div>
         </div><div id="current-maker-body">
+            <div id="current-maker-tabulator-automatic-update-popup" style="display: none;"><button id="current-maker-tabulator-automatic-update-popup-button">Regenerate Changes</button></div>
             <div id="holder-for-current-maker-tabulator">
-                <div id="current-maker-tabulator" class="object-for-tabulator screen-design-tabulator"></div>
+                <div id="current-maker-tabulator" class="object-for-tabulator"></div>
             </div>
-        </div><div id="screen-maker-save-div">
+        </div>
+        <div id="screen-maker-save-div">
             <table id="save-button-table" class="button-table">
                 <tbody>
                 <tr><td><button id="screen-maker-save-button" class="table-cell-button">Save<br><input type="checkbox">Check That Required Stocks Are Available</button></td></tr>
