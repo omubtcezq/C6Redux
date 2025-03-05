@@ -5,6 +5,7 @@
 from sqlmodel import Session, select
 from sqlalchemy.orm import subqueryload
 from pydantic import BaseModel
+from pydantic.functional_validators import model_validator
 from enum import Enum
 
 import api.db as db
@@ -60,13 +61,32 @@ class AutoScreenMakerFactor(BaseModel):
     varied_min: float | None
     varied_max: float | None
 
+    # Check that relative coverage is a positive integer
+    @model_validator(mode='after')
+    def check_relative_covarege_positive(self):
+        if (self.relative_coverage < 0):
+            raise ValueError("Group factor relative coverage must be a positive integer!")
+        return self
+
 class AutoScreenMakerFactorGroup(BaseModel):
     name: str
     chemical_order: ChemicalOrder
     varied_distribution: VariedDistribution
     varied_grouping: VariedGrouping
     varied_sorted: bool
+    well_coverage: float
     factors: list[AutoScreenMakerFactor]
+
+    # Check that well coverage is a valid percentage
+    @model_validator(mode='after')
+    def check_well_covarege_percentage(self):
+        if (self.well_coverage < 0 or self.well_coverage > 100):
+            raise ValueError("Group well coverage must be a valid percentage (between 0 and 100)!")
+        return self
+
+class AdditiveAndDilution(BaseModel):
+    additive: db.ScreenReadLite
+    dilution: float
 
 # ============================================================================ #
 # Factor group generation
@@ -139,7 +159,7 @@ def factor_group_varying_conc_from_factors(name, factors, min_multiplier, max_mu
             avg_conc = sum([f.concentration for f in grouped_factors[k]]) / len(grouped_factors[k])
             f = grouped_factors[k][0]
             auto_group_factors.append(AutoScreenMakerFactor(chemical=f.chemical, 
-                                                            concentration=None, 
+                                                            concentration=avg_conc, 
                                                             unit=f.unit, 
                                                             ph=f.ph, 
                                                             relative_coverage=1, 
@@ -160,7 +180,7 @@ def factor_group_varying_conc_from_factors(name, factors, min_multiplier, max_mu
             f = grouped_factors[k][0]
             avg_conc_best_unit = unbs.unit_conversion(avg_conc, 'w/v', f.chemical.density, f.chemical.molecular_weight, f.chemical.unit)
             auto_group_factors.append(AutoScreenMakerFactor(chemical=f.chemical, 
-                                                            concentration=None, 
+                                                            concentration=avg_conc_best_unit, 
                                                             unit=f.chemical.unit, 
                                                             ph=f.ph, 
                                                             relative_coverage=1, 
@@ -171,7 +191,7 @@ def factor_group_varying_conc_from_factors(name, factors, min_multiplier, max_mu
         else:
             f = grouped_factors[k][0]
             auto_group_factors.append(AutoScreenMakerFactor(chemical=f.chemical, 
-                                                            concentration=None, 
+                                                            concentration=f.concentration, 
                                                             unit=f.unit, 
                                                             ph=f.ph, 
                                                             relative_coverage=1, 
@@ -185,6 +205,7 @@ def factor_group_varying_conc_from_factors(name, factors, min_multiplier, max_mu
                                    varied_distribution=VariedDistribution.gaussian, 
                                    varied_grouping=VariedGrouping.none, 
                                    varied_sorted=False, 
+                                   well_coverage=100,
                                    factors=auto_group_factors)
     return g
 
@@ -238,7 +259,7 @@ def factor_group_buffer_from_factors(name, factors):
         auto_group_factors.append(AutoScreenMakerFactor(chemical=f.chemical, 
                                                         concentration=conc, 
                                                         unit=best_unit, 
-                                                        ph=None, 
+                                                        ph=ph_to_use, 
                                                         relative_coverage=1, 
                                                         vary=FactorVary.ph, 
                                                         varied_min=round(ph_bottom, 3), 
@@ -250,37 +271,67 @@ def factor_group_buffer_from_factors(name, factors):
                                    varied_distribution=VariedDistribution.gaussian, 
                                    varied_grouping=VariedGrouping.none, 
                                    varied_sorted=False, 
+                                   well_coverage=100,
                                    factors=auto_group_factors)
     return g
 
-    return
+def make_condition_grid_from_factor_groups(session: Session, factor_groups: list[AutoScreenMakerFactorGroup], additive_and_dilution: AdditiveAndDilution, included_wells: list[db.WellReadLite], size: int):
+    if size == 24:
+        rows = 4
+        cols = 6
+    elif size == 48:
+        rows = 6
+        cols = 8
+    else:
+        rows = 8
+        cols = 12
+    
+    # Create well grid
+    grid = []
+    for i in range(rows):
+        row = []
+        for j in range(cols):
+            condition = db.WellCondition(computed_similarities=0)
+            row.append(condition)
+        grid.append(row)
+    
+    # Process factor groups
+    for g in factor_groups:
+        # How many wells contiain this group
+        wells_in_group = int(g.well_coverage * size / 100)
+        # How many do not
+        wells_not_in_group = size - wells_in_group
+        # How many factors
+        factors_in_group = len(g.factors)
+        relative_coverage_sum = sum([f.relative_coverage for f in g.factors])
 
-# def factor_group_from_well_factors(name, factors, vary_ph=False):
-#     group_factors = []
-#     fin_conc = None
-#     fin_ph = None
-#     for f in factors:
-#         for gf in group_factors:
-#             if f.chemical.id == gf.chemical.id:
-#                 pass
-#         # TODO check for duplicates
-#         # TODO compute avg conc of dupes
-#         # TODO ph relevant pka or curve
-#         group_factors.append(AutoScreenMakerFactor(chemical=f.chemical, 
-#                                         concentration=f.concentration, 
-#                                         unit=f.unit, 
-#                                         ph=f.ph, 
-#                                         relative_coverage=1, 
-#                                         vary=FactorVary.none, 
-#                                         varied_min=None, 
-#                                         varied_max=None))
-#     g = AutoScreenMakerFactorGroup(name=name, 
-#                                    chemical_order=ChemicalOrder.random, 
-#                                    varied_distribution=VariedDistribution.gaussian, 
-#                                    varied_grouping=VariedGrouping.none, 
-#                                    varied_sorted=False, 
-#                                    factors=fs)
-#     return g
+        # Get the number of wells that will contain each factor
 
-def make_screen_from_factor_groups(session: Session, factor_groups: list[AutoScreenMakerFactorGroup]):
+        if g.chemical_order == ChemicalOrder.random:
+            factor_draws_to_make = wells_in_group
+            for f in g.factors:
+                # How many wells contain this factor
+                wells_with_factor = int(f.relative_coverage/relative_coverage_sum * wells_in_group) # What if columns or rows - won't work
+
+        elif g.chemical_order == ChemicalOrder.column:
+            factor_draws_to_make = wells_in_group / cols # What if more factors than columns
+
+        elif g.chemical_order == ChemicalOrder.row:
+            factor_draws_to_make = wells_in_group / rows
+
+        elif g.chemical_order == ChemicalOrder.quadrant:
+            factor_draws_to_make = wells_in_group / 4
+
+        # When selecting factor in group include possible "empty factor" that handles <100% well coverage
+        pass
+        
+
+    # Add additive
+
+
+    # Overwrite some conditions with included wells
+    # These start at c3 (avoids edge effects and references old lab name - hehe)
+
+
+
     pass

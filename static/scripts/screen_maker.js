@@ -104,7 +104,6 @@ function create_factor_groups_from_selected_wells(){
             var g = data[i];
             g.id = i;
             g.colour = group_colours[i % group_colours.length].value;
-            g.well_coverage = 0;
             // Fix dropdown displays
             g.chemical_order = value_from_id(g.chemical_order, chemical_order_options);
             g.varied_distribution = value_from_id(g.varied_distribution, varied_distribution_options);
@@ -393,7 +392,7 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
             
         // Well Coverage
         }, {
-            title: "Coverage of wells", 
+            title: "Coverage of Wells", 
             field: "well_coverage", 
             width: 77,
             hozAlign: "right", 
