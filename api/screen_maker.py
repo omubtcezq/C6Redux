@@ -159,7 +159,7 @@ def factor_group_varying_conc_from_factors(name, factors, min_multiplier, max_mu
             avg_conc = sum([f.concentration for f in grouped_factors[k]]) / len(grouped_factors[k])
             f = grouped_factors[k][0]
             auto_group_factors.append(AutoScreenMakerFactor(chemical=f.chemical, 
-                                                            concentration=avg_conc, 
+                                                            concentration=round(avg_conc, 3), 
                                                             unit=f.unit, 
                                                             ph=f.ph, 
                                                             relative_coverage=1, 
@@ -180,7 +180,7 @@ def factor_group_varying_conc_from_factors(name, factors, min_multiplier, max_mu
             f = grouped_factors[k][0]
             avg_conc_best_unit = unbs.unit_conversion(avg_conc, 'w/v', f.chemical.density, f.chemical.molecular_weight, f.chemical.unit)
             auto_group_factors.append(AutoScreenMakerFactor(chemical=f.chemical, 
-                                                            concentration=avg_conc_best_unit, 
+                                                            concentration=round(avg_conc_best_unit, 3), 
                                                             unit=f.chemical.unit, 
                                                             ph=f.ph, 
                                                             relative_coverage=1, 
@@ -191,7 +191,7 @@ def factor_group_varying_conc_from_factors(name, factors, min_multiplier, max_mu
         else:
             f = grouped_factors[k][0]
             auto_group_factors.append(AutoScreenMakerFactor(chemical=f.chemical, 
-                                                            concentration=f.concentration, 
+                                                            concentration=round(f.concentration, 3), 
                                                             unit=f.unit, 
                                                             ph=f.ph, 
                                                             relative_coverage=1, 
@@ -252,14 +252,14 @@ def factor_group_buffer_from_factors(name, factors):
         f = grouped_factors[k][0]
         if f.chemical.unit == 'M' or f.chemical.unit == 'mM':
             best_unit = 'M'
-            conc = 0.2
+            conc = 0.1
         else:
             best_unit = 'w/v'
-            conc = 20
+            conc = 10
         auto_group_factors.append(AutoScreenMakerFactor(chemical=f.chemical, 
                                                         concentration=conc, 
                                                         unit=best_unit, 
-                                                        ph=ph_to_use, 
+                                                        ph=round(ph_to_use, 3), 
                                                         relative_coverage=1, 
                                                         vary=FactorVary.ph, 
                                                         varied_min=round(ph_bottom, 3), 
