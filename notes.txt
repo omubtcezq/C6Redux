@@ -14,7 +14,7 @@ sudo mysql
 # Change root password (e.g. passwords given)
 use mysql;
 SELECT user,authentication_string,plugin,host FROM mysql.user;
-ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY 'rooty tooty unknown word';
+ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY 'password_that_you_want1';
 FLUSH PRIVILEGES;
 
 #Create the db
@@ -23,12 +23,12 @@ create database c6reduxdb;
 **run population script(s) here**
 
 # Add read-only account (which may be remote)
-CREATE USER 'c6reader'@'%' IDENTIFIED WITH mysql_native_password BY 'looky by no touchy';
+CREATE USER 'c6reader'@'%' IDENTIFIED WITH mysql_native_password BY 'password_that_you_want2';
 GRANT SELECT ON c6reduxdb.* TO 'c6reader'@'%';
 FLUSH PRIVILEGES;
 
 # Add write account (which must be from localhost)
-CREATE USER 'c6writer'@'localhost' IDENTIFIED WITH mysql_native_password BY 'touchy what that is allowed';
+CREATE USER 'c6writer'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password_that_you_want3';
 GRANT SELECT, INSERT, UPDATE, DELETE ON c6reduxdb.* TO 'c6writer'@'localhost';
 FLUSH PRIVILEGES;
 exit;
@@ -86,7 +86,7 @@ pip install email-validator (automatically used in fastapi)
 Install mysql community
 login:
 	root
-	rooty tooty unknown word
+	password_that_you_want1
 start/restart service from services.msc
 
 ===== Github
@@ -99,4 +99,4 @@ start mysql server
 start uvicorn server in root git repo
 
 === windows db sql file cmd
-"C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql" --user=root --password="rooty tooty unknown word" c6reduxdb < "C:\Users\i_am_\Documents\GIT_REPOS\C6Redux\db_initialisation\populate_tables.sql"
+"C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql" --user=root --password="password_that_you_want1" c6reduxdb < "C:\Users\i_am_\Documents\GIT_REPOS\C6Redux\db_initialisation\populate_tables.sql"
