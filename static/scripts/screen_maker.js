@@ -97,7 +97,7 @@ function create_factor_groups_from_selected_wells(){
         if (query_str){
             query_str += '&';
         }
-        query_str = query_str+'well_ids='+selected_wells[i].id;
+        query_str = query_str+'well_ids='+selected_wells[i].well.id;
     }
     $.getJSON(site_functions.API_URL+'/screens/automaticScreenMakerFactorGroups?'+query_str, function(data){
         for (var i=0; i<data.length; i++){

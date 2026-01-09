@@ -71,17 +71,47 @@ public_functions.get_selected_wells = function(){
 }
 public_functions.add_selected_well = function(well){
     SELECTED_WELLS.push(well);
+    window.dispatchEvent(new CustomEvent("SelectedWellChange"));
     return;
 }
 public_functions.remove_selected_well = function(well){
+    let TEMP_SELECTED_WELLS = []
     for (i in SELECTED_WELLS){
-        if (SELECTED_WELLS[i].id == well.id){
-            SELECTED_WELLS.splice(i, 1);
-            break;
+        if (SELECTED_WELLS[i].well.id != well.well.id){
+            TEMP_SELECTED_WELLS.push(SELECTED_WELLS[i]);
+        }
+        else if (well.select_button_dom_element !== undefined) {
+            // For wells which are being removed change their selection status on the screen explorer page
+            well.select_button_dom_element.removeClass('delete-button');
+            well.select_button_dom_element.text('Select');
+            well.select_button_dom_element.addClass('select-button');
         }
     }
+    SELECTED_WELLS = TEMP_SELECTED_WELLS
+
+    window.dispatchEvent(new CustomEvent("SelectedWellChange"));
     return;
 }
+public_functions.remove_selected_well_by_screen = function(well){
+    let TEMP_SELECTED_WELLS = [];
+    for (i in SELECTED_WELLS){
+        if (SELECTED_WELLS[i].screen_name != well.screen_name){
+            // Keep track of wells which arent being removed
+            TEMP_SELECTED_WELLS.push(SELECTED_WELLS[i]);
+        }
+        else if (well.select_button_dom_element !== undefined) {
+            // For wells which are being removed change their selection status on the screen explorer page
+            well.select_button_dom_element.removeClass('delete-button');
+            well.select_button_dom_element.text('Select');
+            well.select_button_dom_element.addClass('select-button');
+        }
+    }
+    SELECTED_WELLS = TEMP_SELECTED_WELLS;
+
+    window.dispatchEvent(new CustomEvent("SelectedWellChange"));
+    return;
+}
+// TODO make work with the "SelectedWellChange" event
 public_functions.clear_selected_wells = function() {
     SELECTED_WELLS = [];
     return;

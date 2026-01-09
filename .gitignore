@@ -4,3 +4,4 @@ api/api.ini
 logs/*
 deployment/*
 run/*
+.vs/*

@@ -3,6 +3,7 @@ site_functions.CONTENT_PROVIDERS.screen_explorer = (function() {
 
 // Store query that produced screen list if there was one, so wells can be flagged
 var LAST_QUERY = null;
+var LAST_SELECTED_SCREEN = null;
 
 // ========================================================================== //
 // Publicly accessible functions go here (note script needs to be loaded for them to be available)
@@ -154,8 +155,15 @@ function select_condition(factor_group, target){
     if (rows.length == 0){
         site_functions.alert_user("Empty condition, nothing to add.");
     } else {
-        let ff = rows[0].getData();
-        site_functions.add_selected_well(ff.well);
+        factor_group.getRows().forEach(row => { 
+            r = row.getData();
+            // Save The screen name so we can use it to group wells
+            r.screen_name = LAST_SELECTED_SCREEN
+            // we need acess to the deselect button so that even when on selected wells page we can deselect
+            r.select_button_dom_element = target
+            site_functions.add_selected_well(r)
+
+        });
         target.removeClass('select-button');
         target.text('Deselect');
         target.addClass('delete-button');
@@ -169,7 +177,7 @@ function remove_condition(factor_group, target){
         site_functions.alert_user("Empty condition, nothing to remove.");
     } else {
         let ff = rows[0].getData();
-        site_functions.remove_selected_well(ff.well);
+        site_functions.remove_selected_well(ff);
         target.removeClass('delete-button');
         target.text('Select');
         target.addClass('select-button');
@@ -183,6 +191,7 @@ function view_screen(cell){
     $('#screens-half-div').css('width', '50%');
     $('#screen-wells-view-div').show();
     $('#screen-wells-view-title').text(cell.getData().screen.name);
+    LAST_SELECTED_SCREEN = cell.getData().screen.name
     let well_table = Tabulator.findTable('#screen-wells-view-tabulator')[0];
     well_table.setData(site_functions.API_URL+'/screens/factorQuery?screen_id='+cell.getData().screen.id, LAST_QUERY, "POST");
 }
@@ -616,7 +625,7 @@ var well_table = new Tabulator("#screen-wells-view-tabulator", {
             // If already selected, allow deselecting it
             let found = false;
             for (i in select_conditions){
-                if (select_conditions[i].id == group.getRows()[0].getData().well.id){
+                if (select_conditions[i].well.id == group.getRows()[0].getData().well.id){
                     selected_condition_button = $('<button>').
                     attr('class', 'delete-button table-cell-button').
                     text('Deselect');
@@ -631,6 +640,7 @@ var well_table = new Tabulator("#screen-wells-view-tabulator", {
                 text('Select');
             }
         }
+        
 
         let div = $('<table>').attr('class', 'screen-well-header-button-table button-table').append($('<tbody>').append(
             $('<tr>').append(
