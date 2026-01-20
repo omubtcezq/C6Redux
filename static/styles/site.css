@@ -176,6 +176,10 @@ button {
   height: calc(100% - 40px);
 }
 
+#wells-tabulator-holder {
+  height: calc(100% - 50px);
+}
+
 .object-for-tabulator {
   box-sizing: border-box;
 }
@@ -322,3 +326,4 @@ button {
 .well-not-matching-query {
   color: rgb(206, 21, 21);
 }
+

@@ -3,6 +3,7 @@
 
 $(document).ready(function() { 
 
+
 // Header menu that allows the toggling of column visibilities for both screen and well tables
 var column_menu = function(e, column){
     let columns_with_null_filter = ["screen.format_rows", "screen.format_cols", "screen.comments", "factor.ph"]
@@ -371,6 +372,136 @@ well_table.on("groupClick", function (e, group){
             condition_recipe(group);
         }
 });
+
+hit_report_comments = document.getElementById("hit-report-comments");
+
+generate_hit_report = document.getElementById("generate-hit-report");
+generate_hit_report.addEventListener("click", (e) => {
+    const doc = jsPDF();
+    let pdf_y_position = 20;
+
+    if (hit_report_comments.value != "") {
+        doc.text("Comments: ", 10, pdf_y_position);
+        pdf_y_position += 10;
+
+        comments = doc.splitTextToSize(hit_report_comments.value, 190);
+        for (comment_number in comments) {
+            doc.text(comments[comment_number], 10, pdf_y_position);
+            pdf_y_position += 10;
+        }
+        pdf_y_position += 5;
+
+    }
+
+    
+
+    // doc.text("Screens: ", 10, pdf_y_position);
+    // pdf_y_position += 10;
+
+    selected_wells = site_functions.get_selected_wells();
+    grouped_screens = Object.groupBy(selected_wells, ({screen_name}) => {return screen_name});
+    
+
+    for (screen_name in grouped_screens) {
+        doc.setFontSize(16);
+        doc.text("Screen " + screen_name + ": ", 10, pdf_y_position);
+        grouped_factors_by_well = Object.groupBy(grouped_screens[screen_name], (screen) => {return screen.well.label});
+        pdf_y_position += 10;
+        for (well_name in grouped_factors_by_well) {
+            factors = grouped_factors_by_well[well_name];
+            pdf_y_position += 5;
+            doc.setFontSize(14);
+            if ((factors.length + 1) * 10 + pdf_y_position > 290) {
+                doc.addPage();
+                pdf_y_position = 20;
+            }
+            doc.text("Well " + factors[0].well.label + " contains: ", 10, pdf_y_position);
+            pdf_y_position += 10;
+            for (factor_number in factors) {
+                stat_string = "";
+                stat_string += factors[factor_number].factor.concentration + " ";
+                stat_string += factors[factor_number].factor.unit + " ";
+                stat_string += factors[factor_number].factor.chemical.name + " ";
+                doc.text(stat_string, 20, pdf_y_position);
+                pdf_y_position += 10;
+            }
+        }
+        pdf_y_position += 10;
+    }
+
+    doc.addPage();
+    pdf_y_position = 20;
+    
+    doc.setFontSize(18);
+    doc.text("Chemistry range table: ", 10, pdf_y_position);
+    pdf_y_position += 10;
+
+    column_1 = 10;
+    column_2 = 40;
+    column_3 = 70;
+    column_4 = 105;
+    column_5 = 125;
+    column_6 = 180;
+
+    doc.setFontSize(14);
+    doc.setFontStyle('bold');
+    doc.text("Class", column_1, pdf_y_position);
+    doc.text("Avg Conc", column_2, pdf_y_position);
+    doc.text("Conc Range", column_3, pdf_y_position);
+    doc.text("Units", column_4, pdf_y_position);
+    doc.text("Name", column_5, pdf_y_position);
+    doc.text("Count", column_6, pdf_y_position);
+    pdf_y_position += 10;
+    doc.setFontSize(10);
+
+    doc.setFontStyle('normal');
+    grouped_factors = Object.groupBy(selected_wells, (ff) => {return ff.factor.chemical.name});
+    factor_data = [];
+    for (factor_name in grouped_factors) {
+        total_concentration = 0;
+        max_concentration = 0;
+        min_concentration = Infinity;
+        for (factor in grouped_factors[factor_name]) {
+            ff = grouped_factors[factor_name][factor];
+            total_concentration += ff.factor.concentration;
+            max_concentration = Math.max(max_concentration, ff.factor.concentration);
+            min_concentration = Math.min(min_concentration, ff.factor.concentration);
+
+        }
+        count = grouped_factors[factor_name].length;
+
+        factor_data.push({name: factor_name,
+            avg: (Math.floor((total_concentration / count) * 10000) / 10000).toString(),
+            range: [min_concentration, max_concentration], 
+            units: grouped_factors[factor_name][0].factor.unit, 
+            count: count.toString()});
+    }
+    factor_data.sort((a, b) => { 
+        if (b.count != a.count)
+            return b.count - a.count;
+        else
+            return b.avg - a.avg
+    });
+
+    for (factor of factor_data) {
+        doc.text("Class?", column_1, pdf_y_position);
+        doc.text(factor.avg, column_2, pdf_y_position);
+        doc.text(factor.range[0] != factor.range[1] ? factor.range[0] + " - " + factor.range[1] : "", column_3, pdf_y_position);
+        doc.text(factor.units, column_4, pdf_y_position);
+        doc.text(factor.name, column_5, pdf_y_position);
+        doc.text(factor.count, column_6, pdf_y_position);
+        pdf_y_position += 10;
+        if (pdf_y_position > 285) {
+            doc.addPage();
+            pdf_y_position = 20;
+        }
+
+    }
+
+    
+
+    doc.save("HitReport.pdf");
+})
 
 
 

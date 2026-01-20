@@ -1,13 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
     <script src="scripts/selected_wells.js"></script>
+
 </head>
 <body>
 
-<div class="holder-for-tabulator">
+<div class="holder-for-tabulator" id="wells-tabulator-holder">
     <div id="wells-tabulator" class="object-for-tabulator"></div>
 </div>
+<div style="padding: 0px 20px; display: flex;">
+    <textarea id="hit-report-comments" placeholder="Hit Report Comments" style="flex-grow: 1; margin: 6px;"></textarea>
+    <button id="generate-hit-report">Generate Hit Report</button>
+</div>
+
+
+
 
 </body>
 </html>
