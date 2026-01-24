@@ -377,6 +377,36 @@ hit_report_comments = document.getElementById("hit-report-comments");
 
 generate_hit_report = document.getElementById("generate-hit-report");
 generate_hit_report.addEventListener("click", (e) => {
+    var selected_wells = site_functions.get_selected_wells();
+    if (selected_wells.length == 0){
+        site_functions.alert_user("No wells selected.");
+        return;
+    }
+
+    var query_str = ''
+    for (i=0; i<selected_wells.length; i++){
+        if (query_str){
+            query_str += '&';
+        }
+        query_str = query_str+'well_ids='+selected_wells[i].well.id;
+    }
+    $.getJSON(site_functions.API_URL+'/screens/automaticScreenMakerFactorGroups?'+query_str, function(data){
+        factor_types = {};
+        for (factor_group of data) {
+            for (factor of factor_group.factors) {
+                factor_types[factor.chemical.name] = factor_group.name;
+            }
+        }
+        console.log(factor_types);
+        make_hit_report(factor_types);
+    }).fail(function() {
+        site_functions.alert_user("Error fetching well class data.");
+    });
+    
+})
+
+function make_hit_report(factor_types) {
+    console.log(factor_types)
     const doc = jsPDF();
     let pdf_y_position = 20;
 
@@ -422,6 +452,8 @@ generate_hit_report.addEventListener("click", (e) => {
                 stat_string += factors[factor_number].factor.concentration + " ";
                 stat_string += factors[factor_number].factor.unit + " ";
                 stat_string += factors[factor_number].factor.chemical.name + " ";
+                if (factors[factor_number].factor.ph != null)
+                    stat_string += "pH " + factors[factor_number].factor.ph + " ";
                 doc.text(stat_string, 20, pdf_y_position);
                 pdf_y_position += 10;
             }
@@ -484,7 +516,7 @@ generate_hit_report.addEventListener("click", (e) => {
     });
 
     for (factor of factor_data) {
-        doc.text("Class?", column_1, pdf_y_position);
+        doc.text(factor_types[factor.name] != undefined ? factor_types[factor.name] : "", column_1, pdf_y_position);
         doc.text(factor.avg, column_2, pdf_y_position);
         doc.text(factor.range[0] != factor.range[1] ? factor.range[0] + " - " + factor.range[1] : "", column_3, pdf_y_position);
         doc.text(factor.units, column_4, pdf_y_position);
@@ -501,7 +533,7 @@ generate_hit_report.addEventListener("click", (e) => {
     
 
     doc.save("HitReport.pdf");
-})
+}
 
 
 
