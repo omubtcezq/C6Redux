@@ -375,14 +375,13 @@ well_table.on("groupClick", function (e, group){
 
 hit_report_comments = document.getElementById("hit-report-comments");
 
-generate_hit_report = document.getElementById("generate-hit-report");
-generate_hit_report.addEventListener("click", (e) => {
+generate_hit_report_button = document.getElementById("generate-hit-report");
+generate_hit_report_button.addEventListener("click", (e) => {
     var selected_wells = site_functions.get_selected_wells();
     if (selected_wells.length == 0){
         site_functions.alert_user("No wells selected.");
         return;
     }
-
     var query_str = ''
     for (i=0; i<selected_wells.length; i++){
         if (query_str){
@@ -397,7 +396,6 @@ generate_hit_report.addEventListener("click", (e) => {
                 factor_types[factor.chemical.name] = factor_group.name;
             }
         }
-        console.log(factor_types);
         make_hit_report(factor_types);
     }).fail(function() {
         site_functions.alert_user("Error fetching well class data.");

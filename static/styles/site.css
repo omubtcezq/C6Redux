@@ -188,6 +188,8 @@ button {
   text-align: left;
 }
 
+
+
 .holder-for-subtable {
   box-sizing: border-box;
   padding: 15px;
@@ -272,7 +274,7 @@ button {
 }
 
 #screens-half-div,
-#screen-wells-view-div {
+#screen-info-view-div {
   display: inline-block;
   vertical-align: top;
   box-sizing: border-box;
@@ -283,35 +285,35 @@ button {
   height: 100%;
 }
 
-#screen-wells-view-div {
+#screen-info-view-div {
   width: calc(50% - 20px);
   margin-left: 20px;
   height: 100%;
 }
 
-#screen-wells-view-header {
+#screen-wells-info-header {
   height: 130px;
 }
 
-#holder-for-screen-view-tabulator {
+#holder-for-info-divs {
   height: calc(100% - 130px);
 }
 
-#screen-wells-view-title {
+#screen-info-view-title {
   box-sizing: border-box;
   height: 70px;
   margin: 0;
   padding: 20px 0;
 }
 
-#screen-wells-view-button-table {
+#screen-info-view-button-table {
   width: 100%;
   height: 60px;
   margin: auto;
   max-width: 600px;
 }
 
-#screen-wells-view-button-table > tbody > tr > td > button {
+#screen-info-view-button-table > tbody > tr > td > button {
   height: calc(100% - 8px);
 }
 

@@ -22,12 +22,13 @@
         <div class="holder-for-tabulator">
             <div id="screen-tabulator" class="object-for-tabulator"></div>
         </div>
-    </div><div id="screen-wells-view-div" style="display: none;">
-        <div id="screen-wells-view-header">
-            <h2 id="screen-wells-view-title"></h2>
-            <table id="screen-wells-view-button-table" class="button-table">
+    </div><div id="screen-info-view-div" style="display: none;">
+        <div id="screen-info-view-header">
+            <h2 id="screen-info-view-title"></h2>
+            <table id="screen-info-view-button-table" class="button-table">
                 <tbody>
                 <tr>
+                    <td><button id="view-wells-button" class="table-cell-button" disabled="disabled;">View Wells</button></td>
                     <td><button id="compare-screens-button" class="table-cell-button">Compare Screen</button></td>
                     <td><button id="screen-subsets-button" class="table-cell-button">Subset Screens</button></td>
                     <td><button id="screen-make-recipe-button" class="table-cell-button">Screen Recipe</button></td>
@@ -37,8 +38,17 @@
                 </tbody>
             </table>
         </div>
-        <div id="holder-for-screen-view-tabulator">
+        <div id="holder-for-info-divs">
             <div id="screen-wells-view-tabulator" class="object-for-tabulator"></div>
+            <div id="screen-report" style="width: 100%; height: 100%; display: none;">
+                <div style="display: flex; height: 100%; flex-direction:column;">
+                    <span>There are <span id="condition-num"></span> conditions</span>
+                    <span>There are <span id="chemical-num"></span> chemicals</span>
+                    <span>On average there are <span id="avg-conditions-num"></span> conditions in each well</span>
+
+                    <div id="screen-report-tabulator" class="object-for-tabulator"></div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

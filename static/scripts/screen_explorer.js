@@ -4,6 +4,7 @@ site_functions.CONTENT_PROVIDERS.screen_explorer = (function() {
 // Store query that produced screen list if there was one, so wells can be flagged
 var LAST_QUERY = null;
 var LAST_SELECTED_SCREEN = null;
+var CURRENT_SCREEN_DATA = null;
 
 // ========================================================================== //
 // Publicly accessible functions go here (note script needs to be loaded for them to be available)
@@ -189,20 +190,61 @@ function view_screen(cell){
     cell.getTable().deselectRow();
     cell.getRow().select();
     $('#screens-half-div').css('width', '50%');
-    $('#screen-wells-view-div').show();
-    $('#screen-wells-view-title').text(cell.getData().screen.name);
+    $('#screen-info-view-div').show();
+    $('#screen-info-view-title').text(cell.getData().screen.name);
     LAST_SELECTED_SCREEN = cell.getData().screen.name
     let well_table = Tabulator.findTable('#screen-wells-view-tabulator')[0];
-    well_table.setData(site_functions.API_URL+'/screens/factorQuery?screen_id='+cell.getData().screen.id, LAST_QUERY, "POST");
+    well_table.setData(site_functions.API_URL+'/screens/factorQuery?screen_id='+cell.getData().screen.id, LAST_QUERY, "POST")
+    .then(() => {set_screen_report_data(well_table)});
+}
+
+// get all of the info for the screen report
+function set_screen_report_data(table) {
+    var data = table.getData();
+    CURRENT_SCREEN_DATA = {"chemicals": []};
+    well_groups = Object.groupBy(data, (row) => row.well.label);
+    CURRENT_SCREEN_DATA["num_wells"] = Object.keys(well_groups).length;
+
+    chemical_groups = Object.groupBy(data, (row) => row.factor.chemical.name);
+    CURRENT_SCREEN_DATA["num_chemicals"] = Object.keys(chemical_groups).length;
+    CURRENT_SCREEN_DATA["num_conditions"] = data.length;
+    // for each chemical get its stats
+    for (chemical_name in chemical_groups) {
+        total_concentration = 0;
+        ph_min = Infinity;
+        ph_max = -Infinity;
+        for (well of chemical_groups[chemical_name]){
+            if (well.factor.ph != null) {
+                ph_min = well.factor.ph < ph_min ? well.factor.ph : ph_min;
+                ph_max = well.factor.ph > ph_max ? well.factor.ph : ph_min;
+            }
+            total_concentration += well.factor.concentration
+        }
+        num_chemicals = chemical_groups[chemical_name].length;
+        CURRENT_SCREEN_DATA["chemicals"].push({
+            "chemical" : chemical_name,
+            "aliases" : chemical_groups[chemical_name][0].factor.chemical.aliases,
+            "ph_min": ph_min != Infinity ? ph_min : undefined,
+            "ph_max": ph_max != -Infinity ? ph_max : undefined,
+            "average_concentration": total_concentration / num_chemicals,
+            "appearances" : num_chemicals
+        });
+    }
+
+    let screen_tabulator = Tabulator.findTable('#screen-report-tabulator')[0];
+    screen_tabulator.setData(CURRENT_SCREEN_DATA["chemicals"]);
+    $("#condition-num").text(CURRENT_SCREEN_DATA["num_conditions"]);
+    $("#chemical-num").text(CURRENT_SCREEN_DATA["num_chemicals"]);
+    $("#avg-conditions-num").text(CURRENT_SCREEN_DATA["num_conditions"] / CURRENT_SCREEN_DATA["num_wells"] );
 }
 
 // Cancelling the viewing of a screen
 function hide_screen(){
     let screen_table = Tabulator.findTable('#screen-tabulator')[0];
     screen_table.deselectRow();
-    $('#screen-wells-view-div').hide();
+    $('#screen-info-view-div').hide();
     $('#screens-half-div').css('width', '100%');
-    $('#screen-wells-view-title').text('');
+    $('#screen-info-view-title').text('');
 }
 
 // Go to chemical tab and filter chemicals by the selected on here
@@ -677,8 +719,173 @@ $('#reload-all-screens-button').click(function(){
     screen_table.clearFilter(true);
 });
 
+var screen_report = new Tabulator("#screen-report-tabulator",  {
+    data: [],
+    ajaxContentType: 'json',
+    height: "100%",
+    layout: "fitColumns",
+    movableColumns: true,
+    rowHeight: 48,
+    editorEmptyValue: null,
+    placeholderHeaderFilter: "No Matching Wells",
+    placeholder:"No Wells",
+    initialFilter:[],
+    selectableRows: false,
+    index: "id",
+    validationMode: 'manual',
+    renderVerticalBuffer: 7800,
+    // persistence: {
+    //     sort: false,
+    //     filter: false,
+    //     headerFilter: false,
+    //     group: true,
+    //     page: false,
+    //     columns: true,
+    // },
+    columns: [
+        // Chemical
+        {
+            title: "Chemical", 
+            field: "chemical", 
+            vertAlign: "middle",
+            headerMenu: column_menu,
+            width: 350,
+            headerFilter: "input",
+            headerFilterPlaceholder: "Filter",
+            // Header filter also searches names and aliases
+            headerFilterFunc: function (term, cell_val, row_data, filter_params){
+                if (row_data.chemical.toLowerCase().includes(term.toLowerCase())){
+                    return true;
+                } else {
+                    for (i in row_data.aliases){
+                        if (row_data.aliases[i].name.toLowerCase().includes(term.toLowerCase())){
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            },
+            // Display only name and alias count from the chemical object in the cell
+            formatter: function(cell, formatterParams, onRendered){
+                if (cell.getValue() == null){
+                    return "";
+                } else {
+                    return cell.getValue() + (cell.getData().aliases.length ? ' (aliases: ' + cell.getData().aliases.length + ')' : "");
+                }
+            },
+            // Sorter should sort by chemical name
+            sorter: function(a, b, aRow, bRow, column, dir, sorterParams){
+                return a.localeCompare(b);
+            }
+
+        // Concentration
+        }, {
+            title: "Avg Concentration", 
+            field: "average_concentration", 
+            hozAlign: "right", 
+            vertAlign: "middle",
+            width: 200,
+            headerMenu: column_menu,
+            sorter: "number",
+            headerFilter: "number",
+            headerFilterPlaceholder: "Filter",
+            formatter: function(cell, formatterParams, onRendered){
+                return cell.getData().average_concentration.toFixed(1);
+            },
+            
+        // Unit
+        }, {
+            title: "Min pH", 
+            field: "ph_min", 
+            hozAlign: "right", 
+            vertAlign: "middle",
+            width: 120,
+            headerMenu: column_menu,
+            sorter: "number",
+            headerFilter: "number",
+            headerFilterPlaceholder: "Filter"
+
+        }, {
+            title: "Max pH", 
+            field: "ph_max", 
+            hozAlign: "right", 
+            vertAlign: "middle",
+            width: 120,
+            headerMenu: column_menu,
+            sorter: "number",
+            headerFilter: "number",
+            headerFilterPlaceholder: "Filter"
+
+        }, {
+            title: "Appearances", 
+            field: "appearances", 
+            hozAlign: "right", 
+            vertAlign: "middle",
+            width: 150,
+            headerMenu: column_menu,
+            sorter: "number",
+            headerFilter: "number",
+            headerFilterPlaceholder: "Filter"
+
+        // Action buttons
+        }
+    //     , {
+    //         title: "", 
+    //         field: "actions", 
+    //         width: 120, 
+    //         // Depeding on whether a row is selected, if some other row is selected or if no row selected display apporpriate button
+    //         formatter: function (cell, formatterParams, onRendered){
+    //             div = $('<table>').attr('class', 'button-table').append($('<tbody>').append(
+    //                 $('<tr>').append(
+    //                     $('<td>').append(
+    //                         $('<button>').
+    //                         attr('class', 'view-chem-button table-cell-button').
+    //                         text('Chemical')
+    //                     )
+    //                 )));
+    //             return div.prop('outerHTML');
+    //         }, 
+    //         // When the cell is clicked, check if or which button has been clicked and perform the right action
+    //         cellClick: function(e, cell){
+    //             target = $(e.target);
+    //             if (target.hasClass('view-chem-button')) {
+    //                 view_chemical(cell.getRow());
+    //             }
+    //         }, 
+    //         headerSort: false, 
+    //         hozAlign: "center", 
+    //         vertAlign: "middle", 
+    //         resizable: true, 
+    //         frozen: true
+    // }
+],
+    initialSort: [
+        {column: "chemical", dir: "asc"}
+    ],
+    footerElement: $('<div>').append($('<span>').attr('id', 'well-row-count')).append($('<span>').attr('id', 'filtered-well-row-count')).prop('outerHTML')
+});
+
+
+// disable all menu buttons and hide all displayed divs
+function reset_info() {
+    $('#view-wells-button').prop("disabled", "");
+    $('#compare-screens-button').prop("disabled", "");
+    $('#screen-subsets-button').prop("disabled", "");
+    $('#screen-make-recipe-button').prop("disabled", "");
+    $('#screen-report-button').prop("disabled", "");
+
+    $('#screen-wells-view-tabulator').hide();
+    $('#screen-report').hide();
+}
+
+$('#view-wells-button').click(function() {
+    reset_info();
+    $('#view-wells-button').prop("disabled", "disabled");
+    $('#screen-wells-view-tabulator').show();
+});
+
 $('#compare-screens-button').click(function() {
-    site_functions.alert_user("Getting there! 🔎");
+    site_functions.alert_user("TODO! 👨‍💻");
 });
 
 $('#screen-subsets-button').click(function() {
@@ -690,7 +897,10 @@ $('#screen-make-recipe-button').click(function() {
 });
 
 $('#screen-report-button').click(function() {
-    site_functions.alert_user("Not yet there! 💁‍♂️");
+    reset_info();
+    $('#screen-report-button').prop("disabled", "disabled");
+    $('#screen-report').show();
+    
 });
 
 $('#hide-screen-view-button').click(function() {
