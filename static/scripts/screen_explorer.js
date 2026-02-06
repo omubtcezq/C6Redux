@@ -215,7 +215,7 @@ function set_screen_report_data(table) {
     CURRENT_SCREEN_DATA["num_wells"] = Object.keys(well_groups).length;
     chemical_groups = Object.groupBy(data, (row) => row.factor.chemical.name);
     CURRENT_SCREEN_DATA["num_chemicals"] = Object.keys(chemical_groups).length;
-    CURRENT_SCREEN_DATA["num_conditions"] = data.length;
+    CURRENT_SCREEN_DATA["num_factors"] = data.length;
     CURRENT_SCREEN_DATA["screen_name"] = LAST_SELECTED_SCREEN;
     // for each chemical get its stats
     for (chemical_name in chemical_groups) {
@@ -245,19 +245,19 @@ function set_screen_report_data(table) {
     }
     let screen_tabulator = Tabulator.findTable('#screen-report-tabulator')[0];
     screen_tabulator.setData(Object.values(CURRENT_SCREEN_DATA["chemicals"]));
-    $("#screen-report #condition-num").text(round(CURRENT_SCREEN_DATA["num_conditions"]));
+    $("#screen-report #condition-num").text(round(CURRENT_SCREEN_DATA["num_factors"]));
     $("#screen-report #chemical-num").text(round(CURRENT_SCREEN_DATA["num_chemicals"]));
-    $("#screen-report #avg-conditions-num").text(round(CURRENT_SCREEN_DATA["num_conditions"] / CURRENT_SCREEN_DATA["num_wells"]));
+    $("#screen-report #avg-conditions-num").text(round(CURRENT_SCREEN_DATA["num_factors"] / CURRENT_SCREEN_DATA["num_wells"]));
     // if only one screen has been selected then dont show screen comparison
     if (LAST_SCREEN_DATA == null)
         return;
     // num1 is the current scree num2 is the last and num3 stores comparison
-    $("#condition-num1").text(round(CURRENT_SCREEN_DATA["num_conditions"]));
+    $("#factor-num1").text(round(CURRENT_SCREEN_DATA["num_factors"]));
     $("#chemical-num1").text(round(CURRENT_SCREEN_DATA["num_chemicals"]));
-    $("#condition-num2").text(round(LAST_SCREEN_DATA["num_conditions"]));
+    $("#factor-num2").text(round(LAST_SCREEN_DATA["num_factors"]));
     $("#chemical-num2").text(round(LAST_SCREEN_DATA["num_chemicals"]));
-    $("#avg-conditions-num1").text(round(CURRENT_SCREEN_DATA["num_conditions"] / CURRENT_SCREEN_DATA["num_wells"]));
-    $("#avg-conditions-num2").text(round(LAST_SCREEN_DATA["num_conditions"] / LAST_SCREEN_DATA["num_wells"]));
+    $("#avg-factor-num1").text(round(CURRENT_SCREEN_DATA["num_factors"] / CURRENT_SCREEN_DATA["num_wells"]));
+    $("#avg-factor-num2").text(round(LAST_SCREEN_DATA["num_factors"] / LAST_SCREEN_DATA["num_wells"]));
     $("#screen-name1").text(CURRENT_SCREEN_DATA["screen_name"]);
     $("#screen-name2").text(LAST_SCREEN_DATA["screen_name"]);
 

@@ -275,7 +275,11 @@ button {
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr auto auto auto; 
   grid-auto-flow: column;
-  justify-content:space-evenly"
+  justify-content: "space-evenly";
+}
+
+.screen-info {
+  font-size: small;
 }
 
 #screens-and-wells-holder {
