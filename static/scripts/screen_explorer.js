@@ -251,6 +251,11 @@ function set_screen_report_data(table) {
     // if only one screen has been selected then dont show screen comparison
     if (LAST_SCREEN_DATA == null)
         return;
+    $("#comparison-info-grid").show();
+    $("#second-select-warning").hide();
+
+    
+
     // num1 is the current scree num2 is the last and num3 stores comparison
     $("#factor-num1").text(round(CURRENT_SCREEN_DATA["num_factors"]));
     $("#chemical-num1").text(round(CURRENT_SCREEN_DATA["num_chemicals"]));
@@ -277,7 +282,6 @@ function set_screen_report_data(table) {
     shared_well_set = new Set(first_well_array).intersection(new Set(second_well_array));
     console.log(shared_well_set);
     $("#condition-num3").text(shared_well_set.size);
-
 
     combined_screen_data = {};
     for (chemical_name of shared_chemical_set) {
@@ -790,7 +794,7 @@ var screen_report = new Tabulator("#screen-report-tabulator",  {
     movableColumns: true,
     rowHeight: 48,
     editorEmptyValue: null,
-    placeholderHeaderFilter: "No Matching Wells",
+    placeholderHeaderFilter: "No Matching Chemicals",
     placeholder:"No Wells",
     initialFilter:[],
     selectableRows: false,
