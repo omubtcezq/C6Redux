@@ -273,7 +273,7 @@ button {
 #comparison-info-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr 1fr; 
+  grid-template-rows: 1fr auto auto auto; 
   grid-auto-flow: column;
   justify-content:space-evenly"
 }
