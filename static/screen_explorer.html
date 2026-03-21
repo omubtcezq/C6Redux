@@ -41,10 +41,12 @@
         <div id="holder-for-info-divs">
             <div id="screen-wells-view-tabulator" class="object-for-tabulator"></div>
             <div id="screen-report" style="width: 100%; height: 100%; display: none;">
-                <div class="screen-info" style="display: flex; height: 100%; flex-direction:column;">
-                    <span>There are <span id="condition-num"></span> factors</span>
-                    <span>There are <span id="chemical-num"></span> unique chemicals</span>
-                    <span>On average there are <span id="avg-conditions-num"></span> conditions in each well</span>
+                <div style="display: flex; height: 100%; flex-direction:column;">
+                    <div class="screen-info" style="display:flex; flex-direction:column">
+                        <span><span id="condition-num"></span> conditions</span>
+                        <span><span id="chemical-num"></span> unique chemicals</span>
+                        <span><span id="avg-conditions-num"></span> avg factors per condition</span>
+                    </div>
                     <div id="screen-report-tabulator" class="object-for-tabulator"></div>
                 </div>
             </div>
@@ -52,18 +54,19 @@
                 <div style="display: flex; height: 100%; flex-direction:column;">
                     <div id="second-select-warning" style="font-weight: bold;"> Select a second screen to compare </div>
                     <div class="screen-info" id="comparison-info-grid" style="display: none;">
-                        <span id="screen-name1" class="screen-name"></span>
-                        <span><span id="factor-num1"></span> factors</span>
-                        <span><span id="chemical-num1"></span> unique chemicals</span>
-                        <span><span id="avg-factor-num1"></span> avg factors per well</span>
-                        <span id="screen-name2" class="screen-name"></span>
-                        <span><span id="factor-num2"></span> factors</span>
-                        <span><span id="chemical-num2"></span> unique chemicals</span>
-                        <span><span id="avg-factor-num2"></span> avg factors per well</span>
-                        <span style="grid-column: 3 / 4; grid-row: 2 / 3;"><span id="condition-num3"></span> shared conditions</span>
-                        <span style="grid-column: 3 / 4; grid-row: 3 / 4;"><span id="chemical-num3"></span> shared chemicals</span>
+                        <span id="name-screen1" class="screen-name"></span>
+                        <span><span id="condition-screen1"></span> conditions</span>
+                        <span><span id="chemical-screen1"></span> unique chemicals</span>
+                        <span><span id="avg-factor-screen1"></span> avg factors per condition</span>
+                        <span id="name-screen2" class="screen-name"></span>
+                        <span><span id="condition-screen2"></span> conditions</span>
+                        <span><span id="chemical-screen2"></span> unique chemicals</span>
+                        <span><span id="avg-factor-screen2"></span> avg factors per condition</span>
+                        <span style="grid-column: 3 / 4; grid-row: 2 / 3;"><span id="shared-conditions"></span> shared conditions</span>
+                        <span style="grid-column: 3 / 4; grid-row: 3 / 4;"><span id="shared-chemicals"></span> shared chemicals</span>
                     </div>
-                    <div id="screen-compare-tabulator" class="object-for-tabulator"></div>
+                    <div id="chemical-compare-tabulator" class="object-for-tabulator" style="display: none;"></div>
+                    <div id="condition-compare-tabulator" class="object-for-tabulator"></div>
                 </div>
                 
             </div>

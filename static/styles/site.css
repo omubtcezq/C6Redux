@@ -279,7 +279,8 @@ button {
 }
 
 .screen-info {
-  font-size: small;
+  font-size: medium;
+  margin: 3px;
 }
 
 #screens-and-wells-holder {

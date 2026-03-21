@@ -2,7 +2,7 @@
 
 """
 
-from sqlmodel import Session, select, case, col, func
+from sqlmodel import Session, select, case, col, func, distinct, intersect
 from sqlalchemy.orm import subqueryload
 from fastapi import APIRouter, Depends, Query
 from pydantic import BaseModel
@@ -12,6 +12,7 @@ import api.db as db
 import api.recipes as recipes
 import api.screen_query as screen_query
 import api.screen_maker as screen_maker
+import api.units_and_buffers as unbs
 
 class QueryScreen(BaseModel):
     screen: db.ScreenRead
@@ -21,6 +22,31 @@ class QueryFactor(BaseModel):
     factor: db.FactorRead
     well: db.WellReadLite
     query_match: bool | None
+
+class ScreenStats(BaseModel):
+    num_conditions: int
+    unique_chemicals: int
+    avg_factors_per_condition: float
+
+class ChemicalInfoBase(BaseModel):
+    ph_min: float | None
+    ph_max: float | None
+    conc_min: float | None
+    conc_max: float | None
+    appearances: int
+
+class ChemicalInfo(ChemicalInfoBase):
+    chemical: db.ChemicalReadLite
+
+class ChemicalCompare(BaseModel):
+    chemical: db.ChemicalReadLite
+    screen_info1: ChemicalInfoBase
+    screen_info2: ChemicalInfoBase
+
+class ConditionCompare(BaseModel):
+    well1: db.WellRead
+    well2: db.WellRead
+
 
 # ============================================================================ #
 # API operations
@@ -131,6 +157,7 @@ async def get_screen_factors_query(*, session: Session=Depends(db.get_readonly_s
     else:
         statement = select(db.Well).where(db.Well.screen_id == screen_id).order_by(db.Well.position_number).options(subqueryload(db.Well.wellcondition).subqueryload(db.WellCondition.factors).subqueryload(db.Factor.chemical).subqueryload(db.Chemical.aliases))
         wells = session.exec(statement).all()
+        print([f for w in wells for f in w.wellcondition.factors])
         return [QueryFactor(factor=f, well=w, query_match=None) for w in wells for f in w.wellcondition.factors]
 
 @router.get("/conditionRecipe", 
@@ -172,6 +199,214 @@ async def get_custom_condition_custom_stocks_recipe(*, session: Session=Depends(
     Creates groups of factors and instructions on how to vary them for generating an automatic optimisation screen from a list of selected well ids
     """
     return screen_maker.make_factor_groups_from_well_ids(session, well_ids)
+
+@router.get("/stats", 
+            summary="Gets small number of statistics about a screen from its screen id",
+            response_description="Statistics about given screen",
+            response_model=ScreenStats)
+async def get_screen_stats(*, session: Session=Depends(db.get_readonly_session), screen_id: int):
+    """
+    Gets small number of statistics about a screen from its screen id   
+    """
+    statement = select(func.count(distinct(db.Well.id)).label("num_conditions"), 
+                       func.count(distinct(db.Chemical.id)).label("unique_chemicals"),
+                       func.count((db.Factor.id)).label("total_factors")
+                       ).select_from(db.Well)\
+     .join(db.WellCondition)\
+     .join(db.WellCondition.factors)\
+     .join(db.Factor.chemical)\
+     .where(db.Well.screen_id == screen_id)
+    
+    result = session.exec(statement).one()
+    num_conditions = result.num_conditions
+    unique_chemicals = result.unique_chemicals
+    total_factors = result.total_factors
+    avg_factors_per_condition = total_factors / num_conditions if num_conditions > 0 else 0
+    
+    return ScreenStats(
+        num_conditions=num_conditions, 
+        unique_chemicals=unique_chemicals, 
+        avg_factors_per_condition=avg_factors_per_condition
+    )
+
+@router.get("/screenReport", 
+            summary="Creates information on all the unique chemicals in a screen",
+            response_description="Statistics about given screen's unique chemicals",
+            response_model=list[ChemicalInfo])
+async def screen_report(*, session: Session=Depends(db.get_readonly_session), screen_id: int):
+    """
+    Gets statistics about a screen's unique chemicals from its screen id   
+    """
+    statement = (
+        select(
+            db.Chemical,
+            func.min(db.Factor.ph).label("ph_min"),
+            func.max(db.Factor.ph).label("ph_max"),
+            func.min(db.Factor.concentration).label("conc_min"),
+            func.max(db.Factor.concentration).label("conc_max"),
+            func.count(distinct(db.Well.id)).label("appearances")
+        )
+        .join(db.Factor)
+        .join(db.WellCondition_Factor_Link)
+        .join(db.WellCondition)
+        .join(db.Well)
+        .join(db.Screen)
+        .where(db.Screen.id == screen_id)
+        .group_by(db.Chemical.id)
+    )
+
+    results = session.exec(statement).all()
+
+    return [
+        ChemicalInfo(
+            chemical=c,
+            ph_min=ph_min,
+            ph_max=ph_max,
+            conc_min=conc_min,
+            conc_max=conc_max,
+            appearances=appearances,
+        )
+        for c, ph_min, ph_max, conc_min, conc_max, appearances in results
+    ]
+
+@router.get("/compareScreen", 
+            summary="Compares chemicals shared between two screens",
+            response_description="Information about chemicals shared between two screens",
+            response_model=list[ChemicalCompare])
+async def compare_screens(*, session: Session=Depends(db.get_readonly_session), screen_id1: int, screen_id2: int):
+    """
+    Gets information about chemicals shared between two screens, with stats specific to each screen
+    """
+    # Get shared chemical IDs using SQL intersect
+    chemicals_in_screen1 = (
+        select(db.Chemical.id)
+        .join(db.Factor)
+        .join(db.WellCondition_Factor_Link)
+        .join(db.WellCondition)
+        .join(db.Well)
+        .join(db.Screen)
+        .where(db.Screen.id == screen_id1)
+        .distinct()
+    )
+
+    chemicals_in_screen2 = (
+        select(db.Chemical.id)
+        .join(db.Factor)
+        .join(db.WellCondition_Factor_Link)
+        .join(db.WellCondition)
+        .join(db.Well)
+        .join(db.Screen)
+        .where(db.Screen.id == screen_id2)
+        .distinct()
+    )
+
+    shared_ids_subquery = chemicals_in_screen1.intersect(chemicals_in_screen2)
+
+    # Get report for screen 1 (only shared chemicals)
+    statement1 = (
+        select(
+            db.Chemical,
+            func.min(db.Factor.ph).label("ph_min"),
+            func.max(db.Factor.ph).label("ph_max"),
+            func.min(db.Factor.concentration).label("conc_min"),
+            func.max(db.Factor.concentration).label("conc_max"),
+            func.count(distinct(db.Well.id)).label("appearances")
+        )
+        .join(db.Factor)
+        .join(db.WellCondition_Factor_Link)
+        .join(db.WellCondition)
+        .join(db.Well)
+        .join(db.Screen)
+        .where(db.Screen.id == screen_id1)
+        .where(db.Chemical.id.in_(shared_ids_subquery))
+        .group_by(db.Chemical.id)
+    )
+    results1 = session.exec(statement1).all()
+    dict1 = {c.id: (c, ph_min, ph_max, conc_min, conc_max, appearances) for c, ph_min, ph_max, conc_min, conc_max, appearances in results1}
+
+    # Get report for screen 2 (only shared chemicals)
+    statement2 = (
+        select(
+            db.Chemical,
+            func.min(db.Factor.ph).label("ph_min"),
+            func.max(db.Factor.ph).label("ph_max"),
+            func.min(db.Factor.concentration).label("conc_min"),
+            func.max(db.Factor.concentration).label("conc_max"),
+            func.count(distinct(db.Well.id)).label("appearances")
+        )
+        .join(db.Factor)
+        .join(db.WellCondition_Factor_Link)
+        .join(db.WellCondition)
+        .join(db.Well)
+        .join(db.Screen)
+        .where(db.Screen.id == screen_id2)
+        .where(db.Chemical.id.in_(shared_ids_subquery))
+        .group_by(db.Chemical.id)
+    )
+    results2 = session.exec(statement2).all()
+    dict2 = {c.id: (c, ph_min, ph_max, conc_min, conc_max, appearances) for c, ph_min, ph_max, conc_min, conc_max, appearances in results2}
+
+    # Build response with shared chemicals
+    shared = []
+    for chem_id in dict1:
+        chem, ph_min1, ph_max1, conc_min1, conc_max1, app1 = dict1[chem_id]
+        _, ph_min2, ph_max2, conc_min2, conc_max2, app2 = dict2[chem_id]
+        shared.append(ChemicalCompare(
+            chemical=chem,
+            screen_info1=ChemicalInfoBase(
+                ph_min=ph_min1,
+                ph_max=ph_max1,
+                conc_min=conc_min1,
+                conc_max=conc_max1,
+                appearances=app1
+            ),
+            screen_info2=ChemicalInfoBase(
+                ph_min=ph_min2,
+                ph_max=ph_max2,
+                conc_min=conc_min2,
+                conc_max=conc_max2,
+                appearances=app2
+            )
+        ))
+
+    return shared
+
+@router.get("/compareScreenConditions", 
+            summary="Compares conditions shared between two screens",
+            response_description="all conditions shared between two screens",
+            response_model=list[ConditionCompare])
+async def compare_screen_conditions(*, session: Session=Depends(db.get_readonly_session), screen_id1: int, screen_id2: int):
+    """
+    all conditions shared between two screens
+    """
+    # Get report for screen 1
+    statement1 = (
+        select(db.Well)
+        .join(db.Screen)
+        .where(db.Screen.id == screen_id1)
+        .distinct()
+    )
+    statement2 = (
+        select(db.Well)
+        .join(db.Screen)
+        .where(db.Screen.id == screen_id2)
+        .distinct()
+    )
+    
+    wells_screen1 = session.exec(statement1).all()
+    wells_screen2 = session.exec(statement2).all()
+
+    shared_conditions = []
+    for well1 in wells_screen1:
+        for well2 in wells_screen2:
+            if (unbs.condition_equality(well1.wellcondition, well2.wellcondition)):
+                shared_conditions.append(ConditionCompare(well1= well1, well2= well2))
+
+    return shared_conditions
+
+
+
+
 
 
 # @router.get("/export", 
