@@ -201,11 +201,11 @@ function view_screen(cell){
     CURRENT_SELECTED_SCREEN = cell.getData().screen
     let well_table = Tabulator.findTable('#screen-wells-view-tabulator')[0];
     well_table.setData(site_functions.API_URL+'/screens/factorQuery?screen_id='+cell.getData().screen.id, LAST_QUERY, "POST")
-    .then(() => {set_screen_report_data(well_table)});
+    .then(() => {update_screen_data(well_table)});
 }
 
-// get all of the info for the screen report
-function set_screen_report_data(table) {
+// update screen report and screen compare
+function update_screen_data(table) {
     
     fetch(site_functions.API_URL+"/screens/stats?screen_id=" + CURRENT_SELECTED_SCREEN.id).then((response)=> {
         response.json().then((data)=> {
@@ -225,6 +225,7 @@ function set_screen_report_data(table) {
     // if only one screen has been selected then dont show screen comparison
     if (LAST_SELECTED_SCREEN == null)
         return;
+
     $("#comparison-info-grid").show();
     $("#second-select-warning").hide();
 
@@ -258,13 +259,17 @@ function set_screen_report_data(table) {
 
     fetch(site_functions.API_URL+"/screens/compareScreenConditions?screen_id1=" + CURRENT_SELECTED_SCREEN.id + "&screen_id2=" +  LAST_SELECTED_SCREEN.id).then((response)=> {
         response.json().then((data)=> {
-            console.log(data)
-            condition_2set = []
-            for (condition_compare in data) {
-                
+            let condition_2wells = [];
+            for (condition_compare of data) {
+                for (factor of condition_compare.well1.wellcondition.factors) {
+                    condition_2wells.push({
+                        "factor" : factor, 
+                        "wells" : condition_compare.well1.label + " " + condition_compare.well2.label
+                    });
+                }
             }
             const condition_compare_tabulator = Tabulator.findTable('#condition-compare-tabulator')[0];
-            condition_compare_tabulator.setData(data);
+            condition_compare_tabulator.setData(condition_2wells);
             $("#shared-conditions").text(data.length);
         });
     })
@@ -707,6 +712,7 @@ var well_table = new Tabulator("#screen-wells-view-tabulator", {
             select_conditions = site_functions.get_selected_wells();
             // If already selected, allow deselecting it
             let found = false;
+            console.log(select_conditions)
             for (i in select_conditions){
                 if (select_conditions[i].well.id == group.getRows()[0].getData().well.id){
                     selected_condition_button = $('<button>').
@@ -749,6 +755,7 @@ well_table.on("groupClick", function (e, group){
             condition_recipe(group);
         }
 });
+
 
 // Refresh button
 $('#reload-all-screens-button').click(function(){
@@ -1100,8 +1107,8 @@ var condition_compare_table = new Tabulator("#condition-compare-tabulator", {
     columns: [
         // Well name
         {
-            title: "Well", 
-            field: "well.label", 
+            title: "Wells", 
+            field: "wells", 
             vertAlign: "middle",
             width: 85,
             headerSort: false,
@@ -1114,21 +1121,6 @@ var condition_compare_table = new Tabulator("#condition-compare-tabulator", {
             visible: false
         
         // Meets query
-        }, {
-            title: "Matches query", 
-            field: "query_match", 
-            hozAlign: "center", 
-            vertAlign: "middle",
-            width: 105,
-            headerSort: false,
-            headerMenu: column_menu,
-            headerFilter:"tickCross", 
-            // Header filter only makes sense if it only looks for checkbox (otherwise can't be disabled)
-            headerFilterEmptyCheck: function(value){return !value;},
-            formatter: "tickCross",
-            visible: false
-
-        // Chemical
         }, {
             title: "Chemical", 
             field: "factor.chemical", 
@@ -1188,19 +1180,6 @@ var condition_compare_table = new Tabulator("#condition-compare-tabulator", {
             headerFilterParams: {values: site_functions.ALL_UNITS},
             headerFilterPlaceholder: "Filter"
 
-        // Screen id
-        }, {
-            title: "Screen", 
-            visible: false,
-            field: "screen_name", 
-            vertAlign: "middle",
-            width: 85,
-            headerMenu: column_menu,
-            headerSort: false,
-            headerFilter: "list",
-            headerFilterPlaceholder: "Filter"
-
-        // pH
         }, {
             title: "pH", 
             field: "factor.ph", 
@@ -1245,10 +1224,9 @@ var condition_compare_table = new Tabulator("#condition-compare-tabulator", {
     }],
     initialSort: [
         {column: "factor.chemical", dir: "asc"},
-        {column: "well.label", dir: "asc"},
-        {column: "query_match", dir: "desc"}
+        {column: "well.label", dir: "asc"}
     ],
-    groupBy: ["screen_name", "well.label"]
+    groupBy: ["wells"]
     ,
     groupStartOpen:function(value, count, data, group){
         if (data.length >= 1 && data[0].query_match === false){
@@ -1259,41 +1237,31 @@ var condition_compare_table = new Tabulator("#condition-compare-tabulator", {
     },
     groupHeader:function(value, count, data, group){
         let label = $('<div>').css('display', 'inline-block');
-        if (data.length >= 1 && data[0].query_match === true){
-            label.text(value + " [Matches query]");
-            label.attr('class', 'well-matching-query');
-        } else if (data.length >= 1 && data[0].query_match === false) {
-            label.text(value + " [Does not match query]");
-            label.attr('class', 'well-not-matching-query');
-        } else {
-            label.text(value);
-        }
-
-        let selected_condition_button = null;
-        let recipe_button = null;
-        
-        // If a group just has rows in it then it is a well and you can make recipes from it
-        if (group.getSubGroups().length == 0) {
-            recipe_button = $('<button>').
-            attr('class', 'recipe-button table-cell-button').
-            text('Recipe');
-        }
-        
-        selected_condition_button = $('<button>').
-        attr('class', 'delete-button table-cell-button').
-        text('Deselect');
-
-        let div = $('<table>').attr('class', 'screen-well-header-button-table button-table').append($('<tbody>').append(
-            $('<tr>').append(
-                $('<td>').append(selected_condition_button)
-            ).append(
-                $('<td>').append(recipe_button)
-            )));
-        return label.prop('outerHTML') + div.prop('outerHTML');
-    },
-    footerElement: $('<div>').append($('<span>').attr('id', 'well-row-count')).append($('<span>').attr('id', 'filtered-well-row-count')).prop('outerHTML')
+        label.text(value);
+        return label.prop('outerHTML');
+    }
 });
 
+document.getElementById("shared-conditions-button").addEventListener("click", (e)=> {
+    document.getElementById("condition-compare-tabulator").style.display = "";
+    document.getElementById("chemical-compare-tabulator").style.display = "none";
+
+});
+document.getElementById("shared-chemicals-button").addEventListener("click", (e)=> {
+    document.getElementById("chemical-compare-tabulator").style.display = "";
+    document.getElementById("condition-compare-tabulator").style.display = "none";
+});
+
+condition_compare_table.on("groupClick", function (e, group){
+    target = $(e.target);
+        if (target.hasClass('select-button')) {
+            select_condition(group, target);
+        } else if (target.hasClass('delete-button')) {
+            remove_condition(group, target);
+        } else if (target.hasClass('recipe-button')) {
+            condition_recipe(group);
+        }
+});
 
 // disable all menu buttons and hide all displayed divs
 function reset_info() {
