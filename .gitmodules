@@ -1,0 +1,3 @@
+[submodule "libs/shotgun"]
+	path = libs/shotgun
+	url = https://github.com/gabi-a/Shotgun-II.git
