@@ -13,6 +13,7 @@ import api.recipes as recipes
 import api.screen_query as screen_query
 import api.screen_maker as screen_maker
 import api.units_and_buffers as unbs
+import api.condition_helper as ch
 
 class QueryScreen(BaseModel):
     screen: db.ScreenRead
@@ -94,24 +95,68 @@ async def get_screens(*, session: Session=Depends(db.get_readonly_session)):
     return screens
 
 @router.get("/subsets", 
-            summary="Gets a list of screens and the number of wells in each that contain only conditions found in the specified screen",
-            response_description="List of screens and the number of wells in each that contain only conditions found in the specified screen",
-            response_model=list[tuple[db.ScreenRead, int]])
+            summary="Gets a list of screens that contain only conditions found in the specified screen",
+            response_description="List of screens that contain only conditions found in the specified screen",
+            response_model=list[QueryScreen])
 async def get_subset_screens(*, session: Session=Depends(db.get_readonly_session), screen_id: int):
     """
     Gets a list of screens and the number of wells in each that contain only conditions found in the specified screen
     """
-    # Wellcondition of specified screen
-    screen_conditions = select(db.WellCondition.id).join(db.Well).join(db.Screen).where(db.Screen.id == screen_id)
-    # Screens, and well counts, which only have wellconditions that are also found in the specified screen
-    statement = select(db.Screen, func.count(db.Well.id)).join(db.Well).join(db.WellCondition)\
-                .where(db.Screen.id != screen_id)\
-                .group_by(db.Screen)\
-                .having(func.count(db.WellCondition.id) == func.sum(case((col(db.WellCondition.id).in_(screen_conditions), 1), else_=0)))\
-                .options(subqueryload(db.Screen.frequentblock))
-    # Execute and return
-    screens_counts = session.exec(statement).all()
-    return screens_counts
+    statement = (
+    select(db.Screen).join(db.Well).group_by(db.Screen).order_by(db.Screen.name)
+    .options(
+        subqueryload(db.Screen.wells)
+        .subqueryload(db.Well.wellcondition)
+        .subqueryload(db.WellCondition.factors)
+        .subqueryload(db.Factor.chemical),
+        subqueryload(db.Screen.frequentblock),
+    ))
+    screens = session.exec(statement).all()
+    statement = select(db.Screen).where(db.Screen.id == screen_id).options(
+        subqueryload(db.Screen.wells)
+        .subqueryload(db.Well.wellcondition)
+        .subqueryload(db.WellCondition.factors)
+        .subqueryload(db.Factor.chemical),
+        subqueryload(db.Screen.frequentblock),
+    )
+    comparison_screen = session.exec(statement).one()
+
+    subset_screens = []
+    for screen in screens:
+        if screen.id == comparison_screen.id:
+            continue
+        is_subset = True
+        for i in range(len(comparison_screen.wells) - 1, -1, -1):
+            well_a = comparison_screen.wells[i]
+            match = False
+            # Look for a match in list_b
+            for j, well_b in enumerate(screen.wells):
+                if ch.condition_equality(well_a.wellcondition, well_b.wellcondition):
+                    # Match found: delete from both to maintain 1:1 equality
+                    del comparison_screen.wells[i]
+                    del screen.wells[j]
+                    match = True
+                    break  # Stop looking for a match for this specific item_a
+            if not match:
+                break
+            if len(screen.wells) == 0:
+                subset_screens.append(screen)
+
+        
+    
+    return [QueryScreen(screen=s, well_match_counter=0) for s in subset_screens]
+
+    # # Wellcondition of specified screen
+    # screen_conditions = select(db.WellCondition.id).join(db.Well).join(db.Screen).where(db.Screen.id == screen_id)
+    # # Screens, and well counts, which only have wellconditions that are also found in the specified screen
+    # statement = select(db.Screen, func.count(db.Well.id)).join(db.Well).join(db.WellCondition)\
+    #             .where(db.Screen.id != screen_id)\
+    #             .group_by(db.Screen)\
+    #             .having(func.count(db.WellCondition.id) == func.sum(case((col(db.WellCondition.id).in_(screen_conditions), 1), else_=0)))\
+    #             .options(subqueryload(db.Screen.frequentblock))
+    # # Execute and return
+    # screens_counts = session.exec(statement).all()
+    # return screens_counts
 
 @router.get("/wells", 
              summary="Gets list of wells given a screen id",
@@ -399,12 +444,50 @@ async def compare_screen_conditions(*, session: Session=Depends(db.get_readonly_
     shared_conditions = []
     for well1 in wells_screen1:
         for well2 in wells_screen2:
-            if (unbs.condition_equality(well1.wellcondition, well2.wellcondition)):
+            if (ch.condition_equality(well1.wellcondition, well2.wellcondition)):
                 shared_conditions.append(ConditionCompare(well1= well1, well2= well2))
 
     return shared_conditions
 
 
+# def test_query_screens():
+#     """Test function to query screens directly"""
+#     from sqlmodel import Session
+    
+#     # Create session using your existing connection string
+#     engine = db.write_engine
+#     with Session(engine) as session:
+#         statement = select(db.Screen).limit(100)
+#         screens = session.exec(statement).all()
+#         statement = select(db.Screen).where(db.Screen.name == "3D Heavy + Light twin pack HT-96")
+#         base_screen = session.exec(statement).one()
+
+#         screens = [screens[0]]
+#         base_screen = screens[0]
+#         subset_screens = []
+#         for screen in screens:
+#             is_subset = True
+#             for well1 in base_screen.wells:
+#                 exists = False
+#                 for well2 in screen.wells:
+#                     if (ch.condition_equality(well1.wellcondition, well2.wellcondition)):
+#                         exists = True
+#                 if not exists:
+#                     is_subset = False
+#                     break
+#             if is_subset:
+#                 subset_screens.append(screen)
+
+#         print(subset_screens)
+
+#         # print(f"Found {len(screens)} screens")
+#         # for screen in screens:
+#         #     print(f"- {screen.name}")
+#         return screens
+
+
+# if __name__ == "__main__":
+#     test_query_screens()
 
 
 
