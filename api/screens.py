@@ -3,7 +3,7 @@
 """
 
 from sqlmodel import Session, select, case, col, func, distinct, intersect
-from sqlalchemy.orm import subqueryload
+from sqlalchemy.orm import subqueryload, selectinload
 from fastapi import APIRouter, Depends, Query
 from pydantic import BaseModel
 from typing import Annotated
@@ -14,6 +14,7 @@ import api.screen_query as screen_query
 import api.screen_maker as screen_maker
 import api.units_and_buffers as unbs
 import api.condition_helper as ch
+import api.condition_distance as condition_distance
 
 class QueryScreen(BaseModel):
     screen: db.ScreenRead
@@ -449,45 +450,57 @@ async def compare_screen_conditions(*, session: Session=Depends(db.get_readonly_
 
     return shared_conditions
 
-
-# def test_query_screens():
-#     """Test function to query screens directly"""
-#     from sqlmodel import Session
+@router.get("/diversity", 
+            summary="Diversity of conditions within screen",
+            response_description="float representing average distance of conditions within screen",
+            response_model=float)
+async def compare_screen_conditions(*, session: Session=Depends(db.get_readonly_session), screen_id: int):
+    """
+    float representing average distance of conditions within screen
+    """
+    # Get report for screen 1
+    statement = (
+        select(db.Well)
+        .join(db.Screen)
+        .where(db.Screen.id == screen_id)
+        .distinct()
+    )
     
-#     # Create session using your existing connection string
-#     engine = db.write_engine
-#     with Session(engine) as session:
-#         statement = select(db.Screen).limit(100)
-#         screens = session.exec(statement).all()
-#         statement = select(db.Screen).where(db.Screen.name == "3D Heavy + Light twin pack HT-96")
-#         base_screen = session.exec(statement).one()
+    wells_screen = session.exec(statement).all()
 
-#         screens = [screens[0]]
-#         base_screen = screens[0]
-#         subset_screens = []
-#         for screen in screens:
-#             is_subset = True
-#             for well1 in base_screen.wells:
-#                 exists = False
-#                 for well2 in screen.wells:
-#                     if (ch.condition_equality(well1.wellcondition, well2.wellcondition)):
-#                         exists = True
-#                 if not exists:
-#                     is_subset = False
-#                     break
-#             if is_subset:
-#                 subset_screens.append(screen)
+    # shared_conditions = []
+    # for well1 in wells_screen1:
+    #     for well2 in wells_screen2:
+    #         if (ch.condition_equality(well1.wellcondition, well2.wellcondition)):
+    #             shared_conditions.append(ConditionCompare(well1= well1, well2= well2))
 
-#         print(subset_screens)
-
-#         # print(f"Found {len(screens)} screens")
-#         # for screen in screens:
-#         #     print(f"- {screen.name}")
-#         return screens
+    return .5
 
 
-# if __name__ == "__main__":
-#     test_query_screens()
+def test():
+    """Test function to query screens directly"""
+    from sqlmodel import Session
+    
+    # Create session using your existing connection string
+    engine = db.readonly_engine
+    with Session(engine) as session:
+        statement = (
+            select(db.Screen).options(
+            selectinload(db.Screen.wells)
+            .selectinload(db.Well.wellcondition)
+            .selectinload(db.WellCondition.factors)
+            .selectinload(db.Factor.chemical))
+            .distinct().limit(1)
+        )
+        
+        result = session.exec(statement).unique().one()
+        print(condition_distance.distance_inside_screen(session, result), "\n\n\n")
+
+
+
+
+if __name__ == "__main__":
+    test()
 
 
 

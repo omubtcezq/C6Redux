@@ -228,6 +228,12 @@ function update_screen_data(table) {
         });
     })
 
+    fetch(site_functions.API_URL+"/screens/diversity?screen_id=" + CURRENT_SELECTED_SCREEN.id).then((response)=> {
+        response.json().then((data)=> {
+            $("#screen-report #screen-diversity-num").text(round(data));
+        });
+    })
+
     screen_table.setData(site_functions.API_URL+"/screens/screenReport?screen_id=" + CURRENT_SELECTED_SCREEN.id, "POST");
 
     // if only one screen has been selected then dont show screen comparison
@@ -260,6 +266,23 @@ function update_screen_data(table) {
 
 
         fetch(site_functions.API_URL+"/screens/compareScreenConditions?screen_id1=" + CURRENT_SELECTED_SCREEN.id + "&screen_id2=" +  LAST_SELECTED_SCREEN.id).then((response)=> {
+            response.json().then((data)=> {
+                let condition_2wells = [];
+                for (condition_compare of data) {
+                    for (factor of condition_compare.well1.wellcondition.factors) {
+                        condition_2wells.push({
+                            "factor" : factor, 
+                            "wells" : condition_compare.well1.label + " " + condition_compare.well2.label
+                        });
+                    }
+                }
+                const condition_compare_tabulator = Tabulator.findTable('#condition-compare-tabulator')[0];
+                condition_compare_tabulator.setData(condition_2wells);
+                $("#shared-conditions").text(data.length);
+            });
+        })
+
+        fetch(site_functions.API_URL+"/screens/compareDiversity?screen_id1=" + CURRENT_SELECTED_SCREEN.id + "&screen_id2=" +  LAST_SELECTED_SCREEN.id).then((response)=> {
             response.json().then((data)=> {
                 let condition_2wells = [];
                 for (condition_compare of data) {
