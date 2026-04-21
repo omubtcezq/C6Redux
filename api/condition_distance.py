@@ -27,6 +27,8 @@ def distance_inside_screen(session, screen: db.Screen):
     conditions = []
     for well in screen.wells:
         conditions.append(make_dataframe(well.wellcondition))
+    
+    # collect_concentration(session, conditions)
 
     n = len(conditions)
     total = sum(
@@ -109,6 +111,32 @@ def ph_const_helper(session):
     statement = select(func.min(db.Factor.ph))
     min_ph = session.exec(statement).one()
     return max_ph - min_ph
+
+# def collect_concentration(session, conditions):
+#     names = []
+#     for condition in conditions:
+#         names.append(condition.at[0, "name"])
+
+#     statement = select(db.Factor).join(db.Chemical).where(db.Chemical.name.in_(names)).distinct()
+#     factors = session.exec(statement).all()
+#     print(len(names), "\n\n\n")
+
+#     print(len(factors), "\n\n\n")
+#     for factor in factors:
+#         conc = unbs.unit_conversion(factor.concentration, 
+#                                     factor.unit, 
+#                                     factor.chemical.density, 
+#                                     factor.chemical.molecular_weight, 
+#                                     "w/v")
+#         max_conc_dict.setdefault(factor.chemical.name, 0)
+#         if conc is None:
+#             continue
+#         if max_conc_dict[factor.chemical.name] < conc:
+#             max_conc_dict[factor.chemical.name] = conc
+#     print(len(max_conc_dict), "\n\n\n")
+
+
+    
 
 max_conc_dict = {}
 def max_concentration(session, name):
@@ -214,7 +242,7 @@ def C6_score(session, chems_1, chems_2,debug=False):
 
     for _, chem_1 in chems_1.iterrows():
         for _, chem_2 in chems_2.iterrows():
-            if chem_1['name'] == chem_2['name']:
+            if chem_1['name'] == chem_2['name'] and max_concentration(session, chem_1['name']) != 0 and max_concentration(session, chem_2['name']) != 0:
                 T += 1
                 D += abs(chem_1['percentage concentration'] - chem_2['percentage concentration']) / max_concentration(session, chem_1['name'])
 

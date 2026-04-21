@@ -228,6 +228,7 @@ function update_screen_data(table) {
         });
     })
 
+    $("#screen-report #screen-diversity-num").text("loading");
     fetch(site_functions.API_URL+"/screens/diversity?screen_id=" + CURRENT_SELECTED_SCREEN.id).then((response)=> {
         response.json().then((data)=> {
             $("#screen-report #screen-diversity-num").text(round(data));
@@ -258,6 +259,20 @@ function update_screen_data(table) {
             });
         })
 
+        $("#screen-diversity-num1").text("loading");
+        fetch(site_functions.API_URL+"/screens/diversity?screen_id=" + CURRENT_SELECTED_SCREEN.id).then((response)=> {
+            response.json().then((data)=> {
+                $("#screen-diversity-num1").text(round(data));
+            });
+        })
+
+        $("#screen-diversity-num2").text("loading");
+        fetch(site_functions.API_URL+"/screens/diversity?screen_id=" + LAST_SELECTED_SCREEN.id).then((response)=> {
+            response.json().then((data)=> {
+                $("#screen-diversity-num2").text(round(data));
+            });
+        })
+
         $("#name-screen1").text(CURRENT_SELECTED_SCREEN.name);
         $("#name-screen2").text(LAST_SELECTED_SCREEN.name);
 
@@ -283,19 +298,8 @@ function update_screen_data(table) {
         })
 
         fetch(site_functions.API_URL+"/screens/compareDiversity?screen_id1=" + CURRENT_SELECTED_SCREEN.id + "&screen_id2=" +  LAST_SELECTED_SCREEN.id).then((response)=> {
-            response.json().then((data)=> {
-                let condition_2wells = [];
-                for (condition_compare of data) {
-                    for (factor of condition_compare.well1.wellcondition.factors) {
-                        condition_2wells.push({
-                            "factor" : factor, 
-                            "wells" : condition_compare.well1.label + " " + condition_compare.well2.label
-                        });
-                    }
-                }
-                const condition_compare_tabulator = Tabulator.findTable('#condition-compare-tabulator')[0];
-                condition_compare_tabulator.setData(condition_2wells);
-                $("#shared-conditions").text(data.length);
+            response.json().then((data)=> {                
+                $("#distance-between-screens").text(round(data));
             });
         })
 
