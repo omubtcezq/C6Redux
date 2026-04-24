@@ -1,3 +1,5 @@
+# code based on https://github.com/gabi-a/Shotgun-II
+
 import pandas as pd
 import xml.etree.ElementTree as ET
 import re
