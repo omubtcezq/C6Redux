@@ -191,51 +191,55 @@ function remove_condition(factor_group, target){
 }
 
 // Viewing a screen
-function view_screen(cell){
-    cell.getTable().deselectRow();
-    cell.getRow().select();
+// view_wells = true: doesn't stay on whatever option is currently selected and instead goes back to view wells
+function view_screen(cell, view_wells = false){
+    let screen_table = Tabulator.findTable('#screen-tabulator')[0];
+    screen_table.deselectRow();
+    console.log(cell.getRow().getData())
+    console.log(cell.getRow().getIndex())
+    //TODO
+    screen_table.getRow(cell.getRow().getData().screen.id);
     $('#screens-half-div').css('width', '50%');
     $('#screen-info-view-div').show();
     $('#screen-info-view-title').text(cell.getData().screen.name);
-    LAST_SELECTED_SCREEN = CURRENT_SELECTED_SCREEN
-    CURRENT_SELECTED_SCREEN = cell.getData().screen
-    let well_table = Tabulator.findTable('#screen-wells-view-tabulator')[0];
-    // only load subsets data if its currently being viewed becuase the computation is expensive
-    if ($('#subset-screens').is(':visible')) {
-        Tabulator.findTable('#screen-subset-tabulator')[0].setData(site_functions.API_URL+"/screens/subsets?screen_id=" + CURRENT_SELECTED_SCREEN.id, "POST");
-    }
-    well_table.setData(site_functions.API_URL+'/screens/factorQuery?screen_id='+cell.getData().screen.id, LAST_QUERY, "POST")
-    .then(() => {update_screen_data(well_table)});
+    LAST_SELECTED_SCREEN = CURRENT_SELECTED_SCREEN;
+    CURRENT_SELECTED_SCREEN = cell.getData().screen;
 
-
-    
+    if (view_wells)
+        $('#view-wells-button').click();
+    else
+        load_data_from_button_pressed();
 }
 
-// update screen report and screen compare
-function update_screen_data(table) {
+function load_data_from_button_pressed() {
+    if ($('#screen-wells').is(':visible')) {
+        update_view_wells();
+        console.log(1)
+    }
+    if ($('#subset-screens').is(':visible')) {
+        update_subset_screen();
+        console.log(2)
+    }
+    if ($('#compare-screens').is(':visible')) {
+        update_compare_screen();
+        console.log(3)
+    }
+    if ($('#screen-report').is(':visible')) {
+        update_screen_report();
+        console.log(4)
+    }
+}
 
-    const screen_table = Tabulator.findTable('#screen-report-tabulator')[0];
+function update_view_wells() {
+    let well_table = Tabulator.findTable('#screen-wells-view-tabulator')[0];
+    well_table.setData(site_functions.API_URL+'/screens/factorQuery?screen_id='+CURRENT_SELECTED_SCREEN.id, LAST_QUERY, "POST");
+}
+
+async function update_compare_screen() {
     const chemical_table = Tabulator.findTable('#chemical-compare-tabulator')[0];
+    chemical_table.clearData();
     const condition_table = Tabulator.findTable('#condition-compare-tabulator')[0];
     condition_table.clearData();
-    const subset_table = Tabulator.findTable('#screen-subset-tabulator')[0];
-
-    fetch(site_functions.API_URL+"/screens/stats?screen_id=" + CURRENT_SELECTED_SCREEN.id).then((response)=> {
-        response.json().then((data)=> {
-            $("#screen-report #condition-num").text(data.num_conditions);
-            $("#screen-report #chemical-num").text(data.unique_chemicals);
-            $("#screen-report #avg-conditions-num").text(round(data.avg_factors_per_condition));
-        });
-    })
-
-    $("#screen-report #screen-diversity-num").text("loading");
-    fetch(site_functions.API_URL+"/screens/diversity?screen_id=" + CURRENT_SELECTED_SCREEN.id).then((response)=> {
-        response.json().then((data)=> {
-            $("#screen-report #screen-diversity-num").text(round(data));
-        });
-    })
-
-    screen_table.setData(site_functions.API_URL+"/screens/screenReport?screen_id=" + CURRENT_SELECTED_SCREEN.id, "POST");
 
     // if only one screen has been selected then dont show screen comparison
     if (LAST_SELECTED_SCREEN != null) {
@@ -243,44 +247,33 @@ function update_screen_data(table) {
         $("#comparison-info-grid").show();
         $("#second-select-warning").hide();
 
-        fetch(site_functions.API_URL+"/screens/stats?screen_id=" + CURRENT_SELECTED_SCREEN.id).then((response)=> {
-            response.json().then((data)=> {
-                $("#condition-screen1").text(data.num_conditions);
-                $("#chemical-screen1").text(data.unique_chemicals);
-                $("#avg-factor-screen1").text(round(data.avg_factors_per_condition));
-            });
-        })
-
-        fetch(site_functions.API_URL+"/screens/stats?screen_id=" + LAST_SELECTED_SCREEN.id).then((response)=> {
-            response.json().then((data)=> {
-                $("#condition-screen2").text(data.num_conditions);
-                $("#chemical-screen2").text(data.unique_chemicals);
-                $("#avg-factor-screen2").text(round(data.avg_factors_per_condition));
-            });
-        })
-
         $("#screen-diversity-num1").text("loading");
-        fetch(site_functions.API_URL+"/screens/diversity?screen_id=" + CURRENT_SELECTED_SCREEN.id).then((response)=> {
-            response.json().then((data)=> {
-                $("#screen-diversity-num1").text(round(data));
-            });
-        })
-
         $("#screen-diversity-num2").text("loading");
-        fetch(site_functions.API_URL+"/screens/diversity?screen_id=" + LAST_SELECTED_SCREEN.id).then((response)=> {
-            response.json().then((data)=> {
-                $("#screen-diversity-num2").text(round(data));
-            });
-        })
-
+        $("#distance-between-screens").text("loading");
         $("#name-screen1").text(CURRENT_SELECTED_SCREEN.name);
         $("#name-screen2").text(LAST_SELECTED_SCREEN.name);
 
-        chemical_table.setData(site_functions.API_URL+"/screens/compareScreen?screen_id1=" + CURRENT_SELECTED_SCREEN.id + "&screen_id2=" +  LAST_SELECTED_SCREEN.id, "POST")
+        const stats1 = fetch(site_functions.API_URL+"/screens/stats?screen_id=" + CURRENT_SELECTED_SCREEN.id).then((response)=> {
+            return response.json();
+            }).then((data)=> {
+                $("#condition-screen1").text(data.num_conditions);
+                $("#chemical-screen1").text(data.unique_chemicals);
+                $("#avg-factor-screen1").text(round(data.avg_factors_per_condition));
+        });
+
+        const stats2 = fetch(site_functions.API_URL+"/screens/stats?screen_id=" + LAST_SELECTED_SCREEN.id).then((response)=> {
+            return response.json();
+        }).then((data)=> {
+            $("#condition-screen2").text(data.num_conditions);
+            $("#chemical-screen2").text(data.unique_chemicals);
+            $("#avg-factor-screen2").text(round(data.avg_factors_per_condition));
+        });
+
+        const chem_table = chemical_table.setData(site_functions.API_URL+"/screens/compareScreen?screen_id1=" + CURRENT_SELECTED_SCREEN.id + "&screen_id2=" +  LAST_SELECTED_SCREEN.id, "POST")
         .then(() => {$("#shared-chemicals").text(chemical_table.getData().length);});
 
 
-        fetch(site_functions.API_URL+"/screens/compareScreenConditions?screen_id1=" + CURRENT_SELECTED_SCREEN.id + "&screen_id2=" +  LAST_SELECTED_SCREEN.id).then((response)=> {
+        const condition_table = fetch(site_functions.API_URL+"/screens/compareScreenConditions?screen_id1=" + CURRENT_SELECTED_SCREEN.id + "&screen_id2=" +  LAST_SELECTED_SCREEN.id).then((response)=> {
             response.json().then((data)=> {
                 let condition_2wells = [];
                 for (condition_compare of data) {
@@ -297,13 +290,6 @@ function update_screen_data(table) {
             });
         })
 
-        fetch(site_functions.API_URL+"/screens/compareDiversity?screen_id1=" + CURRENT_SELECTED_SCREEN.id + "&screen_id2=" +  LAST_SELECTED_SCREEN.id).then((response)=> {
-            response.json().then((data)=> {                
-                $("#distance-between-screens").text(round(data));
-            });
-        })
-
-
         // delete all the columns which are in groups to change the column group title
         chemical_table.getColumns().forEach(c => {if (c.getField() != "chemical") chemical_table.deleteColumn(c.getField())});
         compare_columns_group_screen1.title = CURRENT_SELECTED_SCREEN.name
@@ -311,8 +297,59 @@ function update_screen_data(table) {
         chemical_table.addColumn(compare_columns_group_screen1);
         chemical_table.addColumn(compare_columns_group_screen2);
 
+        // we load the diversity data later because its much heavier computationally
+        await Promise.all([stats1, stats2, chem_table, condition_table])
+
+        fetch(site_functions.API_URL+"/screens/diversity?screen_id=" + CURRENT_SELECTED_SCREEN.id).then((response)=> {
+            response.json().then((data)=> {
+                $("#screen-diversity-num1").text(round(data));
+            });
+        })
+
+        fetch(site_functions.API_URL+"/screens/diversity?screen_id=" + LAST_SELECTED_SCREEN.id).then((response)=> {
+            response.json().then((data)=> {
+                $("#screen-diversity-num2").text(round(data));
+            });
+        })
+
+        fetch(site_functions.API_URL+"/screens/compareDiversity?screen_id1=" + CURRENT_SELECTED_SCREEN.id + "&screen_id2=" +  LAST_SELECTED_SCREEN.id).then((response)=> {
+            response.json().then((data)=> {                
+                $("#distance-between-screens").text(round(data));
+            });
+        })
+
     }
 }
+
+function update_subset_screen() {
+    Tabulator.findTable('#screen-subset-tabulator')[0].setData(site_functions.API_URL+"/screens/subsets?screen_id=" + CURRENT_SELECTED_SCREEN.id, "POST");
+}
+
+async function update_screen_report() {
+    $("#screen-report #screen-diversity-num").text("loading");
+
+    const screen_table = Tabulator.findTable('#screen-report-tabulator')[0];
+
+    const stats = fetch(site_functions.API_URL+"/screens/stats?screen_id=" + CURRENT_SELECTED_SCREEN.id).then((response)=> {
+        return response.json();
+    }).then((data)=> {
+        $("#screen-report #condition-num").text(data.num_conditions);
+        $("#screen-report #chemical-num").text(data.unique_chemicals);
+        $("#screen-report #avg-conditions-num").text(round(data.avg_factors_per_condition));
+    });
+
+    const report = screen_table.setData(site_functions.API_URL+"/screens/screenReport?screen_id=" + CURRENT_SELECTED_SCREEN.id, "POST");
+
+    // we wait to load diveristy because its more expensive
+    Promise.all([stats, report])
+
+    fetch(site_functions.API_URL+"/screens/diversity?screen_id=" + CURRENT_SELECTED_SCREEN.id).then((response)=> {
+        return response.json();
+    }).then((data)=> {
+        $("#screen-report #screen-diversity-num").text(round(data));
+    });
+}
+
 
 // Cancelling the viewing of a screen
 function hide_screen(){
@@ -351,7 +388,7 @@ var screen_table = new Tabulator("#screen-tabulator", {
     placeholder:"No Screens",
     initialFilter:[],
     selectableRows: false,
-    index: "screen.id",
+    index: "id",
     validationMode: 'manual',
     // persistence: {
     //     sort: false,
@@ -703,7 +740,7 @@ var subset_table = new Tabulator("#screen-subset-tabulator", {
             cellClick: function(e, cell){
                 target = $(e.target);
                 if (target.hasClass('view-button')) {
-                    view_screen(cell);
+                    view_screen(cell, view_wells = true);
                 }
             }, 
             headerSort: false, 
@@ -1482,7 +1519,7 @@ function reset_info() {
     $('#screen-make-recipe-button').prop("disabled", "");
     $('#screen-report-button').prop("disabled", "");
 
-    $('#screen-wells-view-tabulator').hide();
+    $('#screen-wells').hide();
     $('#screen-report').hide();
     $('#compare-screens').hide();
     $('#subset-screens').hide();
@@ -1491,21 +1528,22 @@ function reset_info() {
 $('#view-wells-button').click(function() {
     reset_info();
     $('#view-wells-button').prop("disabled", "disabled");
-    $('#screen-wells-view-tabulator').show();
+    $('#screen-wells').show();
+    load_data_from_button_pressed()
 });
 
 $('#compare-screens-button').click(function() {
     reset_info();
     $('#compare-screens-button').prop("disabled", "disabled");
     $('#compare-screens').show();
+    load_data_from_button_pressed()
 });
 
 $('#screen-subsets-button').click(function() {
     reset_info();
     $('#screen-subsets-button').prop("disabled", "disabled");
     $('#subset-screens').show();
-    // This is an expensive computation so don't precompute it
-    subset_table.setData(site_functions.API_URL+"/screens/subsets?screen_id=" + CURRENT_SELECTED_SCREEN.id, "POST");
+    load_data_from_button_pressed()
 });
 
 $('#screen-make-recipe-button').click(function() {
@@ -1516,6 +1554,7 @@ $('#screen-report-button').click(function() {
     reset_info();
     $('#screen-report-button').prop("disabled", "disabled");
     $('#screen-report').show();
+    load_data_from_button_pressed()
 });
 
 $('#hide-screen-view-button').click(function() {
