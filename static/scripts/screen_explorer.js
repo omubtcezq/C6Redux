@@ -195,10 +195,8 @@ function remove_condition(factor_group, target){
 function view_screen(cell, view_wells = false){
     let screen_table = Tabulator.findTable('#screen-tabulator')[0];
     screen_table.deselectRow();
-    console.log(cell.getRow().getData())
-    console.log(cell.getRow().getIndex())
-    //TODO
-    screen_table.getRow(cell.getRow().getData().screen.id);
+    // we have to find the right row because may be selecting from subset screens
+    screen_table.getRow(cell.getRow().getIndex()).select();
     $('#screens-half-div').css('width', '50%');
     $('#screen-info-view-div').show();
     $('#screen-info-view-title').text(cell.getData().screen.name);
@@ -214,19 +212,15 @@ function view_screen(cell, view_wells = false){
 function load_data_from_button_pressed() {
     if ($('#screen-wells').is(':visible')) {
         update_view_wells();
-        console.log(1)
     }
     if ($('#subset-screens').is(':visible')) {
         update_subset_screen();
-        console.log(2)
     }
     if ($('#compare-screens').is(':visible')) {
         update_compare_screen();
-        console.log(3)
     }
     if ($('#screen-report').is(':visible')) {
         update_screen_report();
-        console.log(4)
     }
 }
 
@@ -270,25 +264,26 @@ async function update_compare_screen() {
         });
 
         const chem_table = chemical_table.setData(site_functions.API_URL+"/screens/compareScreen?screen_id1=" + CURRENT_SELECTED_SCREEN.id + "&screen_id2=" +  LAST_SELECTED_SCREEN.id, "POST")
-        .then(() => {$("#shared-chemicals").text(chemical_table.getData().length);});
+        .then(() => {console.log(chemical_table.getData());$("#shared-chemicals").text(chemical_table.getData().length);});
+        
 
 
         const condition_table = fetch(site_functions.API_URL+"/screens/compareScreenConditions?screen_id1=" + CURRENT_SELECTED_SCREEN.id + "&screen_id2=" +  LAST_SELECTED_SCREEN.id).then((response)=> {
-            response.json().then((data)=> {
-                let condition_2wells = [];
-                for (condition_compare of data) {
-                    for (factor of condition_compare.well1.wellcondition.factors) {
-                        condition_2wells.push({
-                            "factor" : factor, 
-                            "wells" : condition_compare.well1.label + " " + condition_compare.well2.label
-                        });
-                    }
+            return response.json();
+        }).then((data)=> {
+            let condition_2wells = [];
+            for (condition_compare of data) {
+                for (factor of condition_compare.well1.wellcondition.factors) {
+                    condition_2wells.push({
+                        "factor" : factor, 
+                        "wells" : condition_compare.well1.label + " " + condition_compare.well2.label
+                    });
                 }
-                const condition_compare_tabulator = Tabulator.findTable('#condition-compare-tabulator')[0];
-                condition_compare_tabulator.setData(condition_2wells);
-                $("#shared-conditions").text(data.length);
-            });
-        })
+            }
+            const condition_compare_tabulator = Tabulator.findTable('#condition-compare-tabulator')[0];
+            condition_compare_tabulator.setData(condition_2wells);
+            $("#shared-conditions").text(data.length);
+        });
 
         // delete all the columns which are in groups to change the column group title
         chemical_table.getColumns().forEach(c => {if (c.getField() != "chemical") chemical_table.deleteColumn(c.getField())});
@@ -388,7 +383,7 @@ var screen_table = new Tabulator("#screen-tabulator", {
     placeholder:"No Screens",
     initialFilter:[],
     selectableRows: false,
-    index: "id",
+    index: "screen_id",
     validationMode: 'manual',
     // persistence: {
     //     sort: false,
@@ -586,7 +581,7 @@ var subset_table = new Tabulator("#screen-subset-tabulator", {
     placeholder:"No Screens",
     initialFilter:[],
     selectableRows: false,
-    index: "screen.id",
+    index: "screen_id",
     validationMode: 'manual',
     // persistence: {
     //     sort: false,
@@ -1493,12 +1488,19 @@ var condition_compare_table = new Tabulator("#condition-compare-tabulator", {
 document.getElementById("shared-conditions-button").addEventListener("click", (e)=> {
     document.getElementById("condition-compare-tabulator").style.display = "";
     document.getElementById("chemical-compare-tabulator").style.display = "none";
-
+    $("#shared-conditions-button").prop("disabled", "disabled");
+    $("#shared-chemicals-button").prop("disabled", "");
 });
+
 document.getElementById("shared-chemicals-button").addEventListener("click", (e)=> {
     document.getElementById("chemical-compare-tabulator").style.display = "";
     document.getElementById("condition-compare-tabulator").style.display = "none";
+    $("#shared-conditions-button").prop("disabled", "");
+    $("#shared-chemicals-button").prop("disabled", "disabled");
 });
+
+$("#shared-conditions-button").prop("disabled", "disabled");
+
 
 condition_compare_table.on("groupClick", function (e, group){
     target = $(e.target);

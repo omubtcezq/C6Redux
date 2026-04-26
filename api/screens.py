@@ -22,6 +22,7 @@ import api.condition_distance as condition_distance
 class QueryScreen(BaseModel):
     screen: db.ScreenRead
     well_match_counter: int
+    screen_id: int
 
 class QueryFactor(BaseModel):
     factor: db.FactorRead
@@ -149,7 +150,7 @@ async def get_subset_screens(*, session: Session=Depends(db.get_readonly_session
 
         
     
-    return [QueryScreen(screen=s, well_match_counter=0) for s in subset_screens]
+    return [QueryScreen(screen=s, well_match_counter=0, screen_id=s.id) for s in subset_screens]
 
     # # Wellcondition of specified screen
     # screen_conditions = select(db.WellCondition.id).join(db.Well).join(db.Screen).where(db.Screen.id == screen_id)
@@ -188,7 +189,7 @@ async def get_screens_query(*, session: Session=Depends(db.get_readonly_session)
     else:
         statement = select(db.Screen, func.count(db.Well.id)).join(db.Well).group_by(db.Screen).order_by(db.Screen.name).options(subqueryload(db.Screen.frequentblock))
     screens_counts = session.exec(statement).all()
-    return [QueryScreen(screen=s, well_match_counter=c) for s,c in screens_counts]
+    return [QueryScreen(screen=s, well_match_counter=c, screen_id=s.id) for s,c in screens_counts]
 
 @router.post("/factorQuery", 
              summary="Gets list of well query objects for a given screen each flagged whether it meets the passed condition query",
@@ -323,11 +324,29 @@ async def screen_report(*, session: Session=Depends(db.get_readonly_session), sc
             summary="Compares chemicals shared between two screens",
             response_description="Information about chemicals shared between two screens",
             response_model=list[ChemicalCompare])
-@cached(cache=LRUCache(maxsize= 125), key = lambda *args, **kwargs: hashkey(tuple(sorted([kwargs["screen_id1"], kwargs["screen_id2"]]))))
 async def compare_screens(*, session: Session=Depends(db.get_readonly_session), screen_id1: int, screen_id2: int):
     """
     Gets information about chemicals shared between two screens, with stats specific to each screen
     """
+    # Gotta swap the screens if the cache has it saved in the other order
+    if screen_id1 > screen_id2:
+        chems = await compare_screens_helper(
+            session=session,
+            screen_id1=screen_id1,
+            screen_id2=screen_id2
+        )
+        return [
+            ChemicalCompare(
+                chemical = chem.chemical,
+                screen_info1=chem.screen_info2,
+                screen_info2=chem.screen_info1
+            )
+            for chem in chems
+        ]    
+    return await compare_screens_helper(session=session, screen_id1=screen_id1, screen_id2=screen_id2)
+
+@cached(cache=LRUCache(maxsize= 125), key = lambda *args, **kwargs: hashkey(tuple(sorted([kwargs["screen_id1"], kwargs["screen_id2"]]))))
+async def compare_screens_helper(*, session: Session=Depends(db.get_readonly_session), screen_id1: int, screen_id2: int):
     # Get shared chemical IDs using SQL intersect
     chemicals_in_screen1 = (
         select(db.Chemical.id)
@@ -426,11 +445,28 @@ async def compare_screens(*, session: Session=Depends(db.get_readonly_session), 
             summary="Compares conditions shared between two screens",
             response_description="all conditions shared between two screens",
             response_model=list[ConditionCompare])
-@cached(cache=LRUCache(maxsize= 125), key = lambda *args, **kwargs: hashkey(tuple(sorted([kwargs["screen_id1"], kwargs["screen_id2"]]))))
 async def compare_screen_conditions(*, session: Session=Depends(db.get_readonly_session), screen_id1: int, screen_id2: int):
     """
     all conditions shared between two screens
     """
+    # Gotta swap the screens if the cache has it saved in the other order
+    if screen_id1 > screen_id2:
+        conds = await compare_screen_conditions_helper(
+            session=session,
+            screen_id1=screen_id1,
+            screen_id2=screen_id2
+        )
+        return [
+            ConditionCompare(
+                well1 = cond.well2,
+                well2 = cond.well1,
+            )
+            for cond in conds
+        ]    
+    return await compare_screen_conditions_helper(session=session, screen_id1=screen_id1, screen_id2=screen_id2)
+
+@cached(cache=LRUCache(maxsize= 125), key = lambda *args, **kwargs: hashkey(tuple(sorted([kwargs["screen_id1"], kwargs["screen_id2"]]))))
+async def compare_screen_conditions_helper(*, session: Session=Depends(db.get_readonly_session), screen_id1: int, screen_id2: int):
     # Get report for screen 1
     statement1 = (
         select(db.Well)
@@ -508,6 +544,7 @@ async def compare_diversity(*, session: Session=Depends(db.get_readonly_session)
         .distinct().limit(1)
     )
     screen2 = session.exec(statement).unique().one()
+    
     return condition_distance.distance_between_screens(session, screen1, screen2)
 
 
