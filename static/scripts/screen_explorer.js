@@ -274,22 +274,9 @@ async function update_compare_screen() {
         
 
 
-        const condition_table = fetch(site_functions.API_URL+"/screens/compareScreenConditions?screen_id1=" + CURRENT_SELECTED_SCREEN.id + "&screen_id2=" +  LAST_SELECTED_SCREEN.id, { signal }).then((response)=> {
-            return response.json();
-        }).then((data)=> {
-            let condition_2wells = [];
-            for (condition_compare of data) {
-                for (factor of condition_compare.well1.wellcondition.factors) {
-                    condition_2wells.push({
-                        "factor" : factor, 
-                        "wells" : condition_compare.well1.label + " " + condition_compare.well2.label
-                    });
-                }
-            }
-            const condition_compare_tabulator = Tabulator.findTable('#condition-compare-tabulator')[0];
-            condition_compare_tabulator.setData(condition_2wells);
-            $("#shared-conditions").text(data.length);
-        });
+        const condition_compare_tabulator = Tabulator.findTable('#condition-compare-tabulator')[0];
+        condition_compare_tabulator.setData(site_functions.API_URL+"/screens/compareScreenConditions?screen_id1=" + CURRENT_SELECTED_SCREEN.id + "&screen_id2=" +  LAST_SELECTED_SCREEN.id);
+
 
         // delete all the columns which are in groups to change the column group title
         chemical_table.getColumns().forEach(c => {if (c.getField() != "chemical") chemical_table.deleteColumn(c.getField())});
@@ -322,10 +309,7 @@ async function update_compare_screen() {
     }
 }
 
-function update_subset_screen() {
-    subset_tabulator_params[""]
-    subset_table = new Tabulator("#screen-subset-tabulator", subset_tabulator_params);
-    
+function update_subset_screen() {    
     Tabulator.findTable('#screen-subset-tabulator')[0].setData(site_functions.API_URL+"/screens/subsets?screen_id=" + CURRENT_SELECTED_SCREEN.id, "POST");
 }
 
@@ -580,8 +564,26 @@ var screen_table = new Tabulator("#screen-tabulator", {
 screen_table.on("dataFiltered", update_screen_count_filtered);
 screen_table.on("dataLoaded", update_screen_count_loaded);
 
-const subset_tabulator_params = {
+// Tabulator table
+var subset_table = new Tabulator("#screen-subset-tabulator", {
     ajaxContentType: 'json',
+    ajaxRequestFunc: function (url, config, params) {
+        return fetch(url, { signal })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("HTTP " + response.status);
+            }
+            return response.json();
+        })
+        .catch(error => {
+            if (error.name === 'AbortError') {
+                console.log("subset request was cancelled");
+                return [];
+            }
+            console.error("subset fetch failed", error);
+            throw error;
+        });
+    },
     height: "100%",
     layout: "fitData",
     movableColumns: true,
@@ -758,10 +760,7 @@ const subset_tabulator_params = {
         {column: "screen.name", dir: "asc"}
     ],
     footerElement: $('<div>').append($('<span>').attr('id', 'screen-row-count')).append($('<span>').attr('id', 'filtered-screen-row-count')).prop('outerHTML'),
-}
-
-// Tabulator table
-var subset_table = new Tabulator("#screen-subset-tabulator", subset_tabulator_params);
+});
 
 
 
@@ -1342,6 +1341,33 @@ var chemical_compare_table = new Tabulator("#chemical-compare-tabulator",  {
 var condition_compare_table = new Tabulator("#condition-compare-tabulator", {
     data: [],
     ajaxContentType: 'json',
+    ajaxRequestFunc: function (url, config, params) {
+        return fetch(url, { signal }).then((response)=> {
+            if (!response.ok) {
+                throw new Error("HTTP " + response.status);
+            }
+            return response.json();
+        }).then((data)=> {
+            let condition_2wells = [];
+            for (condition_compare of data) {
+                for (factor of condition_compare.well1.wellcondition.factors) {
+                    condition_2wells.push({
+                        "factor" : factor, 
+                        "wells" : condition_compare.well1.label + " " + condition_compare.well2.label
+                    });
+                }
+            }
+            $("#shared-conditions").text(data.length);
+            return condition_2wells
+        }).catch(error => {
+            if (error.name === 'AbortError') {
+                console.log("Condition request was cancelled");
+                return [];
+            }
+            console.error("Condition fetch failed", error);
+            throw error;
+        });
+    },
     height: "100%",
     layout: "fitColumns",
     movableColumns: true,

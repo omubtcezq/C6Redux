@@ -10,7 +10,7 @@ from typing import Annotated
 from asyncache import cached
 from cachetools.keys import hashkey
 from cachetools import LRUCache
-from time import sleep
+from asyncio import CancelledError
 
 import api.db as db
 import api.recipes as recipes
@@ -111,6 +111,8 @@ async def get_subset_screens(*, session: Session=Depends(db.get_readonly_session
     """
     Gets a list of screens and the number of wells in each that contain only conditions found in the specified screen
     """
+    if await request.is_disconnected():
+        raise CancelledError()
     statement = (
     select(db.Screen).join(db.Well).group_by(db.Screen).order_by(db.Screen.name)
     .options(
@@ -121,6 +123,10 @@ async def get_subset_screens(*, session: Session=Depends(db.get_readonly_session
         subqueryload(db.Screen.frequentblock),
     ))
     screens = session.exec(statement).all()
+    
+    if await request.is_disconnected():
+        raise CancelledError()
+    
     statement = select(db.Screen).where(db.Screen.id == screen_id).options(
         subqueryload(db.Screen.wells)
         .subqueryload(db.Well.wellcondition)
@@ -132,6 +138,8 @@ async def get_subset_screens(*, session: Session=Depends(db.get_readonly_session
 
     subset_screens = []
     for screen in screens:
+        if await request.is_disconnected():
+            raise CancelledError()
         if screen.id == comparison_screen.id:
             continue
         is_subset = True
@@ -140,6 +148,7 @@ async def get_subset_screens(*, session: Session=Depends(db.get_readonly_session
             match = False
             # Look for a match in list_b
             for j, well_b in enumerate(screen.wells):
+
                 if ch.condition_equality(well_a.wellcondition, well_b.wellcondition):
                     # Match found: delete from both to maintain 1:1 equality
                     del comparison_screen.wells[i]
