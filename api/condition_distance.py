@@ -8,6 +8,7 @@ from sqlmodel import Session, select, case, col, func, distinct, intersect
 import api.db as db
 import math
 import time
+from asyncio import CancelledError
 
 # Input shape
 # name
@@ -16,36 +17,33 @@ import time
 # ions
 # buffer
 
-def distance_between_conditions(session, cond1_db, cond2_db):
+async def distance_between_conditions(session: Session, cond1_db, cond2_db):
 
     cond1 = make_dataframe(cond1_db)
     cond2 = make_dataframe(cond2_db)
 
     return C6_score(session, cond1, cond2)
 
-def distance_inside_screen(session, screen: db.Screen):
-    start_time = time.perf_counter()
+async def distance_inside_screen(session: Session, request, screen: db.Screen):
 
     conditions = []
     for well in screen.wells:
-        conditions.append(make_dataframe(well.wellcondition))
+        conditions.append(make_dataframe(well.wellcondition))    
     
-    # collect_concentration(session, conditions)
-
+    scores = []
     n = len(conditions)
-    total = sum(
-        C6_score(session, conditions[i], conditions[j])
-        for i in range(n)
-        for j in range(i + 1, n)
-    )
+    for i in range(n):
+        if await request.is_disconnected():
+            raise CancelledError()
+        for j in range(i + 1, n):
+            scores.append(C6_score(session, conditions[i], conditions[j]))
+    total = sum(scores)
+    
     pairs = n * (n - 1) // 2
 
-    end_time = time.perf_counter()
-
-    print(f"Executed in {end_time - start_time:0.4f} seconds")
     return total / pairs 
 
-def distance_between_screens(session, screen1: db.Screen, screen2: db.Screen):
+async def distance_between_screens(session: Session, request, screen1: db.Screen, screen2: db.Screen):
 
     conditions1 = []
     conditions2 = []
@@ -55,11 +53,14 @@ def distance_between_screens(session, screen1: db.Screen, screen2: db.Screen):
     for well in screen2.wells:
         conditions2.append(make_dataframe(well.wellcondition))
 
-    total = sum(
-        C6_score(session, conditions1[i], conditions2[j])
-        for i in range(len(conditions1))
-        for j in range(len(conditions2))
-    )
+    scores = []
+    for i in range(len(conditions1)):
+        if await request.is_disconnected():
+            raise CancelledError()
+        for j in range(len(conditions2)):
+            scores.append(C6_score(session, conditions1[i], conditions2[j]))
+
+    total = sum(scores)
 
     return total / (len(conditions1) * len(conditions2))
 

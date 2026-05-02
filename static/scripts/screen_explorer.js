@@ -5,6 +5,8 @@ site_functions.CONTENT_PROVIDERS.screen_explorer = (function() {
 var LAST_QUERY = null;
 var CURRENT_SELECTED_SCREEN = null;
 var LAST_SELECTED_SCREEN = null;
+var controller = new AbortController();
+var signal = controller.signal;
 
 // ========================================================================== //
 // Publicly accessible functions go here (note script needs to be loaded for them to be available)
@@ -210,6 +212,10 @@ function view_screen(cell, view_wells = false){
 }
 
 function load_data_from_button_pressed() {
+    controller.abort();
+    controller = new AbortController();
+    signal = controller.signal;
+
     if ($('#screen-wells').is(':visible')) {
         update_view_wells();
     }
@@ -247,7 +253,7 @@ async function update_compare_screen() {
         $("#name-screen1").text(CURRENT_SELECTED_SCREEN.name);
         $("#name-screen2").text(LAST_SELECTED_SCREEN.name);
 
-        const stats1 = fetch(site_functions.API_URL+"/screens/stats?screen_id=" + CURRENT_SELECTED_SCREEN.id).then((response)=> {
+        const stats1 = fetch(site_functions.API_URL+"/screens/stats?screen_id=" + CURRENT_SELECTED_SCREEN.id, { signal }).then((response)=> {
             return response.json();
             }).then((data)=> {
                 $("#condition-screen1").text(data.num_conditions);
@@ -255,7 +261,7 @@ async function update_compare_screen() {
                 $("#avg-factor-screen1").text(round(data.avg_factors_per_condition));
         });
 
-        const stats2 = fetch(site_functions.API_URL+"/screens/stats?screen_id=" + LAST_SELECTED_SCREEN.id).then((response)=> {
+        const stats2 = fetch(site_functions.API_URL+"/screens/stats?screen_id=" + LAST_SELECTED_SCREEN.id, { signal }).then((response)=> {
             return response.json();
         }).then((data)=> {
             $("#condition-screen2").text(data.num_conditions);
@@ -264,11 +270,11 @@ async function update_compare_screen() {
         });
 
         const chem_table = chemical_table.setData(site_functions.API_URL+"/screens/compareScreen?screen_id1=" + CURRENT_SELECTED_SCREEN.id + "&screen_id2=" +  LAST_SELECTED_SCREEN.id, "POST")
-        .then(() => {console.log(chemical_table.getData());$("#shared-chemicals").text(chemical_table.getData().length);});
+        .then(() => {$("#shared-chemicals").text(chemical_table.getData().length);});
         
 
 
-        const condition_table = fetch(site_functions.API_URL+"/screens/compareScreenConditions?screen_id1=" + CURRENT_SELECTED_SCREEN.id + "&screen_id2=" +  LAST_SELECTED_SCREEN.id).then((response)=> {
+        const condition_table = fetch(site_functions.API_URL+"/screens/compareScreenConditions?screen_id1=" + CURRENT_SELECTED_SCREEN.id + "&screen_id2=" +  LAST_SELECTED_SCREEN.id, { signal }).then((response)=> {
             return response.json();
         }).then((data)=> {
             let condition_2wells = [];
@@ -295,19 +301,19 @@ async function update_compare_screen() {
         // we load the diversity data later because its much heavier computationally
         await Promise.all([stats1, stats2, chem_table, condition_table])
 
-        fetch(site_functions.API_URL+"/screens/diversity?screen_id=" + CURRENT_SELECTED_SCREEN.id).then((response)=> {
+        fetch(site_functions.API_URL+"/screens/diversity?screen_id=" + CURRENT_SELECTED_SCREEN.id, { signal }).then((response)=> {
             response.json().then((data)=> {
                 $("#screen-diversity-num1").text(round(data));
             });
         })
 
-        fetch(site_functions.API_URL+"/screens/diversity?screen_id=" + LAST_SELECTED_SCREEN.id).then((response)=> {
+        fetch(site_functions.API_URL+"/screens/diversity?screen_id=" + LAST_SELECTED_SCREEN.id, { signal }).then((response)=> {
             response.json().then((data)=> {
                 $("#screen-diversity-num2").text(round(data));
             });
         })
 
-        fetch(site_functions.API_URL+"/screens/compareDiversity?screen_id1=" + CURRENT_SELECTED_SCREEN.id + "&screen_id2=" +  LAST_SELECTED_SCREEN.id).then((response)=> {
+        fetch(site_functions.API_URL+"/screens/compareDiversity?screen_id1=" + CURRENT_SELECTED_SCREEN.id + "&screen_id2=" +  LAST_SELECTED_SCREEN.id, { signal }).then((response)=> {
             response.json().then((data)=> {                
                 $("#distance-between-screens").text(round(data));
             });
@@ -317,15 +323,20 @@ async function update_compare_screen() {
 }
 
 function update_subset_screen() {
+    subset_tabulator_params[""]
+    subset_table = new Tabulator("#screen-subset-tabulator", subset_tabulator_params);
+    
     Tabulator.findTable('#screen-subset-tabulator')[0].setData(site_functions.API_URL+"/screens/subsets?screen_id=" + CURRENT_SELECTED_SCREEN.id, "POST");
 }
+
+
 
 async function update_screen_report() {
     $("#screen-report #screen-diversity-num").text("loading");
 
     const screen_table = Tabulator.findTable('#screen-report-tabulator')[0];
 
-    const stats = fetch(site_functions.API_URL+"/screens/stats?screen_id=" + CURRENT_SELECTED_SCREEN.id).then((response)=> {
+    const stats = fetch(site_functions.API_URL+"/screens/stats?screen_id=" + CURRENT_SELECTED_SCREEN.id, { signal }).then((response)=> {
         return response.json();
     }).then((data)=> {
         $("#screen-report #condition-num").text(data.num_conditions);
@@ -338,7 +349,7 @@ async function update_screen_report() {
     // we wait to load diveristy because its more expensive
     Promise.all([stats, report])
 
-    fetch(site_functions.API_URL+"/screens/diversity?screen_id=" + CURRENT_SELECTED_SCREEN.id).then((response)=> {
+    fetch(site_functions.API_URL+"/screens/diversity?screen_id=" + CURRENT_SELECTED_SCREEN.id, { signal }).then((response)=> {
         return response.json();
     }).then((data)=> {
         $("#screen-report #screen-diversity-num").text(round(data));
@@ -569,8 +580,7 @@ var screen_table = new Tabulator("#screen-tabulator", {
 screen_table.on("dataFiltered", update_screen_count_filtered);
 screen_table.on("dataLoaded", update_screen_count_loaded);
 
-// Tabulator table
-var subset_table = new Tabulator("#screen-subset-tabulator", {
+const subset_tabulator_params = {
     ajaxContentType: 'json',
     height: "100%",
     layout: "fitData",
@@ -748,7 +758,12 @@ var subset_table = new Tabulator("#screen-subset-tabulator", {
         {column: "screen.name", dir: "asc"}
     ],
     footerElement: $('<div>').append($('<span>').attr('id', 'screen-row-count')).append($('<span>').attr('id', 'filtered-screen-row-count')).prop('outerHTML'),
-});
+}
+
+// Tabulator table
+var subset_table = new Tabulator("#screen-subset-tabulator", subset_tabulator_params);
+
+
 
 // Tabulator table
 var well_table = new Tabulator("#screen-wells-view-tabulator", {

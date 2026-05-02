@@ -4,12 +4,13 @@
 
 from sqlmodel import Session, select, case, col, func, distinct, intersect
 from sqlalchemy.orm import subqueryload, selectinload
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, Query, Request
 from pydantic import BaseModel
 from typing import Annotated
 from asyncache import cached
 from cachetools.keys import hashkey
 from cachetools import LRUCache
+from time import sleep
 
 import api.db as db
 import api.recipes as recipes
@@ -106,7 +107,7 @@ async def get_screens(*, session: Session=Depends(db.get_readonly_session)):
             response_description="List of screens that contain only conditions found in the specified screen",
             response_model=list[QueryScreen])
 @cached(cache=LRUCache(maxsize= 125), key = lambda *args, **kwargs: hashkey(kwargs["screen_id"]))
-async def get_subset_screens(*, session: Session=Depends(db.get_readonly_session), screen_id: int):
+async def get_subset_screens(*, session: Session=Depends(db.get_readonly_session), screen_id: int, request: Request):
     """
     Gets a list of screens and the number of wells in each that contain only conditions found in the specified screen
     """
@@ -150,7 +151,6 @@ async def get_subset_screens(*, session: Session=Depends(db.get_readonly_session
             if len(screen.wells) == 0:
                 subset_screens.append(screen)
 
-        
     
     return [QueryScreen(screen=s, well_match_counter=0, screen_id=s.id) for s in subset_screens]
 
@@ -464,7 +464,7 @@ async def compare_screen_conditions(*, session: Session=Depends(db.get_readonly_
             response_description="float representing average distance of conditions within screen",
             response_model=float)
 @cached(cache=LRUCache(maxsize= 125), key = lambda *args, **kwargs: hashkey(kwargs["screen_id"]))
-async def diversity(*, session: Session=Depends(db.get_readonly_session), screen_id: int):
+async def diversity(*, session: Session=Depends(db.get_readonly_session), screen_id: int, request: Request):
     """
     float representing average distance of conditions within screen
     """
@@ -479,14 +479,14 @@ async def diversity(*, session: Session=Depends(db.get_readonly_session), screen
     )
     
     result = session.exec(statement).unique().one()
-    return condition_distance.distance_inside_screen(session, result)
+    return await condition_distance.distance_inside_screen(session, request, result)
 
 @router.get("/compareDiversity", 
             summary="Diversity of conditions between screens",
             response_description="float representing average distance of conditions between screens",
             response_model=float)
 @cached(cache=LRUCache(maxsize= 125), key = lambda *args, **kwargs: hashkey(tuple(sorted([kwargs["screen_id1"], kwargs["screen_id2"]]))))
-async def compare_diversity(*, session: Session=Depends(db.get_readonly_session), screen_id1: int, screen_id2: int):
+async def compare_diversity(*, session: Session=Depends(db.get_readonly_session), screen_id1: int, screen_id2: int, request: Request):
     """
     float representing average distance of conditions between screens
     """
@@ -512,7 +512,7 @@ async def compare_diversity(*, session: Session=Depends(db.get_readonly_session)
     )
     screen2 = session.exec(statement).unique().one()
     
-    return condition_distance.distance_between_screens(session, screen1, screen2)
+    return await condition_distance.distance_between_screens(session, request, screen1, screen2)
 
 
 def test():
