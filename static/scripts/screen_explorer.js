@@ -1358,6 +1358,8 @@ var condition_compare_table = new Tabulator("#condition-compare-tabulator", {
                 }
             }
             $("#shared-conditions").text(data.length);
+            console.log(condition_2wells)
+
             return condition_2wells
         }).catch(error => {
             if (error.name === 'AbortError') {
@@ -1397,8 +1399,13 @@ var condition_compare_table = new Tabulator("#condition-compare-tabulator", {
             width: 85,
             headerSort: false,
             headerMenu: column_menu,
+            // we split the codes from A12 into "A" and "12", only if the letters are the same we check the numbers
             sorter: function(a, b, aRow, bRow, column, dir, sorterParams){
-                return aRow.getData().well.position_number - bRow.getData().well.position_number;
+                if (b[0] == a[0]) {
+                    return b.charCodeAt(0) - a.charCodeAt(0);
+                } else {
+                    return Number(b.substring(1)) - Number(a.substring(1));
+                }
             },
             headerFilter: "input",
             headerFilterPlaceholder: "Filter",
@@ -1507,8 +1514,8 @@ var condition_compare_table = new Tabulator("#condition-compare-tabulator", {
             frozen: true
     }],
     initialSort: [
-        {column: "factor.chemical", dir: "asc"},
-        {column: "well.label", dir: "asc"}
+        {column: "wells", dir: "asc"},
+        {column: "factor.chemical", dir: "asc"}
     ],
     groupBy: ["wells"]
     ,
