@@ -377,6 +377,13 @@ hit_report_comments = document.getElementById("hit-report-comments");
 
 generate_hit_report_button = document.getElementById("generate-hit-report");
 generate_hit_report_button.addEventListener("click", (e) => {
+    fetch(site_functions.API_URL+"/report/hitReport").then((response)=> {
+        return response.blob()
+    }).then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        window.open(url);
+    })
+
     var selected_wells = site_functions.get_selected_wells();
     if (selected_wells.length == 0){
         site_functions.alert_user("No wells selected.");
@@ -402,6 +409,7 @@ generate_hit_report_button.addEventListener("click", (e) => {
     });
     
 })
+
 
 function make_hit_report(factor_types) {
     console.log(factor_types)

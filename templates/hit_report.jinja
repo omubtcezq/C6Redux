@@ -1,0 +1,41 @@
+\documentclass[12pt, letterpaper]{article}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{} % Clears any existing header/footer defaults
+\usepackage{xcolor}
+\usepackage[headheight=60pt, headsep=20pt]{geometry}
+\rhead{\textit{\huge Hit Report}}   % Right side of header
+\lhead{\textbf{\color{cyan} \huge C6Redux}}    % Left side of header
+\renewcommand{\headrulewidth}{0.4pt} % Sets thickness of the line (0pt to remove it)
+\begin{document}
+
+{% for screen in screens %}
+    \section{ {{screen.name}} }
+    {% for well in screen.wells %}
+        \subsection{ {{ well.name}} }
+        \begin{center}
+        \begin{tabular}{ c c c c }
+        {% for factor in well.factors %}
+            {{factor.concentration}} & {{factor.unit}} & {{factor.name}} & {% if factor.ph is defined %} {{factor.ph}} Ph {% endif %} \\ 
+        {% endfor %}
+        \end{tabular}
+        \end{center}
+    {% endfor %}
+{% endfor %}
+
+
+\section{Chemistry Range Table}
+\begin{center}
+\begin{tabular}{ c c c c c c }
+ \textbf{Class} & \textbf{Avg Conc} & \textbf{Conc Range} & \textbf{Units} & \textbf{Name} & \textbf{Count} \\
+{% for chemical in chemistry %}
+    {{chemical.class}} & {{chemical.avgConc}} & {{chemical.concRange}} & {{chemical.units}} & {{chemical.name}} & {{chemical.count}} \\ 
+{% endfor %}
+\end{tabular}
+\end{center}
+
+\section{Comments}
+{{comment}}
+
+
+\end{document}
