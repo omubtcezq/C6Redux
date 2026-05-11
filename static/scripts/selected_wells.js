@@ -377,13 +377,6 @@ hit_report_comments = document.getElementById("hit-report-comments");
 
 generate_hit_report_button = document.getElementById("generate-hit-report");
 generate_hit_report_button.addEventListener("click", (e) => {
-    fetch(site_functions.API_URL+"/report/hitReport").then((response)=> {
-        return response.blob()
-    }).then(blob => {
-        const url = window.URL.createObjectURL(blob);
-        window.open(url);
-    })
-
     var selected_wells = site_functions.get_selected_wells();
     if (selected_wells.length == 0){
         site_functions.alert_user("No wells selected.");
@@ -396,6 +389,17 @@ generate_hit_report_button.addEventListener("click", (e) => {
         }
         query_str = query_str+'well_ids='+selected_wells[i].well.id;
     }
+    if ($("#hit-report-comments").val() != 0) {
+        query_str += "&" + "comment=" + $("#hit-report-comments").val()
+    }
+    fetch(site_functions.API_URL+"/report/hitReport?"+query_str).then((response)=> {
+        return response.blob()
+    }).then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        window.open(url);
+    })
+
+    return
     $.getJSON(site_functions.API_URL+'/screens/automaticScreenMakerFactorGroups?'+query_str, function(data){
         factor_types = {};
         for (factor_group of data) {
@@ -405,14 +409,13 @@ generate_hit_report_button.addEventListener("click", (e) => {
         }
         make_hit_report(factor_types);
     }).fail(function() {
-        site_functions.alert_user("Error fetching well class data.");
+        site_functions.alert_user("Error making report");
     });
     
 })
 
 
 function make_hit_report(factor_types) {
-    console.log(factor_types)
     const doc = jsPDF();
     let pdf_y_position = 20;
 
