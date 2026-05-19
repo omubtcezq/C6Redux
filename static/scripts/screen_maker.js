@@ -131,16 +131,17 @@ function create_screen_display(parent_element_id, element_id, rows, cols){
             headerHozAlign: "center",
             editable: false,
             resizable: false,
-            tooltip: cell_tooltip
+            tooltip: cell_tooltip,
+            cssClass: "no-padding"
         });
     }
     // Tabulator data (fixed, only cell wellconditions will change)
     var letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     var all_data = []
     for (var r = 0; r < rows; r++){
-        var row_data = {row_id: r, row_letter: letters[r]};
+        var row_data = {row_letter: letters[r]};
         for (var c = 0; c < cols; c++){
-            row_data[c.toString()] = {col_id: c, wellcondition: null};
+            row_data[c.toString()] = null;
         }
         all_data.push(row_data);
     }
@@ -185,6 +186,53 @@ function generate_current_screen_from_automatic(){
 
     // screen_display_table_id, factor_group_table_id, include_selection_conditions_checkbox_id
 
+    const group_table = Tabulator.findTable("#automatic-factor-groups-tabulator")[0]
+    console.log(group_table.getData())
+    group_data = group_table.getData()
+
+    const display_table = Tabulator.findTable("#current-maker-tabulator")[0]
+    rows = display_table.getRows().length
+    cols = display_table.getColumns().length
+
+    var letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    var all_data = []
+    for (var r = 0; r < rows; r++){
+        var row_data = {row_letter: letters[r]};
+        for (var c = 0; c < cols; c++){
+            row_data[c.toString()] = []
+            for (group of group_data) {
+                if (Math.random() * 100 > group.well_coverage) {
+                    row_data[c.toString()].push({"ammt": 0, "color": "white"});
+                }
+                else {
+                    total_weight = 0
+                    for (factor of group.factors) {
+                        total_weight += factor.relative_coverage 
+                    }
+                    total_weight *= Math.random()
+                    selected_factor = null
+                    for (factor of group.factors) {
+                        total_weight -= factor.relative_coverage 
+                        if (total_weight < 0) {
+                            selected_factor = factor
+                            break
+                        }
+                    }
+                    vary_ammt = Math.random()
+                    if (selected_factor.vary.id == "ph")
+                        selected_factor.ph = selected_factor.varied_min + (selected_factor.varied_max - selected_factor.varied_min) * Math.random()
+                    else if (selected_factor.vary.id == "concentration")
+                        selected_factor.concentration = selected_factor.varied_min + (selected_factor.varied_max - selected_factor.varied_min) * Math.random()
+                    
+                    row_data[c.toString()].push({"factor": selected_factor, "ammt": vary_ammt, "color": group.colour});
+                }
+            }
+        }
+        all_data.push(row_data);
+    }
+
+    display_table.setData(all_data);
+
     // Hide the popup requesting regeneration if it case it's up
     $('#current-maker-tabulator-automatic-update-popup').hide();
 }
@@ -200,7 +248,23 @@ function row_header_formatter(cell, formatterParams, onRendered){
 }
 
 function condition_formatter(cell, formatterParams, onRendered){
-    return '';
+
+    div = document.createElement("div");
+    div.className = "condition-cell";
+
+    data = cell.getValue()
+    if (data == null) {
+        return ""
+    }
+    for (datum of data) {
+        factor_bar = document.createElement("div");
+        factor_bar.style.backgroundColor = datum["color"]
+        factor_bar.style.height = datum["ammt"] * 100 + "%"
+        factor_bar.className = "factor-bar";
+        div.append(factor_bar);
+    }
+
+    return div;
 }
 
 function cell_tooltip(e, cell, onRendered){
@@ -397,7 +461,13 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
             width: 77,
             hozAlign: "right", 
             vertAlign: "middle",
-            editable: false,
+            editable: true,
+            editor: "number",
+            editorParams:{
+                min: 0,
+                max: 100,
+                step: 1
+            },
             sorter: "number",
             formatter: function(cell, formatterParams, onRendered){
                 $(cell.getElement()).css('color', '#999');
@@ -655,7 +725,6 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
                 editor: "number",
                 editorParams:{
                     min: 0,
-                    max: 100,
                     step: 1
                 },
                 sorter: "number"
@@ -984,6 +1053,10 @@ $('#screen-maker-automatic-add-group-button').click(function(){
         factors: []
     });
 });
+
+$("#screen-maker-automatic-randomise-button").click(function(){
+   generate_current_screen_from_automatic() 
+})
 
 $("#automatic-maker-button").click(function(){
     // Buttons

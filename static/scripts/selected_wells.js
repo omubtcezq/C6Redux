@@ -398,20 +398,6 @@ generate_hit_report_button.addEventListener("click", (e) => {
         const url = window.URL.createObjectURL(blob);
         window.open(url);
     })
-
-    return
-    $.getJSON(site_functions.API_URL+'/screens/automaticScreenMakerFactorGroups?'+query_str, function(data){
-        factor_types = {};
-        for (factor_group of data) {
-            for (factor of factor_group.factors) {
-                factor_types[factor.chemical.name] = factor_group.name;
-            }
-        }
-        make_hit_report(factor_types);
-    }).fail(function() {
-        site_functions.alert_user("Error making report");
-    });
-    
 })
 
 
