@@ -183,6 +183,14 @@ function set_required_regeneration_of_current_screen_from_automatic(){
     $('#current-maker-tabulator-automatic-update-popup').show();
 }
 
+function gaussianRandomTruncated(stdev, mean=.5) {
+    const u = 1 - Math.random(); // Converting [0,1) to (0,1]
+    const v = Math.random();
+    const z = Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v );
+    // Transform to the desired mean and standard deviation:
+    return Math.max(Math.min(z * stdev + mean, 1), 0);
+}
+
 function generate_current_screen_from_automatic(){
     // TODO: Update the screen display table based on the factor groups
     // Also check if initial conditions need to be included
@@ -190,11 +198,23 @@ function generate_current_screen_from_automatic(){
     // screen_display_table_id, factor_group_table_id, include_selection_conditions_checkbox_id
 
     const group_table = Tabulator.findTable("#automatic-factor-groups-tabulator")[0]
-    group_data = group_table.getData()
+    group_data = group_table.getData();
 
     const display_table = Tabulator.findTable("#current-maker-tabulator")[0]
-    rows = display_table.getRows().length
-    cols = display_table.getColumns().length - 1
+    const ranges = display_table.getRangesData();
+    let rows = ranges[0].length;
+    let cols = Object.keys(ranges[0][0]).length;
+
+    const grid_rows = display_table.getRows().length;
+    const grid_cols = display_table.getColumns().length - 1; // -1 because the title for each row is included
+
+    if (!(rows > 1) && !(cols > 1)) {
+        rows = grid_rows
+        cols = grid_cols
+    }
+
+    rows = Math.min(rows, grid_rows)
+    cols = Math.min(cols, grid_cols)
 
 
     for (group of group_data) {
@@ -218,11 +238,18 @@ function generate_current_screen_from_automatic(){
                         break
                     }
                 }
-                vary_ammt = Math.random()
+                var vary_ammt = null
+                if (group.varied_distribution.id == "uniform")
+                    vary_ammt = Math.random()
+                if (group.varied_distribution.id == "gaussian") 
+                    vary_ammt = gaussianRandomTruncated(stdev= .2)
+                if (group.varied_distribution.id == "stepwise")
+                    vary_ammt = Math.random()
+                
                 if (selected_factor.vary.id == "ph")
-                    selected_factor.ph = selected_factor.varied_min + (selected_factor.varied_max - selected_factor.varied_min) * Math.random()
+                    selected_factor.ph = selected_factor.varied_min + (selected_factor.varied_max - selected_factor.varied_min) * vary_ammt
                 else if (selected_factor.vary.id == "concentration")
-                    selected_factor.concentration = selected_factor.varied_min + (selected_factor.varied_max - selected_factor.varied_min) * Math.random()
+                    selected_factor.concentration = selected_factor.varied_min + (selected_factor.varied_max - selected_factor.varied_min) * vary_ammt
                 
                 group["generated_factors"].push({"factor": selected_factor, "ammt": vary_ammt, "color": group.colour});
             }
@@ -237,11 +264,18 @@ function generate_current_screen_from_automatic(){
 
     var letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     var all_data = []
+    for (var r = 0; r < grid_rows; r++){
+        var row_data = {row_letter: letters[r]};
+        for (var c = 0; c < grid_cols; c++){
+            row_data[c.toString()] = []
+        }
+        all_data.push(row_data);
+    }
+
     i = 0
     for (var r = 0; r < rows; r++){
-        var row_data = {row_letter: letters[r]};
+        var row_data = all_data[r];
         for (var c = 0; c < cols; c++){
-            row_data[c.toString()] = []
             for (group of group_data) {
                 if (group.factors.length == 0)
                     continue
@@ -273,13 +307,15 @@ function generate_current_screen_from_automatic(){
             }
             i += 1
         }
-        all_data.push(row_data);
     }
+    console.log(all_data)
 
     display_table.setData(all_data);
 
     // Hide the popup requesting regeneration if it case it's up
     $('#current-maker-tabulator-automatic-update-popup').hide();
+
+
 }
 
 function row_formatter(row){
@@ -313,7 +349,7 @@ function condition_formatter(cell, formatterParams, onRendered){
 }
 
 function cell_tooltip(e, cell, onRendered){
-    if (cell.getValue() == null){
+    if (cell.getValue() == null || cell.getValue().length == 0){
         return "Empty Well";
     }
     str = get_name(cell.getValue()[0])
@@ -1066,10 +1102,13 @@ var current_maker_details_table = new Tabulator('#current-maker-details-tabulato
             var size = cell.getValue();
             if (size == 24){
                 create_screen_display('#holder-for-current-maker-tabulator', '#current-maker-tabulator', 4, 6);
+                set_required_regeneration_of_current_screen_from_automatic()
             } else if (size == 48){
                 create_screen_display('#holder-for-current-maker-tabulator', '#current-maker-tabulator', 6, 8);
+                set_required_regeneration_of_current_screen_from_automatic()
             } else {
                 create_screen_display('#holder-for-current-maker-tabulator', '#current-maker-tabulator', 8, 12);
+                set_required_regeneration_of_current_screen_from_automatic()
             }
         }
     }]
