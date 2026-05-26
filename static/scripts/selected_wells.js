@@ -389,22 +389,19 @@ generate_hit_report_button.addEventListener("click", (e) => {
         }
         query_str = query_str+'well_ids='+selected_wells[i].well.id;
     }
-    $.getJSON(site_functions.API_URL+'/screens/automaticScreenMakerFactorGroups?'+query_str, function(data){
-        factor_types = {};
-        for (factor_group of data) {
-            for (factor of factor_group.factors) {
-                factor_types[factor.chemical.name] = factor_group.name;
-            }
-        }
-        make_hit_report(factor_types);
-    }).fail(function() {
-        site_functions.alert_user("Error fetching well class data.");
-    });
-    
+    if ($("#hit-report-comments").val() != 0) {
+        query_str += "&" + "comment=" + $("#hit-report-comments").val()
+    }
+    fetch(site_functions.API_URL+"/report/hitReport?"+query_str).then((response)=> {
+        return response.blob()
+    }).then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        window.open(url);
+    })
 })
 
+
 function make_hit_report(factor_types) {
-    console.log(factor_types)
     const doc = jsPDF();
     let pdf_y_position = 20;
 

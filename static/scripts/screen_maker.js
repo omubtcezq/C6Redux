@@ -100,6 +100,8 @@ function create_factor_groups_from_selected_wells(){
         query_str = query_str+'well_ids='+selected_wells[i].well.id;
     }
     $.getJSON(site_functions.API_URL+'/screens/automaticScreenMakerFactorGroups?'+query_str, function(data){
+        console.log(data)
+
         for (var i=0; i<data.length; i++){
             var g = data[i];
             g.id = i;
@@ -108,6 +110,7 @@ function create_factor_groups_from_selected_wells(){
             g.chemical_order = value_from_id(g.chemical_order, chemical_order_options);
             g.varied_distribution = value_from_id(g.varied_distribution, varied_distribution_options);
             g.varied_grouping = value_from_id(g.varied_grouping, varied_grouping_options);
+            grouped = Object.groupBy(g.factors, (f) => f.chemical.name)
             for (var j=0; j<g.factors.length; j++){
                 var f = g.factors[j];
                 f.id = i+"_"+j;
@@ -131,16 +134,17 @@ function create_screen_display(parent_element_id, element_id, rows, cols){
             headerHozAlign: "center",
             editable: false,
             resizable: false,
-            tooltip: cell_tooltip
+            tooltip: cell_tooltip,
+            cssClass: "no-padding"
         });
     }
     // Tabulator data (fixed, only cell wellconditions will change)
     var letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     var all_data = []
     for (var r = 0; r < rows; r++){
-        var row_data = {row_id: r, row_letter: letters[r]};
+        var row_data = {row_letter: letters[r]};
         for (var c = 0; c < cols; c++){
-            row_data[c.toString()] = {col_id: c, wellcondition: null};
+            row_data[c.toString()] = null;
         }
         all_data.push(row_data);
     }
@@ -179,14 +183,139 @@ function set_required_regeneration_of_current_screen_from_automatic(){
     $('#current-maker-tabulator-automatic-update-popup').show();
 }
 
+function gaussianRandomTruncated(stdev, mean=.5) {
+    const u = 1 - Math.random(); // Converting [0,1) to (0,1]
+    const v = Math.random();
+    const z = Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v );
+    // Transform to the desired mean and standard deviation:
+    return Math.max(Math.min(z * stdev + mean, 1), 0);
+}
+
 function generate_current_screen_from_automatic(){
     // TODO: Update the screen display table based on the factor groups
     // Also check if initial conditions need to be included
 
     // screen_display_table_id, factor_group_table_id, include_selection_conditions_checkbox_id
 
+    const group_table = Tabulator.findTable("#automatic-factor-groups-tabulator")[0]
+    group_data = group_table.getData();
+
+    const display_table = Tabulator.findTable("#current-maker-tabulator")[0]
+    const ranges = display_table.getRangesData();
+    let rows = ranges[0].length;
+    let cols = Object.keys(ranges[0][0]).length;
+
+    const grid_rows = display_table.getRows().length;
+    const grid_cols = display_table.getColumns().length - 1; // -1 because the title for each row is included
+
+    if (!(rows > 1) && !(cols > 1)) {
+        rows = grid_rows
+        cols = grid_cols
+    }
+
+    rows = Math.min(rows, grid_rows)
+    cols = Math.min(cols, grid_cols)
+
+
+    for (group of group_data) {
+        if (group.factors.length == 0)
+            continue
+        group["generated_factors"] = []
+        for (x = 0; x < rows * cols; x += 1) {
+            if (Math.random() * 100 > group.well_coverage) {
+                group["generated_factors"].push({"ammt": 0, "color": "white"});
+            } else {
+                total_weight = 0
+                for (factor of group.factors) {
+                    total_weight += factor.relative_coverage 
+                }
+                total_weight *= Math.random()
+                selected_factor = null
+                for (factor of group.factors) {
+                    total_weight -= factor.relative_coverage 
+                    if (total_weight < 0) {
+                        selected_factor = factor
+                        break
+                    }
+                }
+                var vary_ammt = null
+                if (group.varied_distribution.id == "uniform")
+                    vary_ammt = Math.random()
+                if (group.varied_distribution.id == "gaussian") 
+                    vary_ammt = gaussianRandomTruncated(stdev= .2)
+                if (group.varied_distribution.id == "stepwise")
+                    vary_ammt = Math.random()
+                
+                if (selected_factor.vary.id == "ph")
+                    selected_factor.ph = selected_factor.varied_min + (selected_factor.varied_max - selected_factor.varied_min) * vary_ammt
+                else if (selected_factor.vary.id == "concentration")
+                    selected_factor.concentration = selected_factor.varied_min + (selected_factor.varied_max - selected_factor.varied_min) * vary_ammt
+                
+                group["generated_factors"].push({"factor": selected_factor, "ammt": vary_ammt, "color": group.colour});
+            }
+        }
+    }
+
+    for (group of group_data) {
+        if (group.chemical_order.id != "random") { 
+            group.generated_factors.sort((a, b) => a.factor.chemical.name.localeCompare(b.factor.chemical.name))
+        }
+    }
+
+    var letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    var all_data = []
+    for (var r = 0; r < grid_rows; r++){
+        var row_data = {row_letter: letters[r]};
+        for (var c = 0; c < grid_cols; c++){
+            row_data[c.toString()] = []
+        }
+        all_data.push(row_data);
+    }
+
+    i = 0
+    for (var r = 0; r < rows; r++){
+        var row_data = all_data[r];
+        for (var c = 0; c < cols; c++){
+            for (group of group_data) {
+                if (group.factors.length == 0)
+                    continue
+                if (group.chemical_order.id == "column") {
+                    row_data[c.toString()].push(group["generated_factors"][r + c * rows]);  
+                } else if (group.chemical_order.id == "quadrant") {
+                    if (r < rows / 2 && c < cols / 2) {
+                        //      first 2 terms normalize quadrants, then reduce offset, then account for different quadrant, hard to explain
+                        index = c % (cols / 2) + r % (rows / 2) * cols - r * (cols / 2) + 0 * cols * rows * .25
+                        row_data[c.toString()].push(group["generated_factors"][index]);  
+                    }
+                    else if (r < rows / 2 && c >= cols / 2) {
+                        index = c % (cols / 2) + r % (rows / 2) * cols - r * (cols / 2) + 1 * cols * rows * .25
+                        row_data[c.toString()].push(group["generated_factors"][index]);  
+                    }
+                    else if (r >= rows / 2 && c < cols / 2) {
+                        index = c % (cols / 2) + r % (rows / 2) * cols - r % (rows / 2) * (cols / 2) + 2 * cols * rows * .25
+                        row_data[c.toString()].push(group["generated_factors"][index]);  
+                    }
+                    else if (r >= rows / 2 && c >= cols / 2) {
+                        index = c % (cols / 2) + r % (rows / 2) * cols - r % (rows / 2) * (cols / 2) + 3 * cols * rows * .25
+                        row_data[c.toString()].push(group["generated_factors"][index]);  
+                    }
+                    console.log(index)
+                } 
+                else {
+                    row_data[c.toString()].push(group["generated_factors"][i]);       
+                }
+            }
+            i += 1
+        }
+    }
+    console.log(all_data)
+
+    display_table.setData(all_data);
+
     // Hide the popup requesting regeneration if it case it's up
     $('#current-maker-tabulator-automatic-update-popup').hide();
+
+
 }
 
 function row_formatter(row){
@@ -200,13 +329,40 @@ function row_header_formatter(cell, formatterParams, onRendered){
 }
 
 function condition_formatter(cell, formatterParams, onRendered){
-    return '';
+
+    div = document.createElement("div");
+    div.className = "condition-cell";
+
+    data = cell.getValue()
+    if (data == null) {
+        return ""
+    }
+    for (datum of data) {
+        factor_bar = document.createElement("div");
+        factor_bar.style.backgroundColor = datum["color"]
+        factor_bar.style.height = datum["ammt"] * 100 + "%"
+        factor_bar.className = "factor-bar";
+        div.append(factor_bar);
+    }
+
+    return div;
 }
 
 function cell_tooltip(e, cell, onRendered){
-    if (cell.getData().wellcondition == null){
+    if (cell.getValue() == null || cell.getValue().length == 0){
         return "Empty Well";
     }
+    str = get_name(cell.getValue()[0])
+    for (f of cell.getValue().slice(1)) {
+        str +=  " | " + get_name(f)
+    }
+    return str
+}
+
+function get_name(f) {
+    if (f.factor != null)
+        return f.factor.chemical.name
+    return "none"
 }
 
 // ========================================================================== //
@@ -397,7 +553,13 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
             width: 77,
             hozAlign: "right", 
             vertAlign: "middle",
-            editable: false,
+            editable: true,
+            editor: "number",
+            editorParams:{
+                min: 0,
+                max: 100,
+                step: 1
+            },
             sorter: "number",
             formatter: function(cell, formatterParams, onRendered){
                 $(cell.getElement()).css('color', '#999');
@@ -655,7 +817,6 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
                 editor: "number",
                 editorParams:{
                     min: 0,
-                    max: 100,
                     step: 1
                 },
                 sorter: "number"
@@ -941,10 +1102,13 @@ var current_maker_details_table = new Tabulator('#current-maker-details-tabulato
             var size = cell.getValue();
             if (size == 24){
                 create_screen_display('#holder-for-current-maker-tabulator', '#current-maker-tabulator', 4, 6);
+                set_required_regeneration_of_current_screen_from_automatic()
             } else if (size == 48){
                 create_screen_display('#holder-for-current-maker-tabulator', '#current-maker-tabulator', 6, 8);
+                set_required_regeneration_of_current_screen_from_automatic()
             } else {
                 create_screen_display('#holder-for-current-maker-tabulator', '#current-maker-tabulator', 8, 12);
+                set_required_regeneration_of_current_screen_from_automatic()
             }
         }
     }]
@@ -984,6 +1148,10 @@ $('#screen-maker-automatic-add-group-button').click(function(){
         factors: []
     });
 });
+
+$("#screen-maker-automatic-randomise-button").click(function(){
+   generate_current_screen_from_automatic() 
+})
 
 $("#automatic-maker-button").click(function(){
     // Buttons

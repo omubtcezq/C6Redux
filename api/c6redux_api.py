@@ -7,6 +7,7 @@ import api.screens as screens
 import api.stocks as stocks
 import api.chemicals as chemicals
 import api.authentication as authentication
+import api.hit_report as report
 
 API_TITLE = "C6Redux_API"
 API_VERSION = "v0.1.6"
@@ -63,6 +64,7 @@ app = FastAPI(title = API_TITLE,
                   "identifier": "GPL-3.0-or-later"
               })
 app.include_router(screens.router)
+app.include_router(report.router)
 app.include_router(stocks.router)
 app.include_router(chemicals.router)
 app.include_router(authentication.router)
