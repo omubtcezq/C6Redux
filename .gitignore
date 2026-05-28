@@ -5,3 +5,4 @@ logs/*
 deployment/*
 run/*
 .vs/*
+document_generation/*
