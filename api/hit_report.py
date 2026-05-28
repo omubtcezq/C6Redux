@@ -30,6 +30,8 @@ async def main(*, session: Session=Depends(db.get_readonly_session), well_ids: A
     print(os.path.dirname(os.path.abspath(__file__)), file=sys.stderr)
     print("WOW", file=sys.stderr)
     env = Environment(loader = FileSystemLoader(r'.\templates'))
+    full_paths = [os.path.abspath(p) for p in env.loader.searchpath]
+    print(full_paths)   
     template = env.get_template(r'hit_report.jinja')
 
     statement = (
