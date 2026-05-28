@@ -23,8 +23,6 @@ router = APIRouter(
     tags=["Hit Report"]
 )
 
-import sys
-
 @router.get("/hitReport")
 async def main(*, session: Session=Depends(db.get_readonly_session), well_ids: Annotated[list[int], Query()], comment: str | None = None):
     env = Environment(loader = FileSystemLoader(r'templates'))
