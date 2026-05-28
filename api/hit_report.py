@@ -27,11 +27,7 @@ import sys
 
 @router.get("/hitReport")
 async def main(*, session: Session=Depends(db.get_readonly_session), well_ids: Annotated[list[int], Query()], comment: str | None = None):
-    print(os.path.dirname(os.path.abspath(__file__)), file=sys.stderr)
-    print("WOW", file=sys.stderr)
     env = Environment(loader = FileSystemLoader(r'templates'))
-    full_paths = [os.path.abspath(p) for p in env.loader.searchpath]
-    print(full_paths, file=sys.stderr)   
     template = env.get_template(r'hit_report.jinja')
 
     statement = (
@@ -63,7 +59,6 @@ async def main(*, session: Session=Depends(db.get_readonly_session), well_ids: A
             temp_screen["wells"].append(temp_well)
         screens.append(temp_screen)
         
-    print(comment)
     chemistry = {}
     for chemical_name, factor_list in factor_dict.items():
         unit = None
@@ -90,12 +85,13 @@ async def main(*, session: Session=Depends(db.get_readonly_session), well_ids: A
 
 
     latex_temp_name = next(tempfile._get_candidate_names())
-    with open("document_generation\\" + latex_temp_name + ".tex", "w") as f:
+    latex_path = os.path.join("document_generation", f"{latex_temp_name}.tex")
+    with open(latex_path, "w") as f:
         f.write(output)
 
     pdf_temp_name = next(tempfile._get_candidate_names())
     result = subprocess.run(
-    ['pdflatex', f'-jobname={pdf_temp_name}', '-interaction=nonstopmode', f"-output-directory=document_generation", r".\document_generation" + "\\" + latex_temp_name + ".tex"],
+    ['pdflatex', f'-jobname={pdf_temp_name}', '-interaction=nonstopmode', f"-output-directory=document_generation", latex_path],
     capture_output=True  # Capture logs for error checking
     )
 
