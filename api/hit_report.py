@@ -90,19 +90,20 @@ async def main(*, session: Session=Depends(db.get_readonly_session), well_ids: A
         f.write(output)
 
     pdf_temp_name = next(tempfile._get_candidate_names())
+    pdf_path = os.path.join("document_generation", f"{pdf_temp_name}.pdf")
     result = subprocess.run(
     ['pdflatex', f'-jobname={pdf_temp_name}', '-interaction=nonstopmode', f"-output-directory=document_generation", latex_path],
     capture_output=True  # Capture logs for error checking
     )
 
     return FileResponse(
-        "document_generation\\" + pdf_temp_name + ".pdf",
+        pdf_path,
         filename="Hit Report.pdf",
         background=BackgroundTask(lambda: delete_temp_files(latex_temp_name=latex_temp_name, pdf_temp_name=pdf_temp_name))
         )
 
 def delete_temp_files(latex_temp_name, pdf_temp_name):
-    os.remove(r".\document_generation" + "\\" + latex_temp_name + ".tex")
-    os.remove(r".\document_generation" + "\\" + pdf_temp_name + ".pdf")
-    os.remove(r".\document_generation" + "\\" + pdf_temp_name + ".aux")
-    os.remove(r".\document_generation" + "\\" + pdf_temp_name + ".log")
+    os.remove(os.path.join("document_generation", f"{latex_temp_name}.tex"))
+    os.remove(os.path.join("document_generation", f"{pdf_temp_name}.pdf"))
+    os.remove(os.path.join("document_generation", f"{pdf_temp_name}.aux"))
+    os.remove(os.path.join("document_generation", f"{pdf_temp_name}.log"))
