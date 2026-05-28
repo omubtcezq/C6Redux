@@ -23,11 +23,12 @@ router = APIRouter(
     tags=["Hit Report"]
 )
 
+import sys
 
 @router.get("/hitReport")
 async def main(*, session: Session=Depends(db.get_readonly_session), well_ids: Annotated[list[int], Query()], comment: str | None = None):
-    print(os.path.dirname(os.path.abspath(__file__)))
-    print("WOW")
+    print(os.path.dirname(os.path.abspath(__file__)), file=sys.stderr)
+    print("WOW", file=sys.stderr)
     env = Environment(loader = FileSystemLoader(r'.\templates'))
     template = env.get_template(r'hit_report.jinja')
 
