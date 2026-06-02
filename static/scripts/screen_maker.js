@@ -100,8 +100,6 @@ function create_factor_groups_from_selected_wells(){
         query_str = query_str+'well_ids='+selected_wells[i].well.id;
     }
     $.getJSON(site_functions.API_URL+'/screens/automaticScreenMakerFactorGroups?'+query_str, function(data){
-        console.log(data)
-
         for (var i=0; i<data.length; i++){
             var g = data[i];
             g.id = i;
@@ -192,6 +190,8 @@ function gaussianRandomTruncated(stdev, mean=.5) {
 }
 
 function generate_current_screen_from_automatic(){
+
+    
     // TODO: Update the screen display table based on the factor groups
     // Also check if initial conditions need to be included
 
@@ -200,22 +200,72 @@ function generate_current_screen_from_automatic(){
     const group_table = Tabulator.findTable("#automatic-factor-groups-tabulator")[0]
     group_data = group_table.getData();
 
+    
+
     const display_table = Tabulator.findTable("#current-maker-tabulator")[0]
     const ranges = display_table.getRangesData();
     let rows = ranges[0].length;
     let cols = Object.keys(ranges[0][0]).length;
-
+    
     const grid_rows = display_table.getRows().length;
     const grid_cols = display_table.getColumns().length - 1; // -1 because the title for each row is included
-
-    if (!(rows > 1) && !(cols > 1)) {
-        rows = grid_rows
-        cols = grid_cols
-    }
 
     rows = Math.min(rows, grid_rows)
     cols = Math.min(cols, grid_cols)
 
+    additive_data = Tabulator.findTable("#automatic-additive-tabulator")[0].getData()[0]
+    additive_query = {"additive": additive_data.screen, "dilution": additive_data.dilution}
+
+    fetch(site_functions.API_URL+'/screens/conditionGrid', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            factor_groups: group_data.map(group => {
+                group.chemical_order = group.chemical_order.id
+                group.varied_distribution = group.varied_distribution.id
+                group.varied_grouping = group.varied_grouping.id
+                group.factors.map(factor => {
+                    factor.vary = factor.vary.id
+                    return factor
+                })
+                group.group_name = group.factor_group
+                return group
+            }),
+            additive_and_dilution: additive_data.screen.id != null ?  additive_query : null,
+            // included_wells: includedWells,
+            // if the size is not based on user selection then its one of the defaults
+            size: !(rows > 1) && !(cols > 1) ? grid_rows * grid_cols : {"rows": rows, "cols": cols}
+        })
+        }).then(r => {
+            return r.json()
+        }).then (json => {
+            console.log(json)
+            var letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            var all_data = []
+            for (var r = 0; r < grid_rows; r++){
+                var row_data = {row_letter: letters[r]};
+                for (var c = 0; c < grid_cols; c++){
+                    row_data[c.toString()] = []
+                }
+                all_data.push(row_data);
+            }
+
+            for (var r = 0; r < grid_rows; r++){
+                var row_data = all_data[r];
+                for (var c = 0; c < grid_cols; c++){
+                    row_data[c.toString()] = json[r][c].condition
+                }
+            }
+
+            display_table.setData(all_data);
+
+            // Hide the popup requesting regeneration if it case it's up
+            $('#current-maker-tabulator-automatic-update-popup').hide();
+        });
+
+    return
 
     for (group of group_data) {
         if (group.factors.length == 0)
@@ -262,15 +312,7 @@ function generate_current_screen_from_automatic(){
         }
     }
 
-    var letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    var all_data = []
-    for (var r = 0; r < grid_rows; r++){
-        var row_data = {row_letter: letters[r]};
-        for (var c = 0; c < grid_cols; c++){
-            row_data[c.toString()] = []
-        }
-        all_data.push(row_data);
-    }
+    return
 
     i = 0
     for (var r = 0; r < rows; r++){
@@ -308,7 +350,6 @@ function generate_current_screen_from_automatic(){
             i += 1
         }
     }
-    console.log(all_data)
 
     display_table.setData(all_data);
 
@@ -334,13 +375,18 @@ function condition_formatter(cell, formatterParams, onRendered){
     div.className = "condition-cell";
 
     data = cell.getValue()
+    console.log(data)
     if (data == null) {
         return ""
     }
     for (datum of data) {
         factor_bar = document.createElement("div");
-        factor_bar.style.backgroundColor = datum["color"]
-        factor_bar.style.height = datum["ammt"] * 100 + "%"
+        group_table = Tabulator.findTable("#automatic-factor-groups-tabulator")[0]
+        console.log(group_table.getData())
+
+
+        factor_bar.style.backgroundColor = group_table.getData().find(g => g.name == datum.group_name)["colour"]
+        factor_bar.style.height = "100%" //datum["ammt"] * 100 + "%"
         factor_bar.className = "factor-bar";
         div.append(factor_bar);
     }
@@ -361,7 +407,7 @@ function cell_tooltip(e, cell, onRendered){
 
 function get_name(f) {
     if (f.factor != null)
-        return f.factor.chemical.name
+        return f.chemical.name
     return "none"
 }
 

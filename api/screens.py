@@ -262,6 +262,17 @@ async def get_custom_condition_custom_stocks_recipe(*, session: Session=Depends(
     """
     return screen_maker.make_factor_groups_from_well_ids(session, well_ids)
 
+@router.post("/conditionGrid", 
+             summary="Creates a grid of conditions from factor groups",
+             response_description="list of conditions",
+             response_model=list[list[screen_maker.GridWell]])
+async def get_condition_grid(*, session: Session=Depends(db.get_readonly_session), query: screen_maker.ConditionGridQuery):
+    """
+    Creates a grid of conditions from factor groups
+    """
+    return screen_maker.make_condition_grid_from_factor_groups(session, query)
+
+
 @router.get("/stats", 
             summary="Gets small number of statistics about a screen from its screen id",
             response_description="Statistics about given screen",

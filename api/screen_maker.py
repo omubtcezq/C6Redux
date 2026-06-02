@@ -7,9 +7,11 @@ from sqlalchemy.orm import subqueryload
 from pydantic import BaseModel
 from pydantic.functional_validators import model_validator
 from enum import Enum
+from random import random
 
 import api.db as db
 import api.units_and_buffers as unbs
+
 
 PRIMARY_CONC_VARY_MIN_MULTIPLIER = 0.8
 PRIMARY_CONC_VARY_MAX_MULTIPLIER = 1.1
@@ -87,6 +89,26 @@ class AutoScreenMakerFactorGroup(BaseModel):
 class AdditiveAndDilution(BaseModel):
     additive: db.ScreenReadLite
     dilution: float
+
+class CustomSize(BaseModel):
+    rows: int
+    cols: int
+
+class ConditionGridQuery(BaseModel):
+    factor_groups: list[AutoScreenMakerFactorGroup]
+    additive_and_dilution: AdditiveAndDilution | None = None
+    included_wells: list[db.WellReadLite] | None = None
+    size: int | CustomSize
+
+class GridFactor(BaseModel):
+    chemical: db.ChemicalReadLite
+    concentration: float | None
+    unit: str
+    ph: float | None
+    group_name: str
+
+class GridWell(BaseModel):
+    condition: list[GridFactor | None]
 
 # ============================================================================ #
 # Factor group generation
@@ -200,7 +222,7 @@ def factor_group_varying_conc_from_factors(name, factors, min_multiplier, max_mu
                                                             varied_max=round(max_multiplier*f.concentration, 3)))
     
     # Make automatic group and return
-    g = AutoScreenMakerFactorGroup(name=name, 
+    g = AutoScreenMakerFactorGroup(name=name,
                                    chemical_order=ChemicalOrder.random, 
                                    varied_distribution=VariedDistribution.gaussian, 
                                    varied_grouping=VariedGrouping.none, 
@@ -275,55 +297,52 @@ def factor_group_buffer_from_factors(name, factors):
                                    factors=auto_group_factors)
     return g
 
-def make_condition_grid_from_factor_groups(session: Session, factor_groups: list[AutoScreenMakerFactorGroup], additive_and_dilution: AdditiveAndDilution, included_wells: list[db.WellReadLite], size: int):
-    if size == 24:
-        rows = 4
-        cols = 6
-    elif size == 48:
-        rows = 6
-        cols = 8
+def make_condition_grid_from_factor_groups(session: Session, query: ConditionGridQuery):
+    size = query.size
+    if isinstance(size, int):
+        if size == 24:
+            rows = 4
+            cols = 6
+        elif size == 48:
+            rows = 6
+            cols = 8
+        else:
+            rows = 8
+            cols = 12
     else:
-        rows = 8
-        cols = 12
+        rows = size.rows
+        cols = size.cols
     
     # Create well grid
     grid = []
     for i in range(rows):
         row = []
         for j in range(cols):
-            condition = db.WellCondition(computed_similarities=0)
+            condition = GridWell(condition=[]) #{"chemical": query.factor_groups[0].factors[0].chemical, "unit": "M", "ph": 1, "concentration": 1}
             row.append(condition)
         grid.append(row)
-    
-    # Process factor groups
-    for g in factor_groups:
-        # How many wells contiain this group
-        wells_in_group = int(g.well_coverage * size / 100)
-        # How many do not
-        wells_not_in_group = size - wells_in_group
-        # How many factors
-        factors_in_group = len(g.factors)
-        relative_coverage_sum = sum([f.relative_coverage for f in g.factors])
 
-        # Get the number of wells that will contain each factor
 
-        if g.chemical_order == ChemicalOrder.random:
-            factor_draws_to_make = wells_in_group
-            for f in g.factors:
-                # How many wells contain this factor
-                wells_with_factor = int(f.relative_coverage/relative_coverage_sum * wells_in_group) # What if columns or rows - won't work
+    # make factors (making factors before makes it easier to deal with the ordering and randomness)
+    generated_factors = {}
+    for g in query.factor_groups:
+        factor_list = []
 
-        elif g.chemical_order == ChemicalOrder.column:
-            factor_draws_to_make = wells_in_group / cols # What if more factors than columns
+        for _ in range(rows * cols):
+            if random() * 100 < g.well_coverage:
+                factor_list.append(GridFactor(chemical= g.factors[0].chemical, unit = "M", ph = 1, concentration = 1, group_name = "Buffer"))
+            else:
+                factor_list.append(None)
 
-        elif g.chemical_order == ChemicalOrder.row:
-            factor_draws_to_make = wells_in_group / rows
+        generated_factors[g.name] = factor_list
 
-        elif g.chemical_order == ChemicalOrder.quadrant:
-            factor_draws_to_make = wells_in_group / 4
+    # insert factors into grid
+    for i in range(rows):
+        for j in range(cols):
+            for group_name in generated_factors:
+                grid[i][j].condition.append(generated_factors[group_name].pop())
 
-        # When selecting factor in group include possible "empty factor" that handles <100% well coverage
-        pass
+
         
 
     # Add additive
@@ -334,5 +353,5 @@ def make_condition_grid_from_factor_groups(session: Session, factor_groups: list
 
 
 
-    pass
+    return grid
 
