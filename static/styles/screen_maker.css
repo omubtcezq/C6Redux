@@ -44,6 +44,12 @@
      padding: 0px !important;
 }
 
+.tabulator-tooltip {
+    text-align: left !important;
+    white-space: pre-wrap; 
+}
+
+
 #current-maker-body {
     position: relative;
     width: min(100%, 750px);

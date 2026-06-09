@@ -27,24 +27,22 @@ var group_colours = [
 ];
 
 var chemical_order_options = [
-    {value: {id: "random", label: "Random Choice"}, label: "Random Choice"}, 
-    {value: {id: "column", label: "By Columns"}, label: "By Columns"}, 
-    {value: {id: "row", label: "By Rows"}, label: "By Rows"},
-    {value: {id: "quadrant", label: "By Quadrants"}, label: "By Quadrants"}
+    {value: {id: "random", label: "Random"}, label: "Random"}, 
+    {value: {id: "column", label: "Columns"}, label: "Columns"}, 
+    {value: {id: "row", label: "Rows"}, label: "Rows"},
+    {value: {id: "quadrant", label: "Quadrants"}, label: "Quadrants"},
+    {value: {id: "uniform", label: "Uniform"}, label: "Uniform"},
+    {value: {id: "stepwise", label: "Stepwise"}, label: "Stepwise"}
 ];
 
 var varied_distribution_options = [
     {value: {id: "gaussian", label: "Trunc. Gaussian"}, label: "Trunc. Gaussian"}, 
-    {value: {id: "uniform", label: "Uniform"}, label: "Uniform"}, 
-    {value: {id: "stepwise", label: "Stepwise"}, label: "Stepwise"}
+    {value: {id: "uniform", label: "Uniform"}, label: "Uniform"}
 ];
 
 var varied_grouping_options = [
-    {value: {id: "none", label: "No Grouping"}, label: "No Grouping"}, 
-    {value: {id: "column", label: "By Columns"}, label: "By Columns"}, 
-    {value: {id: "row", label: "By Rows"}, label: "By Rows"},
-    {value: {id: "quadrant", label: "By Quadrants"}, label: "By Quadrants"},
-    {value: {id: "half", label: "By Halves"}, label: "By Halves"}
+    {value: {id: "none", label: "No Order"}, label: "No Order"}, 
+    {value: {id: "series", label: "Series"}, label: "Series"}, 
 ];
 
 var factor_vary_options = [
@@ -120,31 +118,33 @@ function create_factor_groups_from_selected_wells(){
     });
 }
 
-function create_screen_display(parent_element_id, element_id, rows, cols){
-    // Tabulator columns
-    var col_details = []
-    for (var c = 0; c < cols; c++){
-        col_details.push({
-            title: c+1, 
-            field: c.toString(),
-            formatter: condition_formatter,
-            headerSort: false,
-            headerHozAlign: "center",
-            editable: false,
-            resizable: false,
-            tooltip: cell_tooltip,
-            cssClass: "no-padding"
-        });
-    }
-    // Tabulator data (fixed, only cell wellconditions will change)
-    var letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    var all_data = []
-    for (var r = 0; r < rows; r++){
-        var row_data = {row_letter: letters[r]};
+function create_screen_display(parent_element_id, element_id, rows, cols, all_data = null){
+    if (all_data == null) {
+        // Tabulator columns
+        var col_details = []
         for (var c = 0; c < cols; c++){
-            row_data[c.toString()] = null;
+            col_details.push({
+                title: c+1, 
+                field: c.toString(),
+                formatter: condition_formatter,
+                headerSort: false,
+                headerHozAlign: "center",
+                editable: false,
+                resizable: false,
+                tooltip: cell_tooltip,
+                cssClass: "no-padding"
+            });
         }
-        all_data.push(row_data);
+        // Tabulator data (fixed, only cell wellconditions will change)
+        var letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        var all_data = []
+        for (var r = 0; r < rows; r++){
+            var row_data = {row_letter: letters[r]};
+            for (var c = 0; c < cols; c++){
+                row_data[c.toString()] = null;
+            }
+            all_data.push(row_data);
+        }
     }
     // Row height, keeps table roughly the same height as a 96 well table with 48px rows
     var row_height = Math.round((8/rows)*48);
@@ -161,7 +161,7 @@ function create_screen_display(parent_element_id, element_id, rows, cols){
         validationMode: 'manual',
         rowFormatter: row_formatter,
         rowHeader: {field: 'row_letter', formatter: row_header_formatter, headerSort: false, hozAlign: "center", vertAlign: 'middle', resizable: false},
-        selectableRange:1,
+        selectableRange:0,
         selectableRangeColumns:true,
         selectableRangeRows:true,
         selectableRangeClearCells:true,
@@ -175,6 +175,73 @@ function create_screen_display(parent_element_id, element_id, rows, cols){
         clipboardPasteParser:"range",
         clipboardPasteAction:"range"
     });
+
+    $(document).on('click', function(event) {
+        
+        if ($(event.target).closest('#current-maker-tabulator').length == 0) {
+            // if (Tabulator.findTable("#current-maker-tabulator")[0].getRanges().length != 0) {
+            //     const screen_display_tabulator = Tabulator.findTable(element_id)[0]
+            //     data = screen_display_tabulator.getData()
+            //     screen_display_tabulator.destroy()
+            //     new_screen_display_tabulator = new Tabulator(element_id, {
+            //     data: data,
+            //     maxHeight: "100%",
+            //     layout:"fitColumns",
+            //     resizableColumnFit: true,
+            //     headerVisible: true,
+            //     columns: col_details,
+            //     rowHeight: row_height,
+            //     validationMode: 'manual',
+            //     rowFormatter: row_formatter,
+            //     rowHeader: {field: 'row_letter', formatter: row_header_formatter, headerSort: false, hozAlign: "center", vertAlign: 'middle', resizable: false},
+            //     selectableRange:0,
+            //     selectableRangeColumns:true,
+            //     selectableRangeRows:true,
+            //     selectableRangeClearCells:true,
+            //     clipboard:true,
+            //     clipboardCopyStyled:false,
+            //     clipboardCopyConfig:{
+            //         rowHeaders:false,
+            //         columnHeaders:false,
+            //     },
+            //     clipboardCopyRowRange:"range",
+            //     clipboardPasteParser:"range",
+            //     clipboardPasteAction:"range"
+            //     });
+            // }
+        } else {
+            if (Tabulator.findTable("#current-maker-tabulator")[0].getRanges().length == 0) {
+                const screen_display_tabulator = Tabulator.findTable(element_id)[0]
+                data = screen_display_tabulator.getData()
+                screen_display_tabulator.destroy()
+                new_screen_display_tabulator = new Tabulator(element_id, {
+                data: data,
+                maxHeight: "100%",
+                layout:"fitColumns",
+                resizableColumnFit: true,
+                headerVisible: true,
+                columns: col_details,
+                rowHeight: row_height,
+                validationMode: 'manual',
+                rowFormatter: row_formatter,
+                rowHeader: {field: 'row_letter', formatter: row_header_formatter, headerSort: false, hozAlign: "center", vertAlign: 'middle', resizable: false},
+                selectableRange:1,
+                selectableRangeColumns:true,
+                selectableRangeRows:true,
+                selectableRangeClearCells:true,
+                clipboard:true,
+                clipboardCopyStyled:false,
+                clipboardCopyConfig:{
+                    rowHeaders:false,
+                    columnHeaders:false,
+                },
+                clipboardCopyRowRange:"range",
+                clipboardPasteParser:"range",
+                clipboardPasteAction:"range"
+            });
+        }
+    }
+});
 }
 
 function set_required_regeneration_of_current_screen_from_automatic(){
@@ -200,18 +267,19 @@ function generate_current_screen_from_automatic(){
     const group_table = Tabulator.findTable("#automatic-factor-groups-tabulator")[0]
     group_data = group_table.getData();
 
-    
-
     const display_table = Tabulator.findTable("#current-maker-tabulator")[0]
-    const ranges = display_table.getRangesData();
-    let rows = ranges[0].length;
-    let cols = Object.keys(ranges[0][0]).length;
-    
     const grid_rows = display_table.getRows().length;
     const grid_cols = display_table.getColumns().length - 1; // -1 because the title for each row is included
 
-    rows = Math.min(rows, grid_rows)
-    cols = Math.min(cols, grid_cols)
+    range_dimensions = null
+    if (display_table.getRanges().length != 0) {
+        const ranges = display_table.getRanges();
+        let range = ranges[0];
+        // -1 because the title of each row is included
+        range_dimensions = {"left": range.getLeftEdge() - 1, "right": range.getRightEdge() - 1, "top": range.getTopEdge(), "bottom": range.getBottomEdge()} 
+    }
+
+    console.log(range_dimensions)
 
     additive_data = Tabulator.findTable("#automatic-additive-tabulator")[0].getData()[0]
     additive_query = {"additive": additive_data.screen, "dilution": additive_data.dilution}
@@ -233,10 +301,11 @@ function generate_current_screen_from_automatic(){
                 group.group_name = group.factor_group
                 return group
             }),
-            additive_and_dilution: additive_data.screen.id != null ?  additive_query : null,
-            // included_wells: includedWells,
+            additive_and_dilution: additive_data.screen.id != null ? additive_query : null,
+            included_wells_ids: $("#screen-maker-automatic-include-selected-checkbox").is(":checked") ? site_functions.get_selected_wells().map(w => w.well.id) : [],
             // if the size is not based on user selection then its one of the defaults
-            size: !(rows > 1) && !(cols > 1) ? grid_rows * grid_cols : {"rows": rows, "cols": cols}
+            size: grid_rows * grid_cols,
+            range_dimensions: Tabulator.findTable("#current-maker-tabulator")[0].getRanges().length != 0 ? range_dimensions : null
         })
         }).then(r => {
             return r.json()
@@ -341,7 +410,6 @@ function generate_current_screen_from_automatic(){
                         index = c % (cols / 2) + r % (rows / 2) * cols - r % (rows / 2) * (cols / 2) + 3 * cols * rows * .25
                         row_data[c.toString()].push(group["generated_factors"][index]);  
                     }
-                    console.log(index)
                 } 
                 else {
                     row_data[c.toString()].push(group["generated_factors"][i]);       
@@ -375,20 +443,32 @@ function condition_formatter(cell, formatterParams, onRendered){
     div.className = "condition-cell";
 
     data = cell.getValue()
-    console.log(data)
     if (data == null) {
         return ""
     }
     for (datum of data) {
         factor_bar = document.createElement("div");
-        group_table = Tabulator.findTable("#automatic-factor-groups-tabulator")[0]
-        console.log(group_table.getData())
+        if (datum == null) {
+            group_table = Tabulator.findTable("#automatic-factor-groups-tabulator")[0]
 
-
-        factor_bar.style.backgroundColor = group_table.getData().find(g => g.name == datum.group_name)["colour"]
-        factor_bar.style.height = "100%" //datum["ammt"] * 100 + "%"
-        factor_bar.className = "factor-bar";
-        div.append(factor_bar);
+            factor_bar.style.backgroundColor = "white"
+            factor_bar.style.height = "100%"
+            factor_bar.className = "factor-bar";
+            div.append(factor_bar);
+        
+        } else {
+            if (datum.group_name == "C3IncludedWells") {
+                factor_bar.style.backgroundColor = "black"
+            }
+            else {
+                group_table = Tabulator.findTable("#automatic-factor-groups-tabulator")[0]
+                factor_bar.style.backgroundColor = group_table.getData().find(g => g.name == datum.group_name)["colour"]
+            }
+            
+            factor_bar.style.height = datum["ammt"] * 100 + "%"
+            factor_bar.className = "factor-bar";
+            div.append(factor_bar);
+        }
     }
 
     return div;
@@ -398,16 +478,17 @@ function cell_tooltip(e, cell, onRendered){
     if (cell.getValue() == null || cell.getValue().length == 0){
         return "Empty Well";
     }
-    str = get_name(cell.getValue()[0])
+    str = get_name_and_info(cell.getValue()[0])
     for (f of cell.getValue().slice(1)) {
-        str +=  " | " + get_name(f)
+        str +=  "<br>" + get_name_and_info(f)
     }
     return str
 }
 
-function get_name(f) {
-    if (f.factor != null)
-        return f.chemical.name
+function get_name_and_info(f) {
+    if (f != null) {
+        return `${f.concentration} ${f.unit} ${f.chemical.name}` + (f.ph != null ? ` ${f.ph} pH` : "")
+        }
     return "none"
 }
 
@@ -434,10 +515,13 @@ var additive_table = new Tabulator('#automatic-additive-tabulator', {
         editor: "list", 
         editorParams: {
             valuesLookup: function(cell){
+                const display_table = Tabulator.findTable("#current-maker-tabulator")[0]                
+                const grid_rows = display_table.getRows().length;
+                const grid_cols = display_table.getColumns().length - 1; // -1 because the title for each row is included
                 // Load users list from api
                 return new Promise(function(resolve, reject){
                     $.ajax({
-                        url: site_functions.API_URL+'/screens/names',
+                        url: site_functions.API_URL+'/screens/namesBySize?size=' + grid_rows * grid_cols,
                         success: function(data){
                             var options = [];
                             $.each(data, function(i,s){
@@ -541,19 +625,20 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
 
         // Chemical Order (previously Location)
         }, {
-            title: "Chemical Order", 
+            title: "Chemical Arrangement", 
             field: "chemical_order", 
             vertAlign: "middle",
             width: 140,
             editor: "list",
             editorParams: {values: chemical_order_options},
+            headerSort: false,
             formatter: function(cell, formatterParams, onRendered){
                 return cell.getValue() ? cell.getValue().label : "";
             }
             
         // Varied Attribute Distribution
         }, {
-            title:"Varied Attribute",
+            title:"Random Arrangement Options",
             headerHozAlign : "center", 
             // Distribution
             columns: [{
@@ -562,6 +647,7 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
                 vertAlign: "middle",
                 width: 115,
                 editor: "list",
+                headerSort: false,
                 editorParams: {values: varied_distribution_options},
                 formatter: function(cell, formatterParams, onRendered){
                     return cell.getValue() ? cell.getValue().label : "";
@@ -574,22 +660,11 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
                 vertAlign: "middle",
                 width: 100,
                 editor: "list",
+                headerSort: false,
                 editorParams: {values: varied_grouping_options},
                 formatter: function(cell, formatterParams, onRendered){
                     return cell.getValue() ? cell.getValue().label : "";
                 }
-
-            // Sorted
-            }, {
-                title: "Sorted", 
-                field: "varied_sorted", 
-                hozAlign: "center", 
-                vertAlign: "middle",
-                width: 76,
-                // Rather than allowing editing, use the better UI for checkbox editing instead
-                cellClick: cellclick_flip_tick,
-                formatter: "tickCross",
-                editable: false
             }]
             
         // Well Coverage
@@ -1189,7 +1264,6 @@ $('#screen-maker-automatic-add-group-button').click(function(){
         chemical_order: chemical_order_options[0].value, 
         varied_distribution: varied_distribution_options[0].value, 
         varied_grouping: varied_grouping_options[0].value,
-        sorted: false,
         well_coverage: 0,
         factors: []
     });

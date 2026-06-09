@@ -7,7 +7,8 @@ from sqlalchemy.orm import subqueryload
 from pydantic import BaseModel
 from pydantic.functional_validators import model_validator
 from enum import Enum
-from random import random
+from random import random, choices
+from numpy import random as nprandom
 
 import api.db as db
 import api.units_and_buffers as unbs
@@ -35,18 +36,16 @@ class ChemicalOrder(str, Enum):
     column = "column"
     row = "row"
     quadrant = "quadrant"
+    uniform = "uniform"
+    stepwise = "stepwise"
 
 class VariedDistribution(str, Enum):
     gaussian = "gaussian"
     uniform = "uniform"
-    stepwise = "stepwise"
 
 class VariedGrouping(str, Enum):
     none = "none"
-    column = "column"
-    row = "row"
-    quadrant = "quadrant"
-    half = "half"
+    series = "series"
 
 class FactorVary(str, Enum):
     concentration = "concentration"
@@ -75,7 +74,6 @@ class AutoScreenMakerFactorGroup(BaseModel):
     chemical_order: ChemicalOrder
     varied_distribution: VariedDistribution
     varied_grouping: VariedGrouping
-    varied_sorted: bool
     well_coverage: float
     factors: list[AutoScreenMakerFactor]
 
@@ -90,15 +88,19 @@ class AdditiveAndDilution(BaseModel):
     additive: db.ScreenReadLite
     dilution: float
 
-class CustomSize(BaseModel):
-    rows: int
-    cols: int
+# defines how much of the screen to generate wells for
+class RangeDimensions(BaseModel):
+    left: int
+    right: int
+    top: int
+    bottom: int
 
 class ConditionGridQuery(BaseModel):
     factor_groups: list[AutoScreenMakerFactorGroup]
     additive_and_dilution: AdditiveAndDilution | None = None
-    included_wells: list[db.WellReadLite] | None = None
-    size: int | CustomSize
+    included_wells_ids: list[int] 
+    size: int
+    range_dimensions: RangeDimensions | None = None
 
 class GridFactor(BaseModel):
     chemical: db.ChemicalReadLite
@@ -106,6 +108,7 @@ class GridFactor(BaseModel):
     unit: str
     ph: float | None
     group_name: str
+    ammt: float
 
 class GridWell(BaseModel):
     condition: list[GridFactor | None]
@@ -226,7 +229,6 @@ def factor_group_varying_conc_from_factors(name, factors, min_multiplier, max_mu
                                    chemical_order=ChemicalOrder.random, 
                                    varied_distribution=VariedDistribution.gaussian, 
                                    varied_grouping=VariedGrouping.none, 
-                                   varied_sorted=False, 
                                    well_coverage=100,
                                    factors=auto_group_factors)
     return g
@@ -292,66 +294,235 @@ def factor_group_buffer_from_factors(name, factors):
                                    chemical_order=ChemicalOrder.random, 
                                    varied_distribution=VariedDistribution.gaussian, 
                                    varied_grouping=VariedGrouping.none, 
-                                   varied_sorted=False, 
                                    well_coverage=100,
                                    factors=auto_group_factors)
     return g
 
 def make_condition_grid_from_factor_groups(session: Session, query: ConditionGridQuery):
     size = query.size
-    if isinstance(size, int):
-        if size == 24:
-            rows = 4
-            cols = 6
-        elif size == 48:
-            rows = 6
-            cols = 8
-        else:
-            rows = 8
-            cols = 12
+    if size == 24:
+        grid_rows = 4
+        grid_cols = 6
+    elif size == 48:
+        grid_rows = 6
+        grid_cols = 8
     else:
-        rows = size.rows
-        cols = size.cols
+        grid_rows = 8
+        grid_cols = 12
+    
+    if query.range_dimensions == None:
+        rows = grid_rows
+        cols = grid_cols
+    else:
+        cols = query.range_dimensions.right - query.range_dimensions.left + 1
+        rows = query.range_dimensions.bottom - query.range_dimensions.top + 1
+    
     
     # Create well grid
-    grid = []
+    filled_grid = []
     for i in range(rows):
         row = []
         for j in range(cols):
-            condition = GridWell(condition=[]) #{"chemical": query.factor_groups[0].factors[0].chemical, "unit": "M", "ph": 1, "concentration": 1}
+            condition = GridWell(condition=[])
+            row.append(condition)
+        filled_grid.append(row)
+
+
+    # make factors (making factors before makes it easier to deal with sorting)
+    random_generated_factors = {}
+    for g in query.factor_groups:
+        
+        if g.chemical_order == "random":
+            factor_list = []
+            for _ in range(rows * cols):
+                if random() * 100 < g.well_coverage:
+                    factor = choices(g.factors, weights=map(lambda f: f.relative_coverage, g.factors), k=1)[0]
+                    ammt = None
+                    if g.varied_distribution == "gaussian":
+                        ammt = max(min(nprandom.normal(loc=.5, scale=.2), 1), 0)
+                    else:
+                        ammt = random()
+                    if factor.vary == "ph":
+                        factor_list.append(GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = round(factor.varied_min + (factor.varied_max - factor.varied_min) * ammt, ndigits=2), concentration = factor.concentration, vary= factor.vary, group_name = g.name))
+                    elif factor.vary == "concentration":
+                        factor_list.append(GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = factor.ph, concentration = round(factor.varied_min + (factor.varied_max - factor.varied_min) * ammt, ndigits=2), vary= factor.vary, group_name = g.name))
+                    else:    
+                        ammt = .5
+                        factor_list.append(GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = factor.ph, concentration = factor.concentration, vary= factor.vary, group_name = g.name))
+                else:
+                    factor_list.append(None)
+            
+            if g.varied_grouping == "series":
+                factor_list.sort(key = lambda f: f.ammt, reverse=True)
+
+            random_generated_factors[g.name] = factor_list
+
+        if g.chemical_order == "row":
+            for i in range(rows):
+                for j in range(cols):
+                    if random() * 100 < g.well_coverage:
+                        factor = choices(g.factors, weights=map(lambda f: f.relative_coverage, g.factors), k=1)[0]
+                        if rows == 1:
+                            ammt = .5    
+                        else:                        
+                            ammt = i / (rows - 1)
+                        f = None
+                        if factor.vary == "ph":
+                            f = GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = round(factor.varied_min + (factor.varied_max - factor.varied_min) * ammt, ndigits=2), concentration = factor.concentration, vary= factor.vary, group_name = g.name)
+                        elif factor.vary == "concentration":
+                            f = GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = factor.ph, concentration = round(factor.varied_min + (factor.varied_max - factor.varied_min) * ammt, ndigits=2), vary= factor.vary, group_name = g.name)
+                        else:    
+                            ammt = .5
+                            f = GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = factor.ph, concentration = factor.concentration, vary= factor.vary, group_name = g.name)
+                        filled_grid[i][j].condition.append(f)
+                    else:
+                        filled_grid[i][j].condition.append(None)
+
+        if g.chemical_order == "column":
+            for j in range(cols):
+                for i in range(rows):
+                    if random() * 100 < g.well_coverage:
+                        factor = choices(g.factors, weights=map(lambda f: f.relative_coverage, g.factors), k=1)[0]
+                        if cols == 1:
+                            ammt = .5    
+                        else:                        
+                            ammt = j / (cols - 1)
+                        f = None
+                        if factor.vary == "ph":
+                            f = GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = round(factor.varied_min + (factor.varied_max - factor.varied_min) * ammt, ndigits=2), concentration = factor.concentration, group_name = g.name)
+                        elif factor.vary == "concentration":
+                            f = GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = factor.ph, concentration = round(factor.varied_min + (factor.varied_max - factor.varied_min) * ammt, ndigits=2), group_name = g.name)
+                        else:    
+                            ammt = .5
+                            f = GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = factor.ph, concentration = factor.concentration, group_name = g.name)
+                        filled_grid[i][j].condition.append(f)
+                    else:
+                        filled_grid[i][j].condition.append(None)
+
+        if g.chemical_order == "quadrant":
+            index = 0
+            def add_to_grid(i, j, ammt):
+                if random() * 100 < g.well_coverage:
+                    factor = choices(g.factors, weights=map(lambda f: f.relative_coverage, g.factors), k=1)[0]
+                    f = None
+                    if factor.vary == "ph":
+                        f = GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = round(factor.varied_min + (factor.varied_max - factor.varied_min) * ammt, ndigits=2), concentration = factor.concentration, group_name = g.name)
+                    elif factor.vary == "concentration":
+                        f = GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = factor.ph, concentration = round(factor.varied_min + (factor.varied_max - factor.varied_min) * ammt, ndigits=2), group_name = g.name)
+                    else:    
+                        ammt = .5
+                        f = GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = factor.ph, concentration = factor.concentration, group_name = g.name)
+                    filled_grid[i][j].condition.append(f)
+                else:
+                    filled_grid[i][j].condition.append(None)
+
+            for i in range(rows // 2):
+                for j in range(cols // 2):
+                    add_to_grid(i, j, 0)
+            for i in range(rows - rows // 2):
+                for j in range(cols // 2):
+                    add_to_grid(rows // 2 + i, j, .33)
+            for i in range(rows // 2):
+                for j in range(cols - cols // 2):
+                    add_to_grid(i, cols // 2 + j, .66)
+            for i in range(rows - rows // 2):
+                for j in range(cols - cols // 2):
+                    add_to_grid(rows // 2 + i, cols // 2 + j, 1)
+
+                    
+
+        if g.chemical_order == "uniform":
+            index = 0
+            for j in range(cols):
+                for i in range(rows):
+                    if random() * 100 < g.well_coverage:
+                        factor = choices(g.factors, weights=map(lambda f: f.relative_coverage, g.factors), k=1)[0]
+                        ammt = .5
+                        f = GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = factor.ph, concentration = factor.concentration, group_name = g.name)
+                        filled_grid[i][j].condition.append(f)
+                        index += 1
+                    else:
+                        filled_grid[i][j].condition.append(None)
+
+        if g.chemical_order == "stepwise":         
+            index = 0
+            for i in range(rows):
+                for j in range(cols):
+                    if random() * 100 < g.well_coverage:
+                        factor = choices(g.factors, weights=map(lambda f: f.relative_coverage, g.factors), k=1)[0]
+                        if rows == 1 and cols == 1:
+                            ammt = .5
+                        else:
+                            ammt = index / ((rows * cols) - 1)
+                        f = None
+                        if factor.vary == "ph":
+                            f = GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = round(factor.varied_min + (factor.varied_max - factor.varied_min) * ammt, ndigits=2), concentration = factor.concentration, group_name = g.name)
+                        elif factor.vary == "concentration":
+                            f = GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = factor.ph, concentration = round(factor.varied_min + (factor.varied_max - factor.varied_min) * ammt, ndigits=2), group_name = g.name)
+                        else:    
+                            ammt = .5
+                            f = GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = factor.ph, concentration = factor.concentration, group_name = g.name)
+                        filled_grid[i][j].condition.append(f)
+                        index += 1
+                    else:
+                        filled_grid[i][j].condition.append(None)
+
+     # insert random factors into grid
+    for i in range(rows):
+        for j in range(cols):
+            for group_name in random_generated_factors:
+                filled_grid[i][j].condition.append(random_generated_factors[group_name].pop())
+
+    
+    # Add additive
+    if query.additive_and_dilution != None:
+        statement = (
+            select(db.Screen).where(db.Screen.id== query.additive_and_dilution.additive.id)
+        )
+        screen = session.exec(statement).one()
+        index = 0
+        dilution = query.additive_and_dilution.dilution / 100
+        for i in range(rows):
+            for j in range(cols):
+                well = screen.wells[index]
+                for factor in well.wellcondition.factors:
+                    f = GridFactor(chemical= factor.chemical, ammt = dilution, unit = factor.unit, ph = factor.ph, concentration = round(factor.concentration * dilution, ndigits=2), group_name = "C3IncludedWells")
+                    filled_grid[i][j].condition.append(f)
+                index += 1
+
+    # Add included wells
+    statement = (
+        select(db.Well).where(db.Well.id.in_(query.included_wells_ids))
+    )
+    results = session.exec(statement).all()
+    i = 2
+    j = 2    
+    for well in results:
+        filled_grid[i][j].condition = []
+        for factor in well.wellcondition.factors:
+            f = GridFactor(chemical= factor.chemical, ammt = .5, unit = factor.unit, ph = factor.ph, concentration = factor.concentration, group_name = "C3IncludedWells")
+            filled_grid[i][j].condition.append(f)
+        j += 1
+        if j >= cols:
+            j = 0
+            i += 1
+
+    if query.range_dimensions == None:
+        return filled_grid
+    
+    # Create create final grid and insert so that its placed into right range
+    grid = []
+    for i in range(grid_rows):
+        row = []
+        for j in range(grid_cols):
+            condition = GridWell(condition=[])
             row.append(condition)
         grid.append(row)
 
-
-    # make factors (making factors before makes it easier to deal with the ordering and randomness)
-    generated_factors = {}
-    for g in query.factor_groups:
-        factor_list = []
-
-        for _ in range(rows * cols):
-            if random() * 100 < g.well_coverage:
-                factor_list.append(GridFactor(chemical= g.factors[0].chemical, unit = "M", ph = 1, concentration = 1, group_name = "Buffer"))
-            else:
-                factor_list.append(None)
-
-        generated_factors[g.name] = factor_list
-
-    # insert factors into grid
     for i in range(rows):
         for j in range(cols):
-            for group_name in generated_factors:
-                grid[i][j].condition.append(generated_factors[group_name].pop())
-
-
+            grid[i + query.range_dimensions.top][j + query.range_dimensions.left] = filled_grid[i][j]
         
-
-    # Add additive
-
-
-    # Overwrite some conditions with included wells
-    # These start at c3 (avoids edge effects and references old lab name - hehe)
-
-
 
     return grid
 

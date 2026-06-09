@@ -20,8 +20,6 @@ import api.units_and_buffers as unbs
 import api.condition_helper as ch
 import api.condition_distance as condition_distance
 
-import time
-
 class QueryScreen(BaseModel):
     screen: db.ScreenRead
     well_match_counter: int
@@ -75,6 +73,18 @@ async def get_screen_names(*, session: Session=Depends(db.get_readonly_session))
     Gets a list of all screen names
     """
     statement = select(db.Screen).order_by(db.Screen.name)
+    screens = session.exec(statement).all()
+    return screens
+
+@router.get("/namesBySize", 
+            summary="Gets a list of all screen of a given size",
+            response_description="List of all screen names matching size",
+            response_model=list[db.ScreenReadLite])
+async def get_screen_names_by_size(*, session: Session=Depends(db.get_readonly_session), size: int):
+    """
+    Gets a list of all screen of a given size
+    """
+    statement = select(db.Screen).join(db.Well).group_by(db.Screen.id).having(func.count(db.Well.id) == size).order_by(db.Screen.name)
     screens = session.exec(statement).all()
     return screens
 
