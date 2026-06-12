@@ -12,6 +12,7 @@ var public_functions = {};
 // ========================================================================== //
 
 const MAX_FACTOR_GROUPS = 10;
+var last_selected_cell = null
 
 var group_colours = [
     {id: "Blue", label: "", value: "#1f77b4"}, 
@@ -131,8 +132,19 @@ function create_screen_display(parent_element_id, element_id, rows, cols, all_da
                 headerHozAlign: "center",
                 editable: false,
                 resizable: false,
-                tooltip: cell_tooltip,
-                cssClass: "no-padding"
+                cssClass: "no-padding",
+                cellContext: function(e, cell) {
+                    e.preventDefault();
+                    last_selected_cell = cell
+                    Tabulator.findTable("#condition-popup-tabulator")[0].setData(cell.getValue())
+
+                    top = Math.min(e.clientY, window.innerHeight - $('#condition-popup').outerHeight())
+                    left = Math.min(e.clientX, window.innerWidth - $('#condition-popup').outerWidth())
+                    $('#condition-popup').css('top', e.clientY + 'px');
+                    $('#condition-popup').css('left', left + 'px');
+
+                    $('#condition-popup').show();
+                }
             });
         }
         // Tabulator data (fixed, only cell wellconditions will change)
@@ -173,10 +185,13 @@ function create_screen_display(parent_element_id, element_id, rows, cols, all_da
         },
         clipboardCopyRowRange:"range",
         clipboardPasteParser:"range",
-        clipboardPasteAction:"range"
+        clipboardPasteAction:"range",
     });
 
     $(document).on('click', function(event) {
+        if ($(event.target).closest('#condition-popup').length == 0) {
+            $("#condition-popup").hide()
+        }
         
         if ($(event.target).closest('#current-maker-tabulator').length == 0) {
             // if (Tabulator.findTable("#current-maker-tabulator")[0].getRanges().length != 0) {
@@ -215,29 +230,30 @@ function create_screen_display(parent_element_id, element_id, rows, cols, all_da
                 data = screen_display_tabulator.getData()
                 screen_display_tabulator.destroy()
                 new_screen_display_tabulator = new Tabulator(element_id, {
-                data: data,
-                maxHeight: "100%",
-                layout:"fitColumns",
-                resizableColumnFit: true,
-                headerVisible: true,
-                columns: col_details,
-                rowHeight: row_height,
-                validationMode: 'manual',
-                rowFormatter: row_formatter,
-                rowHeader: {field: 'row_letter', formatter: row_header_formatter, headerSort: false, hozAlign: "center", vertAlign: 'middle', resizable: false},
-                selectableRange:1,
-                selectableRangeColumns:true,
-                selectableRangeRows:true,
-                selectableRangeClearCells:true,
-                clipboard:true,
-                clipboardCopyStyled:false,
-                clipboardCopyConfig:{
-                    rowHeaders:false,
-                    columnHeaders:false,
-                },
-                clipboardCopyRowRange:"range",
-                clipboardPasteParser:"range",
-                clipboardPasteAction:"range"
+                    data: data,
+                    maxHeight: "100%",
+                    layout:"fitColumns",
+                    resizableColumnFit: true,
+                    headerVisible: true,
+                    columns: col_details,
+                    rowHeight: row_height,
+                    validationMode: 'manual',
+                    rowFormatter: row_formatter,
+                    rowHeader: {field: 'row_letter', formatter: row_header_formatter, headerSort: false, hozAlign: "center", vertAlign: 'middle', resizable: false},
+                    selectableRange:1,
+                    selectableRangeColumns:true,
+                    selectableRangeRows:true,
+                    selectableRangeClearCells:true,
+                    clipboard:true,
+                    clipboardCopyStyled:false,
+                    clipboardCopyConfig:{
+                        rowHeaders:false,
+                        columnHeaders:false,
+                    },
+                    clipboardCopyRowRange:"range",
+                    clipboardPasteParser:"range",
+                    clipboardPasteAction:"range",
+                    
             });
         }
     }
@@ -248,26 +264,12 @@ function set_required_regeneration_of_current_screen_from_automatic(){
     $('#current-maker-tabulator-automatic-update-popup').show();
 }
 
-function gaussianRandomTruncated(stdev, mean=.5) {
-    const u = 1 - Math.random(); // Converting [0,1) to (0,1]
-    const v = Math.random();
-    const z = Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v );
-    // Transform to the desired mean and standard deviation:
-    return Math.max(Math.min(z * stdev + mean, 1), 0);
-}
-
 function generate_current_screen_from_automatic(){
-
-    
-    // TODO: Update the screen display table based on the factor groups
-    // Also check if initial conditions need to be included
-
-    // screen_display_table_id, factor_group_table_id, include_selection_conditions_checkbox_id
 
     const group_table = Tabulator.findTable("#automatic-factor-groups-tabulator")[0]
     group_data = group_table.getData();
 
-    const display_table = Tabulator.findTable("#current-maker-tabulator")[0]
+    var display_table = Tabulator.findTable("#current-maker-tabulator")[0]
     const grid_rows = display_table.getRows().length;
     const grid_cols = display_table.getColumns().length - 1; // -1 because the title for each row is included
 
@@ -278,8 +280,6 @@ function generate_current_screen_from_automatic(){
         // -1 because the title of each row is included
         range_dimensions = {"left": range.getLeftEdge() - 1, "right": range.getRightEdge() - 1, "top": range.getTopEdge(), "bottom": range.getBottomEdge()} 
     }
-
-    console.log(range_dimensions)
 
     additive_data = Tabulator.findTable("#automatic-additive-tabulator")[0].getData()[0]
     additive_query = {"additive": additive_data.screen, "dilution": additive_data.dilution}
@@ -328,103 +328,33 @@ function generate_current_screen_from_automatic(){
                 }
             }
 
-            display_table.setData(all_data);
+            const range = Tabulator.findTable("#current-maker-tabulator")[0].getRanges()[0];
+            console.log(range)
+
+            if (range) {
+                const bounds = range.getBounds();
+
+                var startRow = range.getTopEdge();
+                var startCol = range.getLeftEdge();
+                var endRow = range.getBottomEdge();
+                var endCol = range.getRightEdge();
+            }
+
+            display_table.setData(all_data).then(() => {
+                if (range) {
+                    display_table = Tabulator.findTable("#current-maker-tabulator")[0]
+                    console.log(startRow)
+
+                    var topLeft = display_table.getRows()[startRow].getCells()[startCol];
+                    var bottomRight = display_table.getRows()[endRow].getCells()[endCol];
+
+                    display_table.addRange(topLeft, bottomRight);
+                }
+            });
 
             // Hide the popup requesting regeneration if it case it's up
             $('#current-maker-tabulator-automatic-update-popup').hide();
         });
-
-    return
-
-    for (group of group_data) {
-        if (group.factors.length == 0)
-            continue
-        group["generated_factors"] = []
-        for (x = 0; x < rows * cols; x += 1) {
-            if (Math.random() * 100 > group.well_coverage) {
-                group["generated_factors"].push({"ammt": 0, "color": "white"});
-            } else {
-                total_weight = 0
-                for (factor of group.factors) {
-                    total_weight += factor.relative_coverage 
-                }
-                total_weight *= Math.random()
-                selected_factor = null
-                for (factor of group.factors) {
-                    total_weight -= factor.relative_coverage 
-                    if (total_weight < 0) {
-                        selected_factor = factor
-                        break
-                    }
-                }
-                var vary_ammt = null
-                if (group.varied_distribution.id == "uniform")
-                    vary_ammt = Math.random()
-                if (group.varied_distribution.id == "gaussian") 
-                    vary_ammt = gaussianRandomTruncated(stdev= .2)
-                if (group.varied_distribution.id == "stepwise")
-                    vary_ammt = Math.random()
-                
-                if (selected_factor.vary.id == "ph")
-                    selected_factor.ph = selected_factor.varied_min + (selected_factor.varied_max - selected_factor.varied_min) * vary_ammt
-                else if (selected_factor.vary.id == "concentration")
-                    selected_factor.concentration = selected_factor.varied_min + (selected_factor.varied_max - selected_factor.varied_min) * vary_ammt
-                
-                group["generated_factors"].push({"factor": selected_factor, "ammt": vary_ammt, "color": group.colour});
-            }
-        }
-    }
-
-    for (group of group_data) {
-        if (group.chemical_order.id != "random") { 
-            group.generated_factors.sort((a, b) => a.factor.chemical.name.localeCompare(b.factor.chemical.name))
-        }
-    }
-
-    return
-
-    i = 0
-    for (var r = 0; r < rows; r++){
-        var row_data = all_data[r];
-        for (var c = 0; c < cols; c++){
-            for (group of group_data) {
-                if (group.factors.length == 0)
-                    continue
-                if (group.chemical_order.id == "column") {
-                    row_data[c.toString()].push(group["generated_factors"][r + c * rows]);  
-                } else if (group.chemical_order.id == "quadrant") {
-                    if (r < rows / 2 && c < cols / 2) {
-                        //      first 2 terms normalize quadrants, then reduce offset, then account for different quadrant, hard to explain
-                        index = c % (cols / 2) + r % (rows / 2) * cols - r * (cols / 2) + 0 * cols * rows * .25
-                        row_data[c.toString()].push(group["generated_factors"][index]);  
-                    }
-                    else if (r < rows / 2 && c >= cols / 2) {
-                        index = c % (cols / 2) + r % (rows / 2) * cols - r * (cols / 2) + 1 * cols * rows * .25
-                        row_data[c.toString()].push(group["generated_factors"][index]);  
-                    }
-                    else if (r >= rows / 2 && c < cols / 2) {
-                        index = c % (cols / 2) + r % (rows / 2) * cols - r % (rows / 2) * (cols / 2) + 2 * cols * rows * .25
-                        row_data[c.toString()].push(group["generated_factors"][index]);  
-                    }
-                    else if (r >= rows / 2 && c >= cols / 2) {
-                        index = c % (cols / 2) + r % (rows / 2) * cols - r % (rows / 2) * (cols / 2) + 3 * cols * rows * .25
-                        row_data[c.toString()].push(group["generated_factors"][index]);  
-                    }
-                } 
-                else {
-                    row_data[c.toString()].push(group["generated_factors"][i]);       
-                }
-            }
-            i += 1
-        }
-    }
-
-    display_table.setData(all_data);
-
-    // Hide the popup requesting regeneration if it case it's up
-    $('#current-maker-tabulator-automatic-update-popup').hide();
-
-
 }
 
 function row_formatter(row){
@@ -472,17 +402,6 @@ function condition_formatter(cell, formatterParams, onRendered){
     }
 
     return div;
-}
-
-function cell_tooltip(e, cell, onRendered){
-    if (cell.getValue() == null || cell.getValue().length == 0){
-        return "Empty Well";
-    }
-    str = get_name_and_info(cell.getValue()[0])
-    for (f of cell.getValue().slice(1)) {
-        str +=  "<br>" + get_name_and_info(f)
-    }
-    return str
 }
 
 function get_name_and_info(f) {
@@ -1235,6 +1154,219 @@ var current_maker_details_table = new Tabulator('#current-maker-details-tabulato
     }]
 });
 
+var condition_popup_tabulator = new Tabulator("#condition-popup-tabulator", {
+    layout: "fitColumns",
+    rowHeight: 48,
+    editorEmptyValue: null,
+    placeholder: "No Factors in Well",
+    initialFilter: [],
+    selectableRows: false,
+    index: "id",
+    validationMode: 'manual',
+    movableRows: true,
+    columns: [
+    // Chemical
+    {
+
+        title: "Chemical", 
+        field: "chemical", 
+        vertAlign: "middle",
+        editable: true,
+        validator: function(cell, value){
+            // Check that the chemical object is there and that it has an id for a valid chemical
+            if (value == null || value == "" || value.id == null || value.id == ""){
+                site_functions.alert_user("Must select a chemical.");
+                return false;
+            } else {
+                return true;
+            }
+        },
+        editor: "list", 
+        editorParams: {
+            // Load chemical list from api, formatting to show numbers of aliases
+            valuesLookup:function(cell){
+                return new Promise(function(resolve, reject){
+                    $.ajax({
+                        url: site_functions.API_URL+'/chemicals/names',
+                        success: function(data){
+                            var options = [];
+                            $.each(data, function(i,c){
+                                // Value of chemical cell is the actional chemical object (not just its name)
+                                options.push({
+                                    label: c.name + (c.aliases.length ? ' (aliases: ' + c.aliases.length + ')' : ""),
+                                    value: c,
+                                });
+                            })
+                            resolve(options);
+                        },
+                        error: function(error){
+                            reject(error);
+                        },
+                    });
+                });
+            },
+            sort: "asc",
+            emptyValue: {id: null, name: null, aliases: [], unit: null},
+            placeholderLoading: "Loading Chemical List...",
+            placeholderEmpty: "No Chemicals Found",
+            autocomplete:true,
+            // Search through names and aliases
+            filterFunc: function(term, label, value, item){
+                if (value.name.toLowerCase().includes(term.toLowerCase())){
+                    return true;
+                } else {
+                    for (i in value.aliases){
+                        if (value.aliases[i].name.toLowerCase().includes(term.toLowerCase())){
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            },
+            filterDelay:100,
+            listOnEmpty:true,
+        },
+        // Update the units and concentration inputs when chemical is changed
+        cellEdited: function(cell){
+                var chemical = cell.getValue();
+                var old_chemical = cell.getOldValue();
+                // Different chemical
+                if (chemical.id != old_chemical.id){
+                    var unit_ind = $.inArray(chemical.unit, site_functions.ALL_UNITS);
+                    var old_unit_ind = $.inArray(old_chemical.unit, site_functions.ALL_UNITS);
+                    // Different units
+                    if (unit_ind != old_unit_ind){
+                        var row = cell.getRow();
+                        var unit_cell = row.getCell('unit');
+                        var conc_cell = row.getCell('concentration');
+                        // New units found
+                        if (unit_ind != -1){
+                            unit_cell.setValue(site_functions.ALL_UNITS[unit_ind]);
+                        // New units not found
+                        } else {
+                            unit_cell.setValue(site_functions.ALL_UNITS[0]);
+                        }
+                        // Reset concentration
+                        conc_cell.setValue(null);
+
+                    }
+                }
+        },
+        // Display only name and alias count from the chemical object in the cell
+        formatter: function(cell, formatterParams, onRendered){
+            if (cell.getValue() == null || cell.getValue().name == null){
+                $(cell.getElement()).css('color', '#999');
+                return "Search chemicals ...";
+            } else {
+                $(cell.getElement()).css('color', '#333');
+                return cell.getValue().name + (cell.getValue().aliases.length ? ' (aliases: ' + cell.getValue().aliases.length + ')' : "");
+            }
+        },
+        // Sorter should sort by chemical name
+        sorter: function(a, b, aRow, bRow, column, dir, sorterParams){
+            return a.name.localeCompare(b.name);
+        }
+
+    // Concentration
+    },{
+        title: "Concentration", 
+        field: "concentration", 
+        hozAlign: "right", 
+        vertAlign: "middle",
+        width: 85,
+        editable: true,
+        validator: function(cell, value){
+            if (value == null || value == "" || typeof value !== "number" || value <= 0){
+                site_functions.alert_user("All concentrations must be positive numbers.");
+                return false;
+            } else {
+                return true;
+            }
+        },
+        editor: "number",
+        sorter: "number"
+
+    // Unit
+    }, {
+        title: "Unit", 
+        field: "unit", 
+        vertAlign: "middle",
+        width: 65,
+        editable: true,
+        validator: function(cell, value){
+            if (value == null || value == ""){
+                site_functions.alert_user("All units must be specified.");
+                return false;
+            } else {
+                return true;
+            }
+        },
+        editor: "list",
+        editorParams: {values: site_functions.ALL_UNITS}
+    
+    // pH
+    }, {
+        title: "pH", 
+        field: "ph", 
+        hozAlign: "right", 
+        vertAlign: "middle",
+        width: 55,
+        editable: true,
+        validator: function(cell, value){
+            if (value == null){
+                return true;
+            } else if (typeof value !== "number" || value < 0 || value > 14){
+                site_functions.alert_user("All pH values must be between 0 and 14.");
+                return false;
+            } else {
+                return true;
+            }
+        },
+        editor: "number",
+        sorter: "number"
+
+    // Relative Covarege
+    }, {
+    title: "", 
+    field: "actions", 
+    width: 100, 
+    // Depeding on whether a row is selected, if some other row is selected or if no row selected display apporpriate buttons
+    formatter: function (cell, formatterParams, onRendered){
+        div = $('<table>').attr('class', 'button-table').append($('<tbody>').append(
+            $('<tr>').append(
+                $('<td>').append(
+                    $('<button>').
+                    attr('class', 'delete-button table-cell-button').
+                    text('Remove')
+                )
+            )
+        ));
+        return div.prop('outerHTML');
+    }, 
+    // When the cell is clicked, check if the button itself was clicked and remove data
+    cellClick: function(e, cell){
+        target = $(e.target);
+        if (target.hasClass('delete-button')){
+            cell.getRow().delete();
+            last_selected_cell.setValue(condition_popup_tabulator.getData())
+        }
+    }, 
+    headerSort: false, 
+    hozAlign: "center", 
+    vertAlign: "middle", 
+    resizable: false, 
+    frozen: true}]
+});
+
+
+condition_popup_tabulator.on("cellEdited", (e) => {
+    condition = e.getRow().getData()
+    condition["ammt"] = .5
+    condition["group_name"] = "C3IncludedWells"
+    last_selected_cell.setValue(condition_popup_tabulator.getData())
+});
+
+
 // Buttons
 $('#screen-maker-automatic-add-group-button').click(function(){
     // Limit number of factor groups (ideally to allow for movable rows between them)
@@ -1292,6 +1424,10 @@ $("#manual-maker-button").click(function(){
     $("#automatic-maker-div").hide();
     $("#manual-maker-div").show();
 });
+
+$("#condition-popup-add-button").click(function() {
+    Tabulator.findTable('#condition-popup-tabulator')[0].addRow({"chemical": null, "concentration": null, "ph": null, "unit": null});
+})
 
 // Default start in automatic screen maker
 $("#automatic-maker-button").click();

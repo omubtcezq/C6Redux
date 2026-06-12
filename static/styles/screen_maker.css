@@ -27,6 +27,13 @@
 
 /* Current design tabulator and update popup */
 
+#condition-popup {
+    background-color: white;
+    position: absolute;
+    z-index: 10;
+    display: none;
+}
+
 .condition-cell {
     width: 100%;
     height: 100%;
@@ -38,6 +45,16 @@
 .factor-bar {
     flex: 1;
     height: 50%;
+}
+
+.condition-issue{
+    background: repeating-linear-gradient(
+        45deg,
+        #606dbc,
+        #606dbc 10px,
+        #465298 10px,
+        #465298 20px
+    ) !important;
 }
 
 .no-padding {
@@ -137,3 +154,5 @@
 #automatic-maker-additive-div{
     height: 145px;
 }
+
+
