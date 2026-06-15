@@ -331,6 +331,8 @@ def make_condition_grid_from_factor_groups(session: Session, query: ConditionGri
     # make factors (making factors before makes it easier to deal with sorting)
     random_generated_factors = {}
     for g in query.factor_groups:
+        if len(g.factors) == 0:
+            continue
         
         if g.chemical_order == "random":
             factor_list = []
@@ -486,7 +488,7 @@ def make_condition_grid_from_factor_groups(session: Session, query: ConditionGri
             for j in range(cols):
                 well = screen.wells[index]
                 for factor in well.wellcondition.factors:
-                    f = GridFactor(chemical= factor.chemical, ammt = dilution, unit = factor.unit, ph = factor.ph, concentration = round(factor.concentration * dilution, ndigits=2), group_name = "C3IncludedWells")
+                    f = GridFactor(chemical= factor.chemical, ammt = dilution, unit = factor.unit, ph = factor.ph, concentration = round(factor.concentration * dilution, ndigits=2), group_name = "C3AdditiveScreen")
                     filled_grid[i][j].condition.append(f)
                 index += 1
 

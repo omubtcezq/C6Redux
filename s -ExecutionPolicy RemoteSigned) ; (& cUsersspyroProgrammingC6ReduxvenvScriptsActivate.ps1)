@@ -1,0 +1,142 @@
+[1mdiff --git a/api/screen_maker.py b/api/screen_maker.py[m
+[1mindex cc3a690..748d844 100644[m
+[1m--- a/api/screen_maker.py[m
+[1m+++ b/api/screen_maker.py[m
+[36m@@ -331,6 +331,8 @@[m [mdef make_condition_grid_from_factor_groups(session: Session, query: ConditionGri[m
+     # make factors (making factors before makes it easier to deal with sorting)[m
+     random_generated_factors = {}[m
+     for g in query.factor_groups:[m
+[32m+[m[32m        if len(g.factors) == 0:[m
+[32m+[m[32m            continue[m
+         [m
+         if g.chemical_order == "random":[m
+             factor_list = [][m
+[36m@@ -486,7 +488,7 @@[m [mdef make_condition_grid_from_factor_groups(session: Session, query: ConditionGri[m
+             for j in range(cols):[m
+                 well = screen.wells[index][m
+                 for factor in well.wellcondition.factors:[m
+[31m-                    f = GridFactor(chemical= factor.chemical, ammt = dilution, unit = factor.unit, ph = factor.ph, concentration = round(factor.concentration * dilution, ndigits=2), group_name = "C3IncludedWells")[m
+[32m+[m[32m                    f = GridFactor(chemical= factor.chemical, ammt = dilution, unit = factor.unit, ph = factor.ph, concentration = round(factor.concentration * dilution, ndigits=2), group_name = "C3AdditiveScreen")[m
+                     filled_grid[i][j].condition.append(f)[m
+                 index += 1[m
+ [m
+[1mdiff --git a/static/scripts/screen_maker.js b/static/scripts/screen_maker.js[m
+[1mindex a8e1dc5..41ac8f8 100644[m
+[1m--- a/static/scripts/screen_maker.js[m
+[1m+++ b/static/scripts/screen_maker.js[m
+[36m@@ -138,10 +138,10 @@[m [mfunction create_screen_display(parent_element_id, element_id, rows, cols, all_da[m
+                     last_selected_cell = cell[m
+                     Tabulator.findTable("#condition-popup-tabulator")[0].setData(cell.getValue())[m
+ [m
+[31m-                    top = Math.min(e.clientY, window.innerHeight - $('#condition-popup').outerHeight())[m
+[31m-                    left = Math.min(e.clientX, window.innerWidth - $('#condition-popup').outerWidth())[m
+[31m-                    $('#condition-popup').css('top', e.clientY + 'px');[m
+[31m-                    $('#condition-popup').css('left', left + 'px');[m
+[32m+[m[32m                    top_pos = Math.min(e.clientY, window.innerHeight - $('#condition-popup').outerHeight())[m
+[32m+[m[32m                    left_pos = Math.min(e.clientX, window.innerWidth - $('#condition-popup').outerWidth())[m
+[32m+[m[32m                    $('#condition-popup').css('top', top_pos + 'px');[m
+[32m+[m[32m                    $('#condition-popup').css('left', left_pos + 'px');[m
+ [m
+                     $('#condition-popup').show();[m
+                 }[m
+[36m@@ -267,8 +267,20 @@[m [mfunction set_required_regeneration_of_current_screen_from_automatic(){[m
+ function generate_current_screen_from_automatic(){[m
+ [m
+     const group_table = Tabulator.findTable("#automatic-factor-groups-tabulator")[0][m
+[32m+[m
+     group_data = group_table.getData();[m
+ [m
+[32m+[m[32m    for (group of group_data) {[m
+[32m+[m[32m        for (factor of group.factors)[m
+[32m+[m[32m            if (factor.chemical.id == null || factor.relative_coverage == null ||[m[41m [m
+[32m+[m[32m                factor.varied_max == null || factor.varied_min == null ||[m
+[32m+[m[32m                factor.vary == null || factor.concentration == null ||[m
+[32m+[m[32m                factor.unit == null) {[m
+[32m+[m[32m                    site_functions.alert_user("Not enough info in factor group")[m
+[32m+[m[32m                    return[m
+[32m+[m[32m                }[m
+[32m+[m[32m    }[m
+[32m+[m
+     var display_table = Tabulator.findTable("#current-maker-tabulator")[0][m
+     const grid_rows = display_table.getRows().length;[m
+     const grid_cols = display_table.getColumns().length - 1; // -1 because the title for each row is included[m
+[36m@@ -388,6 +400,12 @@[m [mfunction condition_formatter(cell, formatterParams, onRendered){[m
+         [m
+         } else {[m
+             if (datum.group_name == "C3IncludedWells") {[m
+[32m+[m[32m                factor_bar.style.backgroundColor = "#aaff9b"[m
+[32m+[m[32m            }[m
+[32m+[m[32m            else if (datum.group_name == "C3AdditiveScreen") {[m
+[32m+[m[32m                factor_bar.style.backgroundColor = "#ffb699"[m
+[32m+[m[32m            }[m
+[32m+[m[32m            else if (datum.group_name == "C3EditedWell") {[m
+                 factor_bar.style.backgroundColor = "black"[m
+             }[m
+             else {[m
+[36m@@ -694,6 +712,7 @@[m [mvar factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {[m
+                 vertAlign: "middle",[m
+                 editable: true,[m
+                 validator: function(cell, value){[m
+[32m+[m[32m                    console.log(value)[m
+                     // Check that the chemical object is there and that it has an id for a valid chemical[m
+                     if (value == null || value == "" || value.id == null || value.id == ""){[m
+                         site_functions.alert_user("Must select a chemical.");[m
+[36m@@ -1231,7 +1250,7 @@[m [mvar condition_popup_tabulator = new Tabulator("#condition-popup-tabulator", {[m
+                 var chemical = cell.getValue();[m
+                 var old_chemical = cell.getOldValue();[m
+                 // Different chemical[m
+[31m-                if (chemical.id != old_chemical.id){[m
+[32m+[m[32m                if (old_chemical != null && chemical.id != old_chemical.id){[m
+                     var unit_ind = $.inArray(chemical.unit, site_functions.ALL_UNITS);[m
+                     var old_unit_ind = $.inArray(old_chemical.unit, site_functions.ALL_UNITS);[m
+                     // Different units[m
+[36m@@ -1254,6 +1273,7 @@[m [mvar condition_popup_tabulator = new Tabulator("#condition-popup-tabulator", {[m
+         },[m
+         // Display only name and alias count from the chemical object in the cell[m
+         formatter: function(cell, formatterParams, onRendered){[m
+[32m+[m[32m            console.log(cell.getValue())[m
+             if (cell.getValue() == null || cell.getValue().name == null){[m
+                 $(cell.getElement()).css('color', '#999');[m
+                 return "Search chemicals ...";[m
+[36m@@ -1362,11 +1382,16 @@[m [mvar condition_popup_tabulator = new Tabulator("#condition-popup-tabulator", {[m
+ condition_popup_tabulator.on("cellEdited", (e) => {[m
+     condition = e.getRow().getData()[m
+     condition["ammt"] = .5[m
+[31m-    condition["group_name"] = "C3IncludedWells"[m
+[31m-    last_selected_cell.setValue(condition_popup_tabulator.getData())[m
+[32m+[m[32m    condition["group_name"] = "C3EditedWell"[m
+[32m+[m[32m    const valid_factors = [][m
+[32m+[m[32m    for (factor of condition_popup_tabulator.getData()) {[m
+[32m+[m[32m        if (factor.chemical == null || factor.unit == null || factor.concentration == null)[m
+[32m+[m[32m            continue[m
+[32m+[m[32m        valid_factors.push(factor)[m
+[32m+[m[32m    }[m
+[32m+[m[32m    last_selected_cell.setValue(valid_factors)[m
+ });[m
+ [m
+[31m-[m
+ // Buttons[m
+ $('#screen-maker-automatic-add-group-button').click(function(){[m
+     // Limit number of factor groups (ideally to allow for movable rows between them)[m
+[36m@@ -1396,7 +1421,7 @@[m [m$('#screen-maker-automatic-add-group-button').click(function(){[m
+         chemical_order: chemical_order_options[0].value, [m
+         varied_distribution: varied_distribution_options[0].value, [m
+         varied_grouping: varied_grouping_options[0].value,[m
+[31m-        well_coverage: 0,[m
+[32m+[m[32m        well_coverage: 100,[m
+         factors: [][m
+     });[m
+ });[m
+[1mdiff --git a/static/scripts/site.js b/static/scripts/site.js[m
+[1mindex 0cf991c..d5e39b3 100644[m
+[1m--- a/static/scripts/site.js[m
+[1m+++ b/static/scripts/site.js[m
+[36m@@ -5,7 +5,7 @@[m [mvar site_functions = (function() {[m
+ var UI_VERSION = "v0.3.4";[m
+ [m
+ // Debug flag for API URL[m
+[31m-var DEBUG = false;[m
+[32m+[m[32mvar DEBUG = true;[m
+ [m
+ // API connection parameters[m
+ if (DEBUG){[m

@@ -138,10 +138,10 @@ function create_screen_display(parent_element_id, element_id, rows, cols, all_da
                     last_selected_cell = cell
                     Tabulator.findTable("#condition-popup-tabulator")[0].setData(cell.getValue())
 
-                    top = Math.min(e.clientY, window.innerHeight - $('#condition-popup').outerHeight())
-                    left = Math.min(e.clientX, window.innerWidth - $('#condition-popup').outerWidth())
-                    $('#condition-popup').css('top', e.clientY + 'px');
-                    $('#condition-popup').css('left', left + 'px');
+                    top_pos = Math.min(e.clientY, window.innerHeight - $('#condition-popup').outerHeight())
+                    left_pos = Math.min(e.clientX, window.innerWidth - $('#condition-popup').outerWidth())
+                    $('#condition-popup').css('top', top_pos + 'px');
+                    $('#condition-popup').css('left', left_pos + 'px');
 
                     $('#condition-popup').show();
                 }
@@ -267,7 +267,19 @@ function set_required_regeneration_of_current_screen_from_automatic(){
 function generate_current_screen_from_automatic(){
 
     const group_table = Tabulator.findTable("#automatic-factor-groups-tabulator")[0]
+
     group_data = group_table.getData();
+
+    for (group of group_data) {
+        for (factor of group.factors)
+            if (factor.chemical.id == null || factor.relative_coverage == null || 
+                factor.varied_max == null || factor.varied_min == null ||
+                factor.vary == null || factor.concentration == null ||
+                factor.unit == null) {
+                    site_functions.alert_user("Not enough info in factor group")
+                    return
+                }
+    }
 
     var display_table = Tabulator.findTable("#current-maker-tabulator")[0]
     const grid_rows = display_table.getRows().length;
@@ -388,6 +400,12 @@ function condition_formatter(cell, formatterParams, onRendered){
         
         } else {
             if (datum.group_name == "C3IncludedWells") {
+                factor_bar.style.backgroundColor = "#aaff9b"
+            }
+            else if (datum.group_name == "C3AdditiveScreen") {
+                factor_bar.style.backgroundColor = "#ffb699"
+            }
+            else if (datum.group_name == "C3EditedWell") {
                 factor_bar.style.backgroundColor = "black"
             }
             else {
@@ -694,6 +712,7 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
                 vertAlign: "middle",
                 editable: true,
                 validator: function(cell, value){
+                    console.log(value)
                     // Check that the chemical object is there and that it has an id for a valid chemical
                     if (value == null || value == "" || value.id == null || value.id == ""){
                         site_functions.alert_user("Must select a chemical.");
@@ -1231,7 +1250,7 @@ var condition_popup_tabulator = new Tabulator("#condition-popup-tabulator", {
                 var chemical = cell.getValue();
                 var old_chemical = cell.getOldValue();
                 // Different chemical
-                if (chemical.id != old_chemical.id){
+                if (old_chemical != null && chemical.id != old_chemical.id){
                     var unit_ind = $.inArray(chemical.unit, site_functions.ALL_UNITS);
                     var old_unit_ind = $.inArray(old_chemical.unit, site_functions.ALL_UNITS);
                     // Different units
@@ -1254,6 +1273,7 @@ var condition_popup_tabulator = new Tabulator("#condition-popup-tabulator", {
         },
         // Display only name and alias count from the chemical object in the cell
         formatter: function(cell, formatterParams, onRendered){
+            console.log(cell.getValue())
             if (cell.getValue() == null || cell.getValue().name == null){
                 $(cell.getElement()).css('color', '#999');
                 return "Search chemicals ...";
@@ -1362,10 +1382,15 @@ var condition_popup_tabulator = new Tabulator("#condition-popup-tabulator", {
 condition_popup_tabulator.on("cellEdited", (e) => {
     condition = e.getRow().getData()
     condition["ammt"] = .5
-    condition["group_name"] = "C3IncludedWells"
-    last_selected_cell.setValue(condition_popup_tabulator.getData())
+    condition["group_name"] = "C3EditedWell"
+    const valid_factors = []
+    for (factor of condition_popup_tabulator.getData()) {
+        if (factor.chemical == null || factor.unit == null || factor.concentration == null)
+            continue
+        valid_factors.push(factor)
+    }
+    last_selected_cell.setValue(valid_factors)
 });
-
 
 // Buttons
 $('#screen-maker-automatic-add-group-button').click(function(){
@@ -1396,7 +1421,7 @@ $('#screen-maker-automatic-add-group-button').click(function(){
         chemical_order: chemical_order_options[0].value, 
         varied_distribution: varied_distribution_options[0].value, 
         varied_grouping: varied_grouping_options[0].value,
-        well_coverage: 0,
+        well_coverage: 100,
         factors: []
     });
 });
