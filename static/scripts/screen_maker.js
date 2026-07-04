@@ -13,6 +13,7 @@ var public_functions = {};
 
 const MAX_FACTOR_GROUPS = 10;
 var last_selected_cell = null
+const undo_stack = []
 
 var group_colours = [
     {id: "Blue", label: "", value: "#1f77b4"}, 
@@ -58,6 +59,7 @@ function value_from_id(id, options){
         if (options[i].value.id == id){
             return options[i].value;
         }
+        console.log(options[i].value.id, id)
     }
     return null;
 }
@@ -120,6 +122,8 @@ function create_factor_groups_from_selected_wells(){
 }
 
 function create_screen_display(parent_element_id, element_id, rows, cols, all_data = null){
+    
+
     if (all_data == null) {
         // Tabulator columns
         var col_details = []
@@ -261,7 +265,7 @@ function create_screen_display(parent_element_id, element_id, rows, cols, all_da
 }
 
 function set_required_regeneration_of_current_screen_from_automatic(){
-    $('#current-maker-tabulator-automatic-update-popup').show();
+    // $('#current-maker-tabulator-automatic-update-popup').show();
 }
 
 function generate_current_screen_from_automatic(){
@@ -271,17 +275,42 @@ function generate_current_screen_from_automatic(){
     group_data = group_table.getData();
 
     for (group of group_data) {
-        for (factor of group.factors)
-            if (factor.chemical.id == null || factor.relative_coverage == null || 
-                factor.varied_max == null || factor.varied_min == null ||
-                factor.vary == null || factor.concentration == null ||
-                factor.unit == null) {
-                    site_functions.alert_user("Not enough info in factor group")
-                    return
+        var index = 0;
+        for (factor of group.factors) {
+            index += 1;
+              
+            if (factor.chemical.id == null) {
+                site_functions.alert_user(`${group.name} well ${index} does not have a chemical`)
+                return
+            }
+            if (factor.relative_coverage == null) {
+                site_functions.alert_user(`${group.name} well ${index} does not have relative coverage`)
+                return
+            }
+            if ((factor.varied_max == null || factor.varied_min == null) && (group.chemical_order.id != "uniform" && factor.vary.id != "none")) {
+                site_functions.alert_user(`${group.name} well ${index} does not have vary max and min`)
+                return
+            } 
+            if (factor.concentration == null && factor.vary.id != "concentration") {
+                site_functions.alert_user(`${group.name} well ${index} does not have a concentration`)
+                return
+            }
+            if (factor.unit == null) {
+                site_functions.alert_user(`${group.name} well ${index} does not have a unit`)
+                return
+            }
+            if (factor.vary === null) {
+                site_functions.alert_user(`${group.name} well ${index} does not have enough anything to vary`)
+                return
                 }
+        }
+            
     }
 
     var display_table = Tabulator.findTable("#current-maker-tabulator")[0]
+    // if (display_table.getData().every((row) => Object.values(row).slice(0, -1).every((cell) => cell === null))) {}
+    undo_stack.push(display_table.getData())
+
     const grid_rows = display_table.getRows().length;
     const grid_cols = display_table.getColumns().length - 1; // -1 because the title for each row is included
 
@@ -367,6 +396,27 @@ function generate_current_screen_from_automatic(){
             // Hide the popup requesting regeneration if it case it's up
             $('#current-maker-tabulator-automatic-update-popup').hide();
         });
+}
+
+function clear_screen() {
+    var display_table = Tabulator.findTable("#current-maker-tabulator")[0]
+    undo_stack.push(display_table.getData())
+
+    const grid_rows = display_table.getRows().length;
+    const grid_cols = display_table.getColumns().length - 1; // -1 because the title for each row is included
+
+    var letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    var all_data = []
+    for (var r = 0; r < grid_rows; r++){
+        var row_data = {row_letter: letters[r]};
+        for (var c = 0; c < grid_cols; c++){
+            row_data[c.toString()] = []
+        }
+        all_data.push(row_data);
+    }
+
+    display_table.setData(all_data)
+
 }
 
 function row_formatter(row){
@@ -1380,6 +1430,7 @@ var condition_popup_tabulator = new Tabulator("#condition-popup-tabulator", {
 
 
 condition_popup_tabulator.on("cellEdited", (e) => {
+    var display_table = Tabulator.findTable("#current-maker-tabulator")[0]
     condition = e.getRow().getData()
     condition["ammt"] = .5
     condition["group_name"] = "C3EditedWell"
@@ -1389,7 +1440,11 @@ condition_popup_tabulator.on("cellEdited", (e) => {
             continue
         valid_factors.push(factor)
     }
-    last_selected_cell.setValue(valid_factors)
+
+    if (valid_factors.length > 0) {
+        undo_stack.push(display_table.getData())
+        last_selected_cell.setValue(valid_factors)
+    }
 });
 
 // Buttons
@@ -1428,6 +1483,18 @@ $('#screen-maker-automatic-add-group-button').click(function(){
 
 $("#screen-maker-automatic-randomise-button").click(function(){
    generate_current_screen_from_automatic() 
+})
+
+$("#screen-maker-automatic-clear-screen-button").click(function(){
+   clear_screen() 
+})
+
+$("#screen-maker-automatic-undo-button").click(function(){
+    if (undo_stack.length == 0)
+        return;
+    var display_table = Tabulator.findTable("#current-maker-tabulator")[0];
+    display_table.setData(undo_stack.pop());
+
 })
 
 $("#automatic-maker-button").click(function(){
