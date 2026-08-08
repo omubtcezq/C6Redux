@@ -38,6 +38,19 @@ class ChemicalOrder(str, Enum):
     quadrant = "quadrant"
     uniform = "uniform"
     stepwise = "stepwise"
+    uniform_random = "uniform_random"
+    gaussian_random = "gaussian_random"
+    uniform_random_sorted = "uniform_random_sorted"
+    gaussian_random_sorted = "gaussian_random_sorted"
+
+class Location(str, Enum):
+    random = "random"
+    column = "column"
+    row = "row"
+    block = "block"
+    page = "page"
+    fixed = "fixed"
+    
 
 class VariedDistribution(str, Enum):
     gaussian = "gaussian"
@@ -74,6 +87,7 @@ class AutoScreenMakerFactorGroup(BaseModel):
     chemical_order: ChemicalOrder
     varied_distribution: VariedDistribution
     varied_grouping: VariedGrouping
+    location: Location
     well_coverage: float
     factors: list[AutoScreenMakerFactor]
 
@@ -228,7 +242,8 @@ def factor_group_varying_conc_from_factors(name, factors, min_multiplier, max_mu
     g = AutoScreenMakerFactorGroup(name=name,
                                    chemical_order=ChemicalOrder.random, 
                                    varied_distribution=VariedDistribution.gaussian, 
-                                   varied_grouping=VariedGrouping.none, 
+                                   varied_grouping=VariedGrouping.none,
+                                   location=Location.random,
                                    well_coverage=100,
                                    factors=auto_group_factors)
     return g
@@ -293,7 +308,8 @@ def factor_group_buffer_from_factors(name, factors):
     g = AutoScreenMakerFactorGroup(name=name, 
                                    chemical_order=ChemicalOrder.random, 
                                    varied_distribution=VariedDistribution.gaussian, 
-                                   varied_grouping=VariedGrouping.none, 
+                                   varied_grouping=VariedGrouping.none,
+                                   location=Location.random,
                                    well_coverage=100,
                                    factors=auto_group_factors)
     return g

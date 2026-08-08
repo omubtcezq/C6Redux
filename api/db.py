@@ -341,6 +341,10 @@ class ScreenRead(ScreenBaseLarge):
 class ScreenContentsRead(ScreenBaseLarge):
     wells: list["WellRead"]
 
+class ScreenCreate(ScreenBaseLarge):
+    wells: list["Well"]
+    
+
 # ============================== FrequentBlock =============================== #
 
 class FrequentBlockBase(SQLModel):
@@ -370,6 +374,9 @@ class WellConditionRead(WellConditionBase):
     id: int
     factors: list[FactorRead]
 
+class WellConditionCreate(WellConditionBase):
+    factors: list[FactorCreate]
+
 # =================================== Well =================================== #
 
 class WellBase(SQLModel):
@@ -391,3 +398,6 @@ class WellReadLite(WellBase):
 class WellRead(WellBase):
     id: int
     wellcondition: WellConditionRead
+
+class WellCreate(WellBase):
+    wellcondition: WellConditionCreate
