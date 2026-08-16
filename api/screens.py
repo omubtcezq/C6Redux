@@ -20,6 +20,7 @@ import api.units_and_buffers as unbs
 import api.condition_helper as ch
 import api.condition_distance as condition_distance
 import api.authentication as auth
+from datetime import datetime
 
 class QueryScreen(BaseModel):
     screen: db.ScreenRead
@@ -316,6 +317,81 @@ async def get_condition_grid(*, session: Session=Depends(db.get_readonly_session
     Creates a grid of conditions from factor groups
     """
     return screen_maker.make_condition_grid_from_factor_groups(session, query)
+
+
+# --------------------------------------------------------------------------- #
+# Models and endpoint to create/save a new screen from the UI
+# --------------------------------------------------------------------------- #
+class FactorCreateForScreen(BaseModel):
+    chemical_id: int
+    concentration: float | None = None
+    unit: str | None = None
+    ph: float | None = None
+
+class WellForScreen(BaseModel):
+    position_number: int
+    label: str
+    condition: list[FactorCreateForScreen] | None = None
+
+class ScreenCreatePayload(BaseModel):
+    name: str
+    owned_by: str
+    format_rows: int
+    format_cols: int
+    wells: list[WellForScreen]
+
+@router.post("/create",
+             summary="Create a new screen",
+             response_description="The new Screen",
+             response_model=db.ScreenRead)
+async def create_screen(*, authorised_user: db.ApiUserRead=Depends(auth.get_authorised_user), session: Session=Depends(db.get_write_session), new_screen: ScreenCreatePayload):
+    """
+    Create a new screen with wells and conditions. This endpoint expects the frontend to pass the grid
+    as a list of wells, each with a position_number, label, and a list of factors (chemical_id, concentration, unit, ph).
+    """
+    # Create screen entry
+    screen = db.Screen(
+        name=new_screen.name,
+        available=1,
+        owned_by=new_screen.owned_by,
+        creation_date=datetime.utcnow(),
+        format_name=f"{new_screen.format_rows}x{new_screen.format_cols}",
+        format_rows=new_screen.format_rows,
+        format_cols=new_screen.format_cols
+    )
+    session.add(screen)
+    session.commit()
+    session.refresh(screen)
+
+    # For each well passed, create a WellCondition, Factors and a Well
+    for w in new_screen.wells:
+        wc = db.WellCondition(computed_similarities=0)
+        session.add(wc)
+        session.commit()
+        session.refresh(wc)
+
+        # Add factors to the well condition
+        if w.condition:
+            for f in w.condition:
+                if f is None:
+                    continue
+                # Create Factor row (links to existing chemical by id)
+                factor = db.Factor(chemical_id=f.chemical_id, concentration=f.concentration if f.concentration is not None else 0, unit=f.unit if f.unit is not None else '', ph=f.ph)
+                session.add(factor)
+                session.commit()
+                session.refresh(factor)
+                # Associate factor with well condition
+                wc.factors.append(factor)
+            session.commit()
+
+        # Create well pointing to the created condition and the new screen
+        well = db.Well(screen_id=screen.id, wellcondition_id=wc.id, position_number=w.position_number, label=w.label)
+        session.add(well)
+        session.commit()
+
+    session.refresh(screen)
+    print("Screen creation performed by user: %s" % authorised_user.username)
+    return screen
 
 
 @router.get("/stats", 
