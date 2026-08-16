@@ -9,6 +9,7 @@ from pydantic.functional_validators import model_validator
 from enum import Enum
 from random import random, choices
 from numpy import random as nprandom
+from math import floor
 
 import api.db as db
 import api.units_and_buffers as unbs
@@ -32,12 +33,24 @@ BUFFER_PH_VARY_MAX_OFFSET = 1
 # ============================================================================ #
 
 class ChemicalOrder(str, Enum):
-    random = "random"
     column = "column"
     row = "row"
     quadrant = "quadrant"
     uniform = "uniform"
     stepwise = "stepwise"
+    uniform_random = "uniform_random"
+    gaussian_random = "gaussian_random"
+    uniform_random_sorted = "uniform_random_sorted"
+    gaussian_random_sorted = "gaussian_random_sorted"
+
+class Location(str, Enum):
+    random = "random"
+    column = "column"
+    row = "row"
+    quadrant = "quadrant"
+    page = "page"
+    fixed = "fixed"
+    
 
 class VariedDistribution(str, Enum):
     gaussian = "gaussian"
@@ -72,8 +85,7 @@ class AutoScreenMakerFactor(BaseModel):
 class AutoScreenMakerFactorGroup(BaseModel):
     name: str
     chemical_order: ChemicalOrder
-    varied_distribution: VariedDistribution
-    varied_grouping: VariedGrouping
+    location: Location
     well_coverage: float
     factors: list[AutoScreenMakerFactor]
 
@@ -226,9 +238,8 @@ def factor_group_varying_conc_from_factors(name, factors, min_multiplier, max_mu
     
     # Make automatic group and return
     g = AutoScreenMakerFactorGroup(name=name,
-                                   chemical_order=ChemicalOrder.random, 
-                                   varied_distribution=VariedDistribution.gaussian, 
-                                   varied_grouping=VariedGrouping.none, 
+                                   chemical_order=ChemicalOrder.gaussian_random, 
+                                   location=Location.random,
                                    well_coverage=100,
                                    factors=auto_group_factors)
     return g
@@ -291,12 +302,42 @@ def factor_group_buffer_from_factors(name, factors):
 
     # Make automatic group and return
     g = AutoScreenMakerFactorGroup(name=name, 
-                                   chemical_order=ChemicalOrder.random, 
-                                   varied_distribution=VariedDistribution.gaussian, 
-                                   varied_grouping=VariedGrouping.none, 
+                                   chemical_order=ChemicalOrder.gaussian_random, 
+                                   location=Location.random,
                                    well_coverage=100,
                                    factors=auto_group_factors)
     return g
+
+
+def factor_from_group(g: AutoScreenMakerFactorGroup, i, j, i_max, j_max):
+    if g.location == Location.random:
+        return choices(g.factors, weights=map(lambda f: f.relative_coverage, g.factors), k=1)[0]
+    if g.location == Location.column:
+        return g.factors[floor((j / j_max) * len(g.factors))]
+    if g.location == Location.row:
+        return g.factors[floor((i / i_max) * len(g.factors))]
+    if g.location == Location.quadrant:
+        if i < (i_max // 2):
+            if j < (j_max // 2):
+                return g.factors[0]
+        if i < (i_max // 2):
+            if j >= (j_max // 2):
+                return g.factors[1]
+        if i >= (i_max // 2):
+            if j < (j_max // 2):
+                return g.factors[2]
+        if i >= (i_max // 2):
+            if j >= (j_max // 2):
+                return g.factors[3]
+    if g.location == Location.page:
+        if j < (j_max // 2):
+            return g.factors[0]
+        else:
+            return g.factors[1]
+    if g.location == Location.fixed:
+        return g.factors[0]
+
+
 
 def make_condition_grid_from_factor_groups(session: Session, query: ConditionGridQuery):
     size = query.size
@@ -315,8 +356,7 @@ def make_condition_grid_from_factor_groups(session: Session, query: ConditionGri
         cols = grid_cols
     else:
         cols = query.range_dimensions.right - query.range_dimensions.left + 1
-        rows = query.range_dimensions.bottom - query.range_dimensions.top + 1
-    
+        rows = query.range_dimensions.bottom - query.range_dimensions.top + 1    
     
     # Create well grid
     filled_grid = []
@@ -334,28 +374,38 @@ def make_condition_grid_from_factor_groups(session: Session, query: ConditionGri
         if len(g.factors) == 0:
             continue
         
-        if g.chemical_order == "random":
+        if g.chemical_order == "gaussian_random" or g.chemical_order == "uniform_random" or g.chemical_order == "gaussian_random_sorted" or g.chemical_order == "uniform_random_sorted":
             factor_list = []
-            for _ in range(rows * cols):
-                if random() * 100 < g.well_coverage:
-                    factor = choices(g.factors, weights=map(lambda f: f.relative_coverage, g.factors), k=1)[0]
-                    ammt = None
-                    if g.varied_distribution == "gaussian":
-                        ammt = max(min(nprandom.normal(loc=.5, scale=.2), 1), 0)
+            ammt_list = []
+            for i in range(rows):
+                for j in range(cols):
+                    if g.chemical_order == "gaussian_random" or g.chemical_order == "gaussian_random_sorted":
+                        ammt_list.append(max(min(nprandom.normal(loc=.5, scale=.2), 1), 0))
                     else:
-                        ammt = random()
-                    if factor.vary == "ph":
-                        factor_list.append(GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = round(factor.varied_min + (factor.varied_max - factor.varied_min) * ammt, ndigits=2), concentration = factor.concentration, vary= factor.vary, group_name = g.name))
-                    elif factor.vary == "concentration":
-                        factor_list.append(GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = factor.ph, concentration = round(factor.varied_min + (factor.varied_max - factor.varied_min) * ammt, ndigits=2), vary= factor.vary, group_name = g.name))
-                    else:    
-                        ammt = .5
-                        factor_list.append(GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = factor.ph, concentration = factor.concentration, vary= factor.vary, group_name = g.name))
-                else:
-                    factor_list.append(None)
+                        ammt_list.append(random())
+
+            if g.chemical_order == "gaussian_random_sorted" or g.chemical_order == "uniform_random_sorted":
+                print(ammt_list)
+                ammt_list.sort(key = lambda f: f, reverse=True)
+                print(ammt_list)
+
+                    
+            for i in range(rows):
+                for j in range(cols):
+                    ammt = ammt_list.pop(0)
+                    if random() * 100 < g.well_coverage:
+                        factor = factor_from_group(g, i, j, rows, cols)
+                        if factor.vary == "ph":
+                            factor_list.append(GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = round(factor.varied_min + (factor.varied_max - factor.varied_min) * ammt, ndigits=2), concentration = factor.concentration, vary= factor.vary, group_name = g.name))
+                        elif factor.vary == "concentration":
+                            factor_list.append(GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = factor.ph, concentration = round(factor.varied_min + (factor.varied_max - factor.varied_min) * ammt, ndigits=2), vary= factor.vary, group_name = g.name))
+                        else:    
+                            ammt = .5
+                            factor_list.append(GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = factor.ph, concentration = factor.concentration, vary= factor.vary, group_name = g.name))
+                    else:
+                        factor_list.append(None)
             
-            if g.varied_grouping == "series":
-                factor_list.sort(key = lambda f: f.ammt, reverse=True)
+            
 
             random_generated_factors[g.name] = factor_list
 
@@ -363,7 +413,7 @@ def make_condition_grid_from_factor_groups(session: Session, query: ConditionGri
             for i in range(rows):
                 for j in range(cols):
                     if random() * 100 < g.well_coverage:
-                        factor = choices(g.factors, weights=map(lambda f: f.relative_coverage, g.factors), k=1)[0]
+                        factor = factor_from_group(g, i, j, rows, cols)
                         if rows == 1:
                             ammt = .5    
                         else:                        
@@ -384,7 +434,7 @@ def make_condition_grid_from_factor_groups(session: Session, query: ConditionGri
             for j in range(cols):
                 for i in range(rows):
                     if random() * 100 < g.well_coverage:
-                        factor = choices(g.factors, weights=map(lambda f: f.relative_coverage, g.factors), k=1)[0]
+                        factor = factor_from_group(g, i, j, rows, cols)
                         if cols == 1:
                             ammt = .5    
                         else:                        
@@ -405,7 +455,7 @@ def make_condition_grid_from_factor_groups(session: Session, query: ConditionGri
             index = 0
             def add_to_grid(i, j, ammt):
                 if random() * 100 < g.well_coverage:
-                    factor = choices(g.factors, weights=map(lambda f: f.relative_coverage, g.factors), k=1)[0]
+                    factor = factor_from_group(g, i, j, rows, cols)
                     f = None
                     if factor.vary == "ph":
                         f = GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = round(factor.varied_min + (factor.varied_max - factor.varied_min) * ammt, ndigits=2), concentration = factor.concentration, group_name = g.name)
@@ -438,7 +488,7 @@ def make_condition_grid_from_factor_groups(session: Session, query: ConditionGri
             for j in range(cols):
                 for i in range(rows):
                     if random() * 100 < g.well_coverage:
-                        factor = choices(g.factors, weights=map(lambda f: f.relative_coverage, g.factors), k=1)[0]
+                        factor = factor_from_group(g, i, j, rows, cols)
                         ammt = .5
                         f = GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = factor.ph, concentration = factor.concentration, group_name = g.name)
                         filled_grid[i][j].condition.append(f)
@@ -451,7 +501,7 @@ def make_condition_grid_from_factor_groups(session: Session, query: ConditionGri
             for i in range(rows):
                 for j in range(cols):
                     if random() * 100 < g.well_coverage:
-                        factor = choices(g.factors, weights=map(lambda f: f.relative_coverage, g.factors), k=1)[0]
+                        factor = factor_from_group(g, i, j, rows, cols)
                         if rows == 1 and cols == 1:
                             ammt = .5
                         else:

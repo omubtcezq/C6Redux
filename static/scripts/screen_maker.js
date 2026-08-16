@@ -29,13 +29,27 @@ var group_colours = [
 ];
 
 var chemical_order_options = [
-    {value: {id: "random", label: "Random"}, label: "Random"}, 
     {value: {id: "column", label: "Columns"}, label: "Columns"}, 
     {value: {id: "row", label: "Rows"}, label: "Rows"},
-    {value: {id: "quadrant", label: "Quadrants"}, label: "Quadrants"},
+    {value: {id: "quadrant", label: "Quadrant"}, label: "Quadrant"},
     {value: {id: "uniform", label: "Uniform"}, label: "Uniform"},
-    {value: {id: "stepwise", label: "Stepwise"}, label: "Stepwise"}
+    {value: {id: "stepwise", label: "Stepwise"}, label: "Stepwise"},
+    {value: {id: "uniform_random", label: "Uniform Random"}, label: "Uniform Random"},
+    {value: {id: "gaussian_random", label: "Gaussian Random"}, label: "Gaussian Random"},
+    {value: {id: "uniform_random_sorted", label: "Uniform Random Sorted"}, label: "Uniform Random Sorted"},
+    {value: {id: "gaussian_random_sorted", label: "Gaussian Random Sorted"}, label: "Gaussian Random Sorted"}
+
 ];
+
+var location_options = [
+    {value: {id: "column", label: "Column"}, label: "Column"}, 
+    {value: {id: "row", label: "Row"}, label: "Row"},
+    {value: {id: "quadrant", label: "Quadrant"}, label: "Quadrant"}, 
+    {value: {id: "page", label: "Page"}, label: "Page"},
+    {value: {id: "fixed", label: "Fixed"}, label: "Fixed"}, 
+    {value: {id: "random", label: "Random"}, label: "Random"}
+];
+
 
 var varied_distribution_options = [
     {value: {id: "gaussian", label: "Trunc. Gaussian"}, label: "Trunc. Gaussian"}, 
@@ -59,7 +73,6 @@ function value_from_id(id, options){
         if (options[i].value.id == id){
             return options[i].value;
         }
-        console.log(options[i].value.id, id)
     }
     return null;
 }
@@ -107,8 +120,7 @@ function create_factor_groups_from_selected_wells(){
             g.colour = group_colours[i % group_colours.length].value;
             // Fix dropdown displays
             g.chemical_order = value_from_id(g.chemical_order, chemical_order_options);
-            g.varied_distribution = value_from_id(g.varied_distribution, varied_distribution_options);
-            g.varied_grouping = value_from_id(g.varied_grouping, varied_grouping_options);
+            g.location = value_from_id(g.location, location_options)
             grouped = Object.groupBy(g.factors, (f) => f.chemical.name)
             for (var j=0; j<g.factors.length; j++){
                 var f = g.factors[j];
@@ -123,7 +135,6 @@ function create_factor_groups_from_selected_wells(){
 
 function create_screen_display(parent_element_id, element_id, rows, cols, all_data = null){
     
-
     if (all_data == null) {
         // Tabulator columns
         var col_details = []
@@ -278,31 +289,40 @@ function generate_current_screen_from_automatic(){
         var index = 0;
         for (factor of group.factors) {
             index += 1;
-              
+            
+            if (group.location.id == "quadrant" && group.factors.length < 4) {
+                site_functions.alert_user(`${group.name} factor ${index} needs 4 factors because it's location is set to quadrant`)
+                return
+            }
+            if (group.location.id == "page" && group.factors.length < 2) {
+                site_functions.alert_user(`${group.name} factor ${index} needs 2 factors because it's location is set to page`)
+                return
+            }
             if (factor.chemical.id == null) {
-                site_functions.alert_user(`${group.name} well ${index} does not have a chemical`)
+                site_functions.alert_user(`${group.name} factor ${index} is missing a chemical`)
                 return
             }
             if (factor.relative_coverage == null) {
-                site_functions.alert_user(`${group.name} well ${index} does not have relative coverage`)
+                site_functions.alert_user(`${group.name} factor ${index} is missing relative coverage`)
                 return
             }
             if ((factor.varied_max == null || factor.varied_min == null) && (group.chemical_order.id != "uniform" && factor.vary.id != "none")) {
-                site_functions.alert_user(`${group.name} well ${index} does not have vary max and min`)
+                site_functions.alert_user(`${group.name} factor ${index} is missing Max or Min`)
                 return
             } 
-            if (factor.concentration == null && factor.vary.id != "concentration") {
-                site_functions.alert_user(`${group.name} well ${index} does not have a concentration`)
+            if ((factor.concentration == null && factor.vary.id != "concentration") || (factor.concentration == null && group.chemical_order.id == "uniform") || (factor.concentration == null && factor.vary.id == "none")) {
+                console.log((factor.concentration == null && factor.vary.id != "concentration"), (factor.concentration == null && group.chemical_order.id == "uniform"), (factor.concentration == null && factor.vary.id == "none"))
+                site_functions.alert_user(`${group.name} factor ${index} is missing a concentration`)
                 return
             }
             if (factor.unit == null) {
-                site_functions.alert_user(`${group.name} well ${index} does not have a unit`)
+                site_functions.alert_user(`${group.name} factor ${index} is missing a unit`)
                 return
             }
             if (factor.vary === null) {
-                site_functions.alert_user(`${group.name} well ${index} does not have enough anything to vary`)
+                site_functions.alert_user(`${group.name} factor ${index} is missing what to vary`)
                 return
-                }
+            }
         }
             
     }
@@ -332,9 +352,9 @@ function generate_current_screen_from_automatic(){
         },
         body: JSON.stringify({
             factor_groups: group_data.map(group => {
+                console.log(group)
                 group.chemical_order = group.chemical_order.id
-                group.varied_distribution = group.varied_distribution.id
-                group.varied_grouping = group.varied_grouping.id
+                group.location = group.location.id
                 group.factors.map(factor => {
                     factor.vary = factor.vary.id
                     return factor
@@ -612,7 +632,7 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
 
         // Chemical Order (previously Location)
         }, {
-            title: "Chemical Arrangement", 
+            title: "Variable", 
             field: "chemical_order", 
             vertAlign: "middle",
             width: 140,
@@ -625,34 +645,16 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
             
         // Varied Attribute Distribution
         }, {
-            title:"Random Arrangement Options",
-            headerHozAlign : "center", 
-            // Distribution
-            columns: [{
-                title: "Distribution", 
-                field: "varied_distribution", 
-                vertAlign: "middle",
-                width: 115,
-                editor: "list",
-                headerSort: false,
-                editorParams: {values: varied_distribution_options},
-                formatter: function(cell, formatterParams, onRendered){
-                    return cell.getValue() ? cell.getValue().label : "";
-                }
-
-            // Order
-            }, {
-                title: "Grouping", 
-                field: "varied_grouping", 
-                vertAlign: "middle",
-                width: 100,
-                editor: "list",
-                headerSort: false,
-                editorParams: {values: varied_grouping_options},
-                formatter: function(cell, formatterParams, onRendered){
-                    return cell.getValue() ? cell.getValue().label : "";
-                }
-            }]
+            title: "Chemical Location", 
+            field: "location", 
+            vertAlign: "middle",
+            width: 140,
+            editor: "list",
+            editorParams: {values: location_options},
+            headerSort: false,
+            formatter: function(cell, formatterParams, onRendered){
+                return cell.getValue() ? cell.getValue().label : "";
+            }
             
         // Well Coverage
         }, {
@@ -731,7 +733,7 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
         // Factor in factrog group tabulator subtable
         var subtable_tabulator = new Tabulator(subtable[0], {
             //height: "100%",
-            layout: "fitColumns",
+            layout: "fitData",
             rowHeight: 48,
             data: row.getData().factors,
             editorEmptyValue: null,
@@ -760,6 +762,7 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
                 title: "Chemical", 
                 field: "chemical", 
                 vertAlign: "middle",
+                resizable: false,
                 editable: true,
                 validator: function(cell, value){
                     console.log(value)
@@ -861,9 +864,10 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
             }, {
                 title: "Concentration", 
                 field: "concentration", 
+                resizable: false,
                 hozAlign: "right", 
                 vertAlign: "middle",
-                width: 85,
+                // width: 85,
                 editable: true,
                 validator: function(cell, value){
                     if (value == null || value == "" || typeof value !== "number" || value <= 0){
@@ -880,6 +884,7 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
             }, {
                 title: "Unit", 
                 field: "unit", 
+                resizable: false,
                 vertAlign: "middle",
                 width: 65,
                 editable: true,
@@ -898,6 +903,7 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
             }, {
                 title: "pH", 
                 field: "ph", 
+                resizable: false,
                 hozAlign: "right", 
                 vertAlign: "middle",
                 width: 55,
@@ -919,9 +925,10 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
             }, {
                 title: "Relative Coverage", 
                 field: "relative_coverage", 
+                resizable: false,
                 hozAlign: "right", 
                 vertAlign: "middle",
-                width: 75,
+                // width: 75,
                 editable: true,
                 editor: "number",
                 editorParams:{
@@ -934,6 +941,7 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
             }, {
                 title: "Vary", 
                 field: "vary", 
+                resizable: false,
                 vertAlign: "middle",
                 width: 100,
                 editable: true,
@@ -954,10 +962,11 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
             // Min
             }, {
                 title: "Min Varied", 
-                field: "varied_min", 
+                field: "varied_min",
+                resizable: false, 
                 hozAlign: "right", 
                 vertAlign: "middle",
-                width: 80,
+                // width: 80,
                 editable: true,
                 validator: function(cell, value){
                     // Ignore min if no protperty is being varied
@@ -1002,9 +1011,10 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
             }, {
                 title: "Max Varied", 
                 field: "varied_max", 
+                resizable: false,
                 hozAlign: "right", 
                 vertAlign: "middle",
-                width: 80,
+                // width: 80,
                 editable: true,
                 validator: function(cell, value){
                     // Ignore max if no protperty is being varied
@@ -1049,6 +1059,7 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
             }, {
             title: "", 
             field: "actions", 
+            resizable: false,
             width: 100, 
             // Depeding on whether a row is selected, if some other row is selected or if no row selected display apporpriate buttons
             formatter: function (cell, formatterParams, onRendered){
@@ -1224,7 +1235,7 @@ var current_maker_details_table = new Tabulator('#current-maker-details-tabulato
 });
 
 var condition_popup_tabulator = new Tabulator("#condition-popup-tabulator", {
-    layout: "fitColumns",
+    layout: "fitData",
     rowHeight: 48,
     editorEmptyValue: null,
     placeholder: "No Factors in Well",
@@ -1343,7 +1354,7 @@ var condition_popup_tabulator = new Tabulator("#condition-popup-tabulator", {
         field: "concentration", 
         hozAlign: "right", 
         vertAlign: "middle",
-        width: 85,
+        // width: 85,
         editable: true,
         validator: function(cell, value){
             if (value == null || value == "" || typeof value !== "number" || value <= 0){
@@ -1361,7 +1372,7 @@ var condition_popup_tabulator = new Tabulator("#condition-popup-tabulator", {
         title: "Unit", 
         field: "unit", 
         vertAlign: "middle",
-        width: 65,
+        // width: 65,
         editable: true,
         validator: function(cell, value){
             if (value == null || value == ""){
@@ -1380,7 +1391,7 @@ var condition_popup_tabulator = new Tabulator("#condition-popup-tabulator", {
         field: "ph", 
         hozAlign: "right", 
         vertAlign: "middle",
-        width: 55,
+        // width: 55,
         editable: true,
         validator: function(cell, value){
             if (value == null){
@@ -1395,7 +1406,6 @@ var condition_popup_tabulator = new Tabulator("#condition-popup-tabulator", {
         editor: "number",
         sorter: "number"
 
-    // Relative Covarege
     }, {
     title: "", 
     field: "actions", 
@@ -1474,8 +1484,7 @@ $('#screen-maker-automatic-add-group-button').click(function(){
         name: "Group " + (next_id+1), 
         colour: group_colours[next_id % group_colours.length].value, 
         chemical_order: chemical_order_options[0].value, 
-        varied_distribution: varied_distribution_options[0].value, 
-        varied_grouping: varied_grouping_options[0].value,
+        location: location_options[0].value, 
         well_coverage: 100,
         factors: []
     });
@@ -1494,7 +1503,36 @@ $("#screen-maker-automatic-undo-button").click(function(){
         return;
     var display_table = Tabulator.findTable("#current-maker-tabulator")[0];
     display_table.setData(undo_stack.pop());
+})
 
+$("#screen-maker-save-button").click(function(){
+    to_authorise = function(auth_token){
+        $.ajax({
+            type: 'POST',
+            url: site_functions.API_URL+'/screens/test', 
+            data: JSON.stringify({"name": "NewName",
+                "available": 1,
+                "owned_by": "meme",
+                "wells": []
+                
+            }), 
+            headers: {"Authorization": "Bearer " + auth_token},
+            // On success replace row with contents of returned new chemical
+            success: function(returned_chemical) {
+                site_functions.alert_user("worked")
+            },
+            // On authentication error, request login
+            error: function(xhr, status, error){
+                if (xhr.status == 401) {
+                    msg = 'Please log in again';
+                    site_functions.authorise_action(msg, to_authorise);
+                }
+            },
+            dataType: 'json',
+            contentType: 'application/json'
+        });
+    }
+    site_functions.authorise_action(null, to_authorise);
 })
 
 $("#automatic-maker-button").click(function(){
