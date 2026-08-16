@@ -1534,6 +1534,85 @@ $('#current-maker-tabulator-automatic-update-popup-button').click(generate_curre
 $('#screen-maker-automatic-include-selected-checkbox').click(set_required_regeneration_of_current_screen_from_automatic);
 
 
+// Save current screen to the backend
+$('#screen-maker-save-button').click(function(){
+    try {
+        var details_table = Tabulator.findTable('#current-maker-details-tabulator')[0];
+        var details = details_table.getData()[0];
+    } catch (e) {
+        site_functions.alert_user('Unable to read screen details');
+        return;
+    }
+
+    var display_table = Tabulator.findTable('#current-maker-tabulator')[0];
+    var grid_rows = display_table.getRows().length;
+    var grid_cols = display_table.getColumns().length - 1; // title column excluded
+    var grid_data = display_table.getData();
+    var letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+    var wells = [];
+    for (var r = 0; r < grid_rows; r++){
+        for (var c = 0; c < grid_cols; c++){
+            var cell = grid_data[r][c.toString()];
+            var position = r * grid_cols + c + 1;
+            var label = letters[r] + (c + 1);
+            var factors = [];
+            if (cell && Array.isArray(cell)){
+                for (var i = 0; i < cell.length; i++){
+                    var f = cell[i];
+                    if (!f || !f.chemical || !f.chemical.id){
+                        continue;
+                    }
+                    factors.push({
+                        chemical_id: f.chemical.id,
+                        concentration: f.concentration,
+                        unit: f.unit,
+                        ph: f.ph
+                    });
+                }
+            }
+            wells.push({
+                position_number: position,
+                label: label,
+                condition: factors
+            });
+        }
+    }
+
+    var payload = {
+        name: details.name,
+        owned_by: details.apiuser && details.apiuser.username ? details.apiuser.username : 'unknown',
+        format_rows: details.size == 24 ? 4 : (details.size == 48 ? 6 : 8),
+        format_cols: details.size == 24 ? 6 : (details.size == 48 ? 8 : 12),
+        wells: wells
+    };
+
+    var to_authorise = function(auth_token){
+        $.ajax({
+            type: 'POST',
+            url: site_functions.API_URL + '/screens/create',
+            data: JSON.stringify(payload),
+            headers: {"Authorization": "Bearer " + auth_token},
+            success: function(returned_screen){
+                site_functions.alert_user('Screen saved: ' + returned_screen.name);
+            },
+            error: function(xhr){
+                if (xhr.status == 401) {
+                    site_functions.authorise_action('Please log in again', to_authorise);
+                } else {
+                    var msg = 'Error saving screen';
+                    try { msg += ': ' + xhr.responseText } catch (e) {}
+                    site_functions.alert_user(msg);
+                }
+            },
+            dataType: 'json',
+            contentType: 'application/json'
+        });
+    };
+    site_functions.authorise_action(null, to_authorise);
+});
+
+
 // Propagate message passing after tables have loaded
 Promise.all([]).then(function(){
     site_functions.propagate_message_passing();
