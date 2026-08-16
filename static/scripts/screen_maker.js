@@ -29,10 +29,9 @@ var group_colours = [
 ];
 
 var chemical_order_options = [
-    {value: {id: "random", label: "Random"}, label: "Random"}, 
     {value: {id: "column", label: "Columns"}, label: "Columns"}, 
     {value: {id: "row", label: "Rows"}, label: "Rows"},
-    {value: {id: "quadrant", label: "Quadrants"}, label: "Quadrants"},
+    {value: {id: "quadrant", label: "Quadrant"}, label: "Quadrant"},
     {value: {id: "uniform", label: "Uniform"}, label: "Uniform"},
     {value: {id: "stepwise", label: "Stepwise"}, label: "Stepwise"},
     {value: {id: "uniform_random", label: "Uniform Random"}, label: "Uniform Random"},
@@ -45,7 +44,7 @@ var chemical_order_options = [
 var location_options = [
     {value: {id: "column", label: "Column"}, label: "Column"}, 
     {value: {id: "row", label: "Row"}, label: "Row"},
-    {value: {id: "block", label: "Block"}, label: "Block"}, 
+    {value: {id: "quadrant", label: "Quadrant"}, label: "Quadrant"}, 
     {value: {id: "page", label: "Page"}, label: "Page"},
     {value: {id: "fixed", label: "Fixed"}, label: "Fixed"}, 
     {value: {id: "random", label: "Random"}, label: "Random"}
@@ -122,8 +121,6 @@ function create_factor_groups_from_selected_wells(){
             // Fix dropdown displays
             g.chemical_order = value_from_id(g.chemical_order, chemical_order_options);
             g.location = value_from_id(g.location, location_options)
-            g.varied_distribution = value_from_id(g.varied_distribution, varied_distribution_options);
-            g.varied_grouping = value_from_id(g.varied_grouping, varied_grouping_options);
             grouped = Object.groupBy(g.factors, (f) => f.chemical.name)
             for (var j=0; j<g.factors.length; j++){
                 var f = g.factors[j];
@@ -292,7 +289,15 @@ function generate_current_screen_from_automatic(){
         var index = 0;
         for (factor of group.factors) {
             index += 1;
-              
+            
+            if (group.location.id == "quadrant" && group.factors.length < 4) {
+                site_functions.alert_user(`${group.name} factor ${index} needs 4 factors because it's location is set to quadrant`)
+                return
+            }
+            if (group.location.id == "page" && group.factors.length < 2) {
+                site_functions.alert_user(`${group.name} factor ${index} needs 2 factors because it's location is set to page`)
+                return
+            }
             if (factor.chemical.id == null) {
                 site_functions.alert_user(`${group.name} factor ${index} is missing a chemical`)
                 return
@@ -317,7 +322,7 @@ function generate_current_screen_from_automatic(){
             if (factor.vary === null) {
                 site_functions.alert_user(`${group.name} factor ${index} is missing what to vary`)
                 return
-                }
+            }
         }
             
     }
@@ -350,8 +355,6 @@ function generate_current_screen_from_automatic(){
                 console.log(group)
                 group.chemical_order = group.chemical_order.id
                 group.location = group.location.id
-                group.varied_distribution = group.varied_distribution.id
-                group.varied_grouping = group.varied_grouping.id
                 group.factors.map(factor => {
                     factor.vary = factor.vary.id
                     return factor
@@ -629,7 +632,7 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
 
         // Chemical Order (previously Location)
         }, {
-            title: "Chemical Arrangement", 
+            title: "Variable", 
             field: "chemical_order", 
             vertAlign: "middle",
             width: 140,
@@ -642,7 +645,7 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
             
         // Varied Attribute Distribution
         }, {
-            title: "Location", 
+            title: "Chemical Location", 
             field: "location", 
             vertAlign: "middle",
             width: 140,
@@ -652,37 +655,6 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
             formatter: function(cell, formatterParams, onRendered){
                 return cell.getValue() ? cell.getValue().label : "";
             }
-            
-        // Varied Attribute Distribution
-        }, {
-            title:"Random Arrangement Options",
-            headerHozAlign : "center", 
-            // Distribution
-            columns: [{
-                title: "Distribution", 
-                field: "varied_distribution", 
-                vertAlign: "middle",
-                width: 115,
-                editor: "list",
-                headerSort: false,
-                editorParams: {values: varied_distribution_options},
-                formatter: function(cell, formatterParams, onRendered){
-                    return cell.getValue() ? cell.getValue().label : "";
-                }
-
-            // Order
-            }, {
-                title: "Grouping", 
-                field: "varied_grouping", 
-                vertAlign: "middle",
-                width: 100,
-                editor: "list",
-                headerSort: false,
-                editorParams: {values: varied_grouping_options},
-                formatter: function(cell, formatterParams, onRendered){
-                    return cell.getValue() ? cell.getValue().label : "";
-                }
-            }]
             
         // Well Coverage
         }, {
@@ -1513,8 +1485,6 @@ $('#screen-maker-automatic-add-group-button').click(function(){
         colour: group_colours[next_id % group_colours.length].value, 
         chemical_order: chemical_order_options[0].value, 
         location: location_options[0].value, 
-        varied_distribution: varied_distribution_options[0].value, 
-        varied_grouping: varied_grouping_options[0].value,
         well_coverage: 100,
         factors: []
     });
