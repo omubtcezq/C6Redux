@@ -78,6 +78,40 @@ async def get_screen_names(*, session: Session=Depends(db.get_readonly_session))
     screens = session.exec(statement).all()
     return screens
 
+@router.post("/create", 
+             summary="Create a new screen",
+             response_description="The new Screen",
+             response_model=db.ScreenRead)
+async def create_screen(*, authorised_user: db.ApiUserRead=Depends(auth.get_authorised_user), session: Session=Depends(db.get_write_session), new_screen: db.ScreenCreate):
+    """
+    Create a new screen
+    """
+    # Add chemical with frequentstock and alias information
+    chemical = db.Chemical().sqlmodel_update(new_screen.model_dump(exclude_unset=True))
+    session.add(chemical)
+    session.commit()
+    session.refresh(chemical)
+
+    # Create frequent stock if info is there
+    frequentstock_info_in_new = new_chemical.frequentstock and (new_chemical.frequentstock.concentration or new_chemical.frequentstock.precipitation_concentration)
+    if frequentstock_info_in_new:
+        frequentstock = db.FrequentStock(chemical_id=chemical.id).sqlmodel_update(new_chemical.frequentstock.model_dump(exclude_unset=True))
+        session.add(frequentstock)
+    session.commit()
+    session.refresh(chemical)
+
+    # Remove all aliases and re-add new ones
+    for alias in chemical.aliases:
+        session.delete(alias)
+    for new_alias in new_chemical.aliases:
+        session.add(db.Alias(chemical_id=chemical.id).sqlmodel_update(new_alias.model_dump(exclude_unset=True)))
+    session.commit()
+    session.refresh(chemical)
+
+    # Log and return new chemical
+    print("Chemical creation performed by user: %s" % authorised_user.username)
+    return chemical
+
 @router.get("/namesBySize", 
             summary="Gets a list of all screen of a given size",
             response_description="List of all screen names matching size",
@@ -624,28 +658,40 @@ async def compare_diversity(*, session: Session=Depends(db.get_readonly_session)
 
 def test():
     """Test function to query screens directly"""
+    from api.authentication import hash_password
+    from api.db import ApiUser, write_engine
     from sqlmodel import Session
-    
-    # Create session using your existing connection string
-    engine = db.readonly_engine
-    with Session(engine) as session:
-        statement = (
-            select(db.Screen).options(
-            selectinload(db.Screen.wells)
-            .selectinload(db.Well.wellcondition)
-            .selectinload(db.WellCondition.factors)
-            .selectinload(db.Factor.chemical))
-            .distinct().limit(1)
-        )
-        
-        result = session.exec(statement).unique().one()
-        print(condition_distance.distance_inside_screen(session, result), "\n\n\n")
+
+    # Create new user
+    new_user = ApiUser(
+        username="newuser",
+        password_hash=hash_password("password123"),  # Password is hashed with bcrypt
+        admin=1  # Set to 1 to allow write operations; 0 for read-only
+    )
+
+    # # Add to database
+    # with Session(write_engine) as session:
+    #     session.add(new_user)
+    #     session.commit()
+    #     print(f"User '{new_user.username}' created with ID {new_user.id}")
 
 
 
 
 if __name__ == "__main__":
     test()
+
+@router.post("/test", 
+            summary="Create a new screen",
+            response_description="The new Screen",
+            response_model=None)
+async def testpost(*, authorised_user: db.ApiUserRead=Depends(auth.get_authorised_user), session: Session=Depends(db.get_write_session), new_screen: db.ScreenCreate):
+    """
+    Create a new screen
+    """
+    print(new_screen, "WOW")
+    print(authorised_user)
+    
 
 
 
