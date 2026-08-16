@@ -46,7 +46,7 @@ var location_options = [
     {value: {id: "row", label: "Row"}, label: "Row"},
     {value: {id: "quadrant", label: "Quadrant"}, label: "Quadrant"}, 
     {value: {id: "page", label: "Page"}, label: "Page"},
-    {value: {id: "fixed", label: "Fixed"}, label: "Fixed"}, 
+    {value: {id: "fixed", label: "Screen"}, label: "Screen"}, 
     {value: {id: "random", label: "Random"}, label: "Random"}
 ];
 
