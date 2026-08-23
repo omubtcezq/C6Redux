@@ -309,101 +309,79 @@ def factor_group_buffer_from_factors(name, factors):
     return g
 
 
+def _allocate_regions_to_factors(num_regions: int, num_factors: int) -> list:
+    """Return a list of length num_regions where each entry is the factor index assigned to that region.
+    When num_factors <= num_regions, distribute regions to factors as evenly as possible, giving earlier factors the extra regions.
+    When num_factors >= num_regions, assign the first num_regions factors (one per region).
+    """
+    if num_factors <= 0:
+        return [0] * num_regions
+    if num_factors >= num_regions:
+        # Use the first num_regions factors
+        return list(range(min(num_regions, num_factors)))[:num_regions]
+    # num_factors < num_regions: distribute
+    base = num_regions // num_factors
+    rem = num_regions % num_factors
+    region_assign = []
+    for fi in range(num_factors):
+        count = base + (1 if fi < rem else 0)
+        region_assign.extend([fi] * count)
+    # Ensure length exactly num_regions
+    return region_assign[:num_regions]
+
+
 def factor_from_group(g: AutoScreenMakerFactorGroup, i, j, i_max, j_max):
+    # safe guards
+    if not g.factors or len(g.factors) == 0:
+        return None
+
     if g.location == Location.random:
         return choices(g.factors, weights=map(lambda f: f.relative_coverage, g.factors), k=1)[0]
+
     if g.location == Location.column:
-        return g.factors[floor((j / j_max) * len(g.factors))]
+        # column location maps factors across columns; use len(g.factors) to partition
+        idx = floor((j / j_max) * len(g.factors))
+        idx = max(0, min(len(g.factors) - 1, idx))
+        return g.factors[idx]
+
     if g.location == Location.row:
-        return g.factors[floor((i / i_max) * len(g.factors))]
+        idx = floor((i / i_max) * len(g.factors))
+        idx = max(0, min(len(g.factors) - 1, idx))
+        return g.factors[idx]
+
     if g.location == Location.quadrant:
-        if i < (i_max // 2):
-            if j < (j_max // 2):
-                return g.factors[0]
-        if i < (i_max // 2):
-            if j >= (j_max // 2):
-                return g.factors[1]
-        if i >= (i_max // 2):
-            if j < (j_max // 2):
-                return g.factors[2]
-        if i >= (i_max // 2):
-            if j >= (j_max // 2):
-                return g.factors[3]
-    if g.location == Location.page:
-        if j < (j_max // 2):
-            return g.factors[0]
+        # Determine which quadrant region this cell belongs to (0..3)
+        mid_row = i_max // 2
+        mid_col = j_max // 2
+        if i < mid_row:
+            if j < mid_col:
+                region = 0  # top-left
+            else:
+                region = 1  # top-right
         else:
-            return g.factors[1]
+            if j < mid_col:
+                region = 2  # bottom-left
+            else:
+                region = 3  # bottom-right
+        region_map = _allocate_regions_to_factors(4, len(g.factors))
+        factor_idx = region_map[region]
+        factor_idx = max(0, min(len(g.factors) - 1, factor_idx))
+        return g.factors[factor_idx]
+
+    if g.location == Location.page:
+        # page splits columns into two page regions (left/right)
+        mid_col = j_max // 2
+        region = 0 if j < mid_col else 1
+        region_map = _allocate_regions_to_factors(2, len(g.factors))
+        factor_idx = region_map[region]
+        factor_idx = max(0, min(len(g.factors) - 1, factor_idx))
+        return g.factors[factor_idx]
+
     if g.location == Location.fixed:
         return g.factors[0]
 
-
-# Helper: given a group and a cell (i,j) in a grid of size rows x cols, return the bounds
-# (start_row, end_row, start_col, end_col) of the region that the cell belongs to for that group's location
-def region_bounds_for_cell(g: AutoScreenMakerFactorGroup, i, j, rows, cols):
-    num = len(g.factors) if g.factors else 1
-    # default full grid
-    start_row, end_row, start_col, end_col = 0, rows - 1, 0, cols - 1
-
-    if num <= 1 or g.location == Location.random or g.location == Location.fixed:
-        return start_row, end_row, start_col, end_col
-
-    if g.location == Location.column:
-        # determine which factor's column block this j belongs to
-        factor_idx = int(floor((j / cols) * num))
-        factor_idx = max(0, min(num - 1, factor_idx))
-        start_col = int(floor((factor_idx * cols) / num))
-        end_col = int(floor(((factor_idx + 1) * cols) / num)) - 1
-        if end_col < start_col:
-            end_col = start_col
-        return start_row, end_row, start_col, end_col
-
-    if g.location == Location.row:
-        factor_idx = int(floor((i / rows) * num))
-        factor_idx = max(0, min(num - 1, factor_idx))
-        start_row = int(floor((factor_idx * rows) / num))
-        end_row = int(floor(((factor_idx + 1) * rows) / num)) - 1
-        if end_row < start_row:
-            end_row = start_row
-        return start_row, end_row, start_col, end_col
-
-    if g.location == Location.quadrant:
-        mid_row = rows // 2
-        mid_col = cols // 2
-        if i < mid_row:
-            start_row = 0
-            end_row = mid_row - 1 if mid_row > 0 else 0
-            if j < mid_col:
-                start_col = 0
-                end_col = mid_col - 1 if mid_col > 0 else 0
-            else:
-                start_col = mid_col
-                end_col = cols - 1
-        else:
-            start_row = mid_row
-            end_row = rows - 1
-            if j < mid_col:
-                start_col = 0
-                end_col = mid_col - 1 if mid_col > 0 else 0
-            else:
-                start_col = mid_col
-                end_col = cols - 1
-        return start_row, end_row, start_col, end_col
-
-    if g.location == Location.page:
-        mid_col = cols // 2
-        if j < mid_col:
-            return 0, rows - 1, 0, mid_col - 1 if mid_col > 0 else 0
-        else:
-            return 0, rows - 1, mid_col, cols - 1
-
     # fallback
-    return start_row, end_row, start_col, end_col
-
-
-def region_key(g: AutoScreenMakerFactorGroup, i, j, rows, cols):
-    srow, erow, scol, ecol = region_bounds_for_cell(g, i, j, rows, cols)
-    return (srow, erow, scol, ecol)
+    return g.factors[0]
 
 
 
@@ -441,146 +419,128 @@ def make_condition_grid_from_factor_groups(session: Session, query: ConditionGri
     for g in query.factor_groups:
         if len(g.factors) == 0:
             continue
-
-        # Helper to produce a GridFactor from a factor and ammt
-        def make_gridfactor_from(factor, ammt, gname):
-            if factor is None:
-                return None
-            if factor.vary == "ph":
-                return GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = round(factor.varied_min + (factor.varied_max - factor.varied_min) * ammt, ndigits=2), concentration = factor.concentration, vary= factor.vary, group_name = gname)
-            elif factor.vary == "concentration":
-                return GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = factor.ph, concentration = round(factor.varied_min + (factor.varied_max - factor.varied_min) * ammt, ndigits=2), vary= factor.vary, group_name = gname)
-            else:
-                return GridFactor(chemical= factor.chemical, ammt = .5, unit = factor.unit, ph = factor.ph, concentration = factor.concentration, vary= factor.vary, group_name = gname)
-
-        # RANDOMIZED orders: generate ammt lists per region so variation is localized to group's location
-        if g.chemical_order in ("gaussian_random", "uniform_random", "gaussian_random_sorted", "uniform_random_sorted"):
-            region_ammt = {}
-            # Generate ammt values per cell but bucket them by region
-            for ii in range(rows):
-                for jj in range(cols):
-                    if g.chemical_order in ("gaussian_random", "gaussian_random_sorted"):
-                        val = max(min(nprandom.normal(loc=.5, scale=.2), 1), 0)
-                    else:
-                        val = random()
-                    key = region_key(g, ii, jj, rows, cols)
-                    region_ammt.setdefault(key, []).append(val)
-
-            # Sort if requested, per-region
-            if g.chemical_order in ("gaussian_random_sorted", "uniform_random_sorted"):
-                for k in region_ammt:
-                    region_ammt[k].sort(reverse=True)
-
-            # Build factor_list in same iteration order but consume from region lists
+        
+        if g.chemical_order == "gaussian_random" or g.chemical_order == "uniform_random" or g.chemical_order == "gaussian_random_sorted" or g.chemical_order == "uniform_random_sorted":
             factor_list = []
-            for ii in range(rows):
-                for jj in range(cols):
-                    key = region_key(g, ii, jj, rows, cols)
-                    ammt = region_ammt[key].pop(0)
+            ammt_list = []
+            for i in range(rows):
+                for j in range(cols):
+                    if g.chemical_order == "gaussian_random" or g.chemical_order == "gaussian_random_sorted":
+                        ammt_list.append(max(min(nprandom.normal(loc=.5, scale=.2), 1), 0))
+                    else:
+                        ammt_list.append(random())
+
+            if g.chemical_order == "gaussian_random_sorted" or g.chemical_order == "uniform_random_sorted":
+                print(ammt_list)
+                ammt_list.sort(key = lambda f: f, reverse=True)
+                print(ammt_list)
+
+                    
+            for i in range(rows):
+                for j in range(cols):
+                    ammt = ammt_list.pop(0)
                     if random() * 100 < g.well_coverage:
-                        factor = factor_from_group(g, ii, jj, rows, cols)
-                        gf = make_gridfactor_from(factor, ammt, g.name)
-                        factor_list.append(gf)
+                        factor = factor_from_group(g, i, j, rows, cols)
+                        if factor.vary == "ph":
+                            factor_list.append(GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = round(factor.varied_min + (factor.varied_max - factor.varied_min) * ammt, ndigits=2), concentration = factor.concentration, vary= factor.vary, group_name = g.name))
+                        elif factor.vary == "concentration":
+                            factor_list.append(GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = factor.ph, concentration = round(factor.varied_min + (factor.varied_max - factor.varied_min) * ammt, ndigits=2), vary= factor.vary, group_name = g.name))
+                        else:    
+                            ammt = .5
+                            factor_list.append(GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = factor.ph, concentration = factor.concentration, vary= factor.vary, group_name = g.name))
                     else:
                         factor_list.append(None)
+            
+            
 
             random_generated_factors[g.name] = factor_list
-            continue
 
-        # For ordering types that have a directional/ordered ammt (row/column/stepwise/uniform), compute ammt relative to the cell's region
         if g.chemical_order == "row":
-            for ii in range(rows):
-                for jj in range(cols):
+            for i in range(rows):
+                for j in range(cols):
                     if random() * 100 < g.well_coverage:
-                        factor = factor_from_group(g, ii, jj, rows, cols)
-                        srow, erow, scol, ecol = region_bounds_for_cell(g, ii, jj, rows, cols)
-                        local_rows = erow - srow + 1
-                        local_i = ii - srow
-                        if local_rows <= 1:
-                            ammt = .5
+                        factor = factor_from_group(g, i, j, rows, cols)
+                        # If location is quadrant, compute ammt relative to the quadrant's local rows
+                        if g.location == "quadrant":
+                            # Top quadrants have rows 0 .. rows//2 -1, bottom quadrants have rows rows//2 .. rows-1
+                            top_rows = rows // 2
+                            bottom_rows = rows - top_rows
+                            if i < top_rows:
+                                local_rows = top_rows
+                                local_i = i
+                            else:
+                                local_rows = bottom_rows
+                                local_i = i - top_rows
+                            if local_rows == 1:
+                                ammt = .5
+                            else:
+                                ammt = local_i / (local_rows - 1)
                         else:
-                            ammt = local_i / (local_rows - 1)
-                        f = make_gridfactor_from(factor, ammt, g.name)
-                        filled_grid[ii][jj].condition.append(f)
+                            if rows == 1:
+                                ammt = .5    
+                            else:                        
+                                ammt = i / (rows - 1)
+                        f = None
+                        if factor.vary == "ph":
+                            f = GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = round(factor.varied_min + (factor.varied_max - factor.varied_min) * ammt, ndigits=2), concentration = factor.concentration, vary= factor.vary, group_name = g.name)
+                        elif factor.vary == "concentration":
+                            f = GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = factor.ph, concentration = round(factor.varied_min + (factor.varied_max - factor.varied_min) * ammt, ndigits=2), vary= factor.vary, group_name = g.name)
+                        else:    
+                            ammt = .5
+                            f = GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = factor.ph, concentration = factor.concentration, vary= factor.vary, group_name = g.name)
+                        filled_grid[i][j].condition.append(f)
                     else:
-                        filled_grid[ii][jj].condition.append(None)
-            continue
+                        filled_grid[i][j].condition.append(None)
 
         if g.chemical_order == "column":
-            for jj in range(cols):
-                for ii in range(rows):
+            for j in range(cols):
+                for i in range(rows):
                     if random() * 100 < g.well_coverage:
-                        factor = factor_from_group(g, ii, jj, rows, cols)
-                        srow, erow, scol, ecol = region_bounds_for_cell(g, ii, jj, rows, cols)
-                        local_cols = ecol - scol + 1
-                        local_j = jj - scol
-                        if local_cols <= 1:
-                            ammt = .5
+                        factor = factor_from_group(g, i, j, rows, cols)
+                        # If location is quadrant, compute ammt relative to the quadrant's local cols
+                        if g.location == "quadrant":
+                            left_cols = cols // 2
+                            right_cols = cols - left_cols
+                            if j < left_cols:
+                                local_cols = left_cols
+                                local_j = j
+                            else:
+                                local_cols = right_cols
+                                local_j = j - left_cols
+                            if local_cols == 1:
+                                ammt = .5
+                            else:
+                                ammt = local_j / (local_cols - 1)
                         else:
-                            ammt = local_j / (local_cols - 1)
-                        f = make_gridfactor_from(factor, ammt, g.name)
-                        filled_grid[ii][jj].condition.append(f)
+                            if cols == 1:
+                                ammt = .5    
+                            else:                        
+                                ammt = j / (cols - 1)
+                        f = None
+                        if factor.vary == "ph":
+                            f = GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = round(factor.varied_min + (factor.varied_max - factor.varied_min) * ammt, ndigits=2), concentration = factor.concentration, group_name = g.name)
+                        elif factor.vary == "concentration":
+                            f = GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = factor.ph, concentration = round(factor.varied_min + (factor.varied_max - factor.varied_min) * ammt, ndigits=2), group_name = g.name)
+                        else:    
+                            ammt = .5
+                            f = GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = factor.ph, concentration = factor.concentration, group_name = g.name)
+                        filled_grid[i][j].condition.append(f)
                     else:
-                        filled_grid[ii][jj].condition.append(None)
-            continue
+                        filled_grid[i][j].condition.append(None)
 
         if g.chemical_order == "quadrant":
-            # preserve existing quadrant pattern (four quadrant amplitude mapping)
-            def add_to_grid(ii, jj, ammt):
+            index = 0
+            def add_to_grid(i, j, ammt):
                 if random() * 100 < g.well_coverage:
-                    factor = factor_from_group(g, ii, jj, rows, cols)
-                    f = make_gridfactor_from(factor, ammt, g.name)
-                    filled_grid[ii][jj].condition.append(f)
-                else:
-                    filled_grid[ii][jj].condition.append(None)
-
-            for ii in range(rows // 2):
-                for jj in range(cols // 2):
-                    add_to_grid(ii, jj, 0)
-            for ii in range(rows - rows // 2):
-                for jj in range(cols // 2):
-                    add_to_grid(rows // 2 + ii, jj, .33)
-            for ii in range(rows // 2):
-                for jj in range(cols - cols // 2):
-                    add_to_grid(ii, cols // 2 + jj, .66)
-            for ii in range(rows - rows // 2):
-                for jj in range(cols - cols // 2):
-                    add_to_grid(rows // 2 + ii, cols // 2 + jj, 1)
-            continue
-
-        if g.chemical_order == "uniform":
-            for jj in range(cols):
-                for ii in range(rows):
-                    if random() * 100 < g.well_coverage:
-                        factor = factor_from_group(g, ii, jj, rows, cols)
+                    factor = factor_from_group(g, i, j, rows, cols)
+                    f = None
+                    if factor.vary == "ph":
+                        f = GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = round(factor.varied_min + (factor.varied_max - factor.varied_min) * ammt, ndigits=2), concentration = factor.concentration, group_name = g.name)
+                    elif factor.vary == "concentration":
+                        f = GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = factor.ph, concentration = round(factor.varied_min + (factor.varied_max - factor.varied_min) * ammt, ndigits=2), group_name = g.name)
+                    else:    
                         ammt = .5
-                        f = make_gridfactor_from(factor, ammt, g.name)
-                        filled_grid[ii][jj].condition.append(f)
-                    else:
-                        filled_grid[ii][jj].condition.append(None)
-            continue
-
-        if g.chemical_order == "stepwise":
-            for ii in range(rows):
-                for jj in range(cols):
-                    if random() * 100 < g.well_coverage:
-                        factor = factor_from_group(g, ii, jj, rows, cols)
-                        srow, erow, scol, ecol = region_bounds_for_cell(g, ii, jj, rows, cols)
-                        local_rows = erow - srow + 1
-                        local_cols = ecol - scol + 1
-                        local_i = ii - srow
-                        local_j = jj - scol
-                        local_total = local_rows * local_cols
-                        local_index = local_i * local_cols + local_j
-                        if local_total <= 1:
-                            ammt = .5
-                        else:
-                            ammt = local_index / (local_total - 1)
-                        f = make_gridfactor_from(factor, ammt, g.name)
-                        filled_grid[ii][jj].condition.append(f)
-                    else:
-                        filled_grid[ii][jj].condition.append(None)
-            continue = factor.concentration, group_name = g.name)
+                        f = GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = factor.ph, concentration = factor.concentration, group_name = g.name)
                     filled_grid[i][j].condition.append(f)
                 else:
                     filled_grid[i][j].condition.append(None)

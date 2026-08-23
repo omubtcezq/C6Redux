@@ -290,14 +290,10 @@ function generate_current_screen_from_automatic(){
         for (factor of group.factors) {
             index += 1;
             
-            if (group.location.id == "quadrant" && group.factors.length < 4) {
-                site_functions.alert_user(`${group.name} factor ${index} needs 4 factors because it's location is set to quadrant`)
-                return
-            }
-            if (group.location.id == "page" && group.factors.length < 2) {
-                site_functions.alert_user(`${group.name} factor ${index} needs 2 factors because it's location is set to page`)
-                return
-            }
+            // Allow location types (quadrant, page) to work with non-exact factor counts.
+            // Server will allocate factors across regions when counts differ (e.g., 1-3 factors for quadrant).
+            // Keep validation for other required fields below.
+            
             if (factor.chemical.id == null) {
                 site_functions.alert_user(`${group.name} factor ${index} is missing a chemical`)
                 return
