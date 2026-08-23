@@ -414,10 +414,26 @@ def make_condition_grid_from_factor_groups(session: Session, query: ConditionGri
                 for j in range(cols):
                     if random() * 100 < g.well_coverage:
                         factor = factor_from_group(g, i, j, rows, cols)
-                        if rows == 1:
-                            ammt = .5    
-                        else:                        
-                            ammt = i / (rows - 1)
+                        # If location is quadrant, compute ammt relative to the quadrant's local rows
+                        if g.location == "quadrant":
+                            # Top quadrants have rows 0 .. rows//2 -1, bottom quadrants have rows rows//2 .. rows-1
+                            top_rows = rows // 2
+                            bottom_rows = rows - top_rows
+                            if i < top_rows:
+                                local_rows = top_rows
+                                local_i = i
+                            else:
+                                local_rows = bottom_rows
+                                local_i = i - top_rows
+                            if local_rows == 1:
+                                ammt = .5
+                            else:
+                                ammt = local_i / (local_rows - 1)
+                        else:
+                            if rows == 1:
+                                ammt = .5    
+                            else:                        
+                                ammt = i / (rows - 1)
                         f = None
                         if factor.vary == "ph":
                             f = GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = round(factor.varied_min + (factor.varied_max - factor.varied_min) * ammt, ndigits=2), concentration = factor.concentration, vary= factor.vary, group_name = g.name)
@@ -435,10 +451,25 @@ def make_condition_grid_from_factor_groups(session: Session, query: ConditionGri
                 for i in range(rows):
                     if random() * 100 < g.well_coverage:
                         factor = factor_from_group(g, i, j, rows, cols)
-                        if cols == 1:
-                            ammt = .5    
-                        else:                        
-                            ammt = j / (cols - 1)
+                        # If location is quadrant, compute ammt relative to the quadrant's local cols
+                        if g.location == "quadrant":
+                            left_cols = cols // 2
+                            right_cols = cols - left_cols
+                            if j < left_cols:
+                                local_cols = left_cols
+                                local_j = j
+                            else:
+                                local_cols = right_cols
+                                local_j = j - left_cols
+                            if local_cols == 1:
+                                ammt = .5
+                            else:
+                                ammt = local_j / (local_cols - 1)
+                        else:
+                            if cols == 1:
+                                ammt = .5    
+                            else:                        
+                                ammt = j / (cols - 1)
                         f = None
                         if factor.vary == "ph":
                             f = GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = round(factor.varied_min + (factor.varied_max - factor.varied_min) * ammt, ndigits=2), concentration = factor.concentration, group_name = g.name)
