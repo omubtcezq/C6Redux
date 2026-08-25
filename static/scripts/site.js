@@ -5,7 +5,7 @@ var site_functions = (function() {
 var UI_VERSION = "v0.3.4";
 
 // Debug flag for API URL
-var DEBUG = true;
+var DEBUG = false;
 
 // API connection parameters
 if (DEBUG){
