@@ -82,6 +82,32 @@ function cellclick_flip_tick(e, cell){
     cell.setValue(!cell.getValue());
 }
 
+function apply_location_cell_style(cell){
+    if (!cell || !cell.getRow || !cell.getElement) {
+        return;
+    }
+
+    const factors = cell.getRow().getData().factors || [];
+    const isDisabled = factors.length <= 1;
+    const cellEl = $(cell.getElement());
+
+    if (isDisabled) {
+        cellEl.css({
+            'color': '#888',
+            'background-color': '#f3f3f3',
+            'font-style': 'italic',
+            'cursor': 'not-allowed'
+        });
+    } else {
+        cellEl.css({
+            'color': '',
+            'background-color': '',
+            'font-style': '',
+            'cursor': ''
+        });
+    }
+}
+
 function add_factor_to_group(row){
     // Adds data to original row and reloads the subtable. Unique id required and ignored when saving
     row.getData().factors.push({
@@ -98,6 +124,11 @@ function add_factor_to_group(row){
     let group_id = row.getData().id;
     let subtable_tabulator = Tabulator.findTable('#maker-group-subtable-'+group_id)[0];
     subtable_tabulator.setData(row.getData().factors);
+
+    const location_cell = row.getCell("location");
+    if (location_cell) {
+        apply_location_cell_style(location_cell);
+    }
 }
 
 function create_factor_groups_from_selected_wells(){
@@ -290,14 +321,10 @@ function generate_current_screen_from_automatic(){
         for (factor of group.factors) {
             index += 1;
             
-            if (group.location.id == "quadrant" && group.factors.length < 4) {
-                site_functions.alert_user(`${group.name} factor ${index} needs 4 factors because it's location is set to quadrant`)
-                return
-            }
-            if (group.location.id == "page" && group.factors.length < 2) {
-                site_functions.alert_user(`${group.name} factor ${index} needs 2 factors because it's location is set to page`)
-                return
-            }
+            // Allow location types (quadrant, page) to work with non-exact factor counts.
+            // Server will allocate factors across regions when counts differ (e.g., 1-3 factors for quadrant).
+            // Keep validation for other required fields below.
+            
             if (factor.chemical.id == null) {
                 site_functions.alert_user(`${group.name} factor ${index} is missing a chemical`)
                 return
@@ -649,10 +676,15 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
             field: "location", 
             vertAlign: "middle",
             width: 140,
+            editable: function(cell){
+                const factors = cell.getRow().getData().factors || [];
+                return factors.length > 1;
+            },
             editor: "list",
             editorParams: {values: location_options},
             headerSort: false,
             formatter: function(cell, formatterParams, onRendered){
+                apply_location_cell_style(cell);
                 return cell.getValue() ? cell.getValue().label : "";
             }
             
@@ -1084,6 +1116,11 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
                     });
                     // Remove factor from display table
                     cell.getTable().setData(row.getData().factors);
+
+                    const location_cell = row.getCell("location");
+                    if (location_cell) {
+                        apply_location_cell_style(location_cell);
+                    }
                 }
             }, 
             headerSort: false, 
@@ -1094,8 +1131,20 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
         });
 
         // When subtable is change or reset (on adding or removing of factor) request regeneration
-        subtable_tabulator.on("dataChanged", set_required_regeneration_of_current_screen_from_automatic);
-        subtable_tabulator.on("dataProcessed", set_required_regeneration_of_current_screen_from_automatic);
+        subtable_tabulator.on("dataChanged", function(){
+            const location_cell = row.getCell("location");
+            if (location_cell) {
+                apply_location_cell_style(location_cell);
+            }
+            set_required_regeneration_of_current_screen_from_automatic();
+        });
+        subtable_tabulator.on("dataProcessed", function(){
+            const location_cell = row.getCell("location");
+            if (location_cell) {
+                apply_location_cell_style(location_cell);
+            }
+            set_required_regeneration_of_current_screen_from_automatic();
+        });
 
         // Holder of subtable
         var holder = $('<div>').attr('class', 'holder-for-subtable');
