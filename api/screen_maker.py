@@ -417,6 +417,24 @@ def make_condition_grid_from_factor_groups(session: Session, query: ConditionGri
     # make factors (making factors before makes it easier to deal with sorting)
     random_generated_factors = {}
 
+    def interpolate_range_value(start_value, end_value, ammt):
+        if start_value is None or end_value is None:
+            return None
+        if start_value == end_value:
+            return start_value
+        if start_value < end_value:
+            return start_value + (end_value - start_value) * ammt
+        return start_value - (start_value - end_value) * ammt
+
+    def display_ammt_for_range(start_value, end_value, ammt):
+        if start_value is None or end_value is None:
+            return ammt
+        if start_value == end_value:
+            return ammt
+        if start_value < end_value:
+            return ammt
+        return 1 - ammt
+
     def region_bounds_for_cell(g, i, j, rows, cols):
         # returns (start_row,end_row,start_col,end_col) for the region the cell belongs to
         num = len(g.factors) if g.factors else 1
@@ -486,10 +504,11 @@ def make_condition_grid_from_factor_groups(session: Session, query: ConditionGri
         if len(g.factors) == 0:
             continue
 
-        # RANDOMIZED orders: generate ammt values per region so variation is localized to group's location
+        # RANDOMIZED orders: generate ammt values per region so variation is localized to group's location.
+        # Keep the per-cell factor ordering aligned with the row-major cell iteration so the first generated
+        # random value is applied to the first cell in the grid, not the last cell after a later reinsert.
         if g.chemical_order in ("gaussian_random", "uniform_random", "gaussian_random_sorted", "uniform_random_sorted"):
             region_ammt = {}
-            # Generate ammt values per cell but bucket them by region
             for ii in range(rows):
                 for jj in range(cols):
                     if g.chemical_order in ("gaussian_random", "gaussian_random_sorted"):
@@ -499,13 +518,10 @@ def make_condition_grid_from_factor_groups(session: Session, query: ConditionGri
                     key = region_key(g, ii, jj, rows, cols)
                     region_ammt.setdefault(key, []).append(val)
 
-            # Sort if requested, per-region
             if g.chemical_order in ("gaussian_random_sorted", "uniform_random_sorted"):
                 for k in region_ammt:
                     region_ammt[k].sort(reverse=True)
 
-            # Build factor_list in same iteration order but consume from region lists
-            factor_list = []
             for ii in range(rows):
                 for jj in range(cols):
                     key = region_key(g, ii, jj, rows, cols)
@@ -513,15 +529,16 @@ def make_condition_grid_from_factor_groups(session: Session, query: ConditionGri
                     if random() * 100 < g.well_coverage:
                         factor = factor_from_group(g, ii, jj, rows, cols)
                         if factor.vary == "ph":
-                            factor_list.append(GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = round(factor.varied_min + (factor.varied_max - factor.varied_min) * ammt, ndigits=2), concentration = factor.concentration, vary= factor.vary, group_name = g.name))
+                            display_ammt = display_ammt_for_range(factor.varied_min, factor.varied_max, ammt)
+                            f = GridFactor(chemical= factor.chemical, ammt = display_ammt, unit = factor.unit, ph = round(interpolate_range_value(factor.varied_min, factor.varied_max, ammt), ndigits=2), concentration = factor.concentration, vary= factor.vary, group_name = g.name)
                         elif factor.vary == "concentration":
-                            factor_list.append(GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = factor.ph, concentration = round(factor.varied_min + (factor.varied_max - factor.varied_min) * ammt, ndigits=2), vary= factor.vary, group_name = g.name))
+                            display_ammt = display_ammt_for_range(factor.varied_min, factor.varied_max, ammt)
+                            f = GridFactor(chemical= factor.chemical, ammt = display_ammt, unit = factor.unit, ph = factor.ph, concentration = round(interpolate_range_value(factor.varied_min, factor.varied_max, ammt), ndigits=2), vary= factor.vary, group_name = g.name)
                         else:
-                            factor_list.append(GridFactor(chemical= factor.chemical, ammt = .5, unit = factor.unit, ph = factor.ph, concentration = factor.concentration, vary= factor.vary, group_name = g.name))
+                            f = GridFactor(chemical= factor.chemical, ammt = .5, unit = factor.unit, ph = factor.ph, concentration = factor.concentration, vary= factor.vary, group_name = g.name)
+                        filled_grid[ii][jj].condition.append(f)
                     else:
-                        factor_list.append(None)
-
-            random_generated_factors[g.name] = factor_list
+                        filled_grid[ii][jj].condition.append(None)
             continue
 
         # ROW ordering: compute ammt relative to the region bounds
@@ -538,9 +555,11 @@ def make_condition_grid_from_factor_groups(session: Session, query: ConditionGri
                         else:
                             ammt = local_i / (local_rows - 1)
                         if factor.vary == "ph":
-                            f = GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = round(factor.varied_min + (factor.varied_max - factor.varied_min) * ammt, ndigits=2), concentration = factor.concentration, vary= factor.vary, group_name = g.name)
+                            display_ammt = display_ammt_for_range(factor.varied_min, factor.varied_max, ammt)
+                            f = GridFactor(chemical= factor.chemical, ammt = display_ammt, unit = factor.unit, ph = round(interpolate_range_value(factor.varied_min, factor.varied_max, ammt), ndigits=2), concentration = factor.concentration, vary= factor.vary, group_name = g.name)
                         elif factor.vary == "concentration":
-                            f = GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = factor.ph, concentration = round(factor.varied_min + (factor.varied_max - factor.varied_min) * ammt, ndigits=2), vary= factor.vary, group_name = g.name)
+                            display_ammt = display_ammt_for_range(factor.varied_min, factor.varied_max, ammt)
+                            f = GridFactor(chemical= factor.chemical, ammt = display_ammt, unit = factor.unit, ph = factor.ph, concentration = round(interpolate_range_value(factor.varied_min, factor.varied_max, ammt), ndigits=2), vary= factor.vary, group_name = g.name)
                         else:
                             f = GridFactor(chemical= factor.chemical, ammt = .5, unit = factor.unit, ph = factor.ph, concentration = factor.concentration, vary= factor.vary, group_name = g.name)
                         filled_grid[ii][jj].condition.append(f)
@@ -562,9 +581,11 @@ def make_condition_grid_from_factor_groups(session: Session, query: ConditionGri
                         else:
                             ammt = local_j / (local_cols - 1)
                         if factor.vary == "ph":
-                            f = GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = round(factor.varied_min + (factor.varied_max - factor.varied_min) * ammt, ndigits=2), concentration = factor.concentration, group_name = g.name)
+                            display_ammt = display_ammt_for_range(factor.varied_min, factor.varied_max, ammt)
+                            f = GridFactor(chemical= factor.chemical, ammt = display_ammt, unit = factor.unit, ph = round(interpolate_range_value(factor.varied_min, factor.varied_max, ammt), ndigits=2), concentration = factor.concentration, group_name = g.name)
                         elif factor.vary == "concentration":
-                            f = GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = factor.ph, concentration = round(factor.varied_min + (factor.varied_max - factor.varied_min) * ammt, ndigits=2), group_name = g.name)
+                            display_ammt = display_ammt_for_range(factor.varied_min, factor.varied_max, ammt)
+                            f = GridFactor(chemical= factor.chemical, ammt = display_ammt, unit = factor.unit, ph = factor.ph, concentration = round(interpolate_range_value(factor.varied_min, factor.varied_max, ammt), ndigits=2), group_name = g.name)
                         else:
                             f = GridFactor(chemical= factor.chemical, ammt = .5, unit = factor.unit, ph = factor.ph, concentration = factor.concentration, group_name = g.name)
                         filled_grid[ii][jj].condition.append(f)
@@ -602,9 +623,11 @@ def make_condition_grid_from_factor_groups(session: Session, query: ConditionGri
                         factor = factor_from_group(g, ii, jj, rows, cols)
                         ammt = quadrant_ammt_for_cell(ii, jj)
                         if factor.vary == "ph":
-                            f = GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = round(factor.varied_min + (factor.varied_max - factor.varied_min) * ammt, ndigits=2), concentration = factor.concentration, group_name = g.name)
+                            display_ammt = display_ammt_for_range(factor.varied_min, factor.varied_max, ammt)
+                            f = GridFactor(chemical= factor.chemical, ammt = display_ammt, unit = factor.unit, ph = round(interpolate_range_value(factor.varied_min, factor.varied_max, ammt), ndigits=2), concentration = factor.concentration, group_name = g.name)
                         elif factor.vary == "concentration":
-                            f = GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = factor.ph, concentration = round(factor.varied_min + (factor.varied_max - factor.varied_min) * ammt, ndigits=2), group_name = g.name)
+                            display_ammt = display_ammt_for_range(factor.varied_min, factor.varied_max, ammt)
+                            f = GridFactor(chemical= factor.chemical, ammt = display_ammt, unit = factor.unit, ph = factor.ph, concentration = round(interpolate_range_value(factor.varied_min, factor.varied_max, ammt), ndigits=2), group_name = g.name)
                         else:
                             f = GridFactor(chemical= factor.chemical, ammt = .5, unit = factor.unit, ph = factor.ph, concentration = factor.concentration, group_name = g.name)
                         filled_grid[ii][jj].condition.append(f)
@@ -643,21 +666,17 @@ def make_condition_grid_from_factor_groups(session: Session, query: ConditionGri
                         else:
                             ammt = local_index / (local_total - 1)
                         if factor.vary == "ph":
-                            f = GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = round(factor.varied_min + (factor.varied_max - factor.varied_min) * ammt, ndigits=2), concentration = factor.concentration, group_name = g.name)
+                            display_ammt = display_ammt_for_range(factor.varied_min, factor.varied_max, ammt)
+                            f = GridFactor(chemical= factor.chemical, ammt = display_ammt, unit = factor.unit, ph = round(interpolate_range_value(factor.varied_min, factor.varied_max, ammt), ndigits=2), concentration = factor.concentration, group_name = g.name)
                         elif factor.vary == "concentration":
-                            f = GridFactor(chemical= factor.chemical, ammt = ammt, unit = factor.unit, ph = factor.ph, concentration = round(factor.varied_min + (factor.varied_max - factor.varied_min) * ammt, ndigits=2), group_name = g.name)
+                            display_ammt = display_ammt_for_range(factor.varied_min, factor.varied_max, ammt)
+                            f = GridFactor(chemical= factor.chemical, ammt = display_ammt, unit = factor.unit, ph = factor.ph, concentration = round(interpolate_range_value(factor.varied_min, factor.varied_max, ammt), ndigits=2), group_name = g.name)
                         else:
                             f = GridFactor(chemical= factor.chemical, ammt = .5, unit = factor.unit, ph = factor.ph, concentration = factor.concentration, group_name = g.name)
                         filled_grid[ii][jj].condition.append(f)
                     else:
                         filled_grid[ii][jj].condition.append(None)
-     # insert random factors into grid
-    for i in range(rows):
-        for j in range(cols):
-            for group_name in random_generated_factors:
-                filled_grid[i][j].condition.append(random_generated_factors[group_name].pop())
 
-    
     # Add additive
     if query.additive_and_dilution != None:
         statement = (

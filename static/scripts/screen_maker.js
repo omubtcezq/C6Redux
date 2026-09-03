@@ -77,6 +77,56 @@ function value_from_id(id, options){
     return null;
 }
 
+function chemical_order_options_for_location(location_value){
+    if (!location_value || (location_value.id || location_value) !== "random") {
+        return chemical_order_options;
+    }
+
+    return chemical_order_options.filter(function(option){
+        return ["uniform", "uniform_random", "gaussian_random"].includes(option.value.id);
+    });
+}
+
+function normalize_random_location_row(row_data){
+    if (!row_data) {
+        return row_data;
+    }
+
+    const row_location = row_data.location && row_data.location.id ? row_data.location.id : row_data.location;
+    if (row_location === "random") {
+        const current_order = row_data.chemical_order && row_data.chemical_order.id ? row_data.chemical_order.id : row_data.chemical_order;
+        const allowed_orders = ["uniform", "uniform_random", "gaussian_random"];
+        if (!allowed_orders.includes(current_order)) {
+            row_data.chemical_order = value_from_id("uniform_random", chemical_order_options);
+        }
+    }
+
+    return row_data;
+}
+
+function ensure_random_location_chemical_order(row){
+    if (!row || !row.getData) {
+        return;
+    }
+
+    const row_data = row.getData();
+    const row_location = row_data.location && row_data.location.id ? row_data.location.id : row_data.location;
+    if (row_location !== "random") {
+        return;
+    }
+
+    const current_order = row_data.chemical_order && row_data.chemical_order.id ? row_data.chemical_order.id : row_data.chemical_order;
+    const allowed_orders = ["uniform", "uniform_random", "gaussian_random"];
+    if (!allowed_orders.includes(current_order)) {
+        const chemical_order_cell = row.getCell("chemical_order");
+        if (chemical_order_cell) {
+            chemical_order_cell.setValue(value_from_id("uniform_random", chemical_order_options));
+        } else {
+            row_data.chemical_order = value_from_id("uniform_random", chemical_order_options);
+        }
+    }
+}
+
 // UI fix for editing checkbox. Lets the whole cell be the toggle
 function cellclick_flip_tick(e, cell){
     cell.setValue(!cell.getValue());
@@ -152,6 +202,7 @@ function create_factor_groups_from_selected_wells(){
             // Fix dropdown displays
             g.chemical_order = value_from_id(g.chemical_order, chemical_order_options);
             g.location = value_from_id(g.location, location_options)
+            normalize_random_location_row(g);
             grouped = Object.groupBy(g.factors, (f) => f.chemical.name)
             for (var j=0; j<g.factors.length; j++){
                 var f = g.factors[j];
@@ -664,10 +715,17 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
             vertAlign: "middle",
             width: 140,
             editor: "list",
-            editorParams: {values: chemical_order_options},
+            editorParams: {
+                valuesLookup: function(cell){
+                    return chemical_order_options_for_location(cell.getRow().getData().location);
+                }
+            },
             headerSort: false,
             formatter: function(cell, formatterParams, onRendered){
                 return cell.getValue() ? cell.getValue().label : "";
+            },
+            cellEdited: function(cell){
+                ensure_random_location_chemical_order(cell.getRow());
             }
             
         // Varied Attribute Distribution
@@ -686,6 +744,9 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
             formatter: function(cell, formatterParams, onRendered){
                 apply_location_cell_style(cell);
                 return cell.getValue() ? cell.getValue().label : "";
+            },
+            cellEdited: function(cell){
+                ensure_random_location_chemical_order(cell.getRow());
             }
             
         // Well Coverage
@@ -993,7 +1054,7 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
 
             // Min
             }, {
-                title: "Min Varied", 
+                title: "Start Value", 
                 field: "varied_min",
                 resizable: false, 
                 hozAlign: "right", 
@@ -1041,7 +1102,7 @@ var factor_group_table = new Tabulator("#automatic-factor-groups-tabulator", {
 
             // Max
             }, {
-                title: "Max Varied", 
+                title: "End Value", 
                 field: "varied_max", 
                 resizable: false,
                 hozAlign: "right", 
