@@ -14,6 +14,7 @@ var public_functions = {};
 const MAX_FACTOR_GROUPS = 10;
 var last_selected_cell = null
 const undo_stack = []
+var show_factor_numbers = false;
 
 var group_colours = [
     {id: "Blue", label: "", value: "#1f77b4"}, 
@@ -527,6 +528,46 @@ function row_header_formatter(cell, formatterParams, onRendered){
     return cell.getValue();
 }
 
+function factor_color_for_display(datum, group){
+    if (!group || !group.factors || group.factors.length <= 1 || !datum.chemical) {
+        return null;
+    }
+
+    const chemical_id = datum.chemical.id;
+    const factor_index = group.factors.findIndex(function(factor){
+        return factor.chemical && factor.chemical.id === chemical_id;
+    });
+
+    if (factor_index < 0) {
+        return null;
+    }
+
+    const base_color = group.colour.replace("#", "");
+    const red = parseInt(base_color.substring(0, 2), 16);
+    const green = parseInt(base_color.substring(2, 4), 16);
+    const blue = parseInt(base_color.substring(4, 6), 16);
+    const shade = 0.25 - (0.5 * factor_index / (group.factors.length - 1));
+    const adjust = function(channel){
+        return Math.round(shade >= 0
+            ? channel + ((255 - channel) * shade)
+            : channel * (1 + shade));
+    };
+
+    return `rgb(${adjust(red)}, ${adjust(green)}, ${adjust(blue)})`;
+}
+
+function factor_number_for_display(datum, group){
+    if (!group || !group.factors || group.factors.length <= 1 || !datum.chemical) {
+        return null;
+    }
+
+    const factor_index = group.factors.findIndex(function(factor){
+        return factor.chemical && factor.chemical.id === datum.chemical.id;
+    });
+
+    return factor_index >= 0 ? factor_index + 1 : null;
+}
+
 function condition_formatter(cell, formatterParams, onRendered){
 
     div = document.createElement("div");
@@ -558,7 +599,17 @@ function condition_formatter(cell, formatterParams, onRendered){
             }
             else {
                 group_table = Tabulator.findTable("#automatic-factor-groups-tabulator")[0]
-                factor_bar.style.backgroundColor = group_table.getData().find(g => g.name == datum.group_name)["colour"]
+                const group = group_table.getData().find(g => g.name == datum.group_name)
+                factor_bar.style.backgroundColor = factor_color_for_display(datum, group) || group["colour"]
+                const factor_number = show_factor_numbers
+                    ? factor_number_for_display(datum, group)
+                    : null
+                if (factor_number !== null) {
+                    const number_label = document.createElement("span")
+                    number_label.className = "factor-number"
+                    number_label.textContent = factor_number
+                    factor_bar.append(number_label)
+                }
             }
             
             factor_bar.style.height = datum["ammt"] * 100 + "%"
@@ -1680,6 +1731,15 @@ $('#current-maker-tabulator-automatic-update-popup-button').click(generate_curre
 
 // When toggling the inclusion of selected condition in auotmatic design require regeneration
 $('#screen-maker-automatic-include-selected-checkbox').click(set_required_regeneration_of_current_screen_from_automatic);
+
+$('#toggle-factor-numbers-button').click(function(){
+    show_factor_numbers = !show_factor_numbers;
+    $(this).text(show_factor_numbers ? 'Hide Factor Numbers' : 'Show Factor Numbers');
+    const display_table = Tabulator.findTable('#current-maker-tabulator')[0];
+    if (display_table) {
+        display_table.redraw(true);
+    }
+});
 
 
 // Save current screen to the backend

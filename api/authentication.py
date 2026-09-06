@@ -44,7 +44,19 @@ def hash_password(password):
 # Check if the provided password matches the stored password (hashed)
 def verify_password(plain_password, hashed_password):
     password_byte_enc = plain_password.encode("utf-8")
-    return bcrypt.checkpw(password = password_byte_enc , hashed_password = hashed_password)
+    hashed_password_bytes = hashed_password.encode("utf-8") if isinstance(hashed_password, str) else hashed_password
+    check_password = getattr(bcrypt, "checkpw", None)
+    if check_password is not None:
+        try:
+            return check_password(password=password_byte_enc, hashed_password=hashed_password_bytes)
+        except TypeError:
+            return check_password(password=plain_password, hashed_password=hashed_password)
+
+    try:
+        computed_hash = bcrypt.hashpw(password_byte_enc, salt=hashed_password_bytes)
+    except TypeError:
+        computed_hash = bcrypt.hashpw(plain_password, salt=hashed_password)
+    return computed_hash == hashed_password_bytes or computed_hash == hashed_password
 
 # Check that login credentials produce an api user with admin permissions
 def authenticate_api_user(session: db.Session, username: str, password: str):
@@ -52,7 +64,7 @@ def authenticate_api_user(session: db.Session, username: str, password: str):
     user = session.exec(stmnt).first()
     if not user:
         return None
-    elif not verify_password(password, user.password_hash.encode("utf-8")):
+    elif not verify_password(password, user.password_hash):
         return None
     else:
         return user
@@ -106,4 +118,3 @@ async def get_token(login_form: OAuth2PasswordRequestForm=Depends(), session: db
                              algorithm=jwt_algorithm)
     # Create token json to spec
     return Token(access_token=encoded_token_data, token_type="bearer")
-
