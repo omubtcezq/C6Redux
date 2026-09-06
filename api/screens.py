@@ -78,40 +78,6 @@ async def get_screen_names(*, session: Session=Depends(db.get_readonly_session))
     screens = session.exec(statement).all()
     return screens
 
-@router.post("/create", 
-             summary="Create a new screen",
-             response_description="The new Screen",
-             response_model=db.ScreenRead)
-async def create_screen(*, authorised_user: db.ApiUserRead=Depends(auth.get_authorised_user), session: Session=Depends(db.get_write_session), new_screen: db.ScreenCreate):
-    """
-    Create a new screen
-    """
-    # Add chemical with frequentstock and alias information
-    chemical = db.Chemical().sqlmodel_update(new_screen.model_dump(exclude_unset=True))
-    session.add(chemical)
-    session.commit()
-    session.refresh(chemical)
-
-    # Create frequent stock if info is there
-    frequentstock_info_in_new = new_chemical.frequentstock and (new_chemical.frequentstock.concentration or new_chemical.frequentstock.precipitation_concentration)
-    if frequentstock_info_in_new:
-        frequentstock = db.FrequentStock(chemical_id=chemical.id).sqlmodel_update(new_chemical.frequentstock.model_dump(exclude_unset=True))
-        session.add(frequentstock)
-    session.commit()
-    session.refresh(chemical)
-
-    # Remove all aliases and re-add new ones
-    for alias in chemical.aliases:
-        session.delete(alias)
-    for new_alias in new_chemical.aliases:
-        session.add(db.Alias(chemical_id=chemical.id).sqlmodel_update(new_alias.model_dump(exclude_unset=True)))
-    session.commit()
-    session.refresh(chemical)
-
-    # Log and return new chemical
-    print("Chemical creation performed by user: %s" % authorised_user.username)
-    return chemical
-
 @router.get("/namesBySize", 
             summary="Gets a list of all screen of a given size",
             response_description="List of all screen names matching size",
