@@ -1,22 +1,20 @@
 #screen-maker-top-div {
     height: 100%;
     width: 100%;
+    display: flex;
+    gap: 20px;
 }
 
 #screen-maker-sidebar {
-    display: inline-block;
-    vertical-align: top;
+    flex: 1 1 0;
+    min-width: 0;
     height: 100%;
-    width: calc(50% - 10px);
-    margin-right: 10px;
 }
 
 #current-maker-div {
-    display: inline-block;
-    vertical-align: top;
+    flex: 1 1 0;
+    min-width: 0;
     height: 100%;
-    width: calc(50% - 10px);
-    margin-left: 10px;
 }
 
 /* Current design */
@@ -174,5 +172,12 @@
 }
 
 #maker-buttons {
-    max-width: none !important; 
+    width: 100%;
+    max-width: none !important;
+    table-layout: fixed;
+}
+
+#maker-buttons button {
+    width: 100%;
+    white-space: nowrap;
 }

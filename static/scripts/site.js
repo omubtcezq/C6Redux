@@ -363,6 +363,12 @@ $('#confirmation-cancel-button').click(function(){
     $('#confirmation-message').text('');
 });
 
+// Recipe CSV format dialog cancel
+$('#recipe-format-cancel-button').click(function(){
+    $('#site-popup-container').hide();
+    $('#recipe-format-popup').css('display', 'none');
+});
+
 // Information dialog okay
 $('#information-okay-button').click(function(){
     // Hide dialog

@@ -236,7 +236,8 @@ button {
 }
 
 #login-button-table,
-#confirmation-button-table {
+#confirmation-button-table,
+#recipe-format-button-table {
   width: 100%;
   max-width: 300px;
   margin: auto;
@@ -347,4 +348,3 @@ button {
 .well-not-matching-query {
   color: rgb(206, 21, 21);
 }
-
