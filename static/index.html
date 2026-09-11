@@ -83,6 +83,30 @@
     </table>
     <br/>
   </div>
+  <div id="recipe-format-popup" class="popup" style="display: none;">
+    <h2>Print Recipe</h2>
+    <p class="popup-message">Choose an output format.</p>
+    <select id="recipe-format-select">
+      <option value="stock">CSV - By Stock</option>
+      <option value="well">CSV - By Well</option>
+      <option value="csv-row">CSV - Row per Condition</option>
+      <option value="csv-cell">CSV - Cell per Condition</option>
+      <option value="text">Text Description</option>
+      <option value="xml">Rigaku Design XML</option>
+      <option value="mmcif">MMCIF Description</option>
+      <option value="recipe">Rigaku Recipe XML</option>
+      <option value="dragonfly">DragonFly Recipe</option>
+    </select>
+    <table id="recipe-format-button-table" class="button-table">
+      <tbody>
+        <tr>
+          <td><button id="recipe-format-print-button" class="table-cell-button">Print</button></td>
+          <td><button id="recipe-format-cancel-button" class="table-cell-button cancel-button">Cancel</button></td>
+        </tr>
+      </tbody>
+    </table>
+    <br/>
+  </div>
   <div id="information-popup" class="popup" style="display: none;">
     <h2>Notice</h2>
     <p id="information-message" class="popup-message"></p>

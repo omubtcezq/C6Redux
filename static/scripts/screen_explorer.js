@@ -157,6 +157,254 @@ function condition_recipe(factor_group){
     }
 }
 
+function csv_cell(value){
+    let text = value == null ? "" : String(value);
+    return '"' + text.replace(/"/g, '""') + '"';
+}
+
+function stock_description(stock){
+    let factor = stock.factor || {};
+    let chemical = factor.chemical || {};
+    return {
+        name: stock.name || "",
+        concentration: factor.concentration == null ? "" : factor.concentration,
+        unit: factor.unit || "",
+        ph: factor.ph == null ? "" : factor.ph,
+        display_name: stock.name || chemical.name || ""
+    };
+}
+
+function recipe_stocks_for_well(recipe){
+    let recipe_stocks = (recipe.stocks || []).map(stock_volume => ({
+        stock: stock_description(stock_volume.stock),
+        volume: stock_volume.volume
+    }));
+    if (recipe.water > 0){
+        recipe_stocks.push({
+            stock: {name: "Water", concentration: "", unit: "", ph: "", display_name: "Water"},
+            volume: recipe.water
+        });
+    }
+    return recipe_stocks;
+}
+
+function download_recipe_csv(recipes_by_condition, wells, format, screen_name){
+    let csv_rows = [];
+    if (format === "stock"){
+        csv_rows.push(["Stock Name", "Stock Concentration", "Stock pH", "Dispensed Volume (mL)", "Well", "Status"]);
+        for (let well of wells){
+            let recipe = recipes_by_condition[well.wellcondition_id];
+            if (!recipe.success){
+                csv_rows.push(["", "", "", "", well.label, recipe.msg || "Recipe unavailable"]);
+                continue;
+            }
+            for (let recipe_stock of recipe_stocks_for_well(recipe)){
+                csv_rows.push([
+                    recipe_stock.stock.display_name,
+                    recipe_stock.stock.concentration === "" ? "" : recipe_stock.stock.concentration + " " + recipe_stock.stock.unit,
+                    recipe_stock.stock.ph,
+                    recipe_stock.volume,
+                    well.label,
+                    "Ready"
+                ]);
+            }
+        }
+    } else {
+        csv_rows.push(["Well", "Dispensed Volume (mL)", "Stock Name", "Stock Concentration", "Stock pH", "Status"]);
+        for (let well of wells){
+            let recipe = recipes_by_condition[well.wellcondition_id];
+            if (!recipe.success){
+                csv_rows.push([well.label, "", "", "", "", recipe.msg || "Recipe unavailable"]);
+                continue;
+            }
+            for (let recipe_stock of recipe_stocks_for_well(recipe)){
+                csv_rows.push([
+                    well.label,
+                    recipe_stock.volume,
+                    recipe_stock.stock.display_name,
+                    recipe_stock.stock.concentration === "" ? "" : recipe_stock.stock.concentration + " " + recipe_stock.stock.unit,
+                    recipe_stock.stock.ph,
+                    "Ready"
+                ]);
+            }
+        }
+    }
+
+    let csv = csv_rows.map(row => row.map(csv_cell).join(",")).join("\r\n");
+    let blob = new Blob(["\ufeff" + csv], {type: "text/csv;charset=utf-8;"});
+    let link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    let safe_screen_name = (screen_name || "screen").replace(/[^\w.-]+/g, "_");
+    link.download = safe_screen_name + "_recipe_" + (format === "stock" ? "by_stock" : "by_well") + ".csv";
+    document.body.appendChild(link);
+    link.click();
+    URL.revokeObjectURL(link.href);
+    link.remove();
+}
+
+function export_factor_rows(wells){
+    let rows = [];
+    for (let well of wells){
+        for (let factor of ((well.wellcondition && well.wellcondition.factors) || [])){
+            rows.push({
+                well: well.label,
+                name: (factor.chemical && factor.chemical.name) || "",
+                concentration: factor.concentration,
+                unit: factor.unit || "",
+                ph: factor.ph == null ? "" : factor.ph
+            });
+        }
+    }
+    return rows;
+}
+
+function xml_escape(value){
+    return String(value == null ? "" : value)
+        .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+function render_screen_export(wells, recipes_by_condition, format, screen_name){
+    if (format === "stock" || format === "well"){
+        download_recipe_csv(recipes_by_condition, wells, format, screen_name);
+        return;
+    }
+    let factors = export_factor_rows(wells);
+    let csv_rows = [];
+    let content = "";
+    let extension = "txt";
+    if (format === "csv-row"){
+        csv_rows = [["Well", "pH", "Buffer", "Concentration", "Unit", "Chemical"]];
+        factors.forEach(row => csv_rows.push([row.well, row.ph, "", row.concentration, row.unit, row.name]));
+        content = csv_rows.map(row => row.map(csv_cell).join(",")).join("\r\n");
+        extension = "csv";
+    } else if (format === "csv-cell"){
+        let by_well = {};
+        factors.forEach(row => {
+            if (!by_well[row.well]){
+                by_well[row.well] = [];
+            }
+            by_well[row.well].push(row);
+        });
+        csv_rows = [["Well", "Contents"]];
+        Object.keys(by_well).forEach(well => csv_rows.push([
+            well,
+            by_well[well].map(row => `${row.concentration} ${row.unit} ${row.name}${row.ph === "" ? "" : " pH " + row.ph}`).join("\n")
+        ]));
+        content = csv_rows.map(row => row.map(csv_cell).join(",")).join("\r\n");
+        extension = "csv";
+    } else if (format === "text"){
+        content = `Screen name: ${screen_name}\r\n\r\n` + wells.map(well => {
+            let entries = factors.filter(row => row.well === well.label)
+                .map(row => `${row.concentration} ${row.unit} ${row.name}${row.ph === "" ? "" : ", pH=" + row.ph}`);
+            return `${well.label} ${entries.join("; ")};`;
+        }).join("\r\n");
+    } else if (format === "xml" || format === "recipe"){
+        let root = format === "recipe" ? "recipe" : "crystaltrak";
+        content = `<?xml version="1.0" encoding="UTF-8"?>\r\n<${root} screen="${xml_escape(screen_name)}">\r\n`;
+        wells.forEach(well => {
+            content += `  <well label="${xml_escape(well.label)}">\r\n`;
+            factors.filter(row => row.well === well.label).forEach(row => {
+                content += `    <item name="${xml_escape(row.name)}" concentration="${xml_escape(row.concentration)}" unit="${xml_escape(row.unit)}" ph="${xml_escape(row.ph)}"/>\r\n`;
+            });
+            content += "  </well>\r\n";
+        });
+        content += `</${root}>\r\n`;
+        extension = "xml";
+    } else if (format === "mmcif"){
+        content = "loop_\r\n_exptl_crystal_grow_comp.screen_name\r\n_exptl_crystal_grow_comp.well_id\r\n_exptl_crystal_grow_comp.sol_id\r\n_exptl_crystal_grow_comp.name\r\n_exptl_crystal_grow_comp.conc\r\n_exptl_crystal_grow_comp.unit\r\n_exptl_crystal_grow_comp.ph\r\n";
+        factors.forEach((row, index) => {
+            content += `'${screen_name}' ${row.well} 2 '${row.name}' ${row.concentration} ${row.unit} ${row.ph === "" ? "." : row.ph}\r\n`;
+        });
+        extension = "cif";
+    } else if (format === "dragonfly"){
+        let columns = Math.max(...wells.map(well => Number(well.label.match(/\d+/)[0])));
+        let rows = Math.max(...wells.map(well => well.label.charCodeAt(0) - 64));
+        let recipe_stocks = {};
+        wells.forEach(well => {
+            let recipe = recipes_by_condition[well.wellcondition_id];
+            if (recipe && recipe.success){
+                recipe_stocks_for_well(recipe).forEach(recipe_stock => {
+                    let stock_name = recipe_stock.stock.display_name;
+                    if (!recipe_stocks[stock_name]){
+                        recipe_stocks[stock_name] = {};
+                    }
+                    recipe_stocks[stock_name][well.label] = recipe_stock.volume;
+                });
+            }
+        });
+        content = "version ,'1.1\n";
+        Object.keys(recipe_stocks).forEach(stock_name => {
+            content += `"${stock_name}"\n`;
+            for (let row = 0; row < rows; row++){
+                let values = [];
+                for (let column = 1; column <= columns; column++){
+                    let label = String.fromCharCode(65 + row) + column;
+                    values.push(Number(recipe_stocks[stock_name][label] || 0).toFixed(6));
+                }
+                content += values.join(",") + "\n";
+            }
+        });
+        extension = "csv";
+    }
+    let blob = new Blob([content], {type: extension === "csv" ? "text/csv;charset=utf-8;" : "text/plain;charset=utf-8;"});
+    let link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    let safe_screen_name = (screen_name || "screen").replace(/[^\w.-]+/g, "_");
+    let format_name = {
+        "csv-row": "csv_row_per_condition",
+        "csv-cell": "csv_cell_per_condition",
+        "text": "text_description",
+        "xml": "rigaku_design_xml",
+        "mmcif": "mmcif_description",
+        "recipe": "rigaku_recipe_xml",
+        "dragonfly": "dragonfly_recipe"
+    }[format] || format;
+    link.download = safe_screen_name + "_recipe_" + format_name + "." + extension;
+    document.body.appendChild(link);
+    link.click();
+    URL.revokeObjectURL(link.href);
+    link.remove();
+}
+
+function choose_recipe_csv_format(screen){
+    $("#recipe-format-popup").css("display", "block");
+    $("#site-popup-container").show();
+    $("#recipe-format-print-button").off("click").click(function(){
+        $("#recipe-format-cancel-button").click();
+        download_screen_csv(screen, $("#recipe-format-select").val());
+    });
+}
+
+function download_screen_csv(screen, format){
+    $.get(site_functions.API_URL + "/screens/wells", {screen_id: screen.id})
+        .done(function(wells){
+            let recipe_requests = {};
+            for (let well of wells){
+                if (!recipe_requests[well.wellcondition_id]){
+                    recipe_requests[well.wellcondition_id] = $.get(
+                        site_functions.API_URL + "/screens/conditionRecipe",
+                        {condition_id: well.wellcondition_id}
+                    );
+                }
+            }
+            Promise.all(Object.keys(recipe_requests).map(condition_id => recipe_requests[condition_id]))
+                .then(function(recipes){
+                    let recipes_by_condition = {};
+                    Object.keys(recipe_requests).forEach((condition_id, index) => {
+                        recipes_by_condition[condition_id] = recipes[index];
+                    });
+                    render_screen_export(wells, recipes_by_condition, format, screen.name);
+                })
+                .catch(function(){
+                    site_functions.alert_user("Unable to generate the recipe CSV.");
+                });
+        })
+        .fail(function(){
+            site_functions.alert_user("Unable to load the screen wells.");
+        });
+}
+
 // Function for when a well is selected
 function select_condition(factor_group, target){
     let rows = factor_group.getRows();
@@ -1565,6 +1813,7 @@ condition_compare_table.on("groupClick", function (e, group){
 function reset_info() {
     $('#view-wells-button').prop("disabled", "");
     $('#compare-screens-button').prop("disabled", "");
+    $('#print-recipe-button').prop("disabled", "");
     $('#screen-subsets-button').prop("disabled", "");
     $('#screen-make-recipe-button').prop("disabled", "");
     $('#screen-report-button').prop("disabled", "");
@@ -1587,6 +1836,14 @@ $('#compare-screens-button').click(function() {
     $('#compare-screens-button').prop("disabled", "disabled");
     $('#compare-screens').show();
     load_data_from_button_pressed()
+});
+
+$('#print-recipe-button').click(function() {
+    if (CURRENT_SELECTED_SCREEN == null) {
+        site_functions.alert_user("No screen selected.");
+        return;
+    }
+    choose_recipe_csv_format(CURRENT_SELECTED_SCREEN);
 });
 
 $('#screen-subsets-button').click(function() {
