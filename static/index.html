@@ -84,23 +84,26 @@
     <br/>
   </div>
   <div id="recipe-format-popup" class="popup" style="display: none;">
-    <h2>Print Recipe</h2>
+    <h2>Export</h2>
     <p class="popup-message">Choose an output format.</p>
     <select id="recipe-format-select">
-      <option value="stock">CSV - By Stock</option>
-      <option value="well">CSV - By Well</option>
-      <option value="csv-row">CSV - Row per Condition</option>
-      <option value="csv-cell">CSV - Cell per Condition</option>
-      <option value="text">Text Description</option>
-      <option value="xml">Rigaku Design XML</option>
-      <option value="mmcif">MMCIF Description</option>
-      <option value="recipe">Rigaku Recipe XML</option>
-      <option value="dragonfly">DragonFly Recipe</option>
+      <option value="text">Design - txt</option>
+      <option value="mmcif">Design - mmCIF</option>
+      <option value="xml">Design - Rigaku xml</option>
+      <option value="csv-row">Design - factors</option>
+      <option value="csv-cell">Design - cells</option>
+      <option value="recipe-factor">Recipe - by factor</option>
+      <option value="recipe-stock">Recipe - by stock</option>
+      <option value="dragonfly">Recipe - DragonFly</option>
     </select>
+    <span id="recipe-scale-controls" style="display: none;">
+      <label for="recipe-scale-input">Recipe scale (mL per well):</label>
+      <input id="recipe-scale-input" type="number" min="0.001" step="0.001" value="1">
+    </span>
     <table id="recipe-format-button-table" class="button-table">
       <tbody>
         <tr>
-          <td><button id="recipe-format-print-button" class="table-cell-button">Print</button></td>
+          <td><button id="recipe-format-print-button" class="table-cell-button">Export</button></td>
           <td><button id="recipe-format-cancel-button" class="table-cell-button cancel-button">Cancel</button></td>
         </tr>
       </tbody>

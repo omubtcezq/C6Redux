@@ -16,11 +16,12 @@ def condition_equality(condition1: db.WellConditionRead, condition2: db.WellCond
         for factor2 in condition2.factors:
             if factor1.chemical_id != factor2.chemical_id:
                 continue
-            # if both have ph or both are none then its allowed
-            if (factor1.ph is None) ^ (factor2.ph is None):
+            # A missing pH only matches another missing pH.
+            if (factor1.ph is None) != (factor2.ph is None):
                 continue
-            # we must first make sure the ph exists
-            if factor1.ph and factor2.ph and factor1.ph * epsilon < factor2.ph and factor1.ph / epsilon > factor2.ph:
+            if factor1.ph is not None and (
+                factor1.ph * epsilon < factor2.ph or factor1.ph / epsilon > factor2.ph
+            ):
                 continue
             conc2 = unbs.unit_conversion(factor2.concentration, factor2.unit, factor2.chemical.density, factor2.chemical.molecular_weight, "M")         
             # make sure the concentration was properly converted first
@@ -31,4 +32,3 @@ def condition_equality(condition1: db.WellConditionRead, condition2: db.WellCond
             return False
             
     return True
-

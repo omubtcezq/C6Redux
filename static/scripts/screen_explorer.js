@@ -174,21 +174,22 @@ function stock_description(stock){
     };
 }
 
-function recipe_stocks_for_well(recipe){
+function recipe_stocks_for_well(recipe, scale){
+    scale = scale || 1;
     let recipe_stocks = (recipe.stocks || []).map(stock_volume => ({
         stock: stock_description(stock_volume.stock),
-        volume: stock_volume.volume
+        volume: stock_volume.volume * scale
     }));
     if (recipe.water > 0){
         recipe_stocks.push({
             stock: {name: "Water", concentration: "", unit: "", ph: "", display_name: "Water"},
-            volume: recipe.water
+            volume: recipe.water * scale
         });
     }
     return recipe_stocks;
 }
 
-function download_recipe_csv(recipes_by_condition, wells, format, screen_name){
+function download_recipe_csv(recipes_by_condition, wells, format, screen_name, filename_format, scale){
     let csv_rows = [];
     if (format === "stock"){
         csv_rows.push(["Stock Name", "Stock Concentration", "Stock pH", "Dispensed Volume (mL)", "Well", "Status"]);
@@ -198,7 +199,7 @@ function download_recipe_csv(recipes_by_condition, wells, format, screen_name){
                 csv_rows.push(["", "", "", "", well.label, recipe.msg || "Recipe unavailable"]);
                 continue;
             }
-            for (let recipe_stock of recipe_stocks_for_well(recipe)){
+            for (let recipe_stock of recipe_stocks_for_well(recipe, scale)){
                 csv_rows.push([
                     recipe_stock.stock.display_name,
                     recipe_stock.stock.concentration === "" ? "" : recipe_stock.stock.concentration + " " + recipe_stock.stock.unit,
@@ -217,7 +218,7 @@ function download_recipe_csv(recipes_by_condition, wells, format, screen_name){
                 csv_rows.push([well.label, "", "", "", "", recipe.msg || "Recipe unavailable"]);
                 continue;
             }
-            for (let recipe_stock of recipe_stocks_for_well(recipe)){
+            for (let recipe_stock of recipe_stocks_for_well(recipe, scale)){
                 csv_rows.push([
                     well.label,
                     recipe_stock.volume,
@@ -227,6 +228,44 @@ function download_recipe_csv(recipes_by_condition, wells, format, screen_name){
                     "Ready"
                 ]);
             }
+
+            function download_recipe_by_stock(recipes_by_condition, wells, screen_name, scale){
+                let rows = [["Stock Name", "Stock Concentration", "Stock pH", "Well", "Dispensed Volume (mL)", "Status"]];
+                let stocks = {};
+                wells.forEach(well => {
+                    let recipe = recipes_by_condition[well.wellcondition_id];
+                    if (!recipe || !recipe.success){
+                        rows.push(["", "", "", well.label, "", recipe && recipe.msg || "Recipe unavailable"]);
+                        return;
+                    }
+                    recipe_stocks_for_well(recipe, scale).forEach(recipe_stock => {
+                        let key = recipe_stock.stock.display_name + "\u0000" + recipe_stock.stock.concentration + "\u0000" + recipe_stock.stock.unit + "\u0000" + recipe_stock.stock.ph;
+                        if (!stocks[key]){
+                            stocks[key] = {stock: recipe_stock.stock, wells: []};
+                        }
+                        stocks[key].wells.push({label: well.label, volume: recipe_stock.volume});
+                    });
+                });
+                Object.keys(stocks).forEach(key => {
+                    let entry = stocks[key];
+                    entry.wells.forEach(well => rows.push([
+                        entry.stock.display_name,
+                        entry.stock.concentration === "" ? "" : entry.stock.concentration + " " + entry.stock.unit,
+                        entry.stock.ph,
+                        well.label,
+                        well.volume,
+                        "Ready"
+                    ]));
+                });
+                let blob = new Blob(["\ufeff" + rows.map(row => row.map(csv_cell).join(",")).join("\r\n")], {type: "text/csv;charset=utf-8;"});
+                let link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = (screen_name || "screen").replace(/[^\w.-]+/g, "_") + "_recipe_by_stock.csv";
+                document.body.appendChild(link);
+                link.click();
+                URL.revokeObjectURL(link.href);
+                link.remove();
+            }
         }
     }
 
@@ -235,7 +274,7 @@ function download_recipe_csv(recipes_by_condition, wells, format, screen_name){
     let link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
     let safe_screen_name = (screen_name || "screen").replace(/[^\w.-]+/g, "_");
-    link.download = safe_screen_name + "_recipe_" + (format === "stock" ? "by_stock" : "by_well") + ".csv";
+    link.download = safe_screen_name + "_recipe_" + (filename_format || (format === "stock" ? "by_stock" : "by_well")) + ".csv";
     document.body.appendChild(link);
     link.click();
     URL.revokeObjectURL(link.href);
@@ -264,9 +303,13 @@ function xml_escape(value){
         .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
-function render_screen_export(wells, recipes_by_condition, format, screen_name){
-    if (format === "stock" || format === "well"){
-        download_recipe_csv(recipes_by_condition, wells, format, screen_name);
+function render_screen_export(wells, recipes_by_condition, format, screen_name, screen, scale){
+    if (format === "recipe-factor"){
+        download_recipe_csv(recipes_by_condition, wells, "stock", screen_name, "by_factor", scale);
+        return;
+    }
+    if (format === "recipe-stock"){
+        download_recipe_by_stock(recipes_by_condition, wells, screen_name, scale);
         return;
     }
     let factors = export_factor_rows(wells);
@@ -286,11 +329,20 @@ function render_screen_export(wells, recipes_by_condition, format, screen_name){
             }
             by_well[row.well].push(row);
         });
-        csv_rows = [["Well", "Contents"]];
-        Object.keys(by_well).forEach(well => csv_rows.push([
-            well,
-            by_well[well].map(row => `${row.concentration} ${row.unit} ${row.name}${row.ph === "" ? "" : " pH " + row.ph}`).join("\n")
-        ]));
+        let rows = screen.format_rows || Math.max(...wells.map(well => well.label.charCodeAt(0) - 64));
+        let columns = screen.format_cols || Math.max(...wells.map(well => Number(well.label.match(/\d+/)[0])));
+        csv_rows = [[""].concat(Array.from({length: columns}, (_, index) => index + 1))];
+        for (let row = 0; row < rows; row++){
+            let row_label = String.fromCharCode(65 + row);
+            let csv_row = [row_label];
+            for (let column = 1; column <= columns; column++){
+                let well = row_label + column;
+                csv_row.push((by_well[well] || []).map(item =>
+                    `${item.concentration} ${item.unit} ${item.name}${item.ph === "" ? "" : " pH " + item.ph}`
+                ).join("\n"));
+            }
+            csv_rows.push(csv_row);
+        }
         content = csv_rows.map(row => row.map(csv_cell).join(",")).join("\r\n");
         extension = "csv";
     } else if (format === "text"){
@@ -324,7 +376,7 @@ function render_screen_export(wells, recipes_by_condition, format, screen_name){
         wells.forEach(well => {
             let recipe = recipes_by_condition[well.wellcondition_id];
             if (recipe && recipe.success){
-                recipe_stocks_for_well(recipe).forEach(recipe_stock => {
+                recipe_stocks_for_well(recipe, scale).forEach(recipe_stock => {
                     let stock_name = recipe_stock.stock.display_name;
                     if (!recipe_stocks[stock_name]){
                         recipe_stocks[stock_name] = {};
@@ -352,13 +404,14 @@ function render_screen_export(wells, recipes_by_condition, format, screen_name){
     link.href = URL.createObjectURL(blob);
     let safe_screen_name = (screen_name || "screen").replace(/[^\w.-]+/g, "_");
     let format_name = {
-        "csv-row": "csv_row_per_condition",
-        "csv-cell": "csv_cell_per_condition",
-        "text": "text_description",
-        "xml": "rigaku_design_xml",
-        "mmcif": "mmcif_description",
-        "recipe": "rigaku_recipe_xml",
-        "dragonfly": "dragonfly_recipe"
+        "csv-row": "design_factors",
+        "csv-cell": "design_cells",
+        "text": "design_txt",
+        "xml": "design_rigaku_xml",
+        "mmcif": "design_mmcif",
+        "recipe-factor": "recipe_by_factor",
+        "recipe-stock": "recipe_by_stock",
+        "dragonfly": "recipe_dragonfly"
     }[format] || format;
     link.download = safe_screen_name + "_recipe_" + format_name + "." + extension;
     document.body.appendChild(link);
@@ -370,13 +423,22 @@ function render_screen_export(wells, recipes_by_condition, format, screen_name){
 function choose_recipe_csv_format(screen){
     $("#recipe-format-popup").css("display", "block");
     $("#site-popup-container").show();
+    $("#recipe-format-select").off("change").on("change", function(){
+        $("#recipe-scale-controls").toggle(this.value === "recipe-factor" ||
+            this.value === "recipe-stock" || this.value === "dragonfly");
+    }).trigger("change");
     $("#recipe-format-print-button").off("click").click(function(){
         $("#recipe-format-cancel-button").click();
-        download_screen_csv(screen, $("#recipe-format-select").val());
+        let scale = Number($("#recipe-scale-input").val());
+        if (!Number.isFinite(scale) || scale <= 0){
+            site_functions.alert_user("Recipe scale must be greater than zero.");
+            return;
+        }
+        download_screen_csv(screen, $("#recipe-format-select").val(), scale);
     });
 }
 
-function download_screen_csv(screen, format){
+function download_screen_csv(screen, format, scale){
     $.get(site_functions.API_URL + "/screens/wells", {screen_id: screen.id})
         .done(function(wells){
             let recipe_requests = {};
@@ -387,6 +449,127 @@ function download_screen_csv(screen, format){
                         {condition_id: well.wellcondition_id}
                     );
                 }
+
+                function open_screen_recipe_report(screen){
+                    $.get(site_functions.API_URL + "/screens/wells", {screen_id: screen.id})
+                        .done(function(wells){
+                            let recipe_requests = {};
+                            for (let well of wells){
+                                if (!recipe_requests[well.wellcondition_id]){
+                                    recipe_requests[well.wellcondition_id] = $.get(
+                                        site_functions.API_URL + "/screens/conditionRecipe",
+                                        {condition_id: well.wellcondition_id}
+                                    );
+                                }
+                            }
+                            Promise.all(Object.keys(recipe_requests).map(condition_id => recipe_requests[condition_id]))
+                                .then(function(recipes){
+                                    let recipes_by_condition = {};
+                                    Object.keys(recipe_requests).forEach((condition_id, index) => {
+                                        recipes_by_condition[condition_id] = recipes[index];
+                                    });
+                                    render_screen_recipe_report(screen, wells, recipes_by_condition);
+                                })
+                                .catch(function(){
+                                    site_functions.alert_user("Unable to generate the screen recipe.");
+                                });
+                        })
+                        .fail(function(){
+                            site_functions.alert_user("Unable to load the screen wells.");
+                        });
+                }
+
+                function render_screen_recipe_report(screen, wells, recipes_by_condition){
+                    const report_window = window.open("", "_blank");
+                    if (!report_window){
+                        site_functions.alert_user("Please allow popups to open the screen recipe.");
+                        return;
+                    }
+
+                    let condition_count = wells.length;
+                    let chemicals = {};
+                    let total_factors = 0;
+                    let rows = "";
+                    for (let well of wells){
+                        let factors = (well.wellcondition && well.wellcondition.factors) || [];
+                        total_factors += factors.length;
+                        factors.forEach(factor => {
+                            if (factor.chemical_id != null){
+                                chemicals[factor.chemical_id] = true;
+                            }
+                        });
+                        let recipe = recipes_by_condition[well.wellcondition_id];
+                        let condition_text = factors.map(factor => {
+                            let chemical_name = factor.chemical && factor.chemical.name || "";
+                            let ph = factor.ph == null ? "" : `, pH=${factor.ph}`;
+                            return xml_escape(`${factor.concentration} ${factor.unit} ${chemical_name}${ph}`);
+                        }).join("<br>");
+                        let recipe_text = "";
+                        if (recipe && recipe.success){
+                            recipe_text += `&gt; ${xml_escape(well.label)}<br>`;
+                            recipe_stocks_for_well(recipe, 1).forEach(recipe_stock => {
+                                let stock = recipe_stock.stock;
+                                let concentration = stock.concentration === "" ? "" : ` (${stock.concentration} ${stock.unit})`;
+                                recipe_text += `${(recipe_stock.volume * 1000).toFixed(1)} ul of: ${xml_escape(stock.display_name)}${xml_escape(concentration)}<br>`;
+                            });
+                        } else {
+                            recipe_text = `<span class="error">${xml_escape(recipe && recipe.msg || "Recipe unavailable")}</span>`;
+                        }
+                        let well_ph = factors.find(factor => factor.ph != null);
+                        rows += `<tr>
+                            <td>${xml_escape(well.label)} (${well.position_number})</td>
+                            <td>${condition_text}</td>
+                            <td>${well_ph ? xml_escape(well_ph.ph) : ""}</td>
+                            <td>${recipe_text}</td>
+                        </tr>`;
+                    }
+
+                    let average_factors = condition_count ? (total_factors / condition_count).toFixed(1) : "0.0";
+                    report_window.document.write(`<!doctype html>
+                <html>
+                <head>
+                <title>${xml_escape(screen.name)} - Screen Recipe</title>
+                <style>
+                  body { font-family: Arial, sans-serif; margin: 22px; color: #111; }
+                  h1 { font-size: 20px; margin: 0 0 12px; }
+                  .actions { margin-bottom: 14px; }
+                  button { font-size: 15px; padding: 5px 12px; }
+                  .metadata { border-collapse: collapse; width: 82%; margin-bottom: 22px; }
+                  .metadata td { border: 1px solid #bbb; padding: 4px 10px; }
+                  .metadata td:first-child { width: 190px; font-weight: bold; }
+                  .recipe { border-collapse: collapse; width: 100%; }
+                  .recipe th, .recipe td { border: 1px solid #222; padding: 7px 10px; vertical-align: top; }
+                  .recipe th { text-align: left; background: #eee; }
+                  .recipe td:nth-child(1) { width: 9%; }
+                  .recipe td:nth-child(2) { width: 35%; color: #426db3; }
+                  .recipe td:nth-child(3) { width: 7%; }
+                  .recipe td:nth-child(4) { width: 49%; }
+                  .error { color: #b00000; }
+                  @media print {
+                    .actions { display: none; }
+                    body { margin: 10mm; }
+                  }
+                </style>
+                </head>
+                <body>
+                <div class="actions"><button onclick="window.print()">Print / Save as PDF</button></div>
+                <h1>${xml_escape(screen.name)} - Screen Recipe</h1>
+                <table class="metadata">
+                  <tr><td>Screen name</td><td>${xml_escape(screen.name)}</td></tr>
+                  <tr><td>Owner</td><td>${xml_escape(screen.owned_by || "")}</td></tr>
+                  <tr><td>Well count</td><td>${condition_count}</td></tr>
+                  <tr><td>Number of distinct chemicals</td><td>${Object.keys(chemicals).length}</td></tr>
+                  <tr><td>Average factors per condition</td><td>${average_factors}</td></tr>
+                </table>
+                <table class="recipe">
+                  <thead><tr><th>Well</th><th>Concentration, Units Chemical, pH</th><th>pH</th><th>Recipe (1 mL final volume)</th></tr></thead>
+                  <tbody>${rows}</tbody>
+                </table>
+                </body>
+                </html>`);
+                    report_window.document.close();
+                    report_window.focus();
+                }
             }
             Promise.all(Object.keys(recipe_requests).map(condition_id => recipe_requests[condition_id]))
                 .then(function(recipes){
@@ -394,11 +577,62 @@ function download_screen_csv(screen, format){
                     Object.keys(recipe_requests).forEach((condition_id, index) => {
                         recipes_by_condition[condition_id] = recipes[index];
                     });
-                    render_screen_export(wells, recipes_by_condition, format, screen.name);
+                    render_screen_export(wells, recipes_by_condition, format, screen.name, screen, scale);
                 })
                 .catch(function(){
                     site_functions.alert_user("Unable to generate the recipe CSV.");
                 });
+        })
+        .fail(function(){
+            site_functions.alert_user("Unable to load the screen wells.");
+        });
+}
+
+function open_screen_recipe_report(screen){
+    $.get(site_functions.API_URL + "/screens/wells", {screen_id: screen.id})
+        .done(function(wells){
+            let requests = {};
+            wells.forEach(well => {
+                if (!requests[well.wellcondition_id]){
+                    requests[well.wellcondition_id] = $.get(
+                        site_functions.API_URL + "/screens/conditionRecipe",
+                        {condition_id: well.wellcondition_id}
+                    );
+                }
+            });
+            Promise.all(Object.keys(requests).map(id => requests[id])).then(function(recipes){
+                let by_condition = {};
+                Object.keys(requests).forEach((id, index) => by_condition[id] = recipes[index]);
+                const report_window = window.open("", "_blank");
+                if (!report_window){
+                    site_functions.alert_user("Please allow popups to open the screen recipe.");
+                    return;
+                }
+                let body = wells.map(well => {
+                    let factors = (well.wellcondition && well.wellcondition.factors) || [];
+                    let recipe = by_condition[well.wellcondition_id];
+                    let condition = factors.map(factor =>
+                        xml_escape(`${factor.concentration} ${factor.unit} ${(factor.chemical || {}).name || ""}${factor.ph == null ? "" : ", pH=" + factor.ph}`)
+                    ).join("<br>");
+                    let instructions = recipe && recipe.success
+                        ? recipe_stocks_for_well(recipe, 1).map(item =>
+                            `${(item.volume * 1000).toFixed(1)} ul of: ${xml_escape(item.stock.display_name)}`
+                        ).join("<br>")
+                        : xml_escape(recipe && recipe.msg || "Recipe unavailable");
+                    return `<tr><td>${xml_escape(well.label)} (${well.position_number})</td><td>${condition}</td><td>${instructions}</td></tr>`;
+                }).join("");
+                report_window.document.write(`<!doctype html><html><head><title>${xml_escape(screen.name)} - Screen Recipe</title>
+<style>body{font-family:Arial,sans-serif;margin:22px}table{border-collapse:collapse;width:100%}th,td{border:1px solid #222;padding:7px;vertical-align:top}th{background:#eee}.actions{margin-bottom:14px}@media print{.actions{display:none}}</style>
+</head><body><div class="actions"><button onclick="window.print()">Print / Save as PDF</button></div>
+<h1>${xml_escape(screen.name)} - Screen Recipe</h1>
+<p><b>Owner:</b> ${xml_escape(screen.owned_by || "")}</p>
+<table><thead><tr><th>Well</th><th>Condition</th><th>Recipe (1 mL final volume)</th></tr></thead><tbody>${body}</tbody></table>
+</body></html>`);
+                report_window.document.close();
+                report_window.focus();
+            }).catch(function(){
+                site_functions.alert_user("Unable to generate the screen recipe.");
+            });
         })
         .fail(function(){
             site_functions.alert_user("Unable to load the screen wells.");
@@ -588,6 +822,71 @@ async function update_screen_report() {
     });
 }
 
+function report_pdf_value(value){
+    if (value == null){
+        return "";
+    }
+    if (typeof value === "number"){
+        return Number.isFinite(value) ? value.toFixed(3).replace(/\.?0+$/, "") : "";
+    }
+    if (typeof value === "object"){
+        return value.name || "";
+    }
+    return String(value);
+}
+
+function make_screen_report_pdf(){
+    if (CURRENT_SELECTED_SCREEN == null){
+        site_functions.alert_user("No screen selected.");
+        return;
+    }
+
+    const report_table = Tabulator.findTable('#screen-report-tabulator')[0];
+    const rows = report_table.getData("active");
+    const columns = report_table.getColumns()
+        .filter(column => column.isVisible())
+        .map(column => ({title: column.getDefinition().title, field: column.getField()}));
+    const report_window = window.open("", "_blank");
+    if (!report_window){
+        site_functions.alert_user("Please allow popups to open the PDF report.");
+        return;
+    }
+
+    const header = columns.map(column => `<th>${xml_escape(column.title)}</th>`).join("");
+    const body = rows.map(row => `<tr>${columns.map(column =>
+        `<td>${xml_escape(report_pdf_value(column.field.split(".").reduce((value, key) => value == null ? null : value[key], row)))}</td>`
+    ).join("")}</tr>`).join("");
+    report_window.document.write(`<!doctype html>
+<html>
+<head>
+<title>${xml_escape(CURRENT_SELECTED_SCREEN.name)} - Screen Report</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 28px; color: #111; }
+  h1 { margin-bottom: 4px; }
+  h2 { margin-top: 0; font-size: 16px; font-weight: normal; }
+  table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+  th, td { border: 1px solid #999; padding: 6px 8px; text-align: left; }
+  th { background: #eee; }
+  @media print { button { display: none; } }
+</style>
+</head>
+<body>
+<button onclick="window.print()">Print / Save as PDF</button>
+<h1>${xml_escape(CURRENT_SELECTED_SCREEN.name)}</h1>
+<h2>Owner: ${xml_escape(CURRENT_SELECTED_SCREEN.owned_by || "")}</h2>
+<p>Screen Report</p>
+<ul>
+  <li>${xml_escape($("#condition-num").text())} conditions</li>
+  <li>${xml_escape($("#chemical-num").text())} unique chemicals</li>
+  <li>${xml_escape($("#avg-conditions-num").text())} avg factors per condition</li>
+  <li>${xml_escape($("#screen-diversity-num").text())} screen diversity</li>
+</ul>
+<table><thead><tr>${header}</tr></thead><tbody>${body}</tbody></table>
+</body>
+</html>`);
+    report_window.document.close();
+    report_window.focus();
+}
 
 // Cancelling the viewing of a screen
 function hide_screen(){
@@ -1813,8 +2112,8 @@ condition_compare_table.on("groupClick", function (e, group){
 function reset_info() {
     $('#view-wells-button').prop("disabled", "");
     $('#compare-screens-button').prop("disabled", "");
-    $('#print-recipe-button').prop("disabled", "");
     $('#screen-subsets-button').prop("disabled", "");
+    $('#screen-recipe-button').prop("disabled", "");
     $('#screen-make-recipe-button').prop("disabled", "");
     $('#screen-report-button').prop("disabled", "");
 
@@ -1838,14 +2137,6 @@ $('#compare-screens-button').click(function() {
     load_data_from_button_pressed()
 });
 
-$('#print-recipe-button').click(function() {
-    if (CURRENT_SELECTED_SCREEN == null) {
-        site_functions.alert_user("No screen selected.");
-        return;
-    }
-    choose_recipe_csv_format(CURRENT_SELECTED_SCREEN);
-});
-
 $('#screen-subsets-button').click(function() {
     reset_info();
     $('#screen-subsets-button').prop("disabled", "disabled");
@@ -1853,8 +2144,20 @@ $('#screen-subsets-button').click(function() {
     load_data_from_button_pressed()
 });
 
+$('#screen-recipe-button').click(function() {
+    if (CURRENT_SELECTED_SCREEN == null) {
+        site_functions.alert_user("No screen selected.");
+        return;
+    }
+    open_screen_recipe_report(CURRENT_SELECTED_SCREEN);
+});
+
 $('#screen-make-recipe-button').click(function() {
-    site_functions.alert_user("Soon to be implemented! 🚴‍♂️");
+    if (CURRENT_SELECTED_SCREEN == null) {
+        site_functions.alert_user("No screen selected.");
+        return;
+    }
+    choose_recipe_csv_format(CURRENT_SELECTED_SCREEN);
 });
 
 $('#screen-report-button').click(function() {
@@ -1862,6 +2165,10 @@ $('#screen-report-button').click(function() {
     $('#screen-report-button').prop("disabled", "disabled");
     $('#screen-report').show();
     load_data_from_button_pressed()
+});
+
+$('#screen-report-pdf-button').click(function() {
+    make_screen_report_pdf();
 });
 
 $('#hide-screen-view-button').click(function() {
