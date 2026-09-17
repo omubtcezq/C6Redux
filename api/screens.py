@@ -154,23 +154,28 @@ async def get_subset_screens(*, session: Session=Depends(db.get_readonly_session
             raise CancelledError()
         if screen.id == comparison_screen.id:
             continue
-        is_subset = True
-        for i in range(len(comparison_screen.wells) - 1, -1, -1):
-            well_a = comparison_screen.wells[i]
-            match = False
-            # Look for a match in list_b
-            for j, well_b in enumerate(screen.wells):
+        if len(screen.wells) > len(comparison_screen.wells):
+            continue
 
-                if ch.condition_equality(well_a.wellcondition, well_b.wellcondition):
-                    # Match found: delete from both to maintain 1:1 equality
-                    del comparison_screen.wells[i]
-                    del screen.wells[j]
-                    match = True
-                    break  # Stop looking for a match for this specific item_a
-            if not match:
+        # Match each candidate well to a distinct well in the selected screen.
+        # The candidate is a subset when all of its wells can be matched.
+        matched_comparison_wells = set()
+        is_subset = True
+        for candidate_well in screen.wells:
+            match = None
+            for comparison_index, comparison_well in enumerate(comparison_screen.wells):
+                if comparison_index in matched_comparison_wells:
+                    continue
+                if ch.condition_equality(candidate_well.wellcondition, comparison_well.wellcondition):
+                    match = comparison_index
+                    break
+            if match is None:
+                is_subset = False
                 break
-            if len(screen.wells) == 0:
-                subset_screens.append(screen)
+            matched_comparison_wells.add(match)
+
+        if is_subset:
+            subset_screens.append(screen)
 
     
     return [QueryScreen(screen=s, well_match_counter=0, screen_id=s.id) for s in subset_screens]

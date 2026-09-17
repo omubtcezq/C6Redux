@@ -30,11 +30,11 @@
                 <tr>
                     <td><button id="view-wells-button" class="table-cell-button" disabled="disabled;">View Wells</button></td>
                     <td><button id="compare-screens-button" class="table-cell-button">Compare Screen</button></td>
-                    <td><button id="print-recipe-button" class="table-cell-button">Print Recipe</button></td>
                     <td><button id="screen-subsets-button" class="table-cell-button">Subset Screens</button></td>
-                    <td><button id="screen-make-recipe-button" class="table-cell-button">Screen Recipe</button></td>
+                    <td><button id="screen-recipe-button" class="table-cell-button">Screen Recipe</button></td>
+                    <td><button id="screen-make-recipe-button" class="table-cell-button">Export</button></td>
                     <td><button id="screen-report-button" class="table-cell-button">Screen Report</button></td>
-                    <td><button id="hide-screen-view-button" class="table-cell-button">Hide Screen</button></td>
+                    <td><button id="hide-screen-view-button" class="table-cell-button">Close Screen</button></td>
                 </tr>
                 </tbody>
             </table>
@@ -49,6 +49,7 @@
             <div id="screen-report" style="width: 100%; height: 100%; display: none;">
                 <div style="display: flex; height: 100%; flex-direction:column;">
                     <div class="screen-info" style="display:flex; flex-direction:column">
+                        <button id="screen-report-pdf-button" class="table-cell-button">Make PDF</button>
                         <span><span id="condition-num"></span> conditions</span>
                         <span><span id="chemical-num"></span> unique chemicals</span>
                         <span><span id="avg-conditions-num"></span> avg factors per condition</span>
@@ -59,7 +60,7 @@
             </div>
             <div id="compare-screens" style="width: 100%; height: 100%; display: none;">
                 <div style="display: flex; height: 100%; flex-direction:column;">
-                    <div id="second-select-warning" style="font-weight: bold;"> Select a second screen to compare </div>
+                    <div id="second-select-warning" style="font-weight: bold;"> Click "View" on another screen to compare </div>
                     <div class="screen-info" id="comparison-info-grid" style="display: none;">
                         <span id="name-screen1" class="screen-name"></span>
                         <span><span id="condition-screen1"></span> conditions</span>
