@@ -1,6 +1,7 @@
 drop table if exists wellcondition_factor_link;
 drop table if exists well;
 drop table if exists wellcondition;
+drop table if exists screen_similarity_fingerprint;
 drop table if exists frequentblock;
 drop table if exists screen;
 drop table if exists phpoint;
@@ -192,6 +193,18 @@ create table screen (
 	INDEX(id)
 );
 
+create table screen_similarity_fingerprint (
+	screen_id int not null,
+	version int not null,
+	fingerprint longtext not null,
+	updated_at datetime not null,
+
+	PRIMARY KEY(screen_id),
+	FOREIGN KEY(screen_id)
+		REFERENCES screen(id)
+		ON DELETE CASCADE
+);
+
 create table frequentblock (
 	screen_id int not null,
 	reservoir_volume double,
@@ -247,7 +260,6 @@ create table wellcondition_factor_link (
 		ON DELETE RESTRICT
 		ON UPDATE RESTRICT
 );
-
 
 
 

@@ -2,9 +2,9 @@
 
 """
 
-from sqlmodel import Session, select, case, col, func, distinct, intersect
+from sqlmodel import Session, select, case, col, func, distinct, intersect, delete
 from sqlalchemy.orm import subqueryload, selectinload
-from fastapi import APIRouter, Depends, Query, Request
+from fastapi import APIRouter, Depends, Query, Request, HTTPException
 from pydantic import BaseModel
 from typing import Annotated
 from asyncache import cached
@@ -21,6 +21,8 @@ import api.condition_helper as ch
 import api.condition_distance as condition_distance
 import api.authentication as auth
 from datetime import datetime
+import json
+import math
 
 class QueryScreen(BaseModel):
     screen: db.ScreenRead
@@ -36,6 +38,151 @@ class ScreenStats(BaseModel):
     num_conditions: int
     unique_chemicals: int
     avg_factors_per_condition: float
+
+class SimilarScreen(BaseModel):
+    screen: db.ScreenRead
+    screen_id: int
+    similarity_score: float
+
+SIMILARITY_FINGERPRINT_VERSION = 1
+
+def make_screen_similarity_fingerprint(screen: db.Screen) -> dict:
+    well_count = len(screen.wells)
+    if well_count == 0:
+        return {"well_count": 0, "chemicals": {}, "mean_ph": None}
+
+    chemical_well_counts = {}
+    chemical_concentration_totals = {}
+    chemical_concentration_counts = {}
+    well_ph_values = []
+    total_factors = 0
+
+    for well in screen.wells:
+        well_chemicals = set()
+        well_concentrations = {}
+        well_ph = []
+        for factor in well.wellcondition.factors:
+            chemical_id = factor.chemical_id
+            well_chemicals.add(chemical_id)
+            total_factors += 1
+            if factor.ph is not None:
+                well_ph.append(factor.ph)
+            concentration = unbs.unit_conversion(
+                factor.concentration,
+                factor.unit,
+                factor.chemical.density,
+                factor.chemical.molecular_weight,
+                "M"
+            )
+            if concentration is not None and concentration >= 0:
+                well_concentrations.setdefault(chemical_id, []).append(concentration)
+
+        for chemical_id in well_chemicals:
+            chemical_well_counts[chemical_id] = chemical_well_counts.get(chemical_id, 0) + 1
+        for chemical_id, concentrations in well_concentrations.items():
+            chemical_concentration_totals[chemical_id] = (
+                chemical_concentration_totals.get(chemical_id, 0) + sum(concentrations) / len(concentrations)
+            )
+            chemical_concentration_counts[chemical_id] = chemical_concentration_counts.get(chemical_id, 0) + 1
+        if well_ph:
+            well_ph_values.append(sum(well_ph) / len(well_ph))
+
+    chemicals = {}
+    for chemical_id, well_count_for_chemical in chemical_well_counts.items():
+        concentration_count = chemical_concentration_counts.get(chemical_id, 0)
+        mean_concentration = (
+            chemical_concentration_totals[chemical_id] / concentration_count
+            if concentration_count else None
+        )
+        chemicals[str(chemical_id)] = {
+            "frequency": well_count_for_chemical / well_count,
+            "log_concentration": math.log1p(mean_concentration) if mean_concentration is not None else None
+        }
+
+    return {
+        "well_count": well_count,
+        "mean_factors_per_well": total_factors / well_count,
+        "chemicals": chemicals,
+        "mean_ph": sum(well_ph_values) / len(well_ph_values) if well_ph_values else None
+    }
+
+def persist_screen_similarity_fingerprint(
+    session: Session,
+    screen: db.Screen
+) -> db.ScreenSimilarityFingerprint:
+    fingerprint_data = json.dumps(
+        make_screen_similarity_fingerprint(screen),
+        separators=(",", ":")
+    )
+    fingerprint = session.get(db.ScreenSimilarityFingerprint, screen.id)
+    if fingerprint is None:
+        fingerprint = db.ScreenSimilarityFingerprint(
+            screen_id=screen.id,
+            version=SIMILARITY_FINGERPRINT_VERSION,
+            fingerprint=fingerprint_data
+        )
+        session.add(fingerprint)
+    else:
+        fingerprint.version = SIMILARITY_FINGERPRINT_VERSION
+        fingerprint.fingerprint = fingerprint_data
+        fingerprint.updated_at = datetime.utcnow()
+    return fingerprint
+
+def compare_screen_similarity_fingerprints(first: dict, second: dict) -> float:
+    first_chemicals = first["chemicals"]
+    second_chemicals = second["chemicals"]
+    chemical_ids = set(first_chemicals) | set(second_chemicals)
+
+    frequency_min = sum(
+        min(first_chemicals.get(chemical_id, {}).get("frequency", 0),
+            second_chemicals.get(chemical_id, {}).get("frequency", 0))
+        for chemical_id in chemical_ids
+    )
+    frequency_max = sum(
+        max(first_chemicals.get(chemical_id, {}).get("frequency", 0),
+            second_chemicals.get(chemical_id, {}).get("frequency", 0))
+        for chemical_id in chemical_ids
+    )
+    composition_similarity = frequency_min / frequency_max if frequency_max else 0
+
+    concentration_similarities = []
+    concentration_weights = []
+    for chemical_id in set(first_chemicals) & set(second_chemicals):
+        first_concentration = first_chemicals[chemical_id].get("log_concentration")
+        second_concentration = second_chemicals[chemical_id].get("log_concentration")
+        if first_concentration is None or second_concentration is None:
+            continue
+        weight = min(
+            first_chemicals[chemical_id]["frequency"],
+            second_chemicals[chemical_id]["frequency"]
+        )
+        concentration_similarities.append(
+            math.exp(-2 * abs(first_concentration - second_concentration)) * weight
+        )
+        concentration_weights.append(weight)
+    concentration_similarity = (
+        sum(concentration_similarities) / sum(concentration_weights)
+        if concentration_weights else None
+    )
+
+    first_ph = first.get("mean_ph")
+    second_ph = second.get("mean_ph")
+    ph_similarity = (
+        max(0, 1 - abs(first_ph - second_ph) / 14)
+        if first_ph is not None and second_ph is not None else None
+    )
+
+    first_size = first.get("well_count", 0)
+    second_size = second.get("well_count", 0)
+    size_similarity = min(first_size, second_size) / max(first_size, second_size) if first_size and second_size else 0
+
+    weighted_scores = [(composition_similarity, 0.65), (size_similarity, 0.05)]
+    if concentration_similarity is not None:
+        weighted_scores.append((concentration_similarity, 0.20))
+    if ph_similarity is not None:
+        weighted_scores.append((ph_similarity, 0.10))
+    total_weight = sum(weight for _, weight in weighted_scores)
+    return sum(score * weight for score, weight in weighted_scores) / total_weight
 
 class ChemicalInfoBase(BaseModel):
     ph_min: float | None
@@ -113,6 +260,60 @@ async def get_screens(*, session: Session=Depends(db.get_readonly_session)):
     statement = select(db.Screen).join(db.Well).group_by(db.Screen).order_by(db.Screen.name).options(subqueryload(db.Screen.frequentblock))
     screens = session.exec(statement).all()
     return screens
+
+@router.get("/similar",
+            summary="Gets all other screens ranked by fingerprint similarity",
+            response_model=list[SimilarScreen])
+async def get_similar_screens(*, screen_id: int,
+                              session: Session=Depends(db.get_write_session)):
+    screen_statement = select(db.Screen).options(selectinload(db.Screen.frequentblock))
+    screens = session.exec(screen_statement).all()
+    screens_by_id = {screen.id: screen for screen in screens}
+    if screen_id not in screens_by_id:
+        raise HTTPException(status_code=404, detail="Screen not found")
+
+    stored_fingerprints = {
+        fingerprint.screen_id: fingerprint
+        for fingerprint in session.exec(select(db.ScreenSimilarityFingerprint)).all()
+    }
+    missing_ids = {
+        candidate_id
+        for candidate_id in screens_by_id
+        if candidate_id not in stored_fingerprints
+        or stored_fingerprints[candidate_id].version != SIMILARITY_FINGERPRINT_VERSION
+    }
+    if missing_ids:
+        full_screen_statement = (
+            select(db.Screen)
+            .where(db.Screen.id.in_(missing_ids))
+            .options(
+                selectinload(db.Screen.wells)
+                .selectinload(db.Well.wellcondition)
+                .selectinload(db.WellCondition.factors)
+                .selectinload(db.Factor.chemical)
+            )
+        )
+        for screen in session.exec(full_screen_statement).unique().all():
+            stored_fingerprints[screen.id] = persist_screen_similarity_fingerprint(session, screen)
+        session.commit()
+
+    selected_fingerprint = json.loads(stored_fingerprints[screen_id].fingerprint)
+    ranked_screens = []
+    for candidate_id, fingerprint in stored_fingerprints.items():
+        if candidate_id == screen_id:
+            continue
+        ranked_screens.append((
+            compare_screen_similarity_fingerprints(
+                selected_fingerprint,
+                json.loads(fingerprint.fingerprint)
+            ),
+            screens_by_id[candidate_id]
+        ))
+    ranked_screens.sort(key=lambda entry: (-entry[0], entry[1].name.lower(), entry[1].id))
+    return [
+        SimilarScreen(screen=screen, screen_id=screen.id, similarity_score=score)
+        for score, screen in ranked_screens
+    ]
 
 @router.get("/subsets", 
             summary="Gets a list of screens that contain only conditions found in the specified screen",
@@ -360,9 +561,48 @@ async def create_screen(*, authorised_user: db.ApiUserRead=Depends(auth.get_auth
         session.add(well)
         session.commit()
 
+    fingerprint_screen_statement = (
+        select(db.Screen)
+        .where(db.Screen.id == screen.id)
+        .options(
+            selectinload(db.Screen.wells)
+            .selectinload(db.Well.wellcondition)
+            .selectinload(db.WellCondition.factors)
+            .selectinload(db.Factor.chemical)
+        )
+    )
+    screen = session.exec(fingerprint_screen_statement).unique().one()
+    persist_screen_similarity_fingerprint(session, screen)
+    session.commit()
     session.refresh(screen)
     print("Screen creation performed by user: %s" % authorised_user.username)
     return screen
+
+@router.delete("/{screen_id}",
+               summary="Delete a screen",
+               status_code=204)
+async def delete_screen(*, screen_id: int,
+                        authenticated_user: db.ApiUser=Depends(auth.get_authenticated_user),
+                        session: Session=Depends(db.get_write_session)):
+    screen = session.get(db.Screen, screen_id)
+    if screen is None:
+        raise HTTPException(status_code=404, detail="Screen not found")
+    if not authenticated_user.admin and authenticated_user.username != screen.owned_by:
+        raise HTTPException(status_code=403, detail="Only the screen owner or an admin can delete this screen")
+
+    session.exec(delete(db.ScreenSimilarityFingerprint).where(
+        db.ScreenSimilarityFingerprint.screen_id == screen_id
+    ))
+    well_conditions = [well.wellcondition_id for well in screen.wells]
+    session.exec(delete(db.Well).where(db.Well.screen_id == screen_id))
+    if well_conditions:
+        session.exec(delete(db.WellCondition_Factor_Link).where(
+            db.WellCondition_Factor_Link.wellcondition_id.in_(well_conditions)
+        ))
+        session.exec(delete(db.WellCondition).where(db.WellCondition.id.in_(well_conditions)))
+    session.exec(delete(db.FrequentBlock).where(db.FrequentBlock.screen_id == screen_id))
+    session.delete(screen)
+    session.commit()
 
 
 @router.get("/stats", 

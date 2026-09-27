@@ -15,6 +15,9 @@ const MAX_FACTOR_GROUPS = 10;
 var last_selected_cell = null
 const undo_stack = []
 var show_factor_numbers = false;
+var import_review_table = null;
+var pending_import_screen = null;
+var import_chemical_catalog = [];
 
 var group_colours = [
     {id: "Blue", label: "", value: "#1f77b4"}, 
@@ -79,53 +82,20 @@ function value_from_id(id, options){
 }
 
 function chemical_order_options_for_location(location_value){
-    if (!location_value || (location_value.id || location_value) !== "random") {
-        return chemical_order_options;
-    }
-
-    return chemical_order_options.filter(function(option){
-        return ["uniform", "uniform_random", "gaussian_random"].includes(option.value.id);
-    });
+    // Every location mode can combine with every variable mode. The backend applies
+    // the variable ordering relative to the chosen region layout, so we keep the
+    // full list available regardless of location choice.
+    return chemical_order_options;
 }
 
 function normalize_random_location_row(row_data){
-    if (!row_data) {
-        return row_data;
-    }
-
-    const row_location = row_data.location && row_data.location.id ? row_data.location.id : row_data.location;
-    if (row_location === "random") {
-        const current_order = row_data.chemical_order && row_data.chemical_order.id ? row_data.chemical_order.id : row_data.chemical_order;
-        const allowed_orders = ["uniform", "uniform_random", "gaussian_random"];
-        if (!allowed_orders.includes(current_order)) {
-            row_data.chemical_order = value_from_id("uniform_random", chemical_order_options);
-        }
-    }
-
+    // Random location does not restrict which variable ordering can be used.
     return row_data;
 }
 
 function ensure_random_location_chemical_order(row){
-    if (!row || !row.getData) {
-        return;
-    }
-
-    const row_data = row.getData();
-    const row_location = row_data.location && row_data.location.id ? row_data.location.id : row_data.location;
-    if (row_location !== "random") {
-        return;
-    }
-
-    const current_order = row_data.chemical_order && row_data.chemical_order.id ? row_data.chemical_order.id : row_data.chemical_order;
-    const allowed_orders = ["uniform", "uniform_random", "gaussian_random"];
-    if (!allowed_orders.includes(current_order)) {
-        const chemical_order_cell = row.getCell("chemical_order");
-        if (chemical_order_cell) {
-            chemical_order_cell.setValue(value_from_id("uniform_random", chemical_order_options));
-        } else {
-            row_data.chemical_order = value_from_id("uniform_random", chemical_order_options);
-        }
-    }
+    // No special coercion is needed: location and variable can be combined freely.
+    return;
 }
 
 // UI fix for editing checkbox. Lets the whole cell be the toggle
@@ -1377,20 +1347,8 @@ var current_maker_details_table = new Tabulator('#current-maker-details-tabulato
         editorParams: {values: [24, 48, 96]},
         editorEmptyValue: 96,
         cellEdited:function(cell){
-            // Destroy old table
-            Tabulator.findTable("#current-maker-tabulator")[0].destroy();
-            // Make new one depending on size
-            var size = cell.getValue();
-            if (size == 24){
-                create_screen_display('#holder-for-current-maker-tabulator', '#current-maker-tabulator', 4, 6);
-                set_required_regeneration_of_current_screen_from_automatic()
-            } else if (size == 48){
-                create_screen_display('#holder-for-current-maker-tabulator', '#current-maker-tabulator', 6, 8);
-                set_required_regeneration_of_current_screen_from_automatic()
-            } else {
-                create_screen_display('#holder-for-current-maker-tabulator', '#current-maker-tabulator', 8, 12);
-                set_required_regeneration_of_current_screen_from_automatic()
-            }
+            resize_current_screen_grid(cell.getValue());
+            set_required_regeneration_of_current_screen_from_automatic();
         }
     }]
 });
@@ -1738,6 +1696,508 @@ $('#toggle-factor-numbers-button').click(function(){
     const display_table = Tabulator.findTable('#current-maker-tabulator')[0];
     if (display_table) {
         display_table.redraw(true);
+    }
+});
+
+function import_xml_text(xml_text) {
+    const xml = new DOMParser().parseFromString(xml_text, "application/xml");
+    if (xml.querySelector("parsererror")) {
+        throw new Error("The selected file is not valid XML.");
+    }
+
+    const imported_wells = [];
+    const crystaltrak_wells = Array.from(xml.querySelectorAll("reservoir_design > well"));
+    if (crystaltrak_wells.length) {
+        crystaltrak_wells.forEach((well, index) => {
+            const factors = Array.from(well.querySelectorAll(":scope > item")).map((item) => ({
+                name: item.getAttribute("name"),
+                concentration: Number(item.getAttribute("conc")),
+                unit: item.getAttribute("units"),
+                ph: item.getAttribute("ph") === "" ? null : Number(item.getAttribute("ph"))
+            }));
+            imported_wells.push({label: well.getAttribute("label") || String(index + 1), factors: factors});
+        });
+        const format = xml.querySelector("reservoir_design > format");
+        return {
+            name: xml.querySelector("reservoir_design")?.getAttribute("name") || "Imported Screen",
+            rows: Number(format?.getAttribute("rows")) || 8,
+            cols: Number(format?.getAttribute("cols")) || 12,
+            wells: imported_wells
+        };
+    }
+
+    const ingredient_by_stock = {};
+    xml.querySelectorAll("ingredient").forEach((ingredient) => {
+        const name = ingredient.querySelector(":scope > name")?.textContent.trim();
+        ingredient.querySelectorAll(":scope > stocks > stock").forEach((stock) => {
+            const local_id = stock.querySelector(":scope > localID")?.textContent.trim();
+            if (local_id && name) {
+                ingredient_by_stock[local_id] = {
+                    name: name,
+                    unit: stock.querySelector(":scope > units")?.textContent.trim() || "M"
+                };
+            }
+        });
+    });
+    const conditions = Array.from(xml.querySelectorAll("conditions > condition"));
+    if (!conditions.length || !Object.keys(ingredient_by_stock).length) {
+        throw new Error("The file is not a supported CrystalTrak or RockMaker design.");
+    }
+    conditions.forEach((condition, index) => {
+        const factors = Array.from(condition.querySelectorAll(":scope > conditionIngredient")).map((ingredient) => {
+            const stock_id = ingredient.querySelector(":scope > stockLocalID")?.textContent.trim();
+            const stock = ingredient_by_stock[stock_id];
+            if (!stock) {
+                throw new Error("The RockMaker file references an unknown stock.");
+            }
+            const ph = ingredient.querySelector(":scope > pH")?.textContent.trim();
+            return {
+                name: stock.name,
+                concentration: Number(ingredient.querySelector(":scope > concentration")?.textContent),
+                unit: stock.unit,
+                ph: ph ? Number(ph) : null
+            };
+        });
+        imported_wells.push({label: String(index + 1), factors: factors});
+    });
+    const size = imported_wells.length;
+    return {
+        name: "Imported Screen",
+        rows: size === 24 ? 4 : size === 48 ? 6 : 8,
+        cols: size === 24 ? 6 : size === 48 ? 8 : 12,
+        wells: imported_wells
+    };
+}
+
+function resolve_imported_chemicals(screen, chemicals) {
+    const normalize_name = function(name) {
+        return name.trim().toLowerCase().replace(/\s+bcc$/, "");
+    };
+    const by_name = {};
+    chemicals.forEach((chemical) => {
+        by_name[normalize_name(chemical.name)] = chemical;
+        (chemical.aliases || []).forEach((alias) => {
+            by_name[normalize_name(alias.name)] = chemical;
+        });
+    });
+    screen.wells.forEach((well, well_index) => {
+        well.factors.forEach((factor, factor_index) => {
+            factor.chemical = by_name[normalize_name(factor.name)] || null;
+            factor.source_chemical_name = factor.name;
+            factor.vary = {id: "none", label: "None"};
+            factor.relative_coverage = 1;
+            factor.group_name = "C3EditedWell";
+            factor.ammt = 1 / Math.max(well.factors.length, 1);
+            factor.id = `import-${well_index}-${factor_index}`;
+        });
+        if (!well.factors.length) {
+            well.factors.push({
+                id: `import-${well_index}-empty`,
+                chemical: null,
+                source_chemical_name: "",
+                concentration: null,
+                unit: null,
+                ph: null,
+                vary: {id: "none", label: "None"},
+                relative_coverage: 1,
+                group_name: "C3EditedWell",
+                ammt: 1,
+                placeholder: true
+            });
+        }
+    });
+    return screen.wells.flatMap((well, well_index) =>
+        well.factors.map((factor) => ({
+            ...factor,
+            well_index,
+            well_label: well.label,
+            placeholder: Boolean(factor.placeholder)
+        }))
+    );
+}
+
+function validate_import_factor(factor) {
+    if (factor.placeholder) {
+        return [];
+    }
+    const errors = [];
+    if (!factor.chemical || !factor.chemical.id) {
+        errors.push("Choose a chemical");
+    }
+    if (typeof factor.concentration !== "number" || !Number.isFinite(factor.concentration) || factor.concentration <= 0) {
+        errors.push("Concentration must be positive");
+    }
+    if (!site_functions.ALL_UNITS.includes(factor.unit)) {
+        errors.push("Choose a valid unit");
+    }
+    if (factor.ph !== null && factor.ph !== "" &&
+        (typeof factor.ph !== "number" || !Number.isFinite(factor.ph) || factor.ph < 0 || factor.ph > 14)) {
+        errors.push("pH must be between 0 and 14");
+    }
+    return errors;
+}
+
+function update_import_review_validation() {
+    if (!import_review_table) {
+        return 0;
+    }
+    let invalid_count = 0;
+    import_review_table.getRows().forEach((row) => {
+        const errors = validate_import_factor(row.getData());
+        invalid_count += errors.length > 0 ? 1 : 0;
+        row.getElement().classList.toggle("import-factor-invalid", errors.length > 0);
+        row.getElement().title = errors.join("; ");
+    });
+    $("#screen-maker-import-review-status").text(
+        invalid_count
+            ? `${invalid_count} invalid factor row(s). Correct the highlighted rows before submitting.`
+            : "All imported factors are valid. Review the wells, then submit to add them to the grid."
+    );
+    return invalid_count;
+}
+
+function make_import_review_table(initial_data) {
+    if (import_review_table) {
+        return import_review_table;
+    }
+    import_review_table = new Tabulator("#screen-maker-import-review-table", {
+        data: initial_data,
+        height: "100%",
+        layout: "fitColumns",
+        movableColumns: true,
+        rowHeight: 48,
+        placeholderHeaderFilter: "No Matching Factors",
+        placeholder: "No imported wells",
+        selectableRows: false,
+        index: "id",
+        groupBy: "well_label",
+        groupStartOpen: true,
+        groupHeader: function(value, count, data, group) {
+            const well_label = $("<div>")
+                .addClass("import-review-well-label")
+                .text(value);
+            const add_factor_button = $("<button>")
+                .attr("type", "button")
+                .attr("class", "table-cell-button import-add-factor-button add-button")
+                .attr("data-well-index", group.getRows()[0].getData().well_index)
+                .text("Add Factor");
+            const actions = $("<table>")
+                .attr("class", "screen-well-header-button-table button-table import-review-group-actions")
+                .append($("<tbody>").append(
+                    $("<tr>").append($("<td>").append(add_factor_button))
+                ));
+            return well_label.prop("outerHTML") + actions.prop("outerHTML");
+        },
+        columns: [{
+            title: "Chemical",
+            field: "chemical",
+            minWidth: 130,
+            widthGrow: 4,
+            vertAlign: "middle",
+            headerSort: false,
+            headerFilter: "input",
+            headerFilterPlaceholder: "Filter",
+            formatter: function(cell) {
+                const factor = cell.getRow().getData();
+                const chemical = cell.getValue();
+                if (chemical && chemical.id) {
+                    return chemical.name + ((chemical.aliases || []).length
+                        ? ` (aliases: ${chemical.aliases.length})`
+                        : "");
+                }
+                return factor.source_chemical_name
+                    ? `Not found: ${factor.source_chemical_name} — choose a chemical`
+                    : "Select a chemical";
+            },
+            editor: "list",
+            editorParams: {
+                valuesLookup: function() {
+                    return import_chemical_catalog.map((chemical) => ({
+                        label: chemical.name + (chemical.aliases.length ? ` (aliases: ${chemical.aliases.length})` : ""),
+                        value: chemical
+                    }));
+                },
+                autocomplete: true,
+                listOnEmpty: true,
+                filterFunc: function(term, label, value) {
+                    const query = term.toLowerCase();
+                    return value.name.toLowerCase().includes(query) ||
+                        (value.aliases || []).some((alias) => alias.name.toLowerCase().includes(query));
+                }
+            }
+        }, {
+            title: "Concentration",
+            field: "concentration",
+            minWidth: 128,
+            widthGrow: 2,
+            vertAlign: "middle",
+            hozAlign: "right",
+            sorter: "number",
+            headerSort: false,
+            headerFilter: "number",
+            headerFilterPlaceholder: "Filter",
+            editor: "number"
+        }, {
+            title: "Unit",
+            field: "unit",
+            minWidth: 70,
+            widthGrow: 1,
+            vertAlign: "middle",
+            headerSort: false,
+            headerFilter: "list",
+            headerFilterParams: {values: site_functions.ALL_UNITS},
+            headerFilterPlaceholder: "Filter",
+            editor: "list",
+            editorParams: {values: site_functions.ALL_UNITS}
+        }, {
+            title: "pH",
+            field: "ph",
+            minWidth: 60,
+            widthGrow: 1,
+            vertAlign: "middle",
+            hozAlign: "right",
+            sorter: "number",
+            headerSort: false,
+            headerFilter: "number",
+            headerFilterPlaceholder: "Filter",
+            editor: "number"
+        }, {
+            title: "",
+            minWidth: 96,
+            headerSort: false,
+            hozAlign: "center",
+            vertAlign: "middle",
+            frozen: true,
+            formatter: function() {
+                return $("<button>")
+                    .attr("type", "button")
+                    .attr("class", "table-cell-button import-remove-factor-button delete-button")
+                    .text("Remove")
+                    .prop("outerHTML");
+            },
+            cellClick: function(event, cell) {
+                if (!$(event.target).hasClass("import-remove-factor-button")) {
+                    return;
+                }
+                const row = cell.getRow();
+                const group_rows = import_review_table.getData().filter(
+                    factor => factor.well_index === row.getData().well_index
+                );
+                if (group_rows.length > 1) {
+                    row.delete();
+                } else {
+                    row.update({
+                        chemical: null,
+                        source_chemical_name: "",
+                        concentration: null,
+                        unit: null,
+                        ph: null,
+                        placeholder: true
+                    });
+                }
+                update_import_review_validation();
+            }
+        }]
+    });
+    import_review_table.on("cellEdited", function(cell) {
+        const factor = cell.getRow().getData();
+        if (cell.getField() === "chemical") {
+            factor.source_chemical_name = factor.chemical ? factor.chemical.name : factor.source_chemical_name;
+            factor.placeholder = false;
+        }
+        update_import_review_validation();
+    });
+    import_review_table.on("dataProcessed", update_import_review_validation);
+    return import_review_table;
+}
+
+function resize_current_screen_grid(size) {
+    const dimensions = {
+        24: [4, 6],
+        48: [6, 8],
+        96: [8, 12]
+    }[Number(size)];
+    if (!dimensions) {
+        throw new Error("Imported screens must fit a 24, 48, or 96 well plate.");
+    }
+    const current_table = Tabulator.findTable("#current-maker-tabulator")[0];
+    if (current_table &&
+        current_table.getRows().length === dimensions[0] &&
+        current_table.getColumns().length - 1 === dimensions[1]) {
+        return;
+    }
+    if (current_table) {
+        current_table.destroy();
+    }
+    create_screen_display(
+        "#holder-for-current-maker-tabulator",
+        "#current-maker-tabulator",
+        dimensions[0],
+        dimensions[1]
+    );
+}
+
+function fill_imported_screen(screen) {
+    if (screen.wells.length > 96) {
+        throw new Error("This file contains more wells than the screen maker supports.");
+    }
+    const size = screen.wells.length <= 24 ? 24 : screen.wells.length <= 48 ? 48 : 96;
+    const details_table = Tabulator.findTable("#current-maker-details-tabulator")[0];
+    if (details_table) {
+        const detail_row = details_table.getRows()[0];
+        detail_row?.getCell("size")?.setValue(size);
+    }
+    resize_current_screen_grid(size);
+    const display_table = Tabulator.findTable("#current-maker-tabulator")[0];
+    if (!display_table) {
+        throw new Error("The screen grid is not available.");
+    }
+    const rows = display_table.getRows().length;
+    const cols = display_table.getColumns().length - 1;
+    const data = display_table.getData();
+    data.forEach((row) => {
+        for (let column = 0; column < cols; column++) {
+            row[String(column)] = null;
+        }
+    });
+    screen.wells.forEach((well, index) => {
+        const row = Math.floor(index / cols);
+        const column = index % cols;
+        if (row < rows) {
+            const factors = well.factors.filter((factor) => !factor.placeholder);
+            factors.forEach((factor) => {
+                delete factor.source_chemical_name;
+                delete factor.well_index;
+                delete factor.well_label;
+                delete factor.placeholder;
+            });
+            data[row][String(column)] = factors.length ? factors : null;
+        }
+    });
+    display_table.setData(data);
+    if (details_table) {
+        const detail_row = details_table.getRows()[0];
+        if (detail_row) {
+            detail_row.getCell("name")?.setValue(screen.name);
+        }
+    }
+}
+
+$('#screen-maker-import-button').click(function() {
+    $('#screen-maker-import-file').val('');
+    $('#screen-maker-import-status').text('');
+    $('#screen-maker-import-popup').show();
+});
+
+$('#screen-maker-import-cancel-button').click(function() {
+    $('#screen-maker-import-popup').hide();
+});
+
+$('#screen-maker-import-confirm-button').click(function() {
+    const file = $('#screen-maker-import-file')[0].files[0];
+    if (!file) {
+        $('#screen-maker-import-status').text('Choose a file first.');
+        return;
+    }
+    const reader = new FileReader();
+    reader.onload = function(event) {
+        try {
+            const screen = import_xml_text(event.target.result);
+            $.getJSON(site_functions.API_URL + '/chemicals/names')
+                .done(function(chemicals) {
+                    pending_import_screen = screen;
+                    import_chemical_catalog = chemicals;
+                    const rows = resolve_imported_chemicals(screen, chemicals);
+                    $("#screen-maker-import-review-title").text("Review Imported Screen");
+                    $("#screen-maker-import-review-name").text(screen.name);
+                    $('#screen-maker-import-popup').hide();
+                    $("#screen-maker-import-review").show();
+                    requestAnimationFrame(function() {
+                        if (import_review_table) {
+                            import_review_table.setData(rows);
+                        } else {
+                            make_import_review_table(rows);
+                        }
+                        update_import_review_validation();
+                    });
+                })
+                .fail(function() {
+                    $('#screen-maker-import-status').text('Unable to load chemicals from the server.');
+                });
+        } catch (error) {
+            $('#screen-maker-import-status').text(error.message);
+        }
+    };
+    reader.onerror = function() {
+        $('#screen-maker-import-status').text('Unable to read the selected file.');
+    };
+    reader.readAsText(file);
+});
+
+$(document).on("click", ".import-add-factor-button", function(event) {
+    event.stopPropagation();
+    if (!import_review_table || !pending_import_screen) {
+        return;
+    }
+    const well_index = Number($(this).attr("data-well-index"));
+    const well = pending_import_screen.wells[well_index];
+    if (!well) {
+        return;
+    }
+    well.factors.push({
+        id: `import-${well_index}-${Date.now()}`,
+        well_index,
+        well_label: well.label,
+        chemical: null,
+        source_chemical_name: "",
+        concentration: null,
+        unit: site_functions.ALL_UNITS[0],
+        ph: null,
+        vary: {id: "none", label: "None"},
+        relative_coverage: 1,
+        group_name: "C3EditedWell",
+        ammt: 1 / (well.factors.length + 1),
+        placeholder: false
+    });
+    const row_data = well.factors[well.factors.length - 1];
+    import_review_table.addRow(row_data, true);
+    update_import_review_validation();
+});
+
+$("#screen-maker-import-submit-button").click(function() {
+    if (!pending_import_screen || !import_review_table) {
+        return;
+    }
+    if (update_import_review_validation()) {
+        return;
+    }
+    const factors_by_well = new Map();
+    import_review_table.getData().forEach((factor) => {
+        if (factor.placeholder) {
+            return;
+        }
+        if (!factors_by_well.has(factor.well_index)) {
+            factors_by_well.set(factor.well_index, []);
+        }
+        factors_by_well.get(factor.well_index).push(factor);
+    });
+    pending_import_screen.wells.forEach((well, index) => {
+        well.factors = factors_by_well.get(index) || [];
+    });
+    try {
+        fill_imported_screen(pending_import_screen);
+        $("#screen-maker-import-review").hide();
+        pending_import_screen = null;
+    } catch (error) {
+        $("#screen-maker-import-review-status").text(error.message);
+    }
+});
+
+$("#screen-maker-import-review-cancel-button").click(function() {
+    $("#screen-maker-import-review").hide();
+    pending_import_screen = null;
+    if (import_review_table) {
+        import_review_table.clearData();
     }
 });
 
