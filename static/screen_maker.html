@@ -14,16 +14,23 @@
     </div>
     <div id="screen-maker-sidebar">
         <div id="automatic-maker-div" class="screen-maker-type-div"">
-            <div id="screen-maker-automatic-generate-div">
-                <table id="automatic-generate-button-table" class="button-table">
+            <div id="screen-maker-import-div">
+                <table id="screen-maker-import-button-table" class="button-table">
                     <tbody>
-                    <tr><td><button id="screen-maker-automatic-generate-button" class="table-cell-button">Generate Groups From Selected Wells</button></td></tr>
-                    <tr><td><input id ="screen-maker-automatic-include-selected-checkbox" type="checkbox">Include Selected Well Conditions in New Screen</td></tr>
+                    <tr><td><button id="screen-maker-import-button" class="table-cell-button">Import from file</button></td></tr>
                     </tbody>
                 </table>
             </div>
             <div id="automatic-maker-factor-groups-div">
                 <h2 class="maker-title">Factor Groups</h2>
+                <div id="screen-maker-automatic-generate-div">
+                    <table id="automatic-generate-button-table" class="button-table">
+                        <tbody>
+                        <tr><td><button id="screen-maker-automatic-generate-button" class="table-cell-button">Generate Groups From Selected Wells</button></td></tr>
+                        <tr><td><input id ="screen-maker-automatic-include-selected-checkbox" type="checkbox">Include Selected Well Conditions in New Screen</td></tr>
+                        </tbody>
+                    </table>
+                </div>
                 <div class="add-reload-banner">
                     <table id="maker-buttons" class="button-table add-reload-header-buttons-table">
                         <tbody>
@@ -68,7 +75,31 @@
             </table>
         </div>
     </div>
-</div>
+
+    <div id="screen-maker-import-popup" class="screen-maker-import-popup" style="display: none;">
+        <h2>Import from file</h2>
+        <p>Select a CrystalTrak or RockMaker XML design file.</p>
+        <input id="screen-maker-import-file" type="file" accept=".txt,.xml,text/plain,application/xml,text/xml">
+        <p id="screen-maker-import-status"></p>
+        <button id="screen-maker-import-confirm-button" class="table-cell-button">Import</button>
+        <button id="screen-maker-import-cancel-button" class="table-cell-button">Cancel</button>
+    </div>
+    <div id="screen-maker-import-review" class="screen-maker-import-review" style="display: none;">
+        <div class="screen-maker-import-review-header">
+            <div>
+                <h2 id="screen-maker-import-review-title">Review imported screen</h2>
+                <p id="screen-maker-import-review-name"></p>
+                <p>Edit imported factors below. Invalid factors are highlighted and must be corrected before submitting.</p>
+                <p id="screen-maker-import-review-status" role="status"></p>
+            </div>
+        </div>
+        <div id="screen-maker-import-review-table"></div>
+        <div class="screen-maker-import-review-actions">
+            <button id="screen-maker-import-submit-button" class="table-cell-button">Submit to Screen Maker</button>
+            <button id="screen-maker-import-review-cancel-button" class="table-cell-button">Cancel</button>
+        </div>
+    </div>
+    </div>
 
 </body>
 </html>

@@ -438,6 +438,56 @@ function choose_recipe_csv_format(screen){
     });
 }
 
+function open_screen_recipe_report(screen){
+    $.get(site_functions.API_URL + "/screens/wells", {screen_id: screen.id})
+        .done(function(wells){
+            let requests = {};
+            wells.forEach(well => {
+                if (!requests[well.wellcondition_id]){
+                    requests[well.wellcondition_id] = $.get(
+                        site_functions.API_URL + "/screens/conditionRecipe",
+                        {condition_id: well.wellcondition_id}
+                    );
+                }
+            });
+            Promise.all(Object.keys(requests).map(id => requests[id])).then(function(recipes){
+                let by_condition = {};
+                Object.keys(requests).forEach((id, index) => by_condition[id] = recipes[index]);
+                let report_window = window.open("", "_blank");
+                if (!report_window){
+                    site_functions.alert_user("Please allow popups to open the screen recipe.");
+                    return;
+                }
+                let rows = wells.map(well => {
+                    let factors = (well.wellcondition && well.wellcondition.factors) || [];
+                    let condition = factors.map(factor =>
+                        xml_escape(`${factor.concentration} ${factor.unit} ${(factor.chemical || {}).name || ""}${factor.ph == null ? "" : ", pH=" + factor.ph}`)
+                    ).join("<br>");
+                    let recipe = by_condition[well.wellcondition_id];
+                    let instructions = recipe && recipe.success
+                        ? recipe_stocks_for_well(recipe, 1).map(item =>
+                            `${(item.volume * 1000).toFixed(1)} ul of: ${xml_escape(item.stock.display_name)}`
+                        ).join("<br>")
+                        : xml_escape(recipe && recipe.msg || "Recipe unavailable");
+                    return `<tr><td>${xml_escape(well.label)} (${well.position_number})</td><td>${condition}</td><td>${instructions}</td></tr>`;
+                }).join("");
+                report_window.document.write(`<!doctype html><html><head><title>${xml_escape(screen.name)} - Screen Recipe</title>
+<style>body{font-family:Arial,sans-serif;margin:22px}table{border-collapse:collapse;width:100%}th,td{border:1px solid #222;padding:7px;vertical-align:top}th{background:#eee}.actions{margin-bottom:14px}@media print{.actions{display:none}}</style>
+</head><body><div class="actions"><button onclick="window.print()">Print / Save as PDF</button></div>
+<h1>${xml_escape(screen.name)} - Screen Recipe</h1><p><b>Owner:</b> ${xml_escape(screen.owned_by || "")}</p>
+<table><thead><tr><th>Well</th><th>Condition</th><th>Recipe (1 mL final volume)</th></tr></thead><tbody>${rows}</tbody></table>
+</body></html>`);
+                report_window.document.close();
+                report_window.focus();
+            }).catch(function(){
+                site_functions.alert_user("Unable to generate the screen recipe.");
+            });
+        })
+        .fail(function(){
+            site_functions.alert_user("Unable to load the screen wells.");
+        });
+}
+
 function download_screen_csv(screen, format, scale){
     $.get(site_functions.API_URL + "/screens/wells", {screen_id: screen.id})
         .done(function(wells){
@@ -680,7 +730,7 @@ function view_screen(cell, view_wells = false){
     let screen_table = Tabulator.findTable('#screen-tabulator')[0];
     screen_table.deselectRow();
     // we have to find the right row because may be selecting from subset screens
-    screen_table.getRow(cell.getRow().getIndex()).select();
+    screen_table.getRow(cell.getData().screen.id).select();
     $('#screens-half-div').css('width', '50%');
     $('#screen-info-view-div').show();
     $('#screen-info-view-title').text(cell.getData().screen.name);
@@ -703,6 +753,9 @@ function load_data_from_button_pressed() {
     }
     if ($('#subset-screens').is(':visible')) {
         update_subset_screen();
+    }
+    if ($('#similar-screens').is(':visible')) {
+        update_similar_screens();
     }
     if ($('#compare-screens').is(':visible')) {
         update_compare_screen();
@@ -795,6 +848,11 @@ function update_subset_screen() {
     Tabulator.findTable('#screen-subset-tabulator')[0].setData(site_functions.API_URL+"/screens/subsets?screen_id=" + CURRENT_SELECTED_SCREEN.id, "POST");
 }
 
+function update_similar_screens() {
+    Tabulator.findTable('#screen-similar-tabulator')[0].setData(
+        site_functions.API_URL + "/screens/similar?screen_id=" + CURRENT_SELECTED_SCREEN.id
+    );
+}
 
 
 async function update_screen_report() {
@@ -1309,6 +1367,155 @@ var subset_table = new Tabulator("#screen-subset-tabulator", {
     footerElement: $('<div>').append($('<span>').attr('id', 'screen-row-count')).append($('<span>').attr('id', 'filtered-screen-row-count')).prop('outerHTML'),
 });
 
+var similar_table = new Tabulator("#screen-similar-tabulator", {
+    ajaxContentType: 'json',
+    ajaxRequestFunc: function(url) {
+        return fetch(url, {signal}).then(response => {
+            if (!response.ok) {
+                throw new Error("Unable to load similar screens (HTTP " + response.status + ").");
+            }
+            return response.json();
+        });
+    },
+    height: "100%",
+    layout: "fitData",
+    movableColumns: true,
+    rowHeight: 48,
+    editorEmptyValue: null,
+    placeholderHeaderFilter: "No Matching Screens",
+    placeholder: "No similar screens",
+    selectableRows: false,
+    index: "screen_id",
+    validationMode: 'manual',
+    columns: [
+        {
+            title: "Available",
+            field: "screen.available",
+            hozAlign: "center",
+            vertAlign: "middle",
+            width: 105,
+            headerMenu: column_menu,
+            headerFilter: "tickCross",
+            headerFilterEmptyCheck: function(value){return !value;},
+            formatter: "tickCross",
+            mutator: function(value, data){return value ? 1 : 0;}
+        }, {
+            title: "Name",
+            field: "screen.name",
+            vertAlign: "middle",
+            width: 400,
+            headerMenu: column_menu,
+            headerFilter: "input",
+            headerFilterPlaceholder: "Filter"
+        }, {
+            title: "Similarity",
+            field: "similarity_score",
+            width: 120,
+            hozAlign: "right",
+            vertAlign: "middle",
+            sorter: "number",
+            formatter: cell => (cell.getValue() * 100).toFixed(1) + "%"
+        }, {
+            title: "Owner",
+            field: "screen.owned_by",
+            vertAlign: "middle",
+            width: 175,
+            headerMenu: column_menu,
+            headerFilter: "input",
+            headerFilterPlaceholder: "Filter"
+        }, {
+            title: "Creation Date",
+            field: "screen.creation_date",
+            vertAlign: "middle",
+            width: 175,
+            headerMenu: column_menu,
+            headerFilter: "input",
+            headerFilterPlaceholder: "Filter"
+        }, {
+            title: "Comments",
+            field: "screen.comments",
+            vertAlign: "middle",
+            width: 485,
+            headerMenu: column_menu,
+            headerFilter: "input",
+            headerFilterPlaceholder: "Filter"
+        }, {
+            title: "Format",
+            headerHozAlign: "center",
+            columns: [{
+                title: "Name",
+                field: "screen.format_name",
+                vertAlign: "middle",
+                width: 115,
+                headerMenu: column_menu,
+                headerFilter: "input",
+                headerFilterPlaceholder: "Filter"
+            }, {
+                title: "Rows",
+                field: "screen.format_rows",
+                hozAlign: "right",
+                vertAlign: "middle",
+                width: 95,
+                headerMenu: column_menu,
+                sorter: "number",
+                headerFilter: "number",
+                headerFilterPlaceholder: "Filter"
+            }, {
+                title: "Columns",
+                field: "screen.format_cols",
+                hozAlign: "right",
+                vertAlign: "middle",
+                width: 125,
+                headerMenu: column_menu,
+                sorter: "number",
+                headerFilter: "number",
+                headerFilterPlaceholder: "Filter"
+            }]
+        }, {
+            title: "Frequently Made Block",
+            headerHozAlign: "center",
+            columns: [{
+                title: "Reservoir Volume",
+                field: "screen.frequentblock.reservoir_volume",
+                hozAlign: "right",
+                vertAlign: "middle",
+                width: 175,
+                headerMenu: column_menu,
+                sorter: "number",
+                headerFilter: "number",
+                headerFilterPlaceholder: "Filter"
+            }, {
+                title: "Solution Volume",
+                field: "screen.frequentblock.solution_volume",
+                hozAlign: "right",
+                vertAlign: "middle",
+                width: 170,
+                headerMenu: column_menu,
+                sorter: "number",
+                headerFilter: "number",
+                headerFilterPlaceholder: "Filter"
+            }]
+        }, {
+            title: "",
+            field: "actions",
+            width: 90,
+            frozen: true,
+            formatter: function() {
+                return $('<button>').attr('class', 'view-button table-cell-button').text('View').prop('outerHTML');
+            },
+            cellClick: function(event, cell) {
+                if ($(event.target).hasClass('view-button')) {
+                    view_screen(cell, true);
+                }
+            },
+            headerSort: false,
+            hozAlign: "center",
+            vertAlign: "middle",
+            resizable: true
+        }
+    ],
+    initialSort: [{column: "similarity_score", dir: "desc"}]
+});
 
 
 // Tabulator table
@@ -1957,6 +2164,11 @@ var condition_compare_table = new Tabulator("#condition-compare-tabulator", {
             headerFilter: "input",
             headerFilterPlaceholder: "Filter",
             visible: false
+            ,
+            formatter: function(cell){
+                let wells = String(cell.getValue() || "").split(" ");
+                return `<span class="comparison-well-blue">${wells[0] || ""}</span> <span class="comparison-well-red">${wells[1] || ""}</span>`;
+            }
         
         // Meets query
         }, {
@@ -2074,8 +2286,11 @@ var condition_compare_table = new Tabulator("#condition-compare-tabulator", {
         }
     },
     groupHeader:function(value, count, data, group){
+        let wells = String(value || "").split(" ");
         let label = $('<div>').css('display', 'inline-block');
-        label.text(value);
+        label.append($('<span>').addClass('comparison-well-blue').css('color', '#2563eb').text(wells[0] || ""));
+        label.append(document.createTextNode(" "));
+        label.append($('<span>').addClass('comparison-well-red').css('color', '#dc2626').text(wells[1] || ""));
         return label.prop('outerHTML');
     }
 });
@@ -2113,6 +2328,7 @@ function reset_info() {
     $('#view-wells-button').prop("disabled", "");
     $('#compare-screens-button').prop("disabled", "");
     $('#screen-subsets-button').prop("disabled", "");
+    $('#similar-screens-button').prop("disabled", "");
     $('#screen-recipe-button').prop("disabled", "");
     $('#screen-make-recipe-button').prop("disabled", "");
     $('#screen-report-button').prop("disabled", "");
@@ -2121,6 +2337,7 @@ function reset_info() {
     $('#screen-report').hide();
     $('#compare-screens').hide();
     $('#subset-screens').hide();
+    $('#similar-screens').hide();
 }
 
 $('#view-wells-button').click(function() {
@@ -2142,6 +2359,13 @@ $('#screen-subsets-button').click(function() {
     $('#screen-subsets-button').prop("disabled", "disabled");
     $('#subset-screens').show();
     load_data_from_button_pressed()
+});
+
+$('#similar-screens-button').click(function() {
+    reset_info();
+    $('#similar-screens-button').prop("disabled", "disabled");
+    $('#similar-screens').show();
+    load_data_from_button_pressed();
 });
 
 $('#screen-recipe-button').click(function() {
@@ -2173,6 +2397,33 @@ $('#screen-report-pdf-button').click(function() {
 
 $('#hide-screen-view-button').click(function() {
     hide_screen();
+});
+
+$('#delete-screen-button').click(function() {
+    if (CURRENT_SELECTED_SCREEN == null) {
+        site_functions.alert_user("No screen selected.");
+        return;
+    }
+    site_functions.authorise_action(null, function(token) {
+        site_functions.confirm_action(
+            `Delete screen "${CURRENT_SELECTED_SCREEN.name}"? This cannot be undone.`,
+            function() {
+                $.ajax({
+                    type: "DELETE",
+                    url: site_functions.API_URL + "/screens/" + CURRENT_SELECTED_SCREEN.id,
+                    headers: {"Authorization": "Bearer " + token},
+                    success: function() {
+                        hide_screen();
+                        $('#reload-all-screens-button').click();
+                    },
+                    error: function(xhr) {
+                        let detail = xhr.responseJSON && xhr.responseJSON.detail;
+                        site_functions.alert_user(detail || "Unable to delete the screen.");
+                    }
+                });
+            }
+        );
+    });
 });
 
 // Propagate message passing after tables have loaded

@@ -58,9 +58,9 @@ def verify_password(plain_password, hashed_password):
         computed_hash = bcrypt.hashpw(plain_password, salt=hashed_password)
     return computed_hash == hashed_password_bytes or computed_hash == hashed_password
 
-# Check that login credentials produce an api user with admin permissions
+# Check that login credentials produce a valid API user
 def authenticate_api_user(session: db.Session, username: str, password: str):
-    stmnt = select(db.ApiUser).where(db.ApiUser.username == username, db.ApiUser.admin == 1)
+    stmnt = select(db.ApiUser).where(db.ApiUser.username == username)
     user = session.exec(stmnt).first()
     if not user:
         return None
@@ -88,6 +88,22 @@ async def get_authorised_user(jwt_token: str=Depends(oauth2_scheme), session: db
     if user is None or not user.admin:
         raise credentials_exception
     # return user
+    return user
+
+async def get_authenticated_user(jwt_token: str=Depends(oauth2_scheme), session: db.Session=Depends(db.get_readonly_session)):
+    credentials_exception = HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
+                                          detail="Could not validate token",
+                                          headers={"WWW-Authenticate": "Bearer"})
+    try:
+        access_token = jwt.decode(jwt_token, jwt_secret_key, algorithms=[jwt_algorithm])
+        username: str = access_token.get("sub")
+        if username is None:
+            raise credentials_exception
+    except InvalidTokenError:
+        raise credentials_exception
+    user = session.exec(select(db.ApiUser).where(db.ApiUser.username == username)).first()
+    if user is None:
+        raise credentials_exception
     return user
 
 # ============================================================================ #

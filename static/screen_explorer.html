@@ -31,10 +31,12 @@
                     <td><button id="view-wells-button" class="table-cell-button" disabled="disabled;">View Wells</button></td>
                     <td><button id="compare-screens-button" class="table-cell-button">Compare Screen</button></td>
                     <td><button id="screen-subsets-button" class="table-cell-button">Subset Screens</button></td>
+                    <td><button id="similar-screens-button" class="table-cell-button">Similar Screens</button></td>
                     <td><button id="screen-recipe-button" class="table-cell-button">Screen Recipe</button></td>
                     <td><button id="screen-make-recipe-button" class="table-cell-button">Export</button></td>
                     <td><button id="screen-report-button" class="table-cell-button">Screen Report</button></td>
                     <td><button id="hide-screen-view-button" class="table-cell-button">Close Screen</button></td>
+                    <td><button id="delete-screen-button" class="table-cell-button delete-button">Delete Screen</button></td>
                 </tr>
                 </tbody>
             </table>
@@ -45,6 +47,9 @@
             </div>
             <div id="subset-screens" style="width: 100%; height: 100%; display: none;">
                 <div id="screen-subset-tabulator" class="object-for-tabulator"></div>
+            </div>
+            <div id="similar-screens" style="width: 100%; height: 100%; display: none;">
+                <div id="screen-similar-tabulator" class="object-for-tabulator"></div>
             </div>
             <div id="screen-report" style="width: 100%; height: 100%; display: none;">
                 <div style="display: flex; height: 100%; flex-direction:column;">
@@ -62,12 +67,12 @@
                 <div style="display: flex; height: 100%; flex-direction:column;">
                     <div id="second-select-warning" style="font-weight: bold;"> Click "View" on another screen to compare </div>
                     <div class="screen-info" id="comparison-info-grid" style="display: none;">
-                        <span id="name-screen1" class="screen-name"></span>
+                        <span id="name-screen1" class="screen-name comparison-screen-blue"></span>
                         <span><span id="condition-screen1"></span> conditions</span>
                         <span><span id="chemical-screen1"></span> unique chemicals</span>
                         <span><span id="avg-factor-screen1"></span> avg factors per condition</span>
                         <span><span id="screen-diversity-num1"></span> screen diversity</span>
-                        <span id="name-screen2" class="screen-name"></span>
+                        <span id="name-screen2" class="screen-name comparison-screen-red"></span>
                         <span><span id="condition-screen2"></span> conditions</span>
                         <span><span id="chemical-screen2"></span> unique chemicals</span>
                         <span><span id="avg-factor-screen2"></span> avg factors per condition</span>

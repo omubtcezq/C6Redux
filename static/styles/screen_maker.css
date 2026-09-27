@@ -32,6 +32,161 @@
     display: none;
 }
 
+.screen-maker-import-popup {
+    position: fixed;
+    z-index: 50;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(90%, 500px);
+    padding: 20px;
+    background: white;
+    border: 1px solid #888;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.35);
+}
+
+.screen-maker-import-review {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 0 20px 16px;
+    background: #fff;
+    overflow: hidden;
+}
+
+.screen-maker-import-review-header h2,
+.screen-maker-import-review-header p {
+    margin: 0;
+}
+
+.screen-maker-import-review-header {
+    flex: 0 0 auto;
+    padding: 12px 0 8px;
+}
+
+#screen-maker-import-review-title {
+    box-sizing: border-box;
+    height: auto;
+    padding: 0;
+    margin: 0 0 4px;
+    font-size: 24px;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+}
+
+.screen-maker-import-review-header p {
+    margin-bottom: 8px;
+    line-height: 1.25;
+}
+
+#screen-maker-import-review-name {
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+#screen-maker-import-review-status {
+    min-height: 1.2em;
+    font-weight: 600;
+}
+
+#screen-maker-import-review-table {
+    flex: 1 1 auto;
+    min-height: 0;
+    width: 100%;
+}
+
+.screen-maker-import-review-actions {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    padding-top: 10px;
+}
+
+.screen-maker-import-review-actions button {
+    width: auto;
+    min-width: 190px;
+}
+
+.import-factor-invalid {
+    background-color: #ffe0e0 !important;
+}
+
+.import-factor-invalid .tabulator-cell {
+    border-bottom-color: #c62828;
+}
+
+.screen-maker-import-review .tabulator {
+    border: 1px solid #bbb;
+}
+
+.screen-maker-import-review .tabulator .tabulator-header {
+    background-color: #eee;
+    font-weight: 600;
+}
+
+.screen-maker-import-review .tabulator .tabulator-group {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    background-color: #f2f2f2;
+    border-top: 1px solid #bbb;
+}
+
+.screen-maker-import-review .tabulator-cell {
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.import-review-well-label {
+    display: inline-block;
+    min-width: 60px;
+    font-weight: 700;
+}
+
+.import-review-group-actions {
+    display: inline-table;
+    width: auto;
+    max-width: 150px;
+    margin-left: 8px;
+    vertical-align: middle;
+}
+
+.import-review-group-actions td {
+    padding: 0;
+}
+
+.import-review-group-actions button {
+    min-width: 105px;
+}
+
+.screen-maker-import-review .import-remove-factor-button {
+    white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+    .screen-maker-import-review {
+        padding: 0 10px 10px;
+    }
+
+    #screen-maker-import-review-title {
+        font-size: 20px;
+    }
+
+    .screen-maker-import-review-actions button {
+        min-width: 0;
+        flex: 1 1 0;
+    }
+}
+
+#screen-maker-import-status {
+    min-height: 1.2em;
+}
+
 .condition-cell {
     width: 100%;
     height: 100%;
@@ -128,6 +283,22 @@
     height: 60px;
 }
 
+#screen-maker-import-div {
+    height: 44px;
+    display: flex;
+    align-items: center;
+}
+
+#screen-maker-import-button-table {
+    width: auto;
+    margin: 0 auto;
+}
+
+#screen-maker-import-button {
+    width: auto;
+    white-space: nowrap;
+}
+
 #screen-maker-type-button-table {
     max-width: 350px;
     margin: auto;
@@ -136,6 +307,18 @@
 #automatic-generate-button-table {
     max-width: 390px;
     margin: 0 auto;
+}
+
+#automatic-generate-button-table tr:first-child td {
+    padding-bottom: 4px;
+}
+
+#automatic-generate-button-table tr:last-child td {
+    padding-top: 0;
+}
+
+#screen-maker-automatic-generate-div {
+    margin-bottom: 10px;
 }
 
 #save-button-table {
@@ -148,7 +331,7 @@
 }
 
 #holder-for-factor-group-tabulator {
-    height: calc(100% - 110px);
+    height: calc(100% - 180px);
 }
 
 .maker-title {
@@ -164,11 +347,12 @@
 }
 
 #automatic-maker-factor-groups-div{
-    height: calc(100% - 205px);
+    height: calc(100% - 249px);
 }
 
 #automatic-maker-additive-div{
     height: 145px;
+    margin-top: 12px;
 }
 
 #maker-buttons {

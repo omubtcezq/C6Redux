@@ -4,6 +4,7 @@
 
 import configparser as cp
 from sqlmodel import Field, Session, SQLModel, Relationship, create_engine
+from sqlalchemy import Column, Text
 from datetime import datetime
 from typing import Union
 
@@ -327,6 +328,13 @@ class Screen(ScreenBaseLarge, table=True):
     id: int | None = Field(default=None, primary_key=True)
     frequentblock: Union["FrequentBlock", None] = Relationship(back_populates="screen")
     wells: list["Well"] = Relationship(back_populates="screen")
+
+class ScreenSimilarityFingerprint(SQLModel, table=True):
+    __tablename__ = "screen_similarity_fingerprint"
+    screen_id: int = Field(foreign_key="screen.id", primary_key=True)
+    version: int
+    fingerprint: str = Field(sa_column=Column(Text, nullable=False))
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
 
 # Read when screen names read
 class ScreenReadLite(ScreenBase):

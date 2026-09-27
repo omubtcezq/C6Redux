@@ -81,7 +81,12 @@ def make_dataframe(cond_db):
                     factor.chemical.pka2,
                     factor.chemical.pka3)
         })
-    return pd.DataFrame(cond)
+    dataframe = pd.DataFrame(cond)
+    dataframe.attrs["ions"] = get_ions(dataframe)
+    dataframe.attrs["pegs"] = dataframe[dataframe["name"].str.contains("polyethylene glycol")]
+    dataframe.attrs["estimated_ph"] = estimate_ph(dataframe)
+    dataframe.attrs["names"] = set(dataframe["name"])
+    return dataframe
 
 def get_ions(chems):
     cumulative_ions = {}
@@ -236,11 +241,11 @@ def C6_score(session, chems_1, chems_2,debug=False):
     T = 0
     D = 0
     
-    pegs_1 = chems_1[chems_1['name'].str.contains("polyethylene glycol")]
-    pegs_2 = chems_2[chems_2['name'].str.contains("polyethylene glycol")]
+    pegs_1 = chems_1.attrs["pegs"]
+    pegs_2 = chems_2.attrs["pegs"]
 
-    ions_1 = get_ions(chems_1)
-    ions_2 = get_ions(chems_2)
+    ions_1 = chems_1.attrs["ions"]
+    ions_2 = chems_2.attrs["ions"]
 
     for _, chem_1 in chems_1.iterrows():
         for _, chem_2 in chems_2.iterrows():
@@ -266,8 +271,8 @@ def C6_score(session, chems_1, chems_2,debug=False):
                     print(f"\tD += min(1, 0.2 + 0.5 * abs({peg_1['percentage concentration']} - {peg_2['percentage concentration']}) / ({max_concentration(session, peg_1['name'])} + {max_concentration(session, peg_2['name'])}))")
                     print(f"\t   = {min(1, 0.2 + 0.5 * abs(peg_1['percentage concentration'] - peg_2['percentage concentration']) / (max_concentration(session, peg_1['name']) + max_concentration(session, peg_2['name']))):.3f} -> D = {D:.3f}")
 
-    e1 = estimate_ph(chems_1)
-    e2 = estimate_ph(chems_2)
+    e1 = chems_1.attrs["estimated_ph"]
+    e2 = chems_2.attrs["estimated_ph"]
     if e1 != None and e2 != None:
         T += 1
         D += abs(e1 - e2) / ph_const(session)
@@ -293,9 +298,8 @@ def C6_score(session, chems_1, chems_2,debug=False):
                     print(f"\tD += min(1, 0.3 + 0.5 * abs({ions_1[k1]} - {ions_2[k2]}) / ({ion_max(session, k1)} + {ion_max(session, k2)}))")
                     print(f"\t   = {min(1, 0.3 + 0.5 * abs(ions_1[k1] - ions_2[k2]) / (ion_max(session, k1) + ion_max(session, k2))):.3f} -> D = {D:.3f}")
     
-    distinct = set(chems_1["name"])
-    distinct.update(set(chems_2["name"]))
-    shared = set(chems_1["name"]).intersection(set(chems_2["name"]))
+    distinct = chems_1.attrs["names"] | chems_2.attrs["names"]
+    shared = chems_1.attrs["names"] & chems_2.attrs["names"]
     not_shared_count = len(distinct) - len(shared)
     T += not_shared_count
     D += not_shared_count
