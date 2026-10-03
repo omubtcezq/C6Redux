@@ -336,6 +336,13 @@ class ScreenSimilarityFingerprint(SQLModel, table=True):
     fingerprint: str = Field(sa_column=Column(Text, nullable=False))
     updated_at: datetime = Field(default_factory=datetime.utcnow)
 
+class UserComment(SQLModel, table=True):
+    __tablename__ = "user_comment"
+    id: int | None = Field(default=None, primary_key=True)
+    user_id: int = Field(foreign_key="apiuser.id", index=True)
+    comment: str = Field(sa_column=Column(Text, nullable=False))
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
 # Read when screen names read
 class ScreenReadLite(ScreenBase):
     id: int
