@@ -43,17 +43,20 @@ class SimilarScreen(BaseModel):
     screen: db.ScreenRead
     screen_id: int
     similarity_score: float
+    identical_conditions: int
+    identical_chemicals: int
 
-SIMILARITY_FINGERPRINT_VERSION = 1
+SIMILARITY_FINGERPRINT_VERSION = 2
 
 def make_screen_similarity_fingerprint(screen: db.Screen) -> dict:
     well_count = len(screen.wells)
     if well_count == 0:
-        return {"well_count": 0, "chemicals": {}, "mean_ph": None}
+        return {"well_count": 0, "chemicals": {}, "conditions": {}, "mean_ph": None}
 
     chemical_well_counts = {}
     chemical_concentration_totals = {}
     chemical_concentration_counts = {}
+    condition_counts = {}
     well_ph_values = []
     total_factors = 0
 
@@ -61,10 +64,17 @@ def make_screen_similarity_fingerprint(screen: db.Screen) -> dict:
         well_chemicals = set()
         well_concentrations = {}
         well_ph = []
+        condition_factors = []
         for factor in well.wellcondition.factors:
             chemical_id = factor.chemical_id
             well_chemicals.add(chemical_id)
             total_factors += 1
+            condition_factors.append({
+                "chemical_id": chemical_id,
+                "concentration": factor.concentration,
+                "unit": factor.unit,
+                "ph": factor.ph
+            })
             if factor.ph is not None:
                 well_ph.append(factor.ph)
             concentration = unbs.unit_conversion(
@@ -76,6 +86,12 @@ def make_screen_similarity_fingerprint(screen: db.Screen) -> dict:
             )
             if concentration is not None and concentration >= 0:
                 well_concentrations.setdefault(chemical_id, []).append(concentration)
+
+        condition_signature = json.dumps(
+            sorted(condition_factors, key=lambda factor: json.dumps(factor, sort_keys=True)),
+            separators=(",", ":")
+        )
+        condition_counts[condition_signature] = condition_counts.get(condition_signature, 0) + 1
 
         for chemical_id in well_chemicals:
             chemical_well_counts[chemical_id] = chemical_well_counts.get(chemical_id, 0) + 1
@@ -103,6 +119,7 @@ def make_screen_similarity_fingerprint(screen: db.Screen) -> dict:
         "well_count": well_count,
         "mean_factors_per_well": total_factors / well_count,
         "chemicals": chemicals,
+        "conditions": condition_counts,
         "mean_ph": sum(well_ph_values) / len(well_ph_values) if well_ph_values else None
     }
 
@@ -302,17 +319,33 @@ async def get_similar_screens(*, screen_id: int,
     for candidate_id, fingerprint in stored_fingerprints.items():
         if candidate_id == screen_id:
             continue
+        candidate_fingerprint = json.loads(fingerprint.fingerprint)
+        identical_conditions = sum(
+            min(count, candidate_fingerprint.get("conditions", {}).get(signature, 0))
+            for signature, count in selected_fingerprint.get("conditions", {}).items()
+        )
+        identical_chemicals = len(
+            set(selected_fingerprint["chemicals"]) & set(candidate_fingerprint["chemicals"])
+        )
         ranked_screens.append((
             compare_screen_similarity_fingerprints(
                 selected_fingerprint,
-                json.loads(fingerprint.fingerprint)
+                candidate_fingerprint
             ),
-            screens_by_id[candidate_id]
+            screens_by_id[candidate_id],
+            identical_conditions,
+            identical_chemicals
         ))
     ranked_screens.sort(key=lambda entry: (-entry[0], entry[1].name.lower(), entry[1].id))
     return [
-        SimilarScreen(screen=screen, screen_id=screen.id, similarity_score=score)
-        for score, screen in ranked_screens
+        SimilarScreen(
+            screen=screen,
+            screen_id=screen.id,
+            similarity_score=score,
+            identical_conditions=identical_conditions,
+            identical_chemicals=identical_chemicals
+        )
+        for score, screen, identical_conditions, identical_chemicals in ranked_screens
     ]
 
 @router.get("/subsets", 

@@ -653,6 +653,16 @@ function open_screen_recipe_report(screen){
             Promise.all(Object.keys(requests).map(id => requests[id])).then(function(recipes){
                 let by_condition = {};
                 Object.keys(requests).forEach((id, index) => by_condition[id] = recipes[index]);
+                const missing_stock_wells = new Map();
+                wells.forEach(well => {
+                    const recipe = by_condition[well.wellcondition_id];
+                    (recipe && recipe.missing_stocks || []).forEach(stock => {
+                        if (!missing_stock_wells.has(stock)){
+                            missing_stock_wells.set(stock, []);
+                        }
+                        missing_stock_wells.get(stock).push(well.label);
+                    });
+                });
                 const report_window = window.open("", "_blank");
                 if (!report_window){
                     site_functions.alert_user("Please allow popups to open the screen recipe.");
@@ -671,12 +681,40 @@ function open_screen_recipe_report(screen){
                         : xml_escape(recipe && recipe.msg || "Recipe unavailable");
                     return `<tr><td>${xml_escape(well.label)} (${well.position_number})</td><td>${condition}</td><td>${instructions}</td></tr>`;
                 }).join("");
+                const missing_stock_rows = Array.from(missing_stock_wells.entries()).map(([stock, labels]) =>
+                    `<tr><td>${xml_escape(stock)}</td><td>${labels.map(xml_escape).join(", ")}</td></tr>`
+                ).join("");
+                const missing_stock_note = missing_stock_wells.size
+                    ? `<section class="missing-stock-note"><strong>Some wells cannot be made because no suitable stock was found:</strong><ul>${
+                        Array.from(missing_stock_wells.entries()).map(([stock, labels]) =>
+                            `<li>${xml_escape(stock)} — wells ${labels.map(xml_escape).join(", ")}</li>`
+                        ).join("")
+                    }</ul></section>`
+                    : "";
+                const missing_stocks_report = missing_stock_wells.size
+                    ? `<section class="missing-stocks-report"><h2>Missing Stocks — ${xml_escape(screen.name)}</h2>
+<p>The following factors have no suitable stock defined.</p>
+<table><thead><tr><th>Missing stock / factor</th><th>Affected wells</th></tr></thead><tbody>${missing_stock_rows}</tbody></table></section>`
+                    : "";
                 report_window.document.write(`<!doctype html><html><head><title>${xml_escape(screen.name)} - Screen Recipe</title>
-<style>body{font-family:Arial,sans-serif;margin:22px}table{border-collapse:collapse;width:100%}th,td{border:1px solid #222;padding:7px;vertical-align:top}th{background:#eee}.actions{margin-bottom:14px}@media print{.actions{display:none}}</style>
-</head><body><div class="actions"><button onclick="window.print()">Print / Save as PDF</button></div>
+<style>body{font-family:Arial,sans-serif;margin:22px}table{border-collapse:collapse;width:100%}th,td{border:1px solid #222;padding:7px;vertical-align:top}th{background:#eee}.actions{display:flex;gap:16px;margin-bottom:14px}.missing-stock-note{padding:10px;background:#fff4dd;border:1px solid #d99b22;margin-bottom:18px}.missing-stock-note ul{margin-bottom:0}.missing-stocks-report{display:none}body.missing-only .full-recipe-report,body.missing-only .missing-stock-note{display:none}body.missing-only .missing-stocks-report{display:block}@media print{.actions{display:none}}</style>
+</head><body><div class="actions"><button onclick="window.print()">Print / Save as PDF</button>${
+                    missing_stock_wells.size
+                        ? '<button id="print-missing-stocks-button">Print Missing Stocks</button>'
+                        : ""
+                }</div>
+${missing_stock_note}<section class="full-recipe-report">
 <h1>${xml_escape(screen.name)} - Screen Recipe</h1>
 <p><b>Owner:</b> ${xml_escape(screen.owned_by || "")}</p>
 <table><thead><tr><th>Well</th><th>Condition</th><th>Recipe (1 mL final volume)</th></tr></thead><tbody>${body}</tbody></table>
+</section>${missing_stocks_report}
+<script>
+document.getElementById("print-missing-stocks-button")?.addEventListener("click",function(){
+    document.body.classList.add("missing-only");
+    window.print();
+});
+window.addEventListener("afterprint",function(){document.body.classList.remove("missing-only")});
+</script>
 </body></html>`);
                 report_window.document.close();
                 report_window.focus();
@@ -1389,17 +1427,6 @@ var similar_table = new Tabulator("#screen-similar-tabulator", {
     validationMode: 'manual',
     columns: [
         {
-            title: "Available",
-            field: "screen.available",
-            hozAlign: "center",
-            vertAlign: "middle",
-            width: 105,
-            headerMenu: column_menu,
-            headerFilter: "tickCross",
-            headerFilterEmptyCheck: function(value){return !value;},
-            formatter: "tickCross",
-            mutator: function(value, data){return value ? 1 : 0;}
-        }, {
             title: "Name",
             field: "screen.name",
             vertAlign: "middle",
@@ -1424,77 +1451,19 @@ var similar_table = new Tabulator("#screen-similar-tabulator", {
             headerFilter: "input",
             headerFilterPlaceholder: "Filter"
         }, {
-            title: "Creation Date",
-            field: "screen.creation_date",
-            vertAlign: "middle",
+            title: "Identical Conditions",
+            field: "identical_conditions",
             width: 175,
-            headerMenu: column_menu,
-            headerFilter: "input",
-            headerFilterPlaceholder: "Filter"
-        }, {
-            title: "Comments",
-            field: "screen.comments",
+            hozAlign: "right",
             vertAlign: "middle",
-            width: 485,
-            headerMenu: column_menu,
-            headerFilter: "input",
-            headerFilterPlaceholder: "Filter"
+            sorter: "number"
         }, {
-            title: "Format",
-            headerHozAlign: "center",
-            columns: [{
-                title: "Name",
-                field: "screen.format_name",
-                vertAlign: "middle",
-                width: 115,
-                headerMenu: column_menu,
-                headerFilter: "input",
-                headerFilterPlaceholder: "Filter"
-            }, {
-                title: "Rows",
-                field: "screen.format_rows",
-                hozAlign: "right",
-                vertAlign: "middle",
-                width: 95,
-                headerMenu: column_menu,
-                sorter: "number",
-                headerFilter: "number",
-                headerFilterPlaceholder: "Filter"
-            }, {
-                title: "Columns",
-                field: "screen.format_cols",
-                hozAlign: "right",
-                vertAlign: "middle",
-                width: 125,
-                headerMenu: column_menu,
-                sorter: "number",
-                headerFilter: "number",
-                headerFilterPlaceholder: "Filter"
-            }]
-        }, {
-            title: "Frequently Made Block",
-            headerHozAlign: "center",
-            columns: [{
-                title: "Reservoir Volume",
-                field: "screen.frequentblock.reservoir_volume",
-                hozAlign: "right",
-                vertAlign: "middle",
-                width: 175,
-                headerMenu: column_menu,
-                sorter: "number",
-                headerFilter: "number",
-                headerFilterPlaceholder: "Filter"
-            }, {
-                title: "Solution Volume",
-                field: "screen.frequentblock.solution_volume",
-                hozAlign: "right",
-                vertAlign: "middle",
-                width: 170,
-                headerMenu: column_menu,
-                sorter: "number",
-                headerFilter: "number",
-                headerFilterPlaceholder: "Filter"
-            }]
+            title: "Identical Chemicals",
+            field: "identical_chemicals",
+            width: 175,
+            hozAlign: "right",
+            vertAlign: "middle",
+            sorter: "number"
         }, {
             title: "",
             field: "actions",

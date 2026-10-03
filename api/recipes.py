@@ -4,7 +4,7 @@
 
 from sqlmodel import Session, select
 from sqlalchemy.orm import subqueryload
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from itertools import product
 from collections import Counter
 
@@ -29,6 +29,7 @@ class Recipe(BaseModel):
     msg: str
     stocks: list[StockVolume] | None
     water: float | None
+    missing_stocks: list[str] = Field(default_factory=list)
 
 # ============================================================================ #
 # Recipe generation
@@ -282,6 +283,7 @@ def make_recipe_for_factors(session: Session, factors: list[db.Factor], custom_s
     if len(empty_factors) > 0:
         recipe.success = False
         recipe.msg = 'Could not find any valid stocks for the following condition factor%s:' % ('' if len(empty_factors) == 1 else 's')
+        recipe.missing_stocks = empty_factors
         for factor_hash_string in empty_factors:
             recipe.msg += '\n%s' % factor_hash_string
         return recipe

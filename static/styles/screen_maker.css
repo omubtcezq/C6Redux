@@ -294,7 +294,8 @@
     margin: 0 auto;
 }
 
-#screen-maker-import-button {
+#screen-maker-import-button,
+#screen-maker-create-well-by-well-button {
     width: auto;
     white-space: nowrap;
 }

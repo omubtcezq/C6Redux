@@ -2083,10 +2083,57 @@ function fill_imported_screen(screen) {
     }
 }
 
+function open_import_review(screen, title, instructions, on_chemical_load_failure) {
+    $.getJSON(site_functions.API_URL + '/chemicals/names')
+        .done(function(chemicals) {
+            pending_import_screen = screen;
+            import_chemical_catalog = chemicals;
+            const rows = resolve_imported_chemicals(screen, chemicals);
+            $("#screen-maker-import-review-title").text(title);
+            $("#screen-maker-import-review-name").text(screen.name);
+            $("#screen-maker-import-review-instructions").text(instructions);
+            $('#screen-maker-import-popup').hide();
+            $("#screen-maker-import-review").show();
+            requestAnimationFrame(function() {
+                if (import_review_table) {
+                    import_review_table.setData(rows);
+                } else {
+                    make_import_review_table(rows);
+                }
+                update_import_review_validation();
+            });
+        })
+        .fail(on_chemical_load_failure);
+}
+
 $('#screen-maker-import-button').click(function() {
     $('#screen-maker-import-file').val('');
     $('#screen-maker-import-status').text('');
     $('#screen-maker-import-popup').show();
+});
+
+$('#screen-maker-create-well-by-well-button').click(function() {
+    const blank_screen = {
+        name: 'New Screen',
+        rows: 8,
+        cols: 12,
+        wells: Array.from({length: 96}, function(_, index) {
+            const row = String.fromCharCode(65 + Math.floor(index / 12));
+            const column = index % 12 + 1;
+            return {
+                label: row + column,
+                factors: []
+            };
+        })
+    };
+    open_import_review(
+        blank_screen,
+        'Create Screen Well by Well',
+        'Add factors to each well. Invalid factors are highlighted and must be corrected before submitting.',
+        function() {
+            site_functions.alert_user('Unable to load chemicals from the server.');
+        }
+    );
 });
 
 $('#screen-maker-import-cancel-button').click(function() {
@@ -2103,27 +2150,14 @@ $('#screen-maker-import-confirm-button').click(function() {
     reader.onload = function(event) {
         try {
             const screen = import_xml_text(event.target.result);
-            $.getJSON(site_functions.API_URL + '/chemicals/names')
-                .done(function(chemicals) {
-                    pending_import_screen = screen;
-                    import_chemical_catalog = chemicals;
-                    const rows = resolve_imported_chemicals(screen, chemicals);
-                    $("#screen-maker-import-review-title").text("Review Imported Screen");
-                    $("#screen-maker-import-review-name").text(screen.name);
-                    $('#screen-maker-import-popup').hide();
-                    $("#screen-maker-import-review").show();
-                    requestAnimationFrame(function() {
-                        if (import_review_table) {
-                            import_review_table.setData(rows);
-                        } else {
-                            make_import_review_table(rows);
-                        }
-                        update_import_review_validation();
-                    });
-                })
-                .fail(function() {
+            open_import_review(
+                screen,
+                'Review Imported Screen',
+                'Edit imported factors below. Invalid factors are highlighted and must be corrected before submitting.',
+                function() {
                     $('#screen-maker-import-status').text('Unable to load chemicals from the server.');
-                });
+                }
+            );
         } catch (error) {
             $('#screen-maker-import-status').text(error.message);
         }

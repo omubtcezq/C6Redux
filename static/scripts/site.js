@@ -5,7 +5,7 @@ var site_functions = (function() {
 var UI_VERSION = "v0.3.4";
 
 // Debug flag for API URL
-var DEBUG = false;
+var DEBUG = true;
 
 // API connection parameters
 if (DEBUG){
@@ -91,7 +91,8 @@ let CONTENT_TREE = {
             chemical_list: {},
             phcurves: {}
         },
-        recipes: {}
+        recipes: {},
+        comments: {}
     }
 }
 
@@ -204,7 +205,7 @@ public_functions.init_subpage_buttons = function(parent_content_name, subpages){
             });
 
             // If the content is empty, load it from the html (will only happen once)
-            if ($('#'+subpage.content_id).children().length == 0){
+            if (subpage.content_html && $('#'+subpage.content_id).children().length == 0){
                 // TODO Ideally propage message as below after load - but callback fired before document.ready in subscripts
                 $('#'+subpage.content_id).load(subpage.content_html);
             // Otherwise content already loaded, check and propagate any message passing request
@@ -212,6 +213,10 @@ public_functions.init_subpage_buttons = function(parent_content_name, subpages){
                 if (CONTENT_REQUEST){
                     public_functions.request_content(CONTENT_REQUEST.provider, CONTENT_REQUEST.method, CONTENT_REQUEST.params);
                 }
+            }
+
+            if (subpage.on_select) {
+                subpage.on_select();
             }
         });
 
@@ -383,6 +388,13 @@ subpages = [{
     content_id: "site-content-recipes",
     content_html: "recipes.html",
     click_on_init: false
+}, {
+    content_name: "comments",
+    button_id: "site-comments-button",
+    content_id: "site-content-comments",
+    content_html: null,
+    click_on_init: false,
+    on_select: load_comments_page
 }];
 public_functions.init_subpage_buttons("root", subpages);
 
@@ -403,7 +415,6 @@ $('#site-login-button').click(function() {
     });
 });
 
-$('#site-comments-button').click(load_comments_page);
 $('#comments-sign-in-button').click(function() {
     $('#site-login-button').click();
 });
