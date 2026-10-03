@@ -18,6 +18,63 @@ if (DEBUG){
     var API_URL = 'https://'+API_ADDRESS+':'+API_PORT+'/api';
 }
 
+function load_comments_page() {
+    $('#site-body > div').not('#site-content-comments').hide();
+    $('#site-content-comments').show();
+    $('#comments-page-status').text('');
+    $('#comments-sign-in-prompt, #comments-form, #admin-comments-section').hide();
+    $('#admin-comments-list').empty();
+
+    const token = window.sessionStorage.getItem('auth_token');
+    if (!token) {
+        $('#comments-sign-in-prompt').show();
+        return;
+    }
+    $.ajax({
+        type: 'GET',
+        url: site_functions.API_URL + '/auth/me',
+        headers: {Authorization: 'Bearer ' + token},
+        success: function(user) {
+            CURRENT_AUTH_USER = user;
+            $('#comments-form').show();
+            if (user.admin) {
+                $('#admin-comments-section').show();
+                $.ajax({
+                    type: 'GET',
+                    url: site_functions.API_URL + '/comments/',
+                    headers: {Authorization: 'Bearer ' + token},
+                    success: function(comments) {
+                        comments.forEach(function(comment) {
+                            const row = $('<tr>');
+                            $('<td>').text(comment.username).appendTo(row);
+                            $('<td>').text(comment.comment).appendTo(row);
+                            $('<td>').text(new Date(comment.created_at).toLocaleString()).appendTo(row);
+                            $('#admin-comments-list').append(row);
+                        });
+                        if (comments.length === 0) {
+                            $('#admin-comments-list').append(
+                                $('<tr>').append($('<td>').attr('colspan', 3).text('No comments yet.'))
+                            );
+                        }
+                    },
+                    error: function() {
+                        $('#comments-page-status').text('Unable to load submitted comments.');
+                    }
+                });
+            }
+        },
+        error: function(xhr) {
+            if (xhr.status === 401) {
+                window.sessionStorage.removeItem('auth_token');
+                $('#site-login-button').text('Log in');
+                $('#comments-sign-in-prompt').show();
+            } else {
+                $('#comments-page-status').text('Unable to verify sign-in status.');
+            }
+        }
+    });
+}
+
 // Content request used to click through tabs when passing message through site
 let CONTENT_REQUEST = null;
 
@@ -40,6 +97,7 @@ let CONTENT_TREE = {
 
 // Selected conditions are a global site phenomenon (mostly since recipes and screens both use it)
 let SELECTED_WELLS = [];
+let CURRENT_AUTH_USER = null;
 
 // ========================================================================== //
 // Publicly accessible functions go here (note script needs to be loaded for them to be available)
@@ -131,6 +189,7 @@ public_functions.init_subpage_buttons = function(parent_content_name, subpages){
 
         // Create click event handler on the button
         $('#'+subpage.button_id).click(function(){
+            $('#site-content-comments').hide();
 
             // Disabled button and enable content
             $('#'+subpage.content_id).css("display", "block");
@@ -185,6 +244,7 @@ public_functions.authorise_action = function(msg, action_needing_token){
                 success: function(token) {
                     // Save token, perform action and hide login
                     window.sessionStorage.setItem('auth_token', token.access_token);
+                    $('#site-login-button').text('Log out');
                     action_needing_token(window.sessionStorage.getItem('auth_token'));
                     $('#login-cancel-button').click();
                 },
@@ -325,6 +385,75 @@ subpages = [{
     click_on_init: false
 }];
 public_functions.init_subpage_buttons("root", subpages);
+
+$('#site-login-button').click(function() {
+    if (window.sessionStorage.getItem('auth_token')) {
+        window.sessionStorage.removeItem('auth_token');
+        CURRENT_AUTH_USER = null;
+        $('#site-login-button').text('Log in');
+        if ($('#site-content-comments').is(':visible')) {
+            load_comments_page();
+        }
+        return;
+    }
+    public_functions.authorise_action(null, function() {
+        if ($('#site-content-comments').is(':visible')) {
+            load_comments_page();
+        }
+    });
+});
+
+$('#site-comments-button').click(load_comments_page);
+$('#comments-sign-in-button').click(function() {
+    $('#site-login-button').click();
+});
+
+$('#comments-form').submit(function(event) {
+    event.preventDefault();
+    const comment = $('#comments-input').val().trim();
+    if (!comment) {
+        $('#comments-page-status').text('Enter a comment before submitting.');
+        return;
+    }
+    const token = window.sessionStorage.getItem('auth_token');
+    if (!token) {
+        $('#site-login-button').click();
+        return;
+    }
+    $('#comments-submit-button').prop('disabled', true);
+    $.ajax({
+        type: 'POST',
+        url: API_URL + '/comments/',
+        contentType: 'application/json',
+        headers: {Authorization: 'Bearer ' + token},
+        data: JSON.stringify({comment: comment}),
+        success: function() {
+            $('#comments-input').val('');
+            $('#comments-page-status').text('Your comment has been submitted.');
+            if (CURRENT_AUTH_USER && CURRENT_AUTH_USER.admin) {
+                load_comments_page();
+            }
+        },
+        error: function(xhr) {
+            if (xhr.status === 401) {
+                window.sessionStorage.removeItem('auth_token');
+                $('#site-login-button').text('Log in');
+                $('#comments-sign-in-prompt').show();
+                $('#comments-form').hide();
+                $('#comments-page-status').text('Your sign-in expired. Please sign in again to comment.');
+            } else {
+                $('#comments-page-status').text('Unable to submit the comment. Please try again.');
+            }
+        },
+        complete: function() {
+            $('#comments-submit-button').prop('disabled', false);
+        }
+    });
+});
+
+if (window.sessionStorage.getItem('auth_token')) {
+    $('#site-login-button').text('Log out');
+}
 
 // Write UI and API version numbers beside title
 $('#ui-version').text("ui-"+UI_VERSION);

@@ -68,12 +68,22 @@ html, body {
 
 #site-about-us-button-table {
   height: 100%;
+  width: auto;
+  table-layout: auto;
   margin-left: auto;
-  max-width: 70px;
+  max-width: none;
 }
 
-#site-about-us-button {
+#site-about-us-button,
+#site-login-button,
+#site-comments-button {
   font-size: 12px;
+  white-space: nowrap;
+}
+
+#site-about-us-button-table .table-cell-button {
+  width: auto;
+  padding: 2px 4px;
 }
 
 #site-banner-button-table {
@@ -103,6 +113,61 @@ html, body {
   width: calc(100% - 40px);
   height: calc(100% - 40px);
   overflow: auto;
+}
+
+#site-content-comments {
+  box-sizing: border-box;
+  margin: 20px auto;
+  max-width: 900px;
+  padding: 0 20px 24px;
+  text-align: left;
+}
+
+#site-content-comments h1,
+#site-content-comments h2 {
+  text-align: center;
+}
+
+#comments-form label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+#comments-input {
+  box-sizing: border-box;
+  display: block;
+  min-height: 120px;
+  width: 100%;
+  resize: vertical;
+}
+
+#comments-submit-button,
+#comments-sign-in-button {
+  width: auto;
+  min-width: 140px;
+}
+
+#comments-page-status {
+  min-height: 1.2em;
+}
+
+#admin-comments-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#admin-comments-table th,
+#admin-comments-table td {
+  border: 1px solid #bbb;
+  padding: 8px;
+  text-align: left;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+}
+
+#admin-comments-table th {
+  background: #eee;
 }
 
 /* Buttons */

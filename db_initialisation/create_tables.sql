@@ -2,6 +2,7 @@ drop table if exists wellcondition_factor_link;
 drop table if exists well;
 drop table if exists wellcondition;
 drop table if exists screen_similarity_fingerprint;
+drop table if exists user_comment;
 drop table if exists frequentblock;
 drop table if exists screen;
 drop table if exists phpoint;
@@ -24,6 +25,20 @@ create table apiuser (
 	PRIMARY KEY(id),
 	INDEX(id),
 	INDEX(username)
+);
+
+create table user_comment (
+	id int not null auto_increment,
+	user_id int not null,
+	comment text not null,
+	created_at datetime not null default current_timestamp,
+
+	PRIMARY KEY(id),
+	INDEX(user_id),
+	INDEX(created_at),
+	FOREIGN KEY(user_id)
+		REFERENCES apiuser(id)
+		ON DELETE CASCADE
 );
 
 create table chemical (
@@ -260,7 +275,6 @@ create table wellcondition_factor_link (
 		ON DELETE RESTRICT
 		ON UPDATE RESTRICT
 );
-
 
 
 

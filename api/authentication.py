@@ -34,6 +34,11 @@ class Token(BaseModel):
     access_token: str
     token_type: str
 
+class AuthenticatedUserRead(BaseModel):
+    id: int
+    username: str
+    admin: bool
+
 # Hash a password using bcrypt (helper function)
 def hash_password(password):
     pwd_bytes = password.encode("utf-8")
@@ -134,3 +139,9 @@ async def get_token(login_form: OAuth2PasswordRequestForm=Depends(), session: db
                              algorithm=jwt_algorithm)
     # Create token json to spec
     return Token(access_token=encoded_token_data, token_type="bearer")
+
+@router.get("/me",
+            summary="Gets the signed-in user's account details",
+            response_model=AuthenticatedUserRead)
+async def get_current_user(user: db.ApiUser=Depends(get_authenticated_user)):
+    return AuthenticatedUserRead(id=user.id, username=user.username, admin=bool(user.admin))

@@ -28,7 +28,10 @@
   <div id="site-details" class="site-banner-component">
     <table id="site-about-us-button-table" class="button-table">
       <tbody>
-        <tr><td><button id="site-about-us-button" class="table-cell-button">About</button></td></tr>
+        <tr>
+          <td><button id="site-login-button" class="table-cell-button">Log in</button></td>
+          <td><button id="site-comments-button" class="table-cell-button">Comments</button></td>
+          <td><button id="site-about-us-button" class="table-cell-button">About</button></td>
         </tr>
       </tbody>
     </table>
@@ -39,6 +42,26 @@
   <div id="site-content-stocks"></div>
   <div id="site-content-chemicals"></div>
   <div id="site-content-recipes"></div>
+  <div id="site-content-comments" style="display: none;">
+    <h1>Comments</h1>
+    <p id="comments-page-status" role="status"></p>
+    <div id="comments-sign-in-prompt" style="display: none;">
+      <p>You must be signed in to leave a comment.</p>
+      <button id="comments-sign-in-button">Log in</button>
+    </div>
+    <form id="comments-form" style="display: none;">
+      <label for="comments-input">Leave a comment</label>
+      <textarea id="comments-input" maxlength="5000" required></textarea>
+      <div><button id="comments-submit-button" type="submit">Submit comment</button></div>
+    </form>
+    <section id="admin-comments-section" style="display: none;">
+      <h2>Submitted comments</h2>
+      <table id="admin-comments-table">
+        <thead><tr><th>User</th><th>Comment</th><th>Submitted</th></tr></thead>
+        <tbody id="admin-comments-list"></tbody>
+      </table>
+    </section>
+  </div>
 </div>
 <div id="site-popup-container" class="popup-container" style="display: none;">
   <div id="login-popup" class="popup" style="display: none;">

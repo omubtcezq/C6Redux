@@ -7,6 +7,7 @@ import api.screens as screens
 import api.stocks as stocks
 import api.chemicals as chemicals
 import api.authentication as authentication
+import api.comments as comments
 import api.hit_report as report
 
 API_TITLE = "C6Redux_API"
@@ -68,6 +69,7 @@ app.include_router(report.router)
 app.include_router(stocks.router)
 app.include_router(chemicals.router)
 app.include_router(authentication.router)
+app.include_router(comments.router)
 
 @app.get('/api_version',
          summary="Gets the version number of the API",
