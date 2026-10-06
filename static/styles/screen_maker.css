@@ -237,11 +237,18 @@
     margin: 20px auto;
 }
 
-#toggle-factor-numbers-button {
-    display: block;
+#current-maker-controls {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
     position: relative;
     z-index: 1;
     margin: 0 auto 12px;
+}
+
+#current-maker-controls button {
+    width: auto;
+    min-width: 160px;
 }
 
 #holder-for-current-maker-tabulator {
@@ -249,6 +256,10 @@
     top: 44px;
     width: 100%;
     height: calc(100% - 44px);
+}
+
+#current-maker-tabulator.selection-inactive .tabulator-range-overlay {
+    display: none;
 }
 
 #current-maker-tabulator-automatic-update-popup {

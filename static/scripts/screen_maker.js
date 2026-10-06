@@ -13,11 +13,81 @@ var public_functions = {};
 
 const MAX_FACTOR_GROUPS = 10;
 var last_selected_cell = null
+var current_screen_selection_active = false;
 const undo_stack = []
 var show_factor_numbers = false;
 var import_review_table = null;
 var pending_import_screen = null;
 var import_chemical_catalog = [];
+
+function parse_screen_grid_clipboard(data){
+    if (typeof data !== "string" || data === "") {
+        return null;
+    }
+    const rows = data.replace(/\r/g, "").split("\n");
+    if (rows.length && rows[rows.length - 1] === "") {
+        rows.pop();
+    }
+    return rows.map(row => row.split("\t"));
+}
+
+function paste_screen_grid_clipboard(data){
+    const screen_table = this.table;
+    const range = screen_table.getRanges()[0];
+    const bounds = range && range.getBounds();
+    const start = bounds && bounds.start;
+    if (!current_screen_selection_active || !start) {
+        site_functions.alert_user("Select a destination well before pasting.");
+        return;
+    }
+
+    let values;
+    try {
+        values = data.map(row => row.map(value => {
+            if (value === "") {
+                return null;
+            }
+            const parsed = JSON.parse(value);
+            if (parsed !== null && !Array.isArray(parsed)) {
+                throw new Error("Pasted cells must contain copied well conditions.");
+            }
+            return parsed;
+        }));
+    } catch (error) {
+        site_functions.alert_user("Unable to paste: clipboard cells are not valid copied well conditions.");
+        return;
+    }
+    if (!values.length || !values[0].length) {
+        return;
+    }
+
+    const top = range.getTopEdge();
+    const left = range.getLeftEdge();
+    const selected_height = range.getBottomEdge() - top + 1;
+    const selected_width = range.getRightEdge() - left + 1;
+    const single_cell_range = selected_height === 1 && selected_width === 1;
+    const row_count = single_cell_range ? values.length : selected_height;
+    const column_count = single_cell_range ? values[0].length : selected_width;
+    const rows = screen_table.getRows();
+
+    undo_stack.push(screen_table.getData());
+    screen_table.blockRedraw();
+    try {
+        for (let row_offset = 0; row_offset < row_count && top + row_offset < rows.length; row_offset++) {
+            const cells = rows[top + row_offset].getCells();
+            for (let column_offset = 0;
+                column_offset < column_count && left + column_offset < cells.length;
+                column_offset++
+            ) {
+                cells[left + column_offset].setValue(
+                    values[row_offset % values.length][column_offset % values[row_offset % values.length].length]
+                );
+            }
+        }
+    } finally {
+        screen_table.restoreRedraw();
+    }
+}
 
 var group_colours = [
     {id: "Blue", label: "", value: "#1f77b4"}, 
@@ -241,7 +311,7 @@ function create_screen_display(parent_element_id, element_id, rows, cols, all_da
         validationMode: 'manual',
         rowFormatter: row_formatter,
         rowHeader: {field: 'row_letter', formatter: row_header_formatter, headerSort: false, hozAlign: "center", vertAlign: 'middle', resizable: false},
-        selectableRange:0,
+        selectableRange:1,
         selectableRangeColumns:true,
         selectableRangeRows:true,
         selectableRangeClearCells:true,
@@ -252,81 +322,61 @@ function create_screen_display(parent_element_id, element_id, rows, cols, all_da
             columnHeaders:false,
         },
         clipboardCopyRowRange:"range",
-        clipboardPasteParser:"range",
-        clipboardPasteAction:"range",
+        clipboardPasteParser:parse_screen_grid_clipboard,
+        clipboardPasteAction:paste_screen_grid_clipboard,
     });
 
-    $(document).on('click', function(event) {
-        if ($(event.target).closest('#condition-popup').length == 0) {
-            $("#condition-popup").hide()
+    if (element_id === "#current-maker-tabulator") {
+        current_screen_selection_active = false;
+        screen_display_tabulator.on("tableBuilt", function() {
+            clear_current_screen_selection();
+        });
+    }
+
+}
+
+function clear_current_screen_selection(){
+    current_screen_selection_active = false;
+    const screen_element = document.querySelector("#current-maker-tabulator");
+    if (screen_element) {
+        screen_element.classList.add("selection-inactive");
+    }
+    const screen_table = Tabulator.findTable("#current-maker-tabulator")[0];
+    if (screen_table) {
+        screen_table.getRanges().forEach(function(range) {
+            range.remove();
+        });
+    }
+}
+
+$(document).on("click.screenMakerSelection", function(event) {
+    const target = $(event.target);
+    if (target.closest("#condition-popup").length === 0) {
+        $("#condition-popup").hide();
+    }
+
+    if (target.closest("#current-maker-tabulator").length > 0) {
+        current_screen_selection_active = true;
+        const screen_element = document.querySelector("#current-maker-tabulator");
+        if (screen_element) {
+            screen_element.classList.remove("selection-inactive");
         }
-        
-        if ($(event.target).closest('#current-maker-tabulator').length == 0) {
-            // if (Tabulator.findTable("#current-maker-tabulator")[0].getRanges().length != 0) {
-            //     const screen_display_tabulator = Tabulator.findTable(element_id)[0]
-            //     data = screen_display_tabulator.getData()
-            //     screen_display_tabulator.destroy()
-            //     new_screen_display_tabulator = new Tabulator(element_id, {
-            //     data: data,
-            //     maxHeight: "100%",
-            //     layout:"fitColumns",
-            //     resizableColumnFit: true,
-            //     headerVisible: true,
-            //     columns: col_details,
-            //     rowHeight: row_height,
-            //     validationMode: 'manual',
-            //     rowFormatter: row_formatter,
-            //     rowHeader: {field: 'row_letter', formatter: row_header_formatter, headerSort: false, hozAlign: "center", vertAlign: 'middle', resizable: false},
-            //     selectableRange:0,
-            //     selectableRangeColumns:true,
-            //     selectableRangeRows:true,
-            //     selectableRangeClearCells:true,
-            //     clipboard:true,
-            //     clipboardCopyStyled:false,
-            //     clipboardCopyConfig:{
-            //         rowHeaders:false,
-            //         columnHeaders:false,
-            //     },
-            //     clipboardCopyRowRange:"range",
-            //     clipboardPasteParser:"range",
-            //     clipboardPasteAction:"range"
-            //     });
-            // }
-        } else {
-            if (Tabulator.findTable("#current-maker-tabulator")[0].getRanges().length == 0) {
-                const screen_display_tabulator = Tabulator.findTable(element_id)[0]
-                data = screen_display_tabulator.getData()
-                screen_display_tabulator.destroy()
-                new_screen_display_tabulator = new Tabulator(element_id, {
-                    data: data,
-                    maxHeight: "100%",
-                    layout:"fitColumns",
-                    resizableColumnFit: true,
-                    headerVisible: true,
-                    columns: col_details,
-                    rowHeight: row_height,
-                    validationMode: 'manual',
-                    rowFormatter: row_formatter,
-                    rowHeader: {field: 'row_letter', formatter: row_header_formatter, headerSort: false, hozAlign: "center", vertAlign: 'middle', resizable: false},
-                    selectableRange:1,
-                    selectableRangeColumns:true,
-                    selectableRangeRows:true,
-                    selectableRangeClearCells:true,
-                    clipboard:true,
-                    clipboardCopyStyled:false,
-                    clipboardCopyConfig:{
-                        rowHeaders:false,
-                        columnHeaders:false,
-                    },
-                    clipboardCopyRowRange:"range",
-                    clipboardPasteParser:"range",
-                    clipboardPasteAction:"range",
-                    
-            });
-        }
+        return;
+    }
+
+    if (target.closest(
+        "#current-maker-tabulator, #condition-popup, button, a, input, select, textarea, " +
+        "summary, [contenteditable='true'], [role='button'], .tabulator"
+    ).length === 0) {
+        clear_current_screen_selection();
     }
 });
-}
+
+$(document).on("keydown.screenMakerSelection", function(event) {
+    if (event.key === "Escape") {
+        clear_current_screen_selection();
+    }
+});
 
 function set_required_regeneration_of_current_screen_from_automatic(){
     // $('#current-maker-tabulator-automatic-update-popup').show();
@@ -383,12 +433,11 @@ function generate_current_screen_from_automatic(){
     const grid_rows = display_table.getRows().length;
     const grid_cols = display_table.getColumns().length - 1; // -1 because the title for each row is included
 
-    range_dimensions = null
-    if (display_table.getRanges().length != 0) {
-        const ranges = display_table.getRanges();
-        let range = ranges[0];
+    const selected_range = current_screen_selection_active ? display_table.getRanges()[0] : null;
+    let range_dimensions = null;
+    if (selected_range) {
         // -1 because the title of each row is included
-        range_dimensions = {"left": range.getLeftEdge() - 1, "right": range.getRightEdge() - 1, "top": range.getTopEdge(), "bottom": range.getBottomEdge()} 
+        range_dimensions = {"left": selected_range.getLeftEdge() - 1, "right": selected_range.getRightEdge() - 1, "top": selected_range.getTopEdge(), "bottom": selected_range.getBottomEdge()}
     }
 
     additive_data = Tabulator.findTable("#automatic-additive-tabulator")[0].getData()[0]
@@ -415,7 +464,7 @@ function generate_current_screen_from_automatic(){
             included_wells_ids: $("#screen-maker-automatic-include-selected-checkbox").is(":checked") ? site_functions.get_selected_wells().map(w => w.well.id) : [],
             // if the size is not based on user selection then its one of the defaults
             size: grid_rows * grid_cols,
-            range_dimensions: Tabulator.findTable("#current-maker-tabulator")[0].getRanges().length != 0 ? range_dimensions : null
+            range_dimensions: selected_range ? range_dimensions : null
         })
         }).then(r => {
             return r.json()
@@ -438,12 +487,11 @@ function generate_current_screen_from_automatic(){
                 }
             }
 
-            const range = Tabulator.findTable("#current-maker-tabulator")[0].getRanges()[0];
-            console.log(range)
+            const range = current_screen_selection_active
+                ? Tabulator.findTable("#current-maker-tabulator")[0].getRanges()[0]
+                : null;
 
             if (range) {
-                const bounds = range.getBounds();
-
                 var startRow = range.getTopEdge();
                 var startCol = range.getLeftEdge();
                 var endRow = range.getBottomEdge();

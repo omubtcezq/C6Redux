@@ -28,10 +28,11 @@
             <table id="screen-info-view-button-table" class="button-table">
                 <tbody>
                 <tr>
-                    <td><button id="view-wells-button" class="table-cell-button" disabled="disabled;">View Wells</button></td>
+                    <td><button id="view-wells-button" class="table-cell-button" disabled="disabled;">View Factors</button></td>
                     <td><button id="compare-screens-button" class="table-cell-button">Compare Screen</button></td>
                     <td><button id="screen-subsets-button" class="table-cell-button">Subset Screens</button></td>
                     <td><button id="similar-screens-button" class="table-cell-button">Similar Screens</button></td>
+                    <td><button id="view-screen-wells-grid-button" class="table-cell-button">View Wells</button></td>
                     <td><button id="screen-recipe-button" class="table-cell-button">Screen Recipe</button></td>
                     <td><button id="screen-make-recipe-button" class="table-cell-button">Export</button></td>
                     <td><button id="screen-report-button" class="table-cell-button">Screen Report</button></td>
@@ -50,6 +51,20 @@
             </div>
             <div id="similar-screens" style="width: 100%; height: 100%; display: none;">
                 <div id="screen-similar-tabulator" class="object-for-tabulator"></div>
+            </div>
+            <div id="screen-wells-grid-popup" role="dialog" aria-labelledby="screen-wells-grid-title" style="display: none;">
+                <div id="screen-wells-grid-dialog">
+                    <div id="screen-wells-grid-header">
+                        <h2 id="screen-wells-grid-title"></h2>
+                        <span id="screen-wells-grid-drag-hint">Drag to move</span>
+                        <button id="screen-wells-grid-close" class="table-cell-button" type="button">Close</button>
+                    </div>
+                    <p id="screen-wells-grid-status">Select wells and press Ctrl+C (or Cmd+C) to copy.</p>
+                    <div id="screen-wells-grid-tabulator"></div>
+                    <div id="screen-well-condition-popup" style="display: none;">
+                        <div id="screen-well-condition-tabulator"></div>
+                    </div>
+                </div>
             </div>
             <div id="screen-report" style="width: 100%; height: 100%; display: none;">
                 <div style="display: flex; height: 100%; flex-direction:column;">

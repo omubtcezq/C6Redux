@@ -23,6 +23,96 @@
     border: 1px solid #999
 }
 
+#screen-wells-grid-popup {
+    position: fixed;
+    z-index: 1000;
+    top: 90px;
+    right: 24px;
+    width: min(750px, 95vw);
+    height: min(520px, 85vh);
+    pointer-events: none;
+}
+
+#screen-wells-grid-dialog {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    padding: 12px;
+    background: white;
+    border: 1px solid #888;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.35);
+    pointer-events: auto;
+}
+
+#screen-wells-grid-header {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+}
+
+#screen-wells-grid-header.dragging {
+    cursor: grabbing;
+}
+
+#screen-wells-grid-header h2 {
+    overflow-wrap: anywhere;
+    margin: 0;
+}
+
+#screen-wells-grid-drag-hint {
+    flex: 0 0 auto;
+    color: #666;
+    font-size: 12px;
+}
+
+#screen-wells-grid-close {
+    flex: 0 0 auto;
+    width: auto;
+}
+
+#screen-wells-grid-status {
+    flex: 0 0 auto;
+    margin: 8px 0;
+}
+
+#screen-wells-grid-tabulator {
+    flex: 1 1 auto;
+    min-height: 0;
+    width: 100%;
+}
+
+#screen-wells-grid-tabulator .condition-cell {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+#screen-wells-grid-tabulator .factor-bar {
+    flex: 1;
+    height: 50%;
+    background-color: black;
+}
+
+#screen-wells-grid-tabulator .tabulator-range-overlay {
+    pointer-events: none;
+}
+
+#screen-well-condition-popup {
+    position: fixed;
+    z-index: 1100;
+    background: white;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+
 #screen-query-screen-search-table {
     text-align: left;
     margin: auto;

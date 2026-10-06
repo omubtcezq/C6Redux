@@ -41,7 +41,6 @@
                             <td><button id="screen-maker-automatic-add-group-button" class="table-cell-button add-button">Add Group</button></td>
                             <td><button id="screen-maker-automatic-randomise-button" class="table-cell-button">Generate Screen</button></td>
                             <td><button id="screen-maker-automatic-clear-screen-button" class="table-cell-button">Clear Screen</button></td>
-                            <td><button id="screen-maker-automatic-undo-button" class="table-cell-button">Undo</button></td>
                         </tr>
                         </tbody>
                     </table>
@@ -64,7 +63,10 @@
                 <div id="current-maker-details-tabulator" class="object-for-tabulator"></div>
             </div>
         </div><div id="current-maker-body">
-            <button id="toggle-factor-numbers-button" class="table-cell-button" type="button">Show Factor Numbers</button>
+            <div id="current-maker-controls">
+                <button id="toggle-factor-numbers-button" class="table-cell-button" type="button">Show Factor Numbers</button>
+                <button id="screen-maker-automatic-undo-button" class="table-cell-button" type="button">Undo</button>
+            </div>
             <div id="current-maker-tabulator-automatic-update-popup" style="display: none;"><button id="current-maker-tabulator-automatic-update-popup-button">Regenerate Changes</button></div>
             <div id="holder-for-current-maker-tabulator">
                 <div id="current-maker-tabulator" class="object-for-tabulator"></div>

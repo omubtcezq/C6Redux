@@ -1486,6 +1486,265 @@ var similar_table = new Tabulator("#screen-similar-tabulator", {
     initialSort: [{column: "similarity_score", dir: "desc"}]
 });
 
+function similar_screen_well_columns(column_count) {
+    return Array.from({length: column_count}, (_, column_index) => ({
+        title: column_index + 1,
+        field: column_index.toString(),
+        formatter: function(cell) {
+            const factors = cell.getValue();
+            if (!Array.isArray(factors) || factors.length === 0) {
+                return "";
+            }
+            const container = document.createElement("div");
+            container.className = "condition-cell";
+            factors.forEach(() => {
+                const bar = document.createElement("div");
+                bar.className = "factor-bar";
+                container.append(bar);
+            });
+            return container;
+        },
+        headerSort: false,
+        headerHozAlign: "center",
+        editable: false,
+        resizable: false,
+        cssClass: "no-padding",
+        cellContext: function(event, cell) {
+            event.preventDefault();
+            const condition = cell.getValue();
+            if (!Array.isArray(condition) || condition.length === 0) {
+                $("#screen-well-condition-popup").hide();
+                return;
+            }
+
+            screen_well_condition_table.setData(condition);
+            const popup = $("#screen-well-condition-popup").show();
+            const left = Math.min(event.clientX, window.innerWidth - popup.outerWidth() - 12);
+            const top = Math.min(event.clientY, window.innerHeight - popup.outerHeight() - 12);
+            popup.css({
+                left: Math.max(12, left) + "px",
+                top: Math.max(12, top) + "px",
+            });
+        },
+    }));
+}
+
+$("#screen-wells-grid-popup").appendTo(document.body);
+
+var screen_well_condition_table = new Tabulator("#screen-well-condition-tabulator", {
+    layout: "fitData",
+    rowHeight: 48,
+    placeholder: "No Factors in Well",
+    selectableRows: false,
+    columns: [{
+        title: "Chemical",
+        field: "chemical",
+        vertAlign: "middle",
+        headerSort: false,
+        editable: false,
+        formatter: function(cell) {
+            const chemical = cell.getValue();
+            if (!chemical || !chemical.name) {
+                return "";
+            }
+            const alias_count = Array.isArray(chemical.aliases) ? chemical.aliases.length : 0;
+            return chemical.name + (alias_count ? " (aliases: " + alias_count + ")" : "");
+        },
+    }, {
+        title: "Concentration",
+        field: "concentration",
+        hozAlign: "right",
+        vertAlign: "middle",
+        headerSort: false,
+        editable: false,
+    }, {
+        title: "Unit",
+        field: "unit",
+        vertAlign: "middle",
+        headerSort: false,
+        editable: false,
+    }, {
+        title: "pH",
+        field: "ph",
+        hozAlign: "right",
+        vertAlign: "middle",
+        headerSort: false,
+        editable: false,
+    }],
+});
+
+$(document).on("contextmenu.screenWellCondition", function(event) {
+    if ($(event.target).closest("#current-maker-tabulator, #condition-popup").length === 0) {
+        $("#condition-popup").hide();
+    }
+    if ($(event.target).closest(
+        "#screen-wells-grid-tabulator .tabulator-cell, #screen-well-condition-popup"
+    ).length === 0) {
+        $("#screen-well-condition-popup").hide();
+    }
+});
+
+$(document).on("click.screenWellCondition", function(event) {
+    if ($(event.target).closest("#screen-well-condition-popup").length === 0) {
+        $("#screen-well-condition-popup").hide();
+    }
+});
+
+var screen_wells_grid_table = new Tabulator("#screen-wells-grid-tabulator", {
+    data: [],
+    height: "100%",
+    layout: "fitColumns",
+    resizableColumnFit: true,
+    headerVisible: true,
+    rowHeight: 48,
+    selectableRange: 1,
+    selectableRangeColumns: true,
+    selectableRangeRows: true,
+    selectableRangeClearCells: false,
+    clipboard: true,
+    clipboardCopyStyled: false,
+    clipboardCopyConfig: {
+        rowHeaders: false,
+        columnHeaders: false,
+    },
+    clipboardCopyRowRange: "range",
+    clipboardPasteParser: function() {
+        return null;
+    },
+    clipboardPasteAction: function() {},
+    rowFormatter: function(row) {
+        row.getElement().style.backgroundColor = "#fff";
+        row.getElement().style.borderTop = "1px solid #aaa";
+    },
+    rowHeader: {
+        field: "row_letter",
+        formatter: cell => cell.getValue(),
+        headerSort: false,
+        hozAlign: "center",
+        vertAlign: "middle",
+        resizable: false,
+    },
+    columns: similar_screen_well_columns(12),
+});
+
+async function open_screen_wells_grid(screen) {
+    const popup = $("#screen-wells-grid-popup");
+    $("#screen-wells-grid-title").text(screen.name + " - Wells");
+    $("#screen-wells-grid-status").text("Loading wells...");
+    popup.css("display", "flex");
+    screen_wells_grid_table.getRanges().forEach(range => range.remove());
+
+    try {
+        const response = await fetch(
+            site_functions.API_URL + "/screens/wells?screen_id=" + encodeURIComponent(screen.id)
+        );
+        if (!response.ok) {
+            throw new Error("Unable to load wells (HTTP " + response.status + ").");
+        }
+        const wells = await response.json();
+        const row_count = Number.isInteger(screen.format_rows) && screen.format_rows > 0
+            ? screen.format_rows
+            : 8;
+        const column_count = Number.isInteger(screen.format_cols) && screen.format_cols > 0
+            ? screen.format_cols
+            : 12;
+        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const data = Array.from({length: row_count}, (_, row_index) => {
+            const row = {row_letter: letters[row_index] || String(row_index + 1)};
+            for (let column_index = 0; column_index < column_count; column_index++) {
+                row[column_index.toString()] = null;
+            }
+            return row;
+        });
+
+        wells.forEach(well => {
+            const position = well.position_number - 1;
+            const row_index = Math.floor(position / column_count);
+            const column_index = position % column_count;
+            if (row_index < 0 || row_index >= row_count || column_index < 0) {
+                return;
+            }
+            const factors = well.wellcondition.factors;
+            data[row_index][column_index.toString()] = factors.length
+                ? factors.map(factor => ({...factor, group_name: "C3EditedWell", ammt: 0.5}))
+                : null;
+        });
+
+        screen_wells_grid_table.setColumns(similar_screen_well_columns(column_count));
+        await screen_wells_grid_table.setData(data);
+        screen_wells_grid_table.getRanges().forEach(range => range.remove());
+        screen_wells_grid_table.redraw(true);
+        $("#screen-wells-grid-status").text("Select wells and press Ctrl+C (or Cmd+C) to copy.");
+    } catch (error) {
+        console.error("Unable to display screen wells:", error);
+        $("#screen-wells-grid-status").text("Unable to load wells for this screen.");
+    }
+}
+
+$("#view-screen-wells-grid-button").on("click", function() {
+    if (CURRENT_SELECTED_SCREEN == null) {
+        site_functions.alert_user("No screen selected.");
+        return;
+    }
+    open_screen_wells_grid(CURRENT_SELECTED_SCREEN);
+});
+
+$("#screen-wells-grid-close").on("click", function() {
+    $("#screen-wells-grid-popup").hide();
+    $("#screen-well-condition-popup").hide();
+});
+
+let wells_grid_drag = null;
+$("#screen-wells-grid-header").on("pointerdown", function(event) {
+    if (event.target.closest("button")) {
+        return;
+    }
+    const popup = document.getElementById("screen-wells-grid-popup");
+    const bounds = popup.getBoundingClientRect();
+    wells_grid_drag = {
+        pointer_x: event.clientX,
+        pointer_y: event.clientY,
+        left: bounds.left,
+        top: bounds.top,
+    };
+    popup.style.left = bounds.left + "px";
+    popup.style.top = bounds.top + "px";
+    popup.style.right = "auto";
+    this.classList.add("dragging");
+    event.preventDefault();
+});
+
+$(document).on("pointermove.screenWellsGrid", function(event) {
+    if (!wells_grid_drag) {
+        return;
+    }
+    const popup = document.getElementById("screen-wells-grid-popup");
+    const max_left = Math.max(0, window.innerWidth - popup.offsetWidth);
+    const max_top = Math.max(0, window.innerHeight - popup.offsetHeight);
+    const left = wells_grid_drag.left + event.clientX - wells_grid_drag.pointer_x;
+    const top = wells_grid_drag.top + event.clientY - wells_grid_drag.pointer_y;
+    popup.style.left = Math.min(Math.max(0, left), max_left) + "px";
+    popup.style.top = Math.min(Math.max(0, top), max_top) + "px";
+});
+
+$(document).on("pointerup.screenWellsGrid pointercancel.screenWellsGrid", function() {
+    if (wells_grid_drag) {
+        wells_grid_drag = null;
+        $("#screen-wells-grid-header").removeClass("dragging");
+    }
+});
+
+$(document).on("keydown.screenWellsGrid", function(event) {
+    if (event.key !== "Escape") {
+        return;
+    }
+    if ($("#screen-well-condition-popup").is(":visible")) {
+        $("#screen-well-condition-popup").hide();
+    } else if ($("#screen-wells-grid-popup").is(":visible")) {
+        $("#screen-wells-grid-popup").hide();
+    }
+});
+
 
 // Tabulator table
 var well_table = new Tabulator("#screen-wells-view-tabulator", {
