@@ -191,6 +191,7 @@ public_functions.init_subpage_buttons = function(parent_content_name, subpages){
         // Create click event handler on the button
         $('#'+subpage.button_id).click(function(){
             $('#site-content-comments').hide();
+            $('#site-content-create-account, #site-content-admin-users').hide();
 
             // Disabled button and enable content
             $('#'+subpage.content_id).css("display", "block");
@@ -363,6 +364,86 @@ function find_path_to_provider_rec(path, parent, provider){
 
 $(document).ready(function() {
 
+var admin_users_table = new Tabulator("#admin-users-tabulator", {
+    height: "calc(100vh - 220px)",
+    layout: "fitColumns",
+    placeholder: "No users found",
+    columns: [
+        {title: "ID", field: "id", width: 100},
+        {title: "Username", field: "username", minWidth: 180},
+        {
+            title: "Permission",
+            field: "admin",
+            formatter: function(cell) {
+                return cell.getValue() ? "Administrator" : "Standard";
+            },
+            minWidth: 160
+        }
+    ]
+});
+
+function show_account_page(content_id) {
+    $('#site-body > div').hide();
+    $('#' + content_id).show();
+    $('#site-banner-button-table button').removeAttr('disabled');
+}
+
+function refresh_authenticated_user() {
+    const token = window.sessionStorage.getItem('auth_token');
+    if (!token) {
+        CURRENT_AUTH_USER = null;
+        $('#site-view-users-button').hide();
+        return;
+    }
+    $.ajax({
+        type: 'GET',
+        url: API_URL + '/auth/me',
+        headers: {Authorization: 'Bearer ' + token},
+        success: function(user) {
+            CURRENT_AUTH_USER = user;
+            $('#site-login-button').text('Log out');
+            $('#site-view-users-button').toggle(!!user.admin);
+        },
+        error: function(xhr) {
+            CURRENT_AUTH_USER = null;
+            $('#site-view-users-button').hide();
+            if (xhr.status === 401) {
+                window.sessionStorage.removeItem('auth_token');
+                $('#site-login-button').text('Log in');
+            }
+        }
+    });
+}
+
+function load_admin_users() {
+    const token = window.sessionStorage.getItem('auth_token');
+    if (!token || !CURRENT_AUTH_USER || !CURRENT_AUTH_USER.admin) {
+        $('#admin-users-status').text('Administrator access is required to view users.');
+        return;
+    }
+    $('#admin-users-status').text('Loading users...');
+    $.ajax({
+        type: 'GET',
+        url: API_URL + '/auth/users',
+        headers: {Authorization: 'Bearer ' + token},
+        success: function(users) {
+            admin_users_table.setData(users);
+            $('#admin-users-status').text(users.length + ' users.');
+        },
+        error: function(xhr) {
+            if (xhr.status === 401) {
+                window.sessionStorage.removeItem('auth_token');
+                CURRENT_AUTH_USER = null;
+                $('#site-login-button').text('Log in');
+                $('#site-view-users-button').hide();
+                $('#admin-users-status').text('Your sign-in expired. Please log in again.');
+            } else {
+                $('#admin-users-status').text('Unable to load users. Please try again.');
+            }
+        }
+    });
+}
+
 // Set up banner subpage buttons
 subpages = [{
     content_name: "screens",
@@ -403,14 +484,64 @@ $('#site-login-button').click(function() {
         window.sessionStorage.removeItem('auth_token');
         CURRENT_AUTH_USER = null;
         $('#site-login-button').text('Log in');
+        $('#site-view-users-button').hide();
+        admin_users_table.clearData();
+        if ($('#site-content-admin-users').is(':visible')) {
+            $('#site-banner-screens-buttons').click();
+        }
         if ($('#site-content-comments').is(':visible')) {
             load_comments_page();
         }
         return;
     }
     public_functions.authorise_action(null, function() {
+        refresh_authenticated_user();
         if ($('#site-content-comments').is(':visible')) {
             load_comments_page();
+        }
+    });
+});
+
+$('#site-create-account-button').click(function() {
+    show_account_page('site-content-create-account');
+});
+
+$('#site-view-users-button').click(function() {
+    if (!CURRENT_AUTH_USER || !CURRENT_AUTH_USER.admin) {
+        return;
+    }
+    show_account_page('site-content-admin-users');
+    admin_users_table.redraw(true);
+    load_admin_users();
+});
+
+$('#account-registration-form').submit(function(event) {
+    event.preventDefault();
+    const username = $('#account-registration-username').val().trim();
+    const password = $('#account-registration-password').val();
+    if (password !== $('#account-registration-password-confirm').val()) {
+        $('#account-registration-status').text('The passwords do not match.');
+        return;
+    }
+    $('#account-registration-submit').prop('disabled', true);
+    $('#account-registration-status').text('Creating account…');
+    $.ajax({
+        type: 'POST',
+        url: API_URL + '/auth/register',
+        contentType: 'application/json',
+        data: JSON.stringify({username: username, password: password}),
+        success: function() {
+            $('#account-registration-form')[0].reset();
+            $('#account-registration-status').text('Account created. You can now log in.');
+        },
+        error: function(xhr) {
+            const detail = xhr.responseJSON && xhr.responseJSON.detail;
+            $('#account-registration-status').text(
+                typeof detail === 'string' ? detail : 'Unable to create the account. Check your details and try again.'
+            );
+        },
+        complete: function() {
+            $('#account-registration-submit').prop('disabled', false);
         }
     });
 });
@@ -464,6 +595,7 @@ $('#comments-form').submit(function(event) {
 
 if (window.sessionStorage.getItem('auth_token')) {
     $('#site-login-button').text('Log out');
+    refresh_authenticated_user();
 }
 
 // Write UI and API version numbers beside title

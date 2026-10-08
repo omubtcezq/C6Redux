@@ -75,7 +75,9 @@ html, body {
 }
 
 #site-about-us-button,
-#site-login-button {
+#site-login-button,
+#site-create-account-button,
+#site-view-users-button {
   font-size: 12px;
   white-space: nowrap;
 }
@@ -125,6 +127,49 @@ html, body {
 #site-content-comments h1,
 #site-content-comments h2 {
   text-align: center;
+}
+
+#site-content-create-account,
+#site-content-admin-users {
+  box-sizing: border-box;
+  margin: 20px auto;
+  max-width: 1100px;
+  padding: 0 20px 24px;
+  text-align: left;
+}
+
+#site-content-create-account h1,
+#site-content-admin-users h1 {
+  text-align: center;
+}
+
+#account-registration-form {
+  display: grid;
+  gap: 10px;
+  margin: 24px auto;
+  max-width: 420px;
+}
+
+#account-registration-form input {
+  box-sizing: border-box;
+  font: inherit;
+  padding: 8px;
+  width: 100%;
+}
+
+#account-registration-form button {
+  justify-self: center;
+  min-width: 180px;
+}
+
+#account-registration-status,
+#admin-users-status {
+  min-height: 1.2em;
+  text-align: center;
+}
+
+#admin-users-tabulator {
+  width: 100%;
 }
 
 #comments-form label {

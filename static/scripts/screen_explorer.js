@@ -805,7 +805,12 @@ function load_data_from_button_pressed() {
 
 function update_view_wells() {
     let well_table = Tabulator.findTable('#screen-wells-view-tabulator')[0];
-    well_table.setData(site_functions.API_URL+'/screens/factorQuery?screen_id='+CURRENT_SELECTED_SCREEN.id, LAST_QUERY, "POST");
+    const well_query = {conds: LAST_QUERY ? LAST_QUERY.conds : null};
+    well_table.setData(
+        site_functions.API_URL + '/screens/factorQuery?screen_id=' + CURRENT_SELECTED_SCREEN.id,
+        well_query,
+        "POST"
+    );
 }
 
 async function update_compare_screen() {
