@@ -34,16 +34,14 @@ function parse_screen_grid_clipboard(data){
 function paste_screen_grid_clipboard(data){
     const screen_table = this.table;
     const range = screen_table.getRanges()[0];
-    const bounds = range && range.getBounds();
-    const start = bounds && bounds.start;
-    if (!current_screen_selection_active || !start) {
+    if (!current_screen_selection_active || !range) {
         site_functions.alert_user("Select a destination well before pasting.");
         return;
     }
 
-    let values;
+    let source_grid;
     try {
-        values = data.map(row => row.map(value => {
+        source_grid = data.map(row => row.map(value => {
             if (value === "") {
                 return null;
             }
@@ -57,36 +55,49 @@ function paste_screen_grid_clipboard(data){
         site_functions.alert_user("Unable to paste: clipboard cells are not valid copied well conditions.");
         return;
     }
-    if (!values.length || !values[0].length) {
+    if (!source_grid.length || !source_grid[0].length) {
         return;
     }
 
-    const top = range.getTopEdge();
-    const left = range.getLeftEdge();
-    const selected_height = range.getBottomEdge() - top + 1;
-    const selected_width = range.getRightEdge() - left + 1;
-    const single_cell_range = selected_height === 1 && selected_width === 1;
-    const row_count = single_cell_range ? values.length : selected_height;
-    const column_count = single_cell_range ? values[0].length : selected_width;
-    const rows = screen_table.getRows();
-
-    undo_stack.push(screen_table.getData());
-    screen_table.blockRedraw();
-    try {
-        for (let row_offset = 0; row_offset < row_count && top + row_offset < rows.length; row_offset++) {
-            const cells = rows[top + row_offset].getCells();
-            for (let column_offset = 0;
-                column_offset < column_count && left + column_offset < cells.length;
-                column_offset++
-            ) {
-                cells[left + column_offset].setValue(
-                    values[row_offset % values.length][column_offset % values[row_offset % values.length].length]
-                );
-            }
-        }
-    } finally {
-        screen_table.restoreRedraw();
+    const source_width = source_grid[0].length;
+    if (source_grid.some(row => row.length !== source_width)) {
+        site_functions.alert_user("Unable to paste: clipboard cells do not form a rectangular well selection.");
+        return;
     }
+
+    const source_wells = source_grid.flat();
+    const destination_grid = range.getStructuredCells();
+    const destination_wells = destination_grid.flat();
+    if (!destination_wells.length) {
+        site_functions.alert_user("Select destination wells before pasting.");
+        return;
+    }
+
+    const apply_values = function(values_to_apply){
+        undo_stack.push(screen_table.getData());
+        screen_table.blockRedraw();
+        try {
+            destination_wells.slice(0, values_to_apply.length).forEach(function(cell, index){
+                cell.setValue(values_to_apply[index]);
+            });
+        } finally {
+            screen_table.restoreRedraw();
+        }
+    };
+
+    if (source_wells.length !== destination_wells.length) {
+        const wells_to_transfer = Math.min(source_wells.length, destination_wells.length);
+        site_functions.confirm_action(
+            `The copied selection contains ${source_wells.length} wells, but the destination contains ` +
+            `${destination_wells.length}. Transfer the first ${wells_to_transfer} wells in row-major order?`,
+            function(){
+                apply_values(source_wells.slice(0, wells_to_transfer));
+            }
+        );
+        return;
+    }
+
+    apply_values(source_wells);
 }
 
 var group_colours = [

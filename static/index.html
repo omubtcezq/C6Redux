@@ -31,6 +31,8 @@
       <tbody>
         <tr>
           <td><button id="site-login-button" class="table-cell-button">Log in</button></td>
+          <td><button id="site-create-account-button" class="table-cell-button">Create account</button></td>
+          <td><button id="site-view-users-button" class="table-cell-button" style="display: none;">View users</button></td>
           <td><button id="site-about-us-button" class="table-cell-button">About</button></td>
         </tr>
       </tbody>
@@ -61,6 +63,24 @@
         <tbody id="admin-comments-list"></tbody>
       </table>
     </section>
+  </div>
+  <div id="site-content-create-account" style="display: none;">
+    <h1>Create account</h1>
+    <p id="account-registration-status" role="status" aria-live="polite"></p>
+    <form id="account-registration-form">
+      <label for="account-registration-username">Username</label>
+      <input id="account-registration-username" name="username" type="text" minlength="3" maxlength="64" autocomplete="username" required>
+      <label for="account-registration-password">Password</label>
+      <input id="account-registration-password" name="password" type="password" minlength="8" autocomplete="new-password" required>
+      <label for="account-registration-password-confirm">Confirm password</label>
+      <input id="account-registration-password-confirm" type="password" minlength="8" autocomplete="new-password" required>
+      <button id="account-registration-submit" type="submit">Create account</button>
+    </form>
+  </div>
+  <div id="site-content-admin-users" style="display: none;">
+    <h1>Users</h1>
+    <p id="admin-users-status" role="status" aria-live="polite"></p>
+    <div id="admin-users-tabulator"></div>
   </div>
 </div>
 <div id="site-popup-container" class="popup-container" style="display: none;">

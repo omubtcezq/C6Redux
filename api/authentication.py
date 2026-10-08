@@ -5,7 +5,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlmodel import select
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, model_validator
 import jwt
 from jwt.exceptions import InvalidTokenError
 import bcrypt
@@ -38,6 +38,16 @@ class AuthenticatedUserRead(BaseModel):
     id: int
     username: str
     admin: bool
+
+class AccountRegistration(BaseModel):
+    username: str = Field(min_length=3, max_length=64)
+    password: str = Field(min_length=8, max_length=256)
+
+    @model_validator(mode="after")
+    def validate_password_length(self):
+        if len(self.password.encode("utf-8")) > 72:
+            raise ValueError("Password must be at most 72 UTF-8 bytes")
+        return self
 
 # Hash a password using bcrypt (helper function)
 def hash_password(password):
@@ -145,3 +155,45 @@ async def get_token(login_form: OAuth2PasswordRequestForm=Depends(), session: db
             response_model=AuthenticatedUserRead)
 async def get_current_user(user: db.ApiUser=Depends(get_authenticated_user)):
     return AuthenticatedUserRead(id=user.id, username=user.username, admin=bool(user.admin))
+
+@router.post("/register",
+             summary="Creates a standard user account",
+             response_model=AuthenticatedUserRead,
+             status_code=status.HTTP_201_CREATED)
+async def register_account(
+    account: AccountRegistration,
+    session: db.Session=Depends(db.get_write_session)
+):
+    username = account.username.strip()
+    if len(username) < 3:
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                            detail="Username must be at least 3 characters")
+    existing_user = session.exec(
+        select(db.ApiUser).where(db.ApiUser.username == username)
+    ).first()
+    if existing_user:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT,
+                            detail="That username is already in use")
+
+    user = db.ApiUser(
+        username=username,
+        password_hash=hash_password(account.password).decode("utf-8"),
+        admin=0
+    )
+    session.add(user)
+    session.commit()
+    session.refresh(user)
+    return AuthenticatedUserRead(id=user.id, username=user.username, admin=False)
+
+@router.get("/users",
+            summary="Lists all users for administrators",
+            response_model=list[AuthenticatedUserRead])
+async def list_users(
+    user: db.ApiUser=Depends(get_authorised_user),
+    session: db.Session=Depends(db.get_readonly_session)
+):
+    users = session.exec(select(db.ApiUser).order_by(db.ApiUser.id)).all()
+    return [
+        AuthenticatedUserRead(id=account.id, username=account.username, admin=bool(account.admin))
+        for account in users
+    ]
