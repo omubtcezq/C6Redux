@@ -57,7 +57,7 @@ def hash_password(password):
         hashed_password = bcrypt.hashpw(pwd_bytes, salt=salt)
     except TypeError:
         hashed_password = bcrypt.hashpw(password, salt=salt)
-    return hashed_password
+    return hashed_password.decode("utf-8") if isinstance(hashed_password, bytes) else hashed_password
 
 # Check if the provided password matches the stored password (hashed)
 def verify_password(plain_password, hashed_password):
@@ -180,7 +180,7 @@ async def register_account(
 
     user = db.ApiUser(
         username=username,
-        password_hash=hash_password(account.password).decode("utf-8"),
+        password_hash=hash_password(account.password),
         admin=0
     )
     session.add(user)
