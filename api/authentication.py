@@ -53,7 +53,10 @@ class AccountRegistration(BaseModel):
 def hash_password(password):
     pwd_bytes = password.encode("utf-8")
     salt = bcrypt.gensalt()
-    hashed_password = bcrypt.hashpw(password=pwd_bytes, salt=salt)
+    try:
+        hashed_password = bcrypt.hashpw(pwd_bytes, salt=salt)
+    except TypeError:
+        hashed_password = bcrypt.hashpw(password, salt=salt)
     return hashed_password
 
 # Check if the provided password matches the stored password (hashed)
